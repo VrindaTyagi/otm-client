@@ -22,6 +22,7 @@ import axios from 'axios';
 import { axiosflexClient } from './apiFlexClient.js';
 import domtoimage from 'dom-to-image';
 import Counter from '../../components/Counter';
+import html2canvas from 'html2canvas';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
   month: 'short',
@@ -54,8 +55,9 @@ const WorkoutSummary = () => {
   const captureAndShareToWhatsApp = async () => {
     if (summaryRef.current) {
       try {
-        // Capture screenshot
-        const dataUrl = await domtoimage.toPng(summaryRef.current);
+        // Capture screenshot using html2canvas
+        const canvas = await html2canvas(summaryRef.current);
+        const dataUrl = canvas.toDataURL('image/png');
 
         // Create share text
         const shareText = 'Check out my workout summary!';
