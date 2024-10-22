@@ -40,8 +40,15 @@ import FtnesssQuestionare from './features/FitnessQuestionaire/FintessQuesrionir
 import { ToastContainer } from 'react-toastify';
 import DynamicStretchScreen from './features/DynamicStretchScreen/DynamicStretchScreen';
 import FitnessPageNew from './features/Fitness/FitnessPageNew';
+import mixpanel from 'mixpanel-browser';
 
 function App() {
+  // Near entry of your product, init Mixpanel
+  mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
+    debug: true,
+    track_pageview: true,
+    persistence: 'localStorage',
+  });
   // const { user, getUserFromStorage } = useAuth();
   const { checkAdminAuth, getUserFromStorage } = useAuth();
 
