@@ -248,9 +248,9 @@ const WorkoutSummary = () => {
       {status === 'loading' && <Loader />}
 
       {status === 'success' && Object.keys(workoutSummary).length > 0 && (
-        <div className="relative flex h-full w-full flex-col">
+        <div className="relative flex h-full w-full flex-col ">
           <div className="flex-1 overflow-y-auto pb-16">
-            <div ref={summaryRef} className="px-4 py-8">
+            <div ref={summaryRef} className="bg-black px-4 py-8">
               <AnimatedComponent>
                 <div className="mb-4">
                   <p className="text-xs tracking-widest text-lightGray">
