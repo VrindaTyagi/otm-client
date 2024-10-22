@@ -44,7 +44,7 @@ import mixpanel from 'mixpanel-browser';
 
 function App() {
   // Near entry of your product, init Mixpanel
-  mixpanel.init('757cf18bd04436f5ee1b847ed813d8f3', {
+  mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
     debug: true,
     track_pageview: true,
     persistence: 'localStorage',
