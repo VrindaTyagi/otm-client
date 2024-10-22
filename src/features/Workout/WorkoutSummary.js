@@ -58,7 +58,11 @@ const WorkoutSummary = () => {
         const dataUrl = await domtoimage.toPng(summaryRef.current);
 
         // Create share text
-        const shareText = 'Check out my workout summary!';
+        const shareText = `${
+          params.value === 'flex' ? 'Flex Workout' : 'Workout'
+        } #${
+          workoutSummary?.consistency?.total
+        }.  Check out my workout summary!`;
 
         // Check if Web Share API is supported
         if (navigator.share) {
