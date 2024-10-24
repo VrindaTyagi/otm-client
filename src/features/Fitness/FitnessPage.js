@@ -88,6 +88,7 @@ const FitnessPage = () => {
           if (res.data) {
             setUserData(res.data);
             setHomeStats(res.data);
+            localStorage.setItem('isLegend', res.data.isLegend);
             setLoader(false);
             setError(null);
           }
