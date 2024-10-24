@@ -30,6 +30,8 @@ import StepTrackerTwo from './StepTrackerTwo';
 import { RxCross1 } from 'react-icons/rx';
 import { FaArrowLeftLong } from 'react-icons/fa6';
 import LazyImage from '../../components/LazyLoadImage';
+import { axiosClient } from '../Profile/apiProfileClient';
+import { capitalizeFirstLetter } from '../../utils';
 
 function formatNumber(num) {
   if (num >= 1000) {
@@ -54,8 +56,34 @@ const FitnessPage = () => {
   const [greeting, setGreeting] = useState('');
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
+  const userProfilePicture = JSON.parse(
+    localStorage?.getItem('profilePicture'),
+  );
+  const caiptalInitial = capitalizeFirstLetter(fullName);
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
+
+  async function getMemberData(code) {
+    try {
+      const res = await axiosClient.get(`/profile`, {
+        params: { code: code },
+      });
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  }
 
   useEffect(() => {
+    if (!userProfilePicture && userProfilePicture !== '') {
+      getMemberData(code);
+    }
     const timezone = getDeviceTimezone();
     const currentHour = getCurrentHourInTimezone(timezone);
     const greetingMessage = getGreeting(currentHour);
@@ -260,11 +288,11 @@ const FitnessPage = () => {
           <div className="flex w-screen grow flex-col gap-5 overflow-y-scroll px-4  pb-[78px]">
             <section className="mt-[40px] flex w-full items-center justify-between pb-0 pt-5">
               <div className="w-full">
-                <h3 className=" font-sfpro text-[14px] text-offwhite">
-                  {greeting} {firstName}
-                </h3>
-                <div className="flex w-full items-end">
+                <div className="flex w-full items-center justify-between gap-2">
                   <div className="flex-1">
+                    <h3 className=" font-sfpro text-[14px] text-offwhite">
+                      {greeting} {firstName}
+                    </h3>
                     <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
                       Movement
                     </h2>
@@ -283,7 +311,24 @@ const FitnessPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-1 justify-end">
+                  <div className="flex w-fit flex-col  justify-end gap-[9px]">
+                    <div className=" flex justify-end ">
+                      {' '}
+                      <div className="h-[53px] min-w-[53px]">
+                        {' '}
+                        {userProfilePicture ? (
+                          <img
+                            loading="lazy"
+                            src={userProfilePicture}
+                            className="h-[53px] w-[53px] rounded-xl object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">
+                            {caiptalInitial}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                     <div className="flex h-[51px] max-w-[188px]  items-center justify-between rounded-xl bg-black-opacity-45 p-1">
                       <span className="pl-2 text-sm text-offwhite">
                         Total workouts

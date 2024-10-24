@@ -100,6 +100,14 @@ Here's a 20% off discount because I'd love for you to get healthy too!
         setUniqueImageURLKey(`${data?.profilePicture}?key=${uniqueKey}`);
         setMemberData({ ...data, ...user });
       }
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {
@@ -123,6 +131,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       const reader = new FileReader();
       reader.onloadend = () => {
         setChosenPic(reader.result);
+        localStorage.setItem('profilePicture', JSON.stringify(reader.result));
       };
       reader.readAsDataURL(file);
       e.target.value = null;

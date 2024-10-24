@@ -44,7 +44,14 @@ function formatDate(date, isYear2Digit = true) {
   return formattedDate;
 }
 
+function capitalizeFirstLetter(text) {
+  if (!text) return ''; // Handle empty or null input
+
+  return text.charAt(0).toUpperCase(); // Return only the first letter, capitalized
+}
+
 module.exports = {
   formatPaymentData,
   formatDate,
+  capitalizeFirstLetter,
 };

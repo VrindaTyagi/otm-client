@@ -18,8 +18,8 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'login':
-      const isSignUp = action.payload['isSignUp']
-      delete action.payload['isSignUp']
+      const isSignUp = action.payload['isSignUp'];
+      delete action.payload['isSignUp'];
       return {
         ...state,
         user: action.payload,
@@ -80,7 +80,7 @@ function reducer(state, action) {
         ...state,
         error: null,
       };
-      case 'adminLogin':
+    case 'adminLogin':
       return {
         ...state,
         isAdmin: true,
@@ -98,10 +98,8 @@ function reducer(state, action) {
 
 //create a provider function that will wrap the application
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated, isSignUp, error, isAdmin }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ user, isAuthenticated, isSignUp, error, isAdmin }, dispatch] =
+    useReducer(reducer, initialState);
   async function login(body) {
     // api call
     axios
@@ -112,7 +110,7 @@ function AuthProvider({ children }) {
         if (user.email) {
           localStorage.setItem('user', JSON.stringify(user));
 
-          user['isSignUp'] = res.data['isSignUp']
+          user['isSignUp'] = res.data['isSignUp'];
           dispatch({ type: 'login', payload: user });
         }
       })
@@ -139,18 +137,19 @@ function AuthProvider({ children }) {
         const payload = {
           lastSeenUiVersion: uiVersion,
         };
-        memberCode && uiVersion && 
-        axios
-          .post(
-            `${process.env.REACT_APP_BASE_URL}/api/v1/member/${memberCode}`,
-            payload,
-          )
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+        memberCode &&
+          uiVersion &&
+          axios
+            .post(
+              `${process.env.REACT_APP_BASE_URL}/api/v1/member/${memberCode}`,
+              payload,
+            )
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
       })
       .catch(({ response }) => {
         console.log(response, 'ERROR');
@@ -177,13 +176,16 @@ function AuthProvider({ children }) {
   }
   async function adminLogin(password) {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/admin-login`, { password });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/auth/admin-login`,
+        { password },
+      );
       const { success, isAdmin, expiresIn, jwt } = response.data;
-      
+
       if (success && isAdmin) {
-        Cookies.set('adminJwt', jwt, { 
+        Cookies.set('adminJwt', jwt, {
           expires: expiresIn / 86400,
-          secure: true, 
+          secure: true,
         });
         dispatch({ type: 'adminLogin' });
         return true;
@@ -204,10 +206,9 @@ function AuthProvider({ children }) {
   function checkAdminAuth() {
     const jwt = Cookies.get('adminJwt');
     if (jwt) {
-      // Calling a dispatch function changes the context and hence a re-render occurs. 
+      // Calling a dispatch function changes the context and hence a re-render occurs.
       // Therefore a check is required to only set the admin true when it's false
-      if(adminLogin === false)
-        dispatch({ type: 'adminLogin' });
+      if (adminLogin === false) dispatch({ type: 'adminLogin' });
       return true;
     }
     return false;
@@ -215,6 +216,8 @@ function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('profilePicture');
+    localStorage.removeItem('isLegend');
     dispatch({ type: 'logout' });
   }
 
@@ -230,9 +233,9 @@ function AuthProvider({ children }) {
     let user = localStorage.getItem('user');
     if (user && !user.includes('undefined')) {
       user = JSON.parse(user);
-      // Calling a dispatch function causes re-render. 
+      // Calling a dispatch function causes re-render.
       // Thus, call it only when the isAuthenticated flag is false
-      if(isAuthenticated === false)
+      if (isAuthenticated === false)
         dispatch({ type: 'getUserFromStorage', payload: user });
       return user;
     }
@@ -256,8 +259,7 @@ function AuthProvider({ children }) {
         isAdmin,
         adminLogin,
         adminLogout,
-        checkAdminAuth
-        
+        checkAdminAuth,
       }}
     >
       {children}

@@ -24,6 +24,7 @@ import ShareCoachScreen from './components/ShareCoachScreen';
 import Questionare from './QuestionScreen';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { capitalizeFirstLetter } from '../../utils';
 
 function MainPage() {
   // Defining states for the fetched data
@@ -47,8 +48,35 @@ function MainPage() {
   const [showLifestyleLoader, setShowLifestyleLoader] = useState(true);
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
-
+  const userProfilePicture = JSON.parse(localStorage.getItem('profilePicture'));
   const shareScreenRef = useRef(null);
+  const caiptalInitial = capitalizeFirstLetter(fullName);
+
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
+
+  async function getMemberData(code) {
+    try {
+      const res = await axiosClient.get(`/profile`, {
+        params: { code: code },
+      });
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  }
+
+  useEffect(() => {
+    if (!userProfilePicture && userProfilePicture !== '') {
+      getMemberData(code);
+    }
+  }, []);
 
   const handleCaptureAndShare = () => {
     if (shareScreenRef.current) {
@@ -227,21 +255,35 @@ function MainPage() {
                       {' '}
                       <>
                         <div className="flex h-full flex-col items-center justify-start gap-3 px-3 py-5 pb-16 pt-[76px]">
-                          <div className="w-full">
-                            <h3 className="flex w-full text-start font-sfpro text-[14px] text-offwhite">
-                              {greeting} {firstName}
-                            </h3>
-                            <div className="flex w-11/12 items-start">
-                              <div className="flex-1">
-                                <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
-                                  Lifestyle
-                                </h2>
+                          <div className=" flex ">
+                            <div>
+                              <h3 className="font-sfpro text-[14px] text-offwhite">
+                                {greeting} {firstName}
+                              </h3>
 
-                                <div className=" text-[14px] text-white-opacity-50">
-                                  Everyday is an opportunity to do some main
-                                  character shit.
-                                </div>
+                              <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
+                                Lifestyle
+                              </h2>
+
+                              <div className="mr-[20px] font-sfpro text-[14px] text-white-opacity-50">
+                                Everyday is an opportunity to do some main
+                                character shit.
                               </div>
+                            </div>
+
+                            <div className="h-[53px] min-w-[53px]">
+                              {' '}
+                              {userProfilePicture ? (
+                                <img
+                                  loading="lazy"
+                                  src={userProfilePicture}
+                                  className="h-[53px] w-[53px] rounded-xl object-cover "
+                                />
+                              ) : (
+                                <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">
+                                  {caiptalInitial}
+                                </div>
+                              )}
                             </div>
                           </div>
 

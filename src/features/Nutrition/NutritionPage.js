@@ -8,6 +8,8 @@ import MainPage from './MealPlanner/MainPage';
 import MealPlanPage from './MealPlanner/MealPlanPage';
 import * as Actions from './MealPlanner/Redux/actions';
 import * as Selectors from './MealPlanner/Redux/selectors';
+import ProfilePicture from '../Profile/ProfilePicture';
+import { capitalizeFirstLetter } from '../../utils';
 
 const NutritionPage = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,34 @@ const NutritionPage = () => {
 
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
+  const userProfilePicture = JSON.parse(localStorage.getItem('profilePicture'));
+  const caiptalInitial = capitalizeFirstLetter(fullName);
+
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
+
+  async function getMemberData(code) {
+    try {
+      const res = await axiosClient.get(`/profile`, {
+        params: { code: code },
+      });
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  }
+
+  useEffect(() => {
+    if (!userProfilePicture && userProfilePicture !== '') {
+      getMemberData(code);
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -77,7 +107,7 @@ const NutritionPage = () => {
       ) : (
         <div className="relative h-screen overflow-y-scroll bg-[#161513]">
           <img
-            className="absolute top-0 left-0 z-0 w-full h-screen"
+            className="absolute left-0 top-0 z-0 h-screen w-full"
             src="/assets/nutrition-bg.svg"
             style={{
               height: '-webkit-fill-available',
@@ -85,16 +115,34 @@ const NutritionPage = () => {
             }}
           />
           <div className="relative z-20 flex w-screen  flex-col  bg-transparent px-4 pb-[78px] ">
-            <h3 className="mt-[77px] font-sfpro text-[14px] text-offwhite">
-              Good Morning {firstName}
-            </h3>
+            <div className="mt-[77px] flex ">
+              <div>
+                <h3 className="font-sfpro text-[14px] text-offwhite">
+                  Good Morning {firstName}
+                </h3>
 
-            <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
-              Nutrition
-            </h2>
+                <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
+                  Nutrition
+                </h2>
 
-            <div className="font-sfpro text-[14px] text-white-opacity-50">
-              Everyday is an opportunity to do some main character shit.
+                <div className="mr-[20px] font-sfpro text-[14px] text-white-opacity-50">
+                  Everyday is an opportunity to do some main character shit.
+                </div>
+              </div>
+              <div className="h-[53px] min-w-[53px]">
+                {' '}
+                {userProfilePicture ? (
+                  <img
+                    loading="lazy"
+                    src={userProfilePicture}
+                    className="h-[53px] w-[53px] rounded-xl object-cover"
+                  />
+                ) : (
+                  <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">
+                    {caiptalInitial}
+                  </div>
+                )}
+              </div>
             </div>
             {weeklyPlan === null ? (
               <div className="mt-[24px] flex flex-col items-center gap-2">
