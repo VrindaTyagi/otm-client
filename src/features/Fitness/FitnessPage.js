@@ -452,7 +452,7 @@ const FitnessPage = () => {
                   />
                   <div className="flex h-full flex-col justify-center">
                     <div className="flex gap-3">
-                      <h2 className="text-2xl font-medium ">Flex</h2>
+                      <h2 className="text-2xl font-medium ">Flexsssd</h2>
                     </div>
 
                     <div className="mt-2 flex gap-3">
