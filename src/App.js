@@ -46,7 +46,7 @@ function App() {
   // Near entry of your product, init Mixpanel
   mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
     debug: true,
-    track_pageview: false,
+    track_pageview: true,
     persistence: 'localStorage',
   });
   // const { user, getUserFromStorage } = useAuth();
