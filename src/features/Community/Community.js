@@ -10,6 +10,11 @@ import TimelineDisplay from './TimelineDisplay';
 import { axiosClient as TimelineAxiosClient } from '../Timeline/apiClient';
 import { TimelineHeading } from '../Timeline/StyledComponents';
 import { capitalizeFirstLetter } from '../../utils';
+import {
+  getCurrentHourInTimezone,
+  getDeviceTimezone,
+  getGreeting,
+} from '../Fitness/utils';
 
 const Community = () => {
   const [fitnessScoreData, setFitnessScoreData] = useState([]);
@@ -30,6 +35,14 @@ const Community = () => {
   const { value } = useParams();
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    const timezone = getDeviceTimezone();
+    const currentHour = getCurrentHourInTimezone(timezone);
+    const greetingMessage = getGreeting(currentHour);
+    setGreeting(greetingMessage);
+  }, []);
 
   async function getMemberData(code) {
     try {
@@ -160,7 +173,7 @@ const Community = () => {
         <div className="mt-[77px] flex ">
           <div>
             <h3 className="font-sfpro text-[14px] text-offwhite">
-              Good Morning {firstName}
+              {greeting} {firstName}
             </h3>
 
             <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
@@ -177,7 +190,7 @@ const Community = () => {
               <img
                 loading="lazy"
                 src={userProfilePicture}
-                className="object- h-[53px] w-[53px] rounded-xl"
+                className="object- h-[53px] w-[53px] rounded-xl object-cover"
               />
             ) : (
               <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">

@@ -10,6 +10,11 @@ import * as Actions from './MealPlanner/Redux/actions';
 import * as Selectors from './MealPlanner/Redux/selectors';
 import ProfilePicture from '../Profile/ProfilePicture';
 import { capitalizeFirstLetter } from '../../utils';
+import {
+  getCurrentHourInTimezone,
+  getDeviceTimezone,
+  getGreeting,
+} from '../Fitness/utils';
 
 const NutritionPage = () => {
   const dispatch = useDispatch();
@@ -28,6 +33,14 @@ const NutritionPage = () => {
   const firstName = fullName.split(' ')[0];
   const userProfilePicture = JSON.parse(localStorage.getItem('profilePicture'));
   const caiptalInitial = capitalizeFirstLetter(fullName);
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    const timezone = getDeviceTimezone();
+    const currentHour = getCurrentHourInTimezone(timezone);
+    const greetingMessage = getGreeting(currentHour);
+    setGreeting(greetingMessage);
+  }, []);
 
   const code = JSON.parse(localStorage.getItem('user'))['code'];
 
@@ -118,7 +131,7 @@ const NutritionPage = () => {
             <div className="mt-[77px] flex ">
               <div>
                 <h3 className="font-sfpro text-[14px] text-offwhite">
-                  Good Morning {firstName}
+                  {greeting} {firstName}
                 </h3>
 
                 <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">

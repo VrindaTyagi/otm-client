@@ -288,7 +288,7 @@ const FitnessPage = () => {
           <div className="flex w-screen grow flex-col gap-5 overflow-y-scroll px-4  pb-[78px]">
             <section className="mt-[40px] flex w-full items-center justify-between pb-0 pt-5">
               <div className="w-full">
-                <div className="flex w-full items-center justify-between gap-2">
+                <div className="flex w-full  justify-between gap-2">
                   <div className="flex-1">
                     <h3 className=" font-sfpro text-[14px] text-offwhite">
                       {greeting} {firstName}
