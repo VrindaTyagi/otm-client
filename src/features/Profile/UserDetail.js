@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loader } from '../../components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { formatDate } from '../../utils';
+import { capitalizeFirstLetter, formatDate } from '../../utils';
 import { axiosClient } from './apiProfileClient';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
@@ -61,6 +61,8 @@ const UserDetails = ({ showHistory }) => {
   const [profilePicError, setProfilePicError] = useState(false);
   const [showReferralLinkPopup, setShowReferralLinkPopup] = useState(false);
   const [showReferralWorkPopup, setShowReferralWorkPopup] = useState(false);
+  const fullName = JSON.parse(localStorage.getItem('user'))['name'];
+  const caiptalInitial = capitalizeFirstLetter(fullName);
   const currentDate = new Date().getDate();
 
   const imageUrl =
@@ -441,11 +443,9 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                         width={'136px'}
                       />
                     ) : (
-                      <FaUser
-                        size={136}
-                        color={'rgba(0,0,0,1)'}
-                        className="p-2"
-                      />
+                      <div className="flex h-[136px] w-[136px] items-center justify-center rounded-xl bg-light-blue-900 text-6xl text-offwhite">
+                        {caiptalInitial}
+                      </div>
                     )}
                     <button
                       className="absolute bottom-0 right-0 flex h-[30px] w-[30px] flex-row items-center justify-center rounded-full bg-green"
