@@ -46,7 +46,7 @@ function App() {
   // Near entry of your product, init Mixpanel
   mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
     debug: true,
-    track_pageview: true,
+    track_pageview: false,
     persistence: 'localStorage',
   });
   // const { user, getUserFromStorage } = useAuth();
@@ -55,8 +55,13 @@ function App() {
   function RouteMiddleware({ children }) {
     console.log('RouteMiddleware called');
     const user = getUserFromStorage();
-
     if (user && user.email) {
+      mixpanel.identify(user.code);
+      mixpanel.people.set({
+        $name: user.name,
+        $email: user.email,
+        // Add anything else about the user here
+      });
       return children;
     } else {
       return <Navigate to="/login" />;
