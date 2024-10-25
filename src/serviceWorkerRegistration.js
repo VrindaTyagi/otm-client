@@ -2,28 +2,29 @@ export function register() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+
       navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
           console.log('Service Worker registered:', registration);
 
-          // Check for updates every 5 minutes
-          setInterval(() => {
-            registration.update();
-          }, 5 * 60 * 1000);
-
+          // Automatically update the service worker
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (installingWorker == null) {
               return;
             }
+
             installingWorker.onstatechange = () => {
               if (installingWorker.state === 'installed') {
                 if (navigator.serviceWorker.controller) {
-                  console.log('New content is available; please refresh.');
-                  // Optional: Show a notification to the user
-                  if (window.confirm('New version available! Click OK to refresh.')) {
-                    window.location.reload();
+                  console.log(
+                    'New content is available and will be used automatically.',
+                  );
+
+                  // Skip waiting and activate the new service worker immediately
+                  if (registration.waiting) {
+                    registration.waiting.postMessage({ type: 'SKIP_WAITING' });
                   }
                 } else {
                   console.log('Content is cached for offline use.');
@@ -31,6 +32,11 @@ export function register() {
               }
             };
           };
+
+          // Automatically reload when the new service worker takes control
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            window.location.reload();
+          });
         })
         .catch((error) => {
           console.error('Error registering Service Worker:', error);
