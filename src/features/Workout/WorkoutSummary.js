@@ -22,6 +22,7 @@ import axios from 'axios';
 import { axiosflexClient } from './apiFlexClient.js';
 import domtoimage from 'dom-to-image';
 import Counter from '../../components/Counter';
+import mixpanel from 'mixpanel-browser';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
   month: 'short',
@@ -156,6 +157,8 @@ const WorkoutSummary = () => {
               sectionPerformance: res.data.sectionPerformance.slice(1),
             });
 
+            // Helper functions
+
             setData();
           }
         })
@@ -189,6 +192,48 @@ const WorkoutSummary = () => {
               sectionPerformance: res.data.sectionPerformance.slice(1),
             });
 
+            const trackWorkout = () => {
+              try {
+                console.log('Starting workout tracking...');
+
+                const getTimeOfDay = () => {
+                  const hour = new Date().getHours();
+                  if (hour < 12) return 'morning';
+                  if (hour < 17) return 'afternoon';
+                  return 'evening';
+                };
+
+                const getDeviceType = () => {
+                  const width = window.innerWidth;
+                  if (width < 768) return 'mobile';
+                  if (width < 1024) return 'tablet';
+                  return 'desktop';
+                };
+                // Verify Mixpanel is initialized
+                if (!mixpanel) {
+                  console.error('Mixpanel not initialized');
+                  return;
+                }
+
+                // Track the event
+                mixpanel.track('Workout Submitted', {
+                  device_type: getDeviceType(),
+                  screen_size: `${window.innerWidth}x${window.innerHeight}`,
+                  completion_status: 'submitted',
+                  submission_timestamp: new Date().toISOString(),
+                  time_of_day: getTimeOfDay(),
+                  workout_day: new Date().toLocaleDateString('en-US', {
+                    weekday: 'long',
+                  }),
+                });
+
+                console.log('Workout tracked successfully');
+              } catch (error) {
+                console.error('Error tracking workout:', error);
+              }
+            };
+
+            trackWorkout();
             setData();
           }
         })

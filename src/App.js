@@ -59,8 +59,6 @@ function App() {
 
   if (isLocalhost()) {
     mixpanel.disable(['pageview']);
-    // Or opt out completely
-    // mixpanel.opt_out_tracking();
 }
   // const { user, getUserFromStorage } = useAuth();
   const { checkAdminAuth, getUserFromStorage } = useAuth();
