@@ -427,7 +427,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
               {/* User Profile Pic and Name */}
               <div className="mt-[30px] flex flex-col items-center justify-center">
                 <div className="mt-6 flex flex-col items-center justify-center gap-5">
-                  <div className="relative h-[136px] w-[136px] rounded-[32px] bg-[#91BDF6]">
+                  <div className="relative h-[136px] w-[136px] rounded-[32px] ">
                     {chosenPic ? (
                       <ProfilePicture
                         inputPic={chosenPic}
@@ -443,7 +443,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                         width={'136px'}
                       />
                     ) : (
-                      <div className="flex h-[136px] w-[136px] items-center justify-center rounded-xl bg-light-blue-900 text-6xl text-offwhite">
+                      <div className="flex h-[136px] w-[136px] items-center justify-center rounded-xl bg-black-opacity-45 text-6xl text-white">
                         {caiptalInitial}
                       </div>
                     )}

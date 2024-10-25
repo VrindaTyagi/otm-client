@@ -298,7 +298,7 @@ const FitnessPage = () => {
                     </h2>
 
                     <div className="flex items-center">
-                      {parseInt(homeStats.streak) > 0 && (
+                      {parseInt(homeStats.streak) > 0 ? (
                         <div className="flex items-center ">
                           <div className="perfect-week mt-2 flex w-fit items-center rounded">
                             <img src="assets/star.svg" alt="" />
@@ -306,6 +306,11 @@ const FitnessPage = () => {
                               Perfect Week x{homeStats.streak}
                             </span>
                           </div>
+                        </div>
+                      ) : (
+                        <div className="mr-[20px] font-sfpro text-[14px] text-white-opacity-50">
+                          Everyday is an opportunity to do some main character
+                          shit.
                         </div>
                       )}
                     </div>
@@ -323,7 +328,7 @@ const FitnessPage = () => {
                             className="h-[53px] w-[53px] rounded-xl object-cover"
                           />
                         ) : (
-                          <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">
+                          <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">
                             {caiptalInitial}
                           </div>
                         )}

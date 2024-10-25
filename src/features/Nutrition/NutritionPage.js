@@ -151,7 +151,7 @@ const NutritionPage = () => {
                     className="h-[53px] w-[53px] rounded-xl object-cover"
                   />
                 ) : (
-                  <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-light-blue-900 text-3xl text-offwhite">
+                  <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">
                     {caiptalInitial}
                   </div>
                 )}
