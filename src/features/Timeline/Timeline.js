@@ -5,7 +5,6 @@ import CommunityTimeline from './CommunityTimeline';
 import { TimelineHeading } from './StyledComponents';
 import { useNavigate, useParams } from 'react-router-dom';
 import AnimatedPage from '../../components/AnimatedComponent';
-import mixpanel from 'mixpanel-browser';
 
 const Timeline = () => {
   const [timeline, setTimeline] = useState(null);
@@ -13,9 +12,6 @@ const Timeline = () => {
 
   const { value } = useParams();
   useEffect(() => {
-    mixpanel.track('Page View', {
-      'Timeline visit': window.location.pathname,
-    });
     setTimeline(value);
   }, [value]);
 

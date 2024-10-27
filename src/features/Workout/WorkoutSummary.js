@@ -82,6 +82,11 @@ const WorkoutSummary = () => {
           const whatsappUrl = `https://web.whatsapp.com/send?text=${encodedText}`;
           window.open(whatsappUrl, '_blank');
         }
+
+        // console.log('summary share tracking initiated');
+        // mixpanel.track('Workout Summary Shared', {
+        //   device_type: getDeviceType(),
+        // });
       } catch (error) {
         console.error('Error capturing or sharing screenshot:', error);
       }

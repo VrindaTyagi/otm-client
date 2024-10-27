@@ -6,7 +6,6 @@ import List from './List';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { axiosClient } from './apiClient';
 import AnimatedComponent from '../../components/AnimatedComponent';
-import mixpanel from 'mixpanel-browser';
 
 const Leaderboard = () => {
   const [fitnessScoreData, setFitnessScoreData] = useState([]);
@@ -42,10 +41,6 @@ const Leaderboard = () => {
     try {
       const res = await axiosClient.get('/consistency');
       if (res.data) {
-        mixpanel.track('Page View', {
-          'Leaderboard Visit': window.location.pathname,
-        });
-
         const data = res.data;
         setWorkoutCountData(data);
       }
