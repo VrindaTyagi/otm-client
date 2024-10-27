@@ -57,11 +57,9 @@ function App() {
            window.location.hostname.includes('local');
 };
 
-  if (isLocalhost()) {
-    mixpanel.disable(['pageview']);
-    // Or opt out completely
-    // mixpanel.opt_out_tracking();
-}
+//   if (isLocalhost()) {
+//     mixpanel.disable(['pageview']);
+// }
   // const { user, getUserFromStorage } = useAuth();
   const { checkAdminAuth, getUserFromStorage } = useAuth();
 
