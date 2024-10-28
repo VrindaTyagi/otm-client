@@ -48,51 +48,56 @@ function WeeklyWorkoutReport({
   }, [lastEightWeeksWorkout]);
 
   const Bar = ({ progress, isFirstBar }) => {
-    const [
-      basicgreen,
-      intermediateGreen,
-      advancedgreen,
-      red,
-      yellow,
-      gray,
-      purple,
-    ] = [
-      '#7FE08A',
-      '#29C344',
+    const [basicgreen, intermediategreen, advancedgreen, red, yellow, gray] = [
       '#119832',
+      '#29C344',
+      '#7FE08A',
       '#FA5757',
       '#F5C563',
       '#323232',
-      '#7E87EF',
-    ];
+    ]; // colors of the bar
+
     const [height, setHeight] = useState(0);
     const [color, setColor] = useState(gray);
     console.log(progress);
 
     useEffect(() => {
-      // Calculate height
       if (
         progress >= suggestedWorkoutPerWeek &&
         suggestedWorkoutPerWeek !== 0
       ) {
-        setHeight(48);
+        // if workout per week is >= 4 the bar is filled completely
+        setHeight((prev) => String(47));
       } else {
-        const calculatedHeight = (progress / suggestedWorkoutPerWeek) * 48;
-        setHeight(calculatedHeight);
+        // if the workout < 4 then the bar is filled accordingly (out of <suggestedWorkoutPerWeek> scale)
+        const calculatedHeight = (progress / suggestedWorkoutPerWeek) * 47;
+        setHeight((prev) => calculatedHeight.toString());
       }
-
-      // Determine color based on progress percentage
-
-      if (progress > suggestedWorkoutPerWeek) {
-        setColor(purple);
-      } else if (progress == suggestedWorkoutPerWeek) {
-        setColor(advancedgreen);
-      } else if (progress == 1) {
-        setColor(red);
+      if (progress >= 3 * suggestedWorkoutPerWeek) {
+        setColor((prev) => advancedgreen);
+      } else if (progress >= 2 * suggestedWorkoutPerWeek) {
+        setColor((prev) => intermediategreen);
+      } else if (progress >= suggestedWorkoutPerWeek) {
+        setColor((prev) => basicgreen);
+      } else if (
+        progress >= suggestedWorkoutPerWeek / 2 &&
+        progress < suggestedWorkoutPerWeek
+      ) {
+        setColor((prev) => yellow);
       } else {
-        setColor(yellow);
+        setColor((prev) => red);
       }
-    }, [progress, suggestedWorkoutPerWeek]);
+    }, [
+      progress,
+      color,
+      height,
+      basicgreen,
+      intermediategreen,
+      advancedgreen,
+      red,
+      yellow,
+      gray,
+    ]);
 
     const barStyles = {
       height: `${height}px`,
