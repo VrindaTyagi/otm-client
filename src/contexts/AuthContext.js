@@ -4,6 +4,8 @@ import { useContext, useReducer, createContext } from 'react';
 import { uiVersion } from '../components/FeatureUpdatePopup';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import mixpanel from 'mixpanel-browser';
+
 //create a new context
 const AuthContext = createContext();
 
@@ -129,7 +131,9 @@ function AuthProvider({ children }) {
 
         if (user.email) {
           localStorage.setItem('user', JSON.stringify(user));
-
+          mixpanel.track('Sign Up', {
+            'Signup Type': body.platform,
+          });
           dispatch({ type: 'signup', payload: user });
         }
         // make an API call to update the lastSeen version -> Feature Update Pop-up

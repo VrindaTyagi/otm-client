@@ -43,20 +43,36 @@ import FitnessPageNew from './features/Fitness/FitnessPageNew';
 import mixpanel from 'mixpanel-browser';
 
 function App() {
+
   // Near entry of your product, init Mixpanel
   mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
     debug: true,
     track_pageview: true,
     persistence: 'localStorage',
   });
+
+  const isLocalhost = () => {
+    return window.location.hostname === 'localhost' ||
+           window.location.hostname === '127.0.0.1' ||
+           window.location.hostname.includes('local');
+};
+
+//   if (isLocalhost()) {
+//     mixpanel.disable(['pageview']);
+// }
   // const { user, getUserFromStorage } = useAuth();
   const { checkAdminAuth, getUserFromStorage } = useAuth();
 
   function RouteMiddleware({ children }) {
     console.log('RouteMiddleware called');
     const user = getUserFromStorage();
-
     if (user && user.email) {
+      mixpanel.identify(user.code);
+      mixpanel.people.set({
+        $name: user.name,
+        $email: user.email,
+        // Add anything else about the user here
+      });
       return children;
     } else {
       return <Navigate to="/login" />;

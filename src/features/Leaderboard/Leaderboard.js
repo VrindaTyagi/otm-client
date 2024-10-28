@@ -79,7 +79,7 @@ const Leaderboard = () => {
   )?.find((entry) => entry.code === user.code);
 
   return (
-    <div className="w-screen h-full px-4 py-8 overflow-scroll rounded-3xl">
+    <div className="h-full w-screen overflow-scroll rounded-3xl px-4 py-8">
       <AnimatedComponent>
         <div className="mb-4">
           <HiArrowNarrowLeft
@@ -89,13 +89,13 @@ const Leaderboard = () => {
             }}
           />
         </div>
-        <h2 className="mb-3 text-3xl leaderboard-gradient-text">
+        <h2 className="leaderboard-gradient-text mb-3 text-3xl">
           Top Performers
         </h2>
 
         {selectedDataType === 'workout' && workoutCountData && matchingUser && (
           <div>
-            <span className="mr-2 text-4xl leaderboard-gradient-text">
+            <span className="leaderboard-gradient-text mr-2 text-4xl">
               #{matchingUser.rank}
             </span>
             <span className="text-sm font-medium text-lightGray">
@@ -108,7 +108,7 @@ const Leaderboard = () => {
           fitnessScoreData &&
           matchingUser && (
             <div>
-              <span className="mr-1 text-4xl leaderboard-gradient-text">
+              <span className="leaderboard-gradient-text mr-1 text-4xl">
                 #{matchingUser.rank}
               </span>
               <span className="text-sm font-medium text-lightGray">

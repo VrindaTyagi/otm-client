@@ -25,6 +25,7 @@ import { FaUser } from 'react-icons/fa';
 import { Name } from '../LifestyleQuiz';
 import { WhatsappShareButton } from 'react-share';
 import GiftCard from '../ReferralUser/GiftCard';
+import mixpanel from 'mixpanel-browser';
 
 const ProfilePicHeading = styled.div`
   color: #d7d7d7;
@@ -193,6 +194,12 @@ Here's a 20% off discount because I'd love for you to get healthy too!
     },
   };
 
+  if(showReferralLinkPopup) {
+    mixpanel.track('Referral Page viewed', {
+      'Path name': window.location.pathname,
+    });
+  }
+
   return (
     <>
       {/* profile pic update popup */}
@@ -256,6 +263,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       )}
 
       {showReferralLinkPopup && (
+
         <div
           initial="hidden"
           animate={showReferralLinkPopup ? 'visible' : 'hidden'}
