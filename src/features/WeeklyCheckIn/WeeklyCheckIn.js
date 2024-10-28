@@ -9,6 +9,7 @@ import WeeklyWorkoutReport from '../Fitness/WeeklyWorkoutReport';
 import { HiChevronDown } from 'react-icons/hi';
 import WeeklyCheckInSuccessPopup from '../../components/WeeklyCheckInSuccessPopup';
 import { IoArrowBackOutline } from 'react-icons/io5';
+import mixpanel from 'mixpanel-browser';
 
 const WeeklyCheckIn = () => {
   const [loader, setLoader] = useState(false);
@@ -77,12 +78,15 @@ const WeeklyCheckIn = () => {
 
   const getCalendarData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/lifestyle`, {
-        params: {
-          user: user.code,
-          date: selectedDate
-        }
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/lifestyle`,
+        {
+          params: {
+            user: user.code,
+            date: selectedDate,
+          },
+        },
+      );
       setCompletionHistory(response.data.completionHistory || []);
     } catch (error) {
       console.error('Error fetching calendar data:', error);
@@ -92,27 +96,34 @@ const WeeklyCheckIn = () => {
 
   const fetchSubmittedData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/weekly-checkin`, {
-        params: {
-          memberCode: user.code,
-          currentWeek: true
-        }
-      });
-  
-      if (response.data.success && response.data.data && response.data.data.length > 0) {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-checkin`,
+        {
+          params: {
+            memberCode: user.code,
+            currentWeek: true,
+          },
+        },
+      );
+
+      if (
+        response.data.success &&
+        response.data.data &&
+        response.data.data.length > 0
+      ) {
         const checkInData = response.data.data[0];
         setWeekRating(checkInData.rating.toString());
         setAchievement(checkInData.achievement);
         setLearnings(checkInData.learning);
         setWeight(checkInData.weight ? checkInData.weight.toString() : '');
-        
+
         if (checkInData.imageURLs && checkInData.imageURLs.length > 0) {
           setFrontImageUrl(checkInData.imageURLs[0]);
           if (checkInData.imageURLs.length > 1) {
             setSideImageUrl(checkInData.imageURLs[1]);
           }
         }
-        
+
         setIsSubmitted(true);
         setCheckInError(null);
       } else {
@@ -130,7 +141,7 @@ const WeeklyCheckIn = () => {
     e.preventDefault();
     setIsLoading(true);
     setCheckInError(null);
-    
+
     const formData = new FormData();
     formData.append('rating', weekRating);
     formData.append('achievement', achievement);
@@ -148,10 +159,32 @@ const WeeklyCheckIn = () => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        }
+        },
       );
 
       if (response.data.success) {
+        try {
+          console.log('Starting weekly check-in tracking...');
+
+          // Verify Mixpanel is initialized
+          if (!mixpanel) {
+            console.error('Mixpanel not initialized');
+            return;
+          }
+
+          // Track the event
+          mixpanel.track('Weekly Check-in Submitted', {
+            completion_status: 'submitted',
+            submission_timestamp: new Date().toISOString(),
+            submit_day: new Date().toLocaleDateString('en-US', {
+              weekday: 'long',
+            }),
+          });
+
+          console.log('weekly check-in tracked successfully');
+        } catch (error) {
+          console.error('Error tracking weekly check-in:', error);
+        }
         await fetchSubmittedData();
         setShowSuccessPopup(true);
       } else {
@@ -184,25 +217,34 @@ const WeeklyCheckIn = () => {
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
 
-  const memoizedWeeklyWorkoutReport = useMemo(() => (
-    <WeeklyWorkoutReport
-      consistencyTrend={weeklyStats?.consistencyTrend || ''}
-      suggestedWorkoutPerWeek={weeklyStats?.frequency || 0}
-      lastEightWeeksWorkout={weeklyStats?.lastEightWeeksWorkout || []}
-    />
-  ), [weeklyStats]);
+  const memoizedWeeklyWorkoutReport = useMemo(
+    () => (
+      <WeeklyWorkoutReport
+        consistencyTrend={weeklyStats?.consistencyTrend || ''}
+        suggestedWorkoutPerWeek={weeklyStats?.frequency || 0}
+        lastEightWeeksWorkout={weeklyStats?.lastEightWeeksWorkout || []}
+      />
+    ),
+    [weeklyStats],
+  );
 
   return (
     <>
-      <div className={`flex w-screen grow flex-col gap-2 overflow-y-scroll px-4 pb-[20px] ${showSuccessPopup ? 'blur-sm' : ''}`}>
-        <div className="flex items-center justify-between mt-4 mb-2">
-          <button 
-            onClick={() => window.location.href = '/home'} 
-            className="text-white hover:text-gray-300 transition-colors"
+      <div
+        className={`flex w-screen grow flex-col gap-2 overflow-y-scroll px-4 pb-[20px] ${
+          showSuccessPopup ? 'blur-sm' : ''
+        }`}
+      >
+        <div className="mb-2 mt-4 flex items-center justify-between">
+          <button
+            onClick={() => (window.location.href = '/home')}
+            className="hover:text-gray-300 text-white transition-colors"
           >
             <IoArrowBackOutline size={24} />
           </button>
-          <h1 className="text-2xl font-bold text-center flex-grow">Weekly Check-In</h1>
+          <h1 className="flex-grow text-center text-2xl font-bold">
+            Weekly Check-In
+          </h1>
           <div className="w-6"></div>
         </div>
         {loader && <Loader />}
@@ -223,10 +265,7 @@ const WeeklyCheckIn = () => {
               />
             </motion.section>
 
-            <motion.section 
-              variants={itemVariants} 
-              className="mt-8"
-            >
+            <motion.section variants={itemVariants} className="mt-8">
               {memoizedWeeklyWorkoutReport}
             </motion.section>
 
@@ -236,7 +275,10 @@ const WeeklyCheckIn = () => {
               variants={containerVariants}
             >
               <motion.div variants={itemVariants}>
-                <label htmlFor="weekRating" className="block sm:text-lg text-base font-medium text-gray-700">
+                <label
+                  htmlFor="weekRating"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
                   Rate your week out of 10
                 </label>
                 <div className="relative">
@@ -244,57 +286,77 @@ const WeeklyCheckIn = () => {
                     id="weekRating"
                     value={weekRating}
                     onChange={(e) => setWeekRating(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#2B2B28] text-lightGray   p-2 appearance-none"
+                    className="border-gray-300 mt-1 block w-full appearance-none rounded-md bg-[#2B2B28] p-2   text-lightGray shadow-sm"
                     required
                     disabled={isSubmitted}
                   >
                     <option value="">Select a rating</option>
                     {[...Array(11)].map((_, i) => (
-                      <option key={i} value={i.toString()}>{i}</option>
+                      <option key={i} value={i.toString()}>
+                        {i}
+                      </option>
                     ))}
                   </select>
-                  <HiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white text-2xl pointer-events-none" />
+                  <HiChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 transform text-2xl text-white" />
                 </div>
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <label htmlFor="achievement" className="block sm:text-lg text-base font-medium text-gray-700">
+                <label
+                  htmlFor="achievement"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
                   Tell us your biggest achievement of the week
                 </label>
                 <textarea
-  id="achievement"
-  value={achievement}
-  onChange={(e) => {
-    setAchievement(e.target.value);
-    handleTextAreaChange(e);
-  }}
-  className="textarea-no-scrollbar mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#2B2B28] text-lightGray outline-none p-2"
-  required
-  style={{ minHeight:'100px', resize: 'none', overflow: 'auto' }}
-  readOnly={isSubmitted}
-/>
+                  id="achievement"
+                  value={achievement}
+                  onChange={(e) => {
+                    setAchievement(e.target.value);
+                    handleTextAreaChange(e);
+                  }}
+                  className="textarea-no-scrollbar border-gray-300 mt-1 block w-full rounded-md bg-[#2B2B28] p-2 text-lightGray shadow-sm outline-none"
+                  required
+                  style={{
+                    minHeight: '100px',
+                    resize: 'none',
+                    overflow: 'auto',
+                  }}
+                  readOnly={isSubmitted}
+                />
               </motion.div>
 
               <motion.div variants={itemVariants}>
-  <label htmlFor="learnings" className="block sm:text-lg text-base font-medium text-gray-700">
-    What are your learnings of the week and how can we build the next week better ?
-  </label>
-  <textarea
-  id="learnings"
-  value={learnings}
-  onChange={(e) => {
-    setLearnings(e.target.value);
-    handleTextAreaChange(e);
-  }}
-  className="textarea-no-scrollbar mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#2B2B28] text-lightGray  text-base outline-none p-2"
-  required
-  style={{ minHeight:'100px', resize: 'none', overflow: 'auto' }}
-  readOnly={isSubmitted}
-/>
-</motion.div>
+                <label
+                  htmlFor="learnings"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
+                  What are your learnings of the week and how can we build the
+                  next week better ?
+                </label>
+                <textarea
+                  id="learnings"
+                  value={learnings}
+                  onChange={(e) => {
+                    setLearnings(e.target.value);
+                    handleTextAreaChange(e);
+                  }}
+                  className="textarea-no-scrollbar border-gray-300 mt-1 block w-full rounded-md bg-[#2B2B28] p-2 text-base  text-lightGray shadow-sm outline-none"
+                  required
+                  style={{
+                    minHeight: '100px',
+                    resize: 'none',
+                    overflow: 'auto',
+                  }}
+                  readOnly={isSubmitted}
+                />
+              </motion.div>
 
               <motion.div variants={itemVariants}>
-                <label htmlFor="weight" className="block sm:text-lg text-base font-medium text-gray-700">
+                <label
+                  htmlFor="weight"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
                   Current Weight (in kg)
                 </label>
                 <input
@@ -302,14 +364,17 @@ const WeeklyCheckIn = () => {
                   id="weight"
                   value={weight}
                   onChange={(e) => setWeight(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#2B2B28] text-lightGray   p-2"
+                  className="border-gray-300 mt-1 block w-full rounded-md bg-[#2B2B28] p-2 text-lightGray   shadow-sm"
                   required
                   disabled={isSubmitted}
                 />
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <label htmlFor="frontImage" className="block sm:text-lg text-base font-medium text-gray-700">
+                <label
+                  htmlFor="frontImage"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
                   Front Pose Image (optional)
                 </label>
                 {!isSubmitted ? (
@@ -321,22 +386,25 @@ const WeeklyCheckIn = () => {
                     accept="image/*"
                   />
                 ) : frontImageUrl ? (
-                  <div className="w-full flex justify-center">
-                    <div className="relative w-64 h-72 sm:w-80 sm:h-80 overflow-hidden rounded-lg flex justify-center items-center py-2">
-                      <img 
-                        src={frontImageUrl} 
-                        alt="Front Pose" 
-                        className="absolute w-84 h-auto mt-2"
+                  <div className="flex w-full justify-center">
+                    <div className="relative flex h-72 w-64 items-center justify-center overflow-hidden rounded-lg py-2 sm:h-80 sm:w-80">
+                      <img
+                        src={frontImageUrl}
+                        alt="Front Pose"
+                        className="w-84 absolute mt-2 h-auto"
                       />
                     </div>
                   </div>
                 ) : (
-                  <p className="mt-1 text-gray-500">No image uploaded</p>
+                  <p className="text-gray-500 mt-1">No image uploaded</p>
                 )}
               </motion.div>
 
               <motion.div variants={itemVariants}>
-                <label htmlFor="sideImage" className="block sm:text-lg text-base font-medium text-gray-700">
+                <label
+                  htmlFor="sideImage"
+                  className="text-gray-700 block text-base font-medium sm:text-lg"
+                >
                   Side Pose Image (optional)
                 </label>
                 {!isSubmitted ? (
@@ -348,17 +416,17 @@ const WeeklyCheckIn = () => {
                     accept="image/*"
                   />
                 ) : sideImageUrl ? (
-                  <div className="w-full flex justify-center">
-                    <div className="relative w-64 h-72 sm:w-80 sm:h-80 overflow-hidden rounded-lg flex justify-center items-center">
-                      <img 
-                        src={sideImageUrl} 
-                        alt="Side Pose" 
-                        className="absolute w-84 h-auto mt-2"
+                  <div className="flex w-full justify-center">
+                    <div className="relative flex h-72 w-64 items-center justify-center overflow-hidden rounded-lg sm:h-80 sm:w-80">
+                      <img
+                        src={sideImageUrl}
+                        alt="Side Pose"
+                        className="w-84 absolute mt-2 h-auto"
                       />
                     </div>
                   </div>
                 ) : (
-                  <p className="mt-1 text-gray-500">No image uploaded</p>
+                  <p className="text-gray-500 mt-1">No image uploaded</p>
                 )}
               </motion.div>
 
@@ -366,13 +434,13 @@ const WeeklyCheckIn = () => {
                 <motion.div variants={itemVariants}>
                   <button
                     type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue disabled:opacity-50"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-blue px-4 py-2 text-sm font-medium text-white shadow-sm disabled:opacity-50"
                     disabled={isLoading}
                   >
-      {isLoading ? 'Submitting...' : 'Submit Weekly Check-In'}
-    </button>
-  </motion.div>
-)}
+                    {isLoading ? 'Submitting...' : 'Submit Weekly Check-In'}
+                  </button>
+                </motion.div>
+              )}
             </motion.form>
           </motion.div>
         )}
