@@ -170,7 +170,7 @@ const Community = () => {
       <img className="absolute -z-10  w-full " src="/assets/community-bg.svg" />
 
       <div className=" h-screen w-screen grow overflow-y-scroll px-4 pb-[95px]">
-        <div className="mt-[77px] flex ">
+        <div className="mt-[77px] flex justify-between ">
           <div>
             <h3 className="font-sfpro text-[14px] text-offwhite">
               {greeting} {firstName}

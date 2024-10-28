@@ -255,7 +255,7 @@ function MainPage() {
                       {' '}
                       <>
                         <div className="flex h-full flex-col items-center justify-start gap-3 px-3 py-5 pb-16 pt-[76px]">
-                          <div className=" flex ">
+                          <div className=" flex w-full justify-between ">
                             <div>
                               <h3 className="font-sfpro text-[14px] text-offwhite">
                                 {greeting} {firstName}
