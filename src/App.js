@@ -41,9 +41,9 @@ import { ToastContainer } from 'react-toastify';
 import DynamicStretchScreen from './features/DynamicStretchScreen/DynamicStretchScreen';
 import FitnessPageNew from './features/Fitness/FitnessPageNew';
 import mixpanel from 'mixpanel-browser';
+import Aerobic from './features/Aerobic/Aerobic';
 
 function App() {
-
   // Near entry of your product, init Mixpanel
   mixpanel.init('ad91bb98957acbdd5f4eff48a8cf6cec', {
     debug: true,
@@ -52,16 +52,18 @@ function App() {
   });
 
   const isLocalhost = () => {
-    return window.location.hostname === 'localhost' ||
-           window.location.hostname === '127.0.0.1' ||
-           window.location.hostname.includes('local');
-};
+    return (
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname.includes('local')
+    );
+  };
 
   if (isLocalhost()) {
     mixpanel.disable(['pageview']);
     // Or opt out completely
     // mixpanel.opt_out_tracking();
-}
+  }
   // const { user, getUserFromStorage } = useAuth();
   const { checkAdminAuth, getUserFromStorage } = useAuth();
 
@@ -135,6 +137,14 @@ function App() {
             element={
               <RouteMiddleware>
                 <DynamicStretchScreen />
+              </RouteMiddleware>
+            }
+          />
+          <Route
+            path="/aerobic"
+            element={
+              <RouteMiddleware>
+                <Aerobic />
               </RouteMiddleware>
             }
           />

@@ -37,7 +37,9 @@ module.exports = withMT({
         'green-opacity-12': 'rgba(94, 204, 123, 0.12)',
         'browm-opacity-12': 'rgba(245, 197, 99, 0.12)',
         'red-opacity-12': 'rgba(250, 87, 87, 0.12)',
+        'dark-green-opacity-66': 'rgba(15, 15, 15, 0.66)',
         customBlack: '#1F1F1F',
+        screenBackgroundColor: '#161513',
       },
       backgroundImage: {
         'mealInfo-gradient':
@@ -61,6 +63,7 @@ module.exports = withMT({
         'movement-frame': "url('../public/assets/Movement-Frame.png')",
         'workout-img': "url('../public/assets/workout-img.svg')",
         'flex-img': "url('../public/assets/flex-img.svg')",
+        'aerobic-img': "url('../public/assets/aerobic-wide.png')",
       },
       fontFamily: {
         serif: ['Inter', 'sans-serif'],
