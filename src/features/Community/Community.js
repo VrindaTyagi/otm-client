@@ -9,6 +9,12 @@ import RankDisplay from './RankDisplay';
 import TimelineDisplay from './TimelineDisplay';
 import { axiosClient as TimelineAxiosClient } from '../Timeline/apiClient';
 import { TimelineHeading } from '../Timeline/StyledComponents';
+import { capitalizeFirstLetter } from '../../utils';
+import {
+  getCurrentHourInTimezone,
+  getDeviceTimezone,
+  getGreeting,
+} from '../Fitness/utils';
 
 const Community = () => {
   const [fitnessScoreData, setFitnessScoreData] = useState([]);
@@ -23,10 +29,44 @@ const Community = () => {
   const [data, setData] = useState(null);
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
-
+  const userProfilePicture = JSON.parse(localStorage.getItem('profilePicture'));
   const { getUserFromStorage, user } = useAuth();
   const navigate = useNavigate();
   const { value } = useParams();
+  const caiptalInitial = capitalizeFirstLetter(fullName);
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [greeting, setGreeting] = useState('');
+
+  useEffect(() => {
+    const timezone = getDeviceTimezone();
+    const currentHour = getCurrentHourInTimezone(timezone);
+    const greetingMessage = getGreeting(currentHour);
+    setGreeting(greetingMessage);
+  }, []);
+
+  async function getMemberData(code) {
+    try {
+      const res = await axiosClient.get(`/profile`, {
+        params: { code: code },
+      });
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  }
+
+  useEffect(() => {
+    if (!userProfilePicture && userProfilePicture !== '') {
+      getMemberData(code);
+    }
+  }, []);
 
   useEffect(() => {
     setCommunityLoading(true);
@@ -130,17 +170,33 @@ const Community = () => {
       <img className="absolute -z-10  w-full " src="/assets/community-bg.svg" />
 
       <div className=" h-screen w-screen grow overflow-y-scroll px-4 pb-[95px]">
-        <div className="mt-[76px]">
-          <h3 className=" font-sfpro text-[14px] text-offwhite">
-            Good Morning {firstName}
-          </h3>
+        <div className="mt-[77px] flex justify-between ">
+          <div>
+            <h3 className="font-sfpro text-[14px] text-offwhite">
+              {greeting} {firstName}
+            </h3>
 
-          <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
-            Community
-          </h2>
+            <h2 className="font-sfpro text-[32px] leading-10 text-offwhite">
+              Community
+            </h2>
 
-          <div className="font-sfpro text-[14px] text-white-opacity-50">
-            Everyday is an opportunity to do some main character shit.
+            <div className="mr-[20px] font-sfpro text-[14px] text-white-opacity-50">
+              Everyday is an opportunity to do some main character shit.
+            </div>
+          </div>
+          <div className="h-[53px] min-w-[53px]">
+            {' '}
+            {userProfilePicture ? (
+              <img
+                loading="lazy"
+                src={userProfilePicture}
+                className="object- h-[53px] w-[53px] rounded-xl object-cover"
+              />
+            ) : (
+              <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">
+                {caiptalInitial}
+              </div>
+            )}
           </div>
         </div>
         <div>

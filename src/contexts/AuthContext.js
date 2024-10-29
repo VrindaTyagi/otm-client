@@ -220,6 +220,8 @@ function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('profilePicture');
+    localStorage.removeItem('isLegend');
     dispatch({ type: 'logout' });
   }
 
