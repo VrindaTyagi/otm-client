@@ -275,8 +275,8 @@ const WorkoutSummary = () => {
                   <div className="flex items-center ">
                     <div className="legend-tag mb-2 flex w-fit items-center rounded">
                       <img src="/assets/medal.svg" alt="" />
-                      <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-[#4a3e1d]">
-                        LEGEND
+                      <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-black">
+                        Legend
                       </span>
                     </div>
                   </div>
