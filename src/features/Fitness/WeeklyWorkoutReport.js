@@ -49,8 +49,8 @@ function WeeklyWorkoutReport({
 
   const Bar = ({ progress, isFirstBar }) => {
     const [basicgreen, intermediategreen, advancedgreen, red, yellow, gray] = [
-      '#119832',
       '#29C344',
+      '#119832',
       '#7FE08A',
       '#FA5757',
       '#F5C563',
@@ -59,7 +59,6 @@ function WeeklyWorkoutReport({
 
     const [height, setHeight] = useState(0);
     const [color, setColor] = useState(gray);
-    console.log(progress);
 
     useEffect(() => {
       if (
@@ -73,16 +72,11 @@ function WeeklyWorkoutReport({
         const calculatedHeight = (progress / suggestedWorkoutPerWeek) * 47;
         setHeight((prev) => calculatedHeight.toString());
       }
-      if (progress >= 3 * suggestedWorkoutPerWeek) {
-        setColor((prev) => advancedgreen);
-      } else if (progress >= 2 * suggestedWorkoutPerWeek) {
+      if (progress > suggestedWorkoutPerWeek) {
         setColor((prev) => intermediategreen);
-      } else if (progress >= suggestedWorkoutPerWeek) {
+      } else if (progress === suggestedWorkoutPerWeek) {
         setColor((prev) => basicgreen);
-      } else if (
-        progress >= suggestedWorkoutPerWeek / 2 &&
-        progress < suggestedWorkoutPerWeek
-      ) {
+      } else if (progress < suggestedWorkoutPerWeek && progress > 1) {
         setColor((prev) => yellow);
       } else {
         setColor((prev) => red);
