@@ -13,14 +13,15 @@ const Aerobic = () => {
         src="./assets/aerobic-background.png "
         className="absolute z-10 h-[400px] w-full object-cover "
       />
+      <div className="absolute z-20 h-14 w-14 bg-purple-300"></div>
 
-      <img
+      {/* <img
         src="./assets/aerobic-gradient.svg "
-        className="absolute right-0 top-0 z-20 h-screen w-full  "
-      />
-      <div className="relative z-30 flex h-full flex-col pt-[370px]">
-        <div className="px-[31px]  ">
-          <div className="text-xl text-offwhite">
+        className="absolute right-0 top-0 z-20 h-screen w-full saturate-200  "
+      /> */}
+      <div className="relative top-0 z-30 flex h-full flex-col ">
+        <div className="flex h-[400px]  flex-col justify-end px-[31px]">
+          <div className="relative z-40 text-xl text-offwhite">
             Choose Your Aerobic Session
           </div>
           <div className="pt-[12px] text-sm text-white-opacity-50">
@@ -40,7 +41,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                  className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
                   10 mins
@@ -49,7 +50,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                  className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/round-icon.svg" className="mr-[2px]" />
                   332 Rounds
@@ -69,7 +70,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                  className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
                   10 mins
@@ -78,7 +79,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                  className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/round-icon.svg" className="mr-[2px]" />
                   332 Rounds
@@ -98,7 +99,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                  className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
                   10 mins
@@ -107,7 +108,7 @@ const Aerobic = () => {
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                  className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/round-icon.svg" className="mr-[2px]" />
                   332 Rounds
