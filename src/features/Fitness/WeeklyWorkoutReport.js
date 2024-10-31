@@ -49,9 +49,9 @@ function WeeklyWorkoutReport({
 
   const Bar = ({ progress, isFirstBar }) => {
     const [basicgreen, intermediategreen, advancedgreen, red, yellow, gray] = [
+      '#7FE08A',
       '#29C344',
       '#119832',
-      '#7FE08A',
       '#FA5757',
       '#F5C563',
       '#323232',
@@ -72,7 +72,12 @@ function WeeklyWorkoutReport({
         const calculatedHeight = (progress / suggestedWorkoutPerWeek) * 47;
         setHeight((prev) => calculatedHeight.toString());
       }
-      if (progress > suggestedWorkoutPerWeek) {
+      if (progress >= 2 * suggestedWorkoutPerWeek) {
+        setColor((prev) => advancedgreen);
+      } else if (
+        progress < 2 * suggestedWorkoutPerWeek &&
+        progress > suggestedWorkoutPerWeek
+      ) {
         setColor((prev) => intermediategreen);
       } else if (progress === suggestedWorkoutPerWeek) {
         setColor((prev) => basicgreen);
