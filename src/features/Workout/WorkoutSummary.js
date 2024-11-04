@@ -49,6 +49,7 @@ const WorkoutSummary = () => {
   const queryParams = new URLSearchParams(queryString);
   const movementId = queryParams.get('movementId');
   const date = queryParams.get('date');
+  const storedLegendTag = localStorage.getItem('isLegend');
 
   const { workout, status } = useSelector((store) => store.workoutReducer);
   const summaryRef = useRef(null);
@@ -306,7 +307,7 @@ const WorkoutSummary = () => {
           <div className="flex-1 overflow-y-auto pb-16">
             <div ref={summaryRef} className="bg-black px-4 py-8">
               <AnimatedComponent>
-                <div className="mb-4">
+                <div className="">
                   <p className="text-xs tracking-widest text-lightGray">
                     {today}
                   </p>
@@ -319,6 +320,17 @@ const WorkoutSummary = () => {
                     </Link>
                   </div>
                 </div>
+
+                {storedLegendTag === 'true' && (
+                  <div className="flex items-center ">
+                    <div className="legend-tag mb-2 flex w-fit items-center rounded">
+                      <img src="/assets/medal.svg" alt="" />
+                      <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-black">
+                        Legend
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 {/* TODO Do not show workout counts for Flex OR title could be changed to "Total Flex Workouts" */}
                 <div className="flex flex-col items-start text-lightGray">

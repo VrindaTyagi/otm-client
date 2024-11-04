@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import { Loader } from '../../components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { formatDate } from '../../utils';
+import { capitalizeFirstLetter, formatDate } from '../../utils';
 import { axiosClient } from './apiProfileClient';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
@@ -62,6 +62,8 @@ const UserDetails = ({ showHistory }) => {
   const [profilePicError, setProfilePicError] = useState(false);
   const [showReferralLinkPopup, setShowReferralLinkPopup] = useState(false);
   const [showReferralWorkPopup, setShowReferralWorkPopup] = useState(false);
+  const fullName = JSON.parse(localStorage.getItem('user'))['name'];
+  const caiptalInitial = capitalizeFirstLetter(fullName);
   const currentDate = new Date().getDate();
 
   const imageUrl =
@@ -101,6 +103,14 @@ Here's a 20% off discount because I'd love for you to get healthy too!
         setUniqueImageURLKey(`${data?.profilePicture}?key=${uniqueKey}`);
         setMemberData({ ...data, ...user });
       }
+      if (res.data.profilePicture) {
+        localStorage.setItem(
+          'profilePicture',
+          JSON.stringify(res.data.profilePicture),
+        );
+      } else {
+        localStorage.setItem('profilePicture', JSON.stringify(''));
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {
@@ -124,6 +134,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       const reader = new FileReader();
       reader.onloadend = () => {
         setChosenPic(reader.result);
+        localStorage.setItem('profilePicture', JSON.stringify(reader.result));
       };
       reader.readAsDataURL(file);
       e.target.value = null;
@@ -424,7 +435,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
               {/* User Profile Pic and Name */}
               <div className="mt-[30px] flex flex-col items-center justify-center">
                 <div className="mt-6 flex flex-col items-center justify-center gap-5">
-                  <div className="relative h-[136px] w-[136px] rounded-[32px] bg-[#91BDF6]">
+                  <div className="relative h-[136px] w-[136px] rounded-[32px] ">
                     {chosenPic ? (
                       <ProfilePicture
                         inputPic={chosenPic}
@@ -440,11 +451,9 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                         width={'136px'}
                       />
                     ) : (
-                      <FaUser
-                        size={136}
-                        color={'rgba(0,0,0,1)'}
-                        className="p-2"
-                      />
+                      <div className="flex h-[136px] w-[136px] items-center justify-center rounded-xl bg-black-opacity-45 text-6xl text-white">
+                        {caiptalInitial}
+                      </div>
                     )}
                     <button
                       className="absolute bottom-0 right-0 flex h-[30px] w-[30px] flex-row items-center justify-center rounded-full bg-green"

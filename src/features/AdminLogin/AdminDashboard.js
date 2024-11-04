@@ -21,22 +21,26 @@ export function AdminDashboard() {
 
   useEffect(() => {
     setFilteredUsers(
-      users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.code.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.code.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
     );
   }, [searchTerm, users]);
 
   const fetchUsers = async () => {
     try {
       const jwt = Cookies.get('adminJwt');
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/members/active`, {
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        }
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/members/active`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        },
+      );
       setUsers(response.data.data);
       setFilteredUsers(response.data.data);
       setLoading(false);
@@ -53,46 +57,57 @@ export function AdminDashboard() {
 
   const handleUserLogin = (user) => {
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.removeItem('profilePicture');
+    localStorage.removeItem('isLegend');
     navigate('/home');
   };
 
-  if (loading) return <Loader className={'h-screen fixed left-0 top-0 z-[200] bg-black'} />;
-  if (error) return (<div className="w-full h-screen fixed top-0 left-0 z-[200] bg-black">
-    <Error>Some Error Occurred</Error>
-  </div>);
+  if (loading)
+    return (
+      <Loader className={'fixed left-0 top-0 z-[200] h-screen bg-black'} />
+    );
+  if (error)
+    return (
+      <div className="fixed left-0 top-0 z-[200] h-screen w-full bg-black">
+        <Error>Some Error Occurred</Error>
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold mb-4 md:mb-0">Admin Dashboard</h1>
+    <div className="bg-gray-900 min-h-screen p-4 text-white md:p-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8 flex flex-col items-center justify-between md:flex-row">
+          <h1 className="mb-4 text-3xl font-bold md:mb-0">Admin Dashboard</h1>
           <button
             onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-red-600 hover:bg-red-700 focus:shadow-outline rounded px-4 py-2 font-bold text-white focus:outline-none"
           >
             Logout
           </button>
         </div>
-        <div className="bg-gray-800 rounded-lg shadow-lg p-4 md:p-6">
-          <h2 className="text-2xl font-semibold mb-4">Active Users</h2>
+        <div className="bg-gray-800 rounded-lg p-4 shadow-lg md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Active Users</h2>
           <input
             type="text"
             placeholder="Search users..."
-            className="w-full p-2 mb-4 bg-gray-700 rounded text-black"
+            className="bg-gray-700 mb-4 w-full rounded p-2 text-black"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <ul className="space-y-4">
             {filteredUsers.map((user) => (
-              <li key={user.code} className="flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-700 p-4 rounded-lg">
+              <li
+                key={user.code}
+                className="bg-gray-700 flex flex-col items-start justify-between rounded-lg p-4 md:flex-row md:items-center"
+              >
                 <div className="mb-2 md:mb-0">
                   <p className="font-semibold">{user.name}</p>
-                  <p className="text-sm text-gray-300">{user.email}</p>
-                  <p className="text-xs text-gray-400">Code: {user.code}</p>
+                  <p className="text-gray-300 text-sm">{user.email}</p>
+                  <p className="text-gray-400 text-xs">Code: {user.code}</p>
                 </div>
                 <button
                   onClick={() => handleUserLogin(user)}
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2 md:mt-0"
+                  className="bg-green-600 hover:bg-green-700 focus:shadow-outline mt-2 rounded px-4 py-2 font-bold text-white focus:outline-none md:mt-0"
                 >
                   Login as User
                 </button>
