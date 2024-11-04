@@ -27,8 +27,7 @@ const UpdateWorkout = ({ onClose }) => {
   const { inputValues, workout } = useSelector((store) => store.workoutReducer);
   const [workoutOptions, setWorkoutOptions] = useState([]);
   const dispatch = useDispatch();
-
-  console.log(workoutOptions, '234234');
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,7 +40,7 @@ const UpdateWorkout = ({ onClose }) => {
     async function getUserData() {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/v1/workout/hyper/theme?memberCode=PUP6223`,
+          `${process.env.REACT_APP_BASE_URL}/api/v1/workout/hyper/theme?memberCode=${code}`,
         );
         if (res.data) {
           console.log('ress', res.data);
