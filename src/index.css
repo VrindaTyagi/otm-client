@@ -1154,3 +1154,56 @@ body,
 
   border-radius: 12px;
 }
+
+.aerobic-gradient {
+  background:
+    radial-gradient(circle at top left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at top right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(
+        circle at bottom left,
+        rgba(0, 0, 0, 0.9),
+        transparent 95%
+      ),
+    /* Bottom-left corner with semi-transparent black */
+      radial-gradient(
+        circle at bottom right,
+        rgba(122, 131, 222, 0.9),
+        transparent 85%
+      );
+  /* Bottom-right corner with semi-transparent RGB color */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}
+
+.aerobic-gradient-opposite {
+  background:
+    radial-gradient(circle at bottom left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at bottom right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(circle at top left, black, transparent 80%),
+    /* Bottom-left corner */
+      radial-gradient(
+        circle at top right,
+        rgba(122, 131, 222, 0.9),
+        transparent 55%
+      ); /* Bottom-right corner */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}
+
+.aerobic-initialscreen-gradient-opposite {
+  background:
+    radial-gradient(circle at bottom left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at bottom right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(circle at top left, rgba(0, 0, 0, 0.9), transparent 80%),
+    /* Bottom-left corner */
+      radial-gradient(
+        circle at top right,
+        rgba(122, 131, 222, 0.9),
+        transparent 70%
+      ); /* Bottom-right corner */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}

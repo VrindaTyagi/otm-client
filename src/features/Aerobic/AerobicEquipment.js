@@ -19,12 +19,6 @@ const AerobicEquipment = ({
             <img src={item.gif} className="w-p[65px] h-[65px] rounded" />
             <div className="flex w-full justify-between">
               <h5 className="text-[20px]">{item.title}</h5>
-              {equipmentSelected === item.title && (
-                <img
-                  src="./assets/tick-purple.svg"
-                  className="w-p[27px] mr-[30px] h-[34px] rounded"
-                />
-              )}
             </div>
           </div>
         ))}

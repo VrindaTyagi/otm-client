@@ -5,11 +5,11 @@ const AerobicInitialTile = ({
   getSubstringUntilSec,
 }) => {
   return (
-    <div className="relative top-0 z-30 flex  flex-col ">
-      <div className=" mt-3  flex flex-col gap-2 overflow-y-scroll px-[16px] ">
+    <div className="aerobic-initialscreen-gradient-opposite relative  top-0 z-30 flex h-[55%]   flex-col ">
+      <div className=" mb-6 mt-3  flex flex-col gap-2 overflow-y-scroll px-[16px] ">
         {aerobicDetail?.msg?.workoutsDetails.map((item, index) => (
           <div
-            className="flex h-[102px] w-full items-center justify-between rounded-xl bg-black-opacity-45 px-[16px] "
+            className="flex h-[102px] w-full items-center justify-between rounded-xl bg-black-opacity-65 px-[16px] "
             onClick={() => setSelectWotkoutId(item.id)}
           >
             <div>

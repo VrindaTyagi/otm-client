@@ -5,13 +5,16 @@ const AerobicInstructions = ({
   index,
 }) => {
   return (
-    <div className=" mt-3  flex flex-col gap-2 overflow-y-scroll px-[16px] ">
-      <div className="flex h-fit w-full items-center justify-between rounded-xl bg-black-opacity-45 px-[16px] py-3 ">
+    <div className="  mt-3 flex flex-col gap-2 overflow-y-scroll px-[16px]">
+      <div className="flex h-fit w-full items-center justify-between rounded-xl bg-black-opacity-65 px-[16px] py-3 ">
         <div className="w-full">
           <h5 className="text-sm text-white-opacity-50 ">Instructions</h5>
           <div className="mt-2 flex">
-            <div className="flex w-[30%] justify-center">
-              <img src={IMAGE_URL[index]} className=" h-[62px] w-[62px] " />
+            <div className="flex w-[30%] ">
+              <img
+                src={IMAGE_URL[index]}
+                className=" ml-1 h-[62px] w-[62px] "
+              />
             </div>
             <div>
               {' '}

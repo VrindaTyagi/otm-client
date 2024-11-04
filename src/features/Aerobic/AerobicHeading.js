@@ -1,12 +1,12 @@
 const AerobicHeading = ({ selectWorkoutId, aerobicDetail }) => {
   return (
-    <div className="from-lightblue relative z-20 flex h-[40%] w-full items-end bg-gradient-to-t ">
+    <div className="aerobic-gradient relative z-20 flex h-[45%] w-full items-end  ">
       {selectWorkoutId === null ? (
-        <div className="mb-3 flex  h-[40%] flex-col justify-end px-[31px]">
+        <div className="mb-3 flex  h-[45%] flex-col justify-end px-[31px]">
           <div className="relative z-40 text-xl text-offwhite">
             Choose Your Aerobic Session
           </div>
-          <div className="pt-[12px] text-sm text-white-opacity-50">
+          <div className="pt-[12px] text-sm text-customWhite">
             Our aerobic sessions are designed to enhance cardiovascular health,
             burn fat, and improve stamina
           </div>
@@ -20,7 +20,7 @@ const AerobicHeading = ({ selectWorkoutId, aerobicDetail }) => {
                   {item.title}
                 </div>
 
-                <div className="pt-[12px] text-sm text-white-opacity-50">
+                <div className="pt-[12px] text-sm text-offwhite ">
                   Short bursts of high intensity sprints to boost power and
                   speed
                 </div>

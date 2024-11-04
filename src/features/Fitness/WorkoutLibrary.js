@@ -115,19 +115,7 @@ const WorkoutLibrary = ({ homeStats, setShowLibrary }) => {
             >
               <div className="flex h-full flex-col justify-center">
                 <div className="flex gap-3">
-                  <h2 className="text-2xl font-medium ">Aerobic</h2>
-                </div>
-
-                <div className="mt-2 flex gap-3">
-                  <h2
-                    style={{
-                      border: '0.5px solid rgba(221,249,136,0.4)',
-                    }}
-                    className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
-                  >
-                    <img src="/assets/yellowTimer.svg" className="mr-[2px]" />5
-                    mins
-                  </h2>
+                  <h2 className="text-3xl font-medium ">Aerobic</h2>
                 </div>
               </div>
             </Link>
