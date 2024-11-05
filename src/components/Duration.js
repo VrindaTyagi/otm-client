@@ -9,8 +9,8 @@ const Duration = ({ setDuration }) => {
   const [showTimeInput, setShowTimeInput] = useState(true);
   const [timeChecked, setTimeChecked] = useState(true);
 
-  const items = Array.from({ length: 42 }, (_, i) => {
-    if (i === 0 || i === 1 || i === 2 || i === 41 || i === 40 || i === 39) {
+  const items = Array.from({ length: 43 }, (_, i) => {
+    if (i === 0 || i === 1 || i === 2 || i === 42 || i === 41 || i === 40) {
       return '';
     } else {
       const number = i - 2;
@@ -63,7 +63,7 @@ const Duration = ({ setDuration }) => {
       </div>
       <div className="relative mt-1 w-full rounded-lg border border-black-opacity-25 py-3 pt-0">
         <div
-          className="picker-container w-full rounded-xl   px-[6px]"
+          className="second-picker-container w-full rounded-xl   px-[6px]"
           ref={containerRef}
           onScroll={handleScroll}
         >
@@ -72,7 +72,7 @@ const Duration = ({ setDuration }) => {
 
             // console.log(index, items.length, scrollPosition, position);
 
-            let className = 'flex justify-center picker-item';
+            let className = 'flex justify-center second-picker-item';
             if (position === 0) {
               className += ' selected pl-[53px] ';
             } else if (position === 1 || position === -1) {

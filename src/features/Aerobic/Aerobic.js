@@ -8,6 +8,7 @@ import AerobicHeading from './AerobicHeading';
 import AerobicInitialTile from './AerobicInitialTile';
 import AerobicInstructions from './AerobicInstructions';
 import AerobicEquipment from './AerobicEquipment';
+import AnimatedComponent from '../../components/AnimatedComponent';
 
 const Aerobic = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Aerobic = () => {
   const [equipmentSelected, setEquipmentSelected] = useState(null);
   const [logScreen, setLogScreen] = useState(false);
   const [duration, setDuration] = useState(null);
-  const [distance, setDistance] = useState(0);
+  const [distance, setDistance] = useState(null);
   const [calories, setCalories] = useState(null);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
 
@@ -95,14 +96,15 @@ const Aerobic = () => {
   }, []);
 
   return (
-    <div className="bg-screenBackgroundColor relative h-screen overflow-y-scroll">
+    <AnimatedComponent className="relative h-screen overflow-y-scroll bg-screenBackgroundColor">
       <div className=" absolute left-3 top-3 z-40 flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
         <FaArrowLeftLong onClick={() => handleBackButton()} />
       </div>
+      <div className="absolute z-30 h-[45%] w-full bg-gradient-to-t from-black from-5%  "></div>
 
       <img
         src="./assets/aerobic-background.png "
-        className="absolute z-10 h-[45%] w-full object-cover "
+        className="gradi absolute z-10 h-[45%] w-full object-cover "
       />
 
       <AerobicHeading
@@ -177,7 +179,10 @@ const Aerobic = () => {
 
       {logScreen === true && (
         <div className="absolute top-0 z-[120] h-screen w-full  backdrop-blur-sm">
-          <div className="absolute bottom-0 z-[100] flex h-[65%] w-screen flex-col justify-between overflow-y-scroll rounded-t-3xl bg-black px-[25px] py-[28px]">
+          <AnimatedComponent
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            className="absolute bottom-0 z-[100] flex h-[70%] w-screen flex-col justify-between overflow-y-scroll rounded-t-3xl bg-black px-[25px] py-[28px]"
+          >
             {' '}
             <div>
               <div className=" mb-[40px] flex justify-between">
@@ -194,7 +199,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Distance
                   </h3>
-                  <div className="border-b-white-opacity-20 mt-[14px] flex h-[40px] items-center   gap-5  rounded-t-md border-b ">
+                  <div className="mt-[14px] flex h-[40px] items-center gap-5   rounded-t-md  border-b border-b-white-opacity-20 ">
                     <div className="flex w-full gap-2">
                       <input
                         type="number"
@@ -216,7 +221,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Calories Burn
                   </h3>
-                  <div className=" border-b-white-opacity-20 mt-[20px] flex h-[40px] border-b">
+                  <div className=" mt-[20px] flex h-[40px] border-b border-b-white-opacity-20">
                     <input
                       type="number"
                       name="m"
@@ -234,7 +239,7 @@ const Aerobic = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-20 pb-20 ">
+            <div className="mt-12  ">
               <div
                 onClick={() => handleAerobicPost()}
                 style={{
@@ -246,10 +251,10 @@ const Aerobic = () => {
                 Done
               </div>
             </div>
-          </div>
+          </AnimatedComponent>
         </div>
       )}
-    </div>
+    </AnimatedComponent>
   );
 };
 

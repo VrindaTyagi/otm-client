@@ -1,10 +1,12 @@
+import AnimatedComponent from '../../components/AnimatedComponent';
+
 const AerobicEquipment = ({
   aerobicDetail,
   setEquipmentSelected,
   equipmentSelected,
 }) => {
   return (
-    <div className=" mt-[35px] px-[16px]">
+    <AnimatedComponent className=" mt-[35px] px-[16px]">
       <h3 className="text-xl text-offwhite">Choose your Preferred equipment</h3>
       <div className="mt-[12px] flex flex-col gap-2 overflow-y-scroll">
         {aerobicDetail?.msg?.movement.map((item) => (
@@ -23,7 +25,7 @@ const AerobicEquipment = ({
           </div>
         ))}
       </div>
-    </div>
+    </AnimatedComponent>
   );
 };
 

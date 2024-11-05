@@ -1,3 +1,5 @@
+import AnimatedComponent from '../../components/AnimatedComponent';
+
 const AerobicInitialTile = ({
   setSelectWotkoutId,
   aerobicDetail,
@@ -6,7 +8,7 @@ const AerobicInitialTile = ({
 }) => {
   return (
     <div className="aerobic-initialscreen-gradient-opposite relative  top-0 z-30 flex h-[55%]   flex-col ">
-      <div className=" mb-6 mt-3  flex flex-col gap-2 overflow-y-scroll px-[16px] ">
+      <AnimatedComponent className=" mb-6 mt-3  flex flex-col gap-2 overflow-y-scroll px-[16px] ">
         {aerobicDetail?.msg?.workoutsDetails.map((item, index) => (
           <div
             className="flex h-[102px] w-full items-center justify-between rounded-xl bg-black-opacity-65 px-[16px] "
@@ -22,7 +24,7 @@ const AerobicInitialTile = ({
                   style={{
                     border: '0.5px solid rgba(221,249,136,0.4)',
                   }}
-                  className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
+                  className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                 >
                   <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
 
@@ -40,7 +42,7 @@ const AerobicInitialTile = ({
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
+                    className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                   >
                     <img src="/assets/round-icon.svg" className="mr-[2px]" />
                     {item.id === 'version_1' &&
@@ -61,7 +63,7 @@ const AerobicInitialTile = ({
             {/* <div>sdsds</div> */}
           </div>
         ))}
-      </div>
+      </AnimatedComponent>
     </div>
   );
 };

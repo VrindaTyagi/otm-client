@@ -1,6 +1,6 @@
 const AerobicHeading = ({ selectWorkoutId, aerobicDetail }) => {
   return (
-    <div className="aerobic-gradient relative z-20 flex h-[45%] w-full items-end  ">
+    <div className="aerobic-gradient relative z-40 flex h-[45%] w-full items-end  ">
       {selectWorkoutId === null ? (
         <div className="mb-3 flex  h-[45%] flex-col justify-end px-[31px]">
           <div className="relative z-40 text-xl text-offwhite">
