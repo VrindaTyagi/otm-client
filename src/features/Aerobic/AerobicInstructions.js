@@ -22,16 +22,9 @@ const AerobicInstructions = ({
               {' '}
               <div className=" flex flex-col gap-1">
                 <div className="flex">
-                  {item.id === 'version_1' && (
-                    <h2 className=" text-sm text-white-opacity-50">
-                      Perform each round for{' '}
-                    </h2>
-                  )}
-                  {item.id === 'version_2' && (
-                    <h2 className=" text-sm text-white-opacity-50">
-                      Perform each round for{' '}
-                    </h2>
-                  )}
+                  <h2 className=" text-sm text-white-opacity-50">
+                    Perform each round for{' '}
+                  </h2>
 
                   <h2
                     style={{
@@ -51,12 +44,8 @@ const AerobicInstructions = ({
                 </div>
 
                 <div className="flex gap-1">
-                  {item.id === 'version_1' && (
-                    <h2 className=" text-sm text-white-opacity-50">Target </h2>
-                  )}
-                  {item.id === 'version_2' && (
-                    <h2 className=" text-sm text-white-opacity-50">Target </h2>
-                  )}
+                  <h2 className=" text-sm text-white-opacity-50">Target </h2>
+
                   {item.id === 'version_3' ? (
                     <h2 className="flex w-fit items-center bg-green-opacity-12 px-1 text-center text-xs  text-green">
                       MAX EFFORT

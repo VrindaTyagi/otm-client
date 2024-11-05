@@ -91,6 +91,7 @@ const MainPage = () => {
       <img
         loading="eager"
         src={'/assets/Movement-Frame.png'}
+        style={{ height: `calc(100vh - 246px)` }}
         className={`absolute left-0 -z-20 h-screen w-full saturate-150 ${
           showUpdateWorkout === true ? 'top-0' : 'top-60 '
         } `}
