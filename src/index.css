@@ -1260,3 +1260,13 @@ body,
   font-size: 16px;
   color: #929292;
 }
+
+.gradient-black-background {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 41.5%,
+    rgba(0, 0, 0, 0.68) 78%,
+    #000 100%
+  );
+}
