@@ -6,6 +6,7 @@ import { toggleCompletion } from '../ReduxStore/actions';
 import { getFormattedDate } from '../utils';
 import { toast } from 'react-toastify';
 import { current } from '@reduxjs/toolkit';
+import mixpanel from 'mixpanel-browser';
 
 function TaskItem({ task, SelectedCircle, date }) {
   const [showTaskDetail, setShowTaskDetail] = useState(false);
@@ -53,6 +54,8 @@ function TaskItem({ task, SelectedCircle, date }) {
         ],
       })
       .then((res) => {
+        mixpanel.tracking('LD item checked', {completed: event[0].input})
+        console.log(event[0].input, "event[0].input/////////////");
         console.log(res);
       })
       .catch((err) => {
