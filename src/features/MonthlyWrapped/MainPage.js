@@ -37,7 +37,8 @@ function MainPage() {
     axiosClient
       .get(`?user=${userCode}&month=${currentMonthNumber}&year=${currentYear}`)
       .then((res) => {
-        mixpanel.tracking('Monthly wrapped opened')
+        mixpanel.track('Monthly wrapped opened')
+
         const {
           rank,
           totalWorkout,
