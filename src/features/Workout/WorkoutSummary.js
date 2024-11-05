@@ -53,7 +53,8 @@ const WorkoutSummary = () => {
   const { workout, status } = useSelector((store) => store.workoutReducer);
   const summaryRef = useRef(null);
   const captureAndShareToWhatsApp = async () => {
-    // mixpanel.tracking('Workout Summary share button clicked');
+    mixpanel.track('Workout Summary share button clicked');
+    console.log("Workout Summary share button clicked");
     if (summaryRef.current) {
       try {
         // Capture screenshot

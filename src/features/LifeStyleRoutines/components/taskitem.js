@@ -54,7 +54,7 @@ function TaskItem({ task, SelectedCircle, date }) {
         ],
       })
       .then((res) => {
-        mixpanel.tracking('LD item checked', {completed: event[0].input})
+        mixpanel.track('LD item checked', {completed: event[0].input})
         console.log(event[0].input, "event[0].input/////////////");
         console.log(res);
       })
