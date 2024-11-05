@@ -37,9 +37,12 @@ const AerobicInstructions = ({
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className="ml-1 flex w-fit rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                    className="ml-1 flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/yellowTimer.svg"
+                      className=" mr-[4px] h-[12px] w-[12px]"
+                    />
 
                     {item?.id !== 'version_3'
                       ? item.time
@@ -63,9 +66,12 @@ const AerobicInstructions = ({
                       style={{
                         border: '0.5px solid rgba(221,249,136,0.4)',
                       }}
-                      className=" flex w-fit rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                      className="flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                     >
-                      <img src="/assets/round-icon.svg" className="mr-[2px]" />
+                      <img
+                        src="/assets/round-icon.svg"
+                        className=" mr-[4px] h-[12px] w-[12px]"
+                      />
                       {item.id === 'version_1' &&
                         `${item.minRounds} - ${item.maxRounds} Rounds`}
                       {item.id === 'version_2' && `1 Round`}
