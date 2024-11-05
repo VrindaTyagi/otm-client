@@ -21,6 +21,24 @@ const Aerobic = () => {
   const [calories, setCalories] = useState(null);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
 
+  const slideAnimation = {
+    initial: {
+      opacity: 0,
+      y: '100vh', // Start from the bottom of the viewport
+      scale: '80%',
+    },
+    animate: {
+      opacity: 1,
+      y: '0%', // End at the center position
+      scale: '100%',
+    },
+    exit: {
+      opacity: 0,
+      y: '-20%',
+      scale: '80%',
+    },
+  };
+
   const IMAGE_URL = [
     './assets/aerobic-cardio.svg ',
     './assets/aerobic-skipping.svg ',
@@ -97,7 +115,7 @@ const Aerobic = () => {
 
   return (
     <AnimatedComponent className="relative h-screen overflow-y-scroll bg-screenBackgroundColor">
-      <div className=" absolute left-3 top-3 z-40 flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
+      <div className=" absolute left-3 top-3 z-50 flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
         <FaArrowLeftLong onClick={() => handleBackButton()} />
       </div>
       <div className="absolute z-30 h-[45%] w-full bg-gradient-to-t from-black from-5%  "></div>
@@ -180,7 +198,8 @@ const Aerobic = () => {
       {logScreen === true && (
         <div className="absolute top-0 z-[120] h-screen w-full  backdrop-blur-sm">
           <AnimatedComponent
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            animation={slideAnimation}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
             className="absolute bottom-0 z-[100] flex h-[70%] w-screen flex-col justify-between overflow-y-scroll rounded-t-3xl bg-black px-[25px] py-[28px]"
           >
             {' '}
@@ -206,7 +225,7 @@ const Aerobic = () => {
                         name="km"
                         value={distance}
                         onChange={(e) => setDistance(e.target.value)}
-                        placeholder="(e.g, 5)"
+                        placeholder="(e.g, 5.4)"
                         min="0"
                         className="w-full rounded-sm bg-black text-offwhite placeholder:text-sm"
                       />
@@ -219,7 +238,7 @@ const Aerobic = () => {
                 </div>
                 <div>
                   <h3 className="font-sfpro text-[16px] text-offwhite">
-                    Calories Burn
+                    Calories Burned
                   </h3>
                   <div className=" mt-[20px] flex h-[40px] border-b border-b-white-opacity-20">
                     <input

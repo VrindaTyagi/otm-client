@@ -35,7 +35,7 @@ const AerobicInitialTile = ({
 
                 {item.id === 'version_3' ? (
                   <h2 className="flex items-center bg-green-opacity-12 px-1 text-center text-xs text-green">
-                    MAX EFFORTS
+                    MAX EFFORT
                   </h2>
                 ) : (
                   <h2
@@ -46,8 +46,8 @@ const AerobicInitialTile = ({
                   >
                     <img src="/assets/round-icon.svg" className="mr-[2px]" />
                     {item.id === 'version_1' &&
-                      `${item.minRounds} - ${item.maxRounds} Rounds`}
-                    {item.id === 'version_2' && `1 Round`}
+                      `${item.minRounds} - ${item.maxRounds} rounds`}
+                    {item.id === 'version_2' && `1 round`}
                   </h2>
                 )}
               </div>

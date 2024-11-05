@@ -58,9 +58,7 @@ const Duration = ({ setDuration }) => {
 
   return (
     <div>
-      <div className="mt-[30px] font-sfpro text-[16px] text-offwhite">
-        Duration
-      </div>
+      <div className=" font-sfpro text-[16px] text-offwhite">Duration</div>
       <div className="relative mt-1 w-full rounded-lg border border-black-opacity-25 py-3 pt-0">
         <div
           className="second-picker-container w-full rounded-xl   px-[6px]"
