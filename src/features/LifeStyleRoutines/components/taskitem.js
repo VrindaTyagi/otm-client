@@ -7,6 +7,7 @@ import { getFormattedDate } from '../utils';
 import { toast } from 'react-toastify';
 import { current } from '@reduxjs/toolkit';
 import mixpanel from 'mixpanel-browser';
+import axios from 'axios';
 
 function TaskItem({ task, SelectedCircle, date }) {
   const [showTaskDetail, setShowTaskDetail] = useState(false);
@@ -38,11 +39,12 @@ function TaskItem({ task, SelectedCircle, date }) {
 
   // function for Mark as Done
   function handleMarkDone(event) {
-    event.stopPropagation(); // Stop propagation to prevent opening next page
+    event.stopPropagation(); // Stop propagation to prevent opening the next page
     setTaskCompleted(true);
     dispatch(toggleCompletion(SelectedCircle, task?.taskId));
-    axiosClient
-      .post('/', {
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/v1/lifestyle`, {
         user: JSON.parse(localStorage.getItem('user'))['code'],
         date: finalDate,
         taskId: task?.taskId,
@@ -54,15 +56,23 @@ function TaskItem({ task, SelectedCircle, date }) {
         ],
       })
       .then((res) => {
-        mixpanel.track('LD item checked', {completed: event[0].input})
-        console.log(event[0].input, "event[0].input/////////////");
-        console.log(res);
+        console.log('API response:', res);
+
+        try {
+          const isCompleted =
+            task?.completed === undefined ? true : !task?.completed;
+          mixpanel.track('LD item checked', { completed: isCompleted });
+          console.log(isCompleted, 'Task completion status sent to Mixpanel');
+        } catch (mixpanelError) {
+          console.error('Error in Mixpanel tracking:', mixpanelError);
+          toast.error('Mixpanel tracking failed');
+        }
       })
       .catch((err) => {
-        setTaskCompleted(true);
+        setTaskCompleted(false); // Revert completion if there's an error
         dispatch(toggleCompletion(SelectedCircle, task?.taskId));
         toast.error('Something went wrong');
-        console.log(err);
+        console.error('Error in API request:', err);
       });
   }
   return (
