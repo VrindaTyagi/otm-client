@@ -11,7 +11,7 @@ const AerobicEquipment = ({
       <div className="mt-[12px] flex flex-col gap-2 overflow-y-scroll">
         {aerobicDetail?.msg?.movement.map((item) => (
           <div
-            className={`flex h-fit w-full items-center gap-[32px] rounded-xl bg-black-opacity-45 p-[8px] ${
+            className={`flex h-fit w-full items-center justify-between gap-[32px] rounded-xl bg-black-opacity-45 p-[8px] ${
               equipmentSelected === item.title && 'border border-custompurple'
             } `}
             onClick={() => {
@@ -19,7 +19,7 @@ const AerobicEquipment = ({
             }}
           >
             <img src={item.gif} className="w-p[65px] h-[65px] rounded" />
-            <div className="flex w-full justify-between">
+            <div className="flex  justify-between px-4">
               <h5 className="text-[20px]">{item.title}</h5>
             </div>
           </div>
