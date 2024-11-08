@@ -91,6 +91,7 @@ const MainPage = () => {
       <img
         loading="eager"
         src={'/assets/Movement-Frame.png'}
+        style={{ height: `calc(100vh - 246px)` }}
         className={`absolute left-0 -z-20 h-screen w-full saturate-150 ${
           showUpdateWorkout === true ? 'top-0' : 'top-60 '
         } `}
@@ -102,6 +103,10 @@ const MainPage = () => {
           {' '}
           <AnimatedComponent>
             <div
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(0, 0, 0, 0.60) 0%, rgba(0, 0, 0, 0.00) 41.5%, rgba(0, 0, 0, 0.68) 78%, #000 100%)',
+              }}
               className={` flex  h-[246px] overflow-hidden  bg-full py-6 bg-blend-soft-light `}
             >
               <LazyImage
@@ -117,7 +122,7 @@ const MainPage = () => {
                     : '/assets/flex-img.png'
                 }
                 ImageWrapperClassName={
-                  'absolute left-0 top-0 -z-10  h-[246px] w-full '
+                  'absolute left-0 top-0 -z-10  h-[246px] w-full  '
                 }
                 ImageClassName={'h-[246px] w-screen  object-cover'}
               />

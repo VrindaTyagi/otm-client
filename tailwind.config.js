@@ -28,8 +28,10 @@ module.exports = withMT({
         gradientEnd: '#B0B5F8',
         'white-opacity-50': 'rgba(222, 222, 222, 0.5)',
         'white-opacity-23': 'rgba(255, 255, 255, 0.23)',
+        'white-opacity-20': 'rgba(255, 255, 255, 0.20)',
         'white-opacity-08': 'rgba(221, 221, 221, 0.08)',
         'white-opacity-70': 'rgba(222, 222, 222, 0.7)',
+        customWhite: 'rgba(199, 197, 197)',
         'black-opacity-45': 'rgba(0, 0, 0, 0.45)',
         'black-opacity-25': 'rgba(0, 0, 0, 0.25)',
         'black-opacity-40': 'rgba(0, 0, 0, 0.40)',
@@ -37,7 +39,11 @@ module.exports = withMT({
         'green-opacity-12': 'rgba(94, 204, 123, 0.12)',
         'browm-opacity-12': 'rgba(245, 197, 99, 0.12)',
         'red-opacity-12': 'rgba(250, 87, 87, 0.12)',
+        'dark-green-opacity-66': 'rgba(15, 15, 15, 0.66)',
+        'gray-opacity-20': 'rgba(116, 116, 128, 0.2)',
+        lightblue: 'rgba(118, 127, 227, 1)',
         customBlack: '#1F1F1F',
+        screenBackgroundColor: '#161513',
       },
       backgroundImage: {
         'mealInfo-gradient':
@@ -61,6 +67,7 @@ module.exports = withMT({
         'movement-frame': "url('../public/assets/Movement-Frame.png')",
         'workout-img': "url('../public/assets/workout-img.svg')",
         'flex-img': "url('../public/assets/flex-img.svg')",
+        'aerobic-img': "url('../public/assets/aerobic-wide.png')",
       },
       fontFamily: {
         serif: ['Inter', 'sans-serif'],
