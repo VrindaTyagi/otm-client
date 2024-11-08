@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { axiosClient } from './apiClient';
 import Loader from '../../components/Loader';
 import Error from '../../components/Error';
+import mixpanel from 'mixpanel-browser';
 
 function MainPage() {
   const todayDate = getPreviousMonthYear();
@@ -36,6 +37,8 @@ function MainPage() {
     axiosClient
       .get(`?user=${userCode}&month=${currentMonthNumber}&year=${currentYear}`)
       .then((res) => {
+        mixpanel.track('Monthly wrapped opened')
+
         const {
           rank,
           totalWorkout,

@@ -21,8 +21,8 @@ const AerobicInstructions = ({
             <div>
               {' '}
               <div className=" flex flex-col gap-1">
-                <div className="flex">
-                  <h2 className=" text-sm text-white-opacity-50">
+                <div className="flex flex-wrap">
+                  <h2 className=" text-sm text-white-opacity-50 ">
                     Perform each round for{' '}
                   </h2>
 
@@ -30,7 +30,7 @@ const AerobicInstructions = ({
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className="ml-1 flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                    className="bg-dark-green-opacity-66 ml-1 flex w-fit items-center rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
                   >
                     <img
                       src="/assets/yellowTimer.svg"
@@ -55,7 +55,7 @@ const AerobicInstructions = ({
                       style={{
                         border: '0.5px solid rgba(221,249,136,0.4)',
                       }}
-                      className="flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                      className="bg-dark-green-opacity-66 flex w-fit items-center rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
                     >
                       <img
                         src="/assets/round-icon.svg"
