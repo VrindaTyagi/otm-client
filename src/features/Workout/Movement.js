@@ -44,13 +44,16 @@ const Movement = ({
               {movement.personalRecord !== null &&
                 movement.personalRecord > 0 && (
                   <span className="w-fit rounded bg-[#F5C563] px-2 py-0.5  -tracking-[0.36px]">
-                    PR {movement.personalRecord} {movement.personalRecordUnit}
+                    PR {movement.personalRecord}{' '}
+                    {movement.personalRecordUnit
+                      ? movement.personalRecordUnit
+                      : 'KG'}
                   </span>
                 )}
               {movement.lastUsedLoad !== null && movement.lastUsedLoad > 0 && (
                 <span className="w-fit rounded bg-[#7CDCF6]  px-2 py-0.5 -tracking-[0.36px]">
                   Last Workout {movement.lastUsedLoad}{' '}
-                  {movement.lastUsedLoadUnit}
+                  {movement.lastUsedLoadUnit ? movement.lastUsedLoadUnit : 'KG'}
                 </span>
               )}
               {/* <span className="p-1 my-1 bg-floYellow">Personal Record 24KG</span>

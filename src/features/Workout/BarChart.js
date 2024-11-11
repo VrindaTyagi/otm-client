@@ -1,12 +1,13 @@
 import { Bar } from 'react-chartjs-2';
-export const BarChart = ({ chartData, maxValue }) => {
+export const BarChart = ({ chartData, maxValue, lastUsedLoadUnit }) => {
+  console.log('xx55', lastUsedLoadUnit);
   const options = {
     scales: {
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Weight Lifted (KG)',
+          text: `Weight Lifted (${lastUsedLoadUnit ? lastUsedLoadUnit : 'KG'})`,
           font: {
             size: 14,
           },
@@ -14,11 +15,10 @@ export const BarChart = ({ chartData, maxValue }) => {
         grid: {
           display: true, // Show gridlines
           color: 'rgba(255, 255, 255, 0.1)',
-
         },
         suggstedMin: 0,
-        suggestedMax: maxValue+2, // Set the dynamic maximum value for the y-axis
-        stepSize: Math.floor(maxValue/10),
+        suggestedMax: maxValue + 2, // Set the dynamic maximum value for the y-axis
+        stepSize: Math.floor(maxValue / 10),
       },
     },
     plugins: {

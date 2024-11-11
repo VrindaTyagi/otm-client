@@ -87,7 +87,7 @@ const MovementDetail = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
-                className="overflow-hidden text-white text-ellipsis whitespace-nowrap"
+                className="overflow-hidden text-ellipsis whitespace-nowrap text-white"
               >
                 {capitalizeFirstLetter(selectedMvmtName)}
               </motion.h3>
@@ -135,10 +135,10 @@ const MovementDetail = ({
       <div
         className={`flex-1 overflow-y-auto pb-10 ${scrolled ? 'mt-16' : ''}`}
       >
-        <div className="flex flex-col items-center justify-center pb-16 my-4">
+        <div className="my-4 flex flex-col items-center justify-center pb-16">
           {isSectionCodeAvailable && movement.totalTimesPerformed > 0 && (
             <div className="flex flex-col">
-              <p className="py-1 my-8 text-sm text-center text-white border rounded-lg sm:text-base">
+              <p className="my-8 rounded-lg border py-1 text-center text-sm text-white sm:text-base">
                 You have done this exercise{' '}
                 <span className="text-green">
                   {movement.totalTimesPerformed}{' '}
@@ -148,17 +148,18 @@ const MovementDetail = ({
               <div key={Math.random() * 1000}>
                 <ChartComponent data={movement} />
               </div>
-              <p className="my-4 text-sm text-center sm:text-base">
+              <p className="my-4 text-center text-sm sm:text-base">
                 Your personal record is{' '}
                 <span className="rounded-lg bg-floYellow p-0.5 font-bold text-black">
-                  {movement.personalRecord} {''}KG
+                  {movement.personalRecord} {''}
+                  {movement.lastUsedLoadUnit}
                 </span>
               </p>
             </div>
           )}
           <div className="mt-4 h-auto w-[350px] sm:mt-10 sm:w-[1300px]">
             <div className="flex flex-col space-y-4">
-              <div className="w-full h-auto px-4 py-4 bg-black rounded-lg sm:px-10 sm:py-10">
+              <div className="h-auto w-full rounded-lg bg-black px-4 py-4 sm:px-10 sm:py-10">
                 <h1 className="font-700 flex gap-1 text-[14px] text-[#7E87EF] sm:text-xl">
                   <span className="mt-[4px]">
                     <IoIosSearch />
@@ -218,11 +219,11 @@ const MovementDetail = ({
           </div>
           <div className="mt-4 h-auto w-[350px] sm:w-[1300px]">
             <div className="flex flex-col space-y-4">
-              <div className="w-full h-auto px-4 py-4 bg-black rounded-lg sm:px-10 sm:py-10">
+              <div className="h-auto w-full rounded-lg bg-black px-4 py-4 sm:px-10 sm:py-10">
                 <h1 className="font-700 flex gap-1 text-[20px] sm:text-2xl">
                   Setup
                 </h1>
-                <ul className="flex flex-col gap-2 mt-0 sm:mt-2 sm:gap-4">
+                <ul className="mt-0 flex flex-col gap-2 sm:mt-2 sm:gap-4">
                   {movement?.setup?.slice(0, -1).map((det, index) => {
                     return (
                       <li
@@ -242,11 +243,11 @@ const MovementDetail = ({
           </div>
           <div className="mt-4 h-auto w-[350px] sm:w-[1300px]">
             <div className="flex flex-col space-y-4">
-              <div className="w-full h-auto px-4 py-4 bg-black rounded-lg sm:px-10 sm:py-10">
+              <div className="h-auto w-full rounded-lg bg-black px-4 py-4 sm:px-10 sm:py-10">
                 <h1 className="font-700 flex gap-1 text-[20px] sm:text-2xl">
                   Execution
                 </h1>
-                <ul className="flex flex-col gap-2 mt-0 sm:mt-2 sm:gap-4">
+                <ul className="mt-0 flex flex-col gap-2 sm:mt-2 sm:gap-4">
                   {movement?.execution?.slice(0, -1).map((det, index) => {
                     return (
                       <li
@@ -266,11 +267,11 @@ const MovementDetail = ({
           </div>
           <div className="mt-4 h-auto w-[350px] sm:w-[1300px]">
             <div className="flex flex-col space-y-4">
-              <div className="w-full h-auto px-4 py-4 bg-black rounded-lg sm:px-10 sm:py-10">
+              <div className="h-auto w-full rounded-lg bg-black px-4 py-4 sm:px-10 sm:py-10">
                 <h1 className="font-700 flex gap-1 text-[20px] sm:text-2xl">
                   Completion
                 </h1>
-                <ul className="flex flex-col gap-2 mt-0 sm:mt-2 sm:gap-4">
+                <ul className="mt-0 flex flex-col gap-2 sm:mt-2 sm:gap-4">
                   {movement?.completion?.slice(0, -1).map((det, index) => {
                     return (
                       <li
@@ -290,11 +291,11 @@ const MovementDetail = ({
           </div>
           <div className="mt-4 h-auto w-[350px] sm:w-[1300px]">
             <div className="flex flex-col space-y-4">
-              <div className="w-full h-auto px-4 py-4 bg-black rounded-lg sm:px-10 sm:py-10">
+              <div className="h-auto w-full rounded-lg bg-black px-4 py-4 sm:px-10 sm:py-10">
                 <h1 className="font-700 flex gap-1 text-[20px] sm:text-2xl">
                   Key Tips
                 </h1>
-                <ul className="flex flex-col gap-2 mt-0 sm:mt-2 sm:gap-4">
+                <ul className="mt-0 flex flex-col gap-2 sm:mt-2 sm:gap-4">
                   {movement?.key_tips?.slice(0, -1).map((det, index) => {
                     return (
                       <li
