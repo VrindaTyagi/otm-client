@@ -19,12 +19,12 @@ const Movement = ({
           flex-col justify-between rounded-xl border border-[#383838] bg-[linear-gradient(180deg,_#171717_0%,_#0F0F0F_100%)] p-4 text-lg`}
       >
         <div>
-          <div className="flex items-center justify-between mb-1 text-md text-lightGray">
+          <div className="text-md mb-1 flex items-center justify-between text-lightGray">
             <span onClick={() => openMovementDetail(movement)}>
               {movement.fullName}
             </span>
             <div
-              className="flex flex-row items-center justify-center gap-1 cursor-pointer w-fit"
+              className="flex w-fit cursor-pointer flex-row items-center justify-center gap-1"
               onClick={() => {
                 dispatch(fetchSwapMovementList(movement?.code));
                 setShowSwapOptions(true);
@@ -44,12 +44,16 @@ const Movement = ({
               {movement.personalRecord !== null &&
                 movement.personalRecord > 0 && (
                   <span className="w-fit rounded bg-[#F5C563] px-2 py-0.5  -tracking-[0.36px]">
-                    PR {movement.personalRecord} KG
+                    PR {movement.personalRecord}{' '}
+                    {movement.personalRecordUnit
+                      ? movement.personalRecordUnit
+                      : 'KG'}
                   </span>
                 )}
               {movement.lastUsedLoad !== null && movement.lastUsedLoad > 0 && (
                 <span className="w-fit rounded bg-[#7CDCF6]  px-2 py-0.5 -tracking-[0.36px]">
-                  Last Workout {movement.lastUsedLoad} KG
+                  Last Workout {movement.lastUsedLoad}{' '}
+                  {movement.lastUsedLoadUnit ? movement.lastUsedLoadUnit : 'KG'}
                 </span>
               )}
               {/* <span className="p-1 my-1 bg-floYellow">Personal Record 24KG</span>
@@ -58,12 +62,12 @@ const Movement = ({
           )}
         </div>
         <div
-          className="flex items-center justify-center w-full p-2 h-fit"
+          className="flex h-fit w-full items-center justify-center p-2"
           style={{ maxHeight: '240px' }}
           onClick={() => openMovementDetail(movement)}
         >
           <img
-            className="w-auto h-auto rounded-lg"
+            className="h-auto w-auto rounded-lg"
             style={{ maxHeight: '240px', maxWidth: '250px' }}
             src={movement.link[0]}
             alt="Movement"
