@@ -58,7 +58,6 @@ function DuePaymentIndicator() {
         <WarningText>
           Payment Due: Contact your head coach and renew your subscription
         </WarningText>
-        <RightArrow>{'→'}</RightArrow>
       </div>
     </Container>
   );
