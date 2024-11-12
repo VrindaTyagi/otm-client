@@ -22,6 +22,29 @@ Chart.register(CategoryScale);
 
 export default function ChartComponent({ data }) {
   const { loadHistory, personalRecord, lastUsedLoadUnit } = data;
+
+  const weightUnitConversion = loadHistory.map((item) => {
+    if (!item.weightUnit) {
+      if (lastUsedLoadUnit === 'LBS') {
+        return item.load * 2.2;
+      }
+      if (lastUsedLoadUnit === 'KG') {
+        return item.load;
+      } else return null;
+    }
+    if (item.weightUnit) {
+      if (item.weightUnit === 'KG' && lastUsedLoadUnit === 'LBS') {
+        return item.load * 2;
+      }
+      if (item.weightUnit === 'LBS' && lastUsedLoadUnit === 'KG') {
+        return item.load / 2;
+      }
+      if (item.weightUnit === lastUsedLoadUnit) {
+        return item.load;
+      } else return null;
+    } else return null;
+  });
+
   const lastOccurrenceIndex = loadHistory
     .map((entry) => entry.load)
     .lastIndexOf(personalRecord);
@@ -37,7 +60,7 @@ export default function ChartComponent({ data }) {
     datasets: [
       {
         label: '',
-        data: loadHistory.map((data) => data.load),
+        data: weightUnitConversion,
         backgroundColor: loadHistory.map((data, index, array) => {
           const isLastOccurrenceOfPR =
             lastOccurrenceIndex === index && data.load === personalRecord;

@@ -1,6 +1,5 @@
 import { Bar } from 'react-chartjs-2';
 export const BarChart = ({ chartData, maxValue, lastUsedLoadUnit }) => {
-  console.log('xx55', lastUsedLoadUnit);
   const options = {
     scales: {
       y: {

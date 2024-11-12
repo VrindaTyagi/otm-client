@@ -152,7 +152,9 @@ const MovementDetail = ({
                 Your personal record is{' '}
                 <span className="rounded-lg bg-floYellow p-0.5 font-bold text-black">
                   {movement.personalRecord} {''}
-                  {movement.lastUsedLoadUnit}
+                  {movement.personalRecordUnit
+                    ? movement.personalRecordUnit
+                    : 'KG'}
                 </span>
               </p>
             </div>
