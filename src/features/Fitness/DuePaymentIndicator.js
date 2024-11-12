@@ -4,14 +4,14 @@ import styled from 'styled-components';
 const Container = styled.div`
   display: flex;
   height: 40px;
-  padding: 4px 20px;
+  padding: 4px 15px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
   border-radius: 8px;
   border: 0.5px solid var(--Red, #fa5757);
-  background: #160606;
+  background: rgba(0, 0, 0, 0.45);
 `;
 const WarningText = styled.p`
   color: var(--Red, #fa5757);
@@ -36,9 +36,9 @@ function DuePaymentIndicator() {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="22"
-        height="22"
-        viewBox="0 0 22 22"
+        width="30"
+        height="30"
+        viewBox="0 0 20 20"
         fill="none"
       >
         <path
@@ -52,13 +52,12 @@ function DuePaymentIndicator() {
     );
   };
   return (
-    <Container className="w-full">
-      <div className="flex flex-row items-center justify-center gap-3">
+    <Container className="w-full ">
+      <div className="flex flex-row items-center  gap-3">
         <Warning />
         <WarningText>
-          Action required: Your subscription is due for renewal
+          Payment Due: Contact your head coach and renew your subscription
         </WarningText>
-        <RightArrow>{'→'}</RightArrow>
       </div>
     </Container>
   );

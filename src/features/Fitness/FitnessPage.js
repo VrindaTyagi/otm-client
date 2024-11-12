@@ -264,6 +264,12 @@ const FitnessPage = () => {
               </div> */}
             </section>
 
+            {homeStats?.isPaymentDue && (
+              <section>
+                <DuePaymentIndicator />
+              </section>
+            )}
+
             <section>
               <WeeklyWorkoutReport
                 consistencyTrend={homeStats?.consistencyTrend}
