@@ -1154,3 +1154,119 @@ body,
 
   border-radius: 12px;
 }
+
+.aerobic-gradient {
+  background:
+    radial-gradient(circle at top left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at top right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(
+        circle at bottom left,
+        rgba(0, 0, 0, 0.9),
+        transparent 95%
+      ),
+    /* Bottom-left corner with semi-transparent black */
+      radial-gradient(
+        circle at bottom right,
+        rgba(122, 131, 222, 0.9),
+        transparent 85%
+      );
+  /* Bottom-right corner with semi-transparent RGB color */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}
+
+.aerobic-gradient-opposite {
+  background:
+    radial-gradient(circle at bottom left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at bottom right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(circle at top left, black, transparent 80%),
+    /* Bottom-left corner */
+      radial-gradient(
+        circle at top right,
+        rgba(122, 131, 222, 0.9),
+        transparent 55%
+      ); /* Bottom-right corner */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}
+
+.aerobic-initialscreen-gradient-opposite {
+  background:
+    radial-gradient(circle at bottom left, transparent, transparent 70%),
+    /* Top-left corner */
+      radial-gradient(circle at bottom right, transparent, transparent 70%),
+    /* Top-right corner */
+      radial-gradient(circle at top left, rgba(0, 0, 0, 0.9), transparent 80%),
+    /* Bottom-left corner */
+      radial-gradient(
+        circle at top right,
+        rgba(122, 131, 222, 0.9),
+        transparent 70%
+      ); /* Bottom-right corner */
+  background-blend-mode: screen; /* Blend the gradient layers smoothly */
+}
+
+.second-picker-container {
+  width: 100%;
+  height: 114px; /* 7 items visible, with the middle one centered */
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.second-picker-container::-webkit-scrollbar {
+  display: none;
+}
+
+.second-picker-item {
+  font-size: 14px;
+  height: 23px;
+  color: #929292;
+  transition:
+    font-size 0.2s,
+    color 0.2s;
+}
+
+.second-picker-item.selected {
+  font-size: 16px;
+  font-weight: bold;
+  background-color: rgba(116, 116, 128, 0.2);
+  border-radius: 6px;
+}
+
+.second-picker-item.adjacent {
+  transform: scaleY(0.8);
+
+  font-size: 16px;
+  color: #929292;
+}
+
+.second-picker-item.far {
+  transform: scaleY(0.6);
+
+  font-size: 16px;
+  color: #929292;
+}
+
+.second-picker-item.veryfar {
+  transform: scaleY(0.5);
+
+  font-size: 16px;
+  color: #929292;
+}
+
+.gradient-black-background {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 41.5%,
+    rgba(0, 0, 0, 0.68) 78%,
+    #000 100%
+  );
+}
