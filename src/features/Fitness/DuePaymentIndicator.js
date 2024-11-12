@@ -56,7 +56,7 @@ function DuePaymentIndicator() {
       <div className="flex flex-row items-center  gap-3">
         <Warning />
         <WarningText>
-          Payment Due: Contact your head coach and renew your subscription
+          Payment Due: Contact your head coach and renew your subscriptions
         </WarningText>
       </div>
     </Container>
