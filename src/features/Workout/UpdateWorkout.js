@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import DataInputComponent from './DataInputComponent';
@@ -6,6 +6,7 @@ import { updateWorkout } from './WorkoutSlice';
 import { HiX } from 'react-icons/hi';
 import AnimatedComponent from '../../components/AnimatedComponent';
 import { RxCross1 } from 'react-icons/rx';
+import axios from 'axios';
 
 const WORKOUT_BASE_THEME_OPTIONS = [
   'Horizontal Push',
@@ -24,7 +25,9 @@ const WORKOUT_DURATION_OPTIONS = ['Regular', 'Shorter'];
 
 const UpdateWorkout = ({ onClose }) => {
   const { inputValues, workout } = useSelector((store) => store.workoutReducer);
+  const [workoutOptions, setWorkoutOptions] = useState([]);
   const dispatch = useDispatch();
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,6 +35,24 @@ const UpdateWorkout = ({ onClose }) => {
     (theme) => theme !== workout.theme,
   );
   WORKOUT_THEME_OPTIONS.unshift(workout.theme);
+
+  useEffect(() => {
+    async function getUserData() {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/v1/workout/hyper/theme?memberCode=${code}`,
+        );
+        if (res.data) {
+          console.log('ress', res.data);
+          setWorkoutOptions(res.data.msg);
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+      }
+    }
+    getUserData();
+  }, []);
 
   const handleUpdateWorkout = () => {
     const { customTheme, customEquipments, customDuration } = inputValues;
@@ -75,7 +96,7 @@ const UpdateWorkout = ({ onClose }) => {
               <DataInputComponent
                 inputId="customTheme"
                 inputType="select"
-                inputOptions={WORKOUT_THEME_OPTIONS}
+                inputOptions={workoutOptions}
                 placeholder="select"
                 label="THEME"
               />

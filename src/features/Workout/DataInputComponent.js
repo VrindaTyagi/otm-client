@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateInput } from './WorkoutSlice';
 
@@ -15,9 +15,12 @@ const DataInputComponent = ({
   const storedValue = useSelector(
     (state) => state.workoutReducer.inputValues[inputId],
   );
-  const [firstValue, setFirstValue] = useState(inputOptions[0]);
+  const [firstValue, setFirstValue] = useState(null);
   const [isOptionOpen, setIsOptionOpen] = useState(false);
-  console.log('xxx', inputOptions);
+
+  useEffect(() => {
+    setFirstValue(inputOptions[0]);
+  }, [inputOptions]);
 
   const handleInputChange = (event) => {
     const newValue = event;
