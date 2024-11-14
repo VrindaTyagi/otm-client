@@ -31,13 +31,6 @@ function CustomiseIngredients() {
 
   const { calorie } = nutritionPlan;
 
-  const handleAccordionToggle = (category) => {
-    setShowMoreItems(false);
-    setExpandedAccordion((prevCategory) =>
-      prevCategory === category ? null : category,
-    );
-  };
-
   return (
     <div className="my-11 h-full w-full">
       {screen === 4 && (
