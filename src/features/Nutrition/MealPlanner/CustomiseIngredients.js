@@ -48,21 +48,6 @@ function CustomiseIngredients() {
           </section>
         </div>
       )}
-      {screen === 5 && (
-        <div className="flex h-full w-full flex-col justify-start gap-7">
-          <div className="flex w-full flex-col gap-1">
-            <h2 className="text-[18px]" style={{ lineHeight: '23px' }}>
-              Customize your ingredients
-            </h2>
-            <p
-              className="text-[16px] text-[#929292]"
-              style={{ lineHeight: '20px', fontWeight: 400 }}
-            >
-              Uncheck ingredients you don’t want in your meal plan
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
