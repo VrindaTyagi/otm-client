@@ -1,11 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { MdKeyboardArrowUp } from 'react-icons/md';
 import NutrientsBubble from './NutrientsBubble';
-import { useEffect } from 'react';
-import BreakfastGuide from './BreakfastGuide';
-import LunchDinnerGuide from './LunchDinnerGuide';
-import SnackGuide from './SnackGuide';
 
 function MealInfoTile({
   meal,
@@ -19,11 +15,6 @@ function MealInfoTile({
 }) {
   const [isCollapsed, setCollapsed] = useState(true);
 
-  const [isSvgLoaded, setIsSvgLoaded] = useState(false);
-
-
- 
-
   function percentageToFloat(percentage) {
     // Remove the '%' symbol and convert the string to a float
     const floatValue = percentage?.replace('%', '');
@@ -36,44 +27,50 @@ function MealInfoTile({
   const Collapsed = () => {
     return (
       <div
-        className="flex flex-row items-start w-full "
+        className="flex w-full flex-row items-start "
         initial={{ opacity: 0, height: 0 }}
         animate={{ opacity: 1, height: 'auto' }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ opacity: { duration: 0.3 }, height: { duration: 0.3 } }}
       >
         <div className="relative w-full">
-          {(meal === 'lunch' || meal === 'dinner') && (
+          {(meal === 'lunch' ||
+            meal === 'dinner' ||
+            meal === 'gut opening meal' ||
+            meal === 'evening snack') && (
             <div className="relative">
               <h1 className="ml-[7px] text-sm capitalize text-offwhite">
                 {meal} Guide
               </h1>
-              <div className="absolute top-0 flex justify-center w-full">
-                <img src="./assets/guide-bg.svg" className="     h-[150px]" />
+              <div className="absolute top-0 flex w-full justify-center">
+                <img
+                  alt="meal-guide"
+                  src="./assets/guide-bg.svg"
+                  className="     h-[150px]"
+                />
               </div>
-              <div className="px-1 mt-2">
-                {(meal === 'lunch' || meal === 'dinner') && (
-                  <LunchDinnerGuide meal={meal} />
-                )}
-
-                <div
-                  className={`relative z-50 ml-auto mr-auto h-[127px] w-[127px] overflow-hidden rounded-e-full   ${
-                    meal === 'breakfast' && 'pl-4'
-                  }  ${
-                    (meal === 'morning snack' || meal === 'evening snack') &&
-                    'pl-4'
-                  }  ${(meal === 'lunch' || meal === 'dinner') && 'pl-[18px]'}`}
-                >
-                  {meal === 'lunch' && (
-                    <img
-                      src="./assets/lunch-nonVeg-weightLoss.svg"
-                      className={`relative  h-[128px] w-[127px] max-w-max object-cover`}
-                    />
-                  )}
+              <div className="mt-2 px-1">
+                <div className={`relative z-50   `}>
                   {meal === 'dinner' && (
                     <img
-                      src="./assets/lunch-veg-weightGain.svg"
-                      className={`relative  h-[128px] w-[127px] max-w-max object-cover`}
+                      alt="dinner-guide"
+                      src="./assets/DinnerGuide.png"
+                      className={`relative  object-cover`}
+                    />
+                  )}
+                  {(meal === 'gut opening meal' ||
+                    meal === 'evening snack') && (
+                    <img
+                      alt="gut-meal-guide"
+                      src="./assets/GutMealandEveningSnack.png"
+                      className={`relative    object-cover`}
+                    />
+                  )}
+                  {meal === 'lunch' && (
+                    <img
+                      alt="lunch-guide"
+                      src="./assets/LunchGuide.png"
+                      className={`relative    object-cover`}
                     />
                   )}
                 </div>
@@ -83,10 +80,14 @@ function MealInfoTile({
 
           <div className=" flex w-full items-start justify-start gap-2 rounded-[12px]  bg-[rgba(0,0,0,0.40)] p-2">
             <div className="  block  w-[77px] rounded-lg">
-              <img src={mealSuggestionImage} className="rounded-lg" />
+              <img
+                alt="meal"
+                src={mealSuggestionImage}
+                className="rounded-lg"
+              />
             </div>
-            <div className="flex flex-col items-start justify-start gap-2 w-max grow">
-              <div className="flex justify-between w-full">
+            <div className="flex w-max grow flex-col items-start justify-start gap-2">
+              <div className="flex w-full justify-between">
                 <h3
                   className="flex items-start font-sfpro text-[12px]  capitalize text-darkTextGray"
                   style={{ lineHeight: '16.71px' }}
@@ -170,21 +171,21 @@ function MealInfoTile({
   const Uncollapsed = () => {
     return (
       <motion.div
-        className="flex flex-row items-start justify-around w-full"
+        className="flex w-full flex-row items-start justify-around"
         initial={{ opacity: 0, height: 0 }}
         animate={{ opacity: 1, height: 'auto' }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ opacity: { duration: 0.1 }, height: { duration: 0.3 } }}
       >
-        <div className="flex flex-row justify-between w-full">
-          <div className="flex flex-col items-start justify-around w-full">
+        <div className="flex w-full flex-row justify-between">
+          <div className="flex w-full flex-col items-start justify-around">
             <h3
               className="text-[14px] font-semibold text-[#DDF988]"
               style={{ lineHeight: '16.71px' }}
             >
               {meal}
             </h3>
-            <div className="flex flex-col items-start justify-center w-full">
+            <div className="flex w-full flex-col items-start justify-center">
               <h3
                 className="text-[14px] font-semibold text-[#F8F8F8]"
                 style={{ lineHeight: '16.71px' }}
@@ -198,7 +199,7 @@ function MealInfoTile({
                 {calories}
               </h5>
             </div>
-            <div className="flex flex-col items-start justify-center w-full gap-3">
+            <div className="flex w-full flex-col items-start justify-center gap-3">
               <h5
                 style={{
                   fontSize: '9.33px',
@@ -208,7 +209,7 @@ function MealInfoTile({
               >
                 Ingredients used
               </h5>
-              <div className="flex flex-col items-start justify-center w-full gap-1">
+              <div className="flex w-full flex-col items-start justify-center gap-1">
                 {ingredients &&
                   ingredients.map((item) => {
                     return (
@@ -223,7 +224,7 @@ function MealInfoTile({
               </div>
             </div>
           </div>
-          <div className="relative flex items-center justify-center w-full right-3">
+          <div className="relative right-3 flex w-full items-center justify-center">
             <NutrientsBubble
               size="small"
               carbs={parseInt(percentageToFloat(macros['carbs']) * 100)}
