@@ -31,11 +31,12 @@ function CustomiseIngredients() {
 
   const { calorie } = nutritionPlan;
 
-  useEffect(() => {
-    if (suggestedIngredients) {
-      setExpandedAccordion('protein');
-    }
-  }, [suggestedIngredients]);
+  const handleAccordionToggle = (category) => {
+    setShowMoreItems(false);
+    setExpandedAccordion((prevCategory) =>
+      prevCategory === category ? null : category,
+    );
+  };
 
   return (
     <div className="my-11 h-full w-full">
@@ -73,6 +74,7 @@ function CustomiseIngredients() {
                 <Accordion
                   key={category}
                   expanded={expandedAccordion === category}
+                  onChange={() => handleAccordionToggle(category)}
                   style={{
                     background: 'none',
                     border: 'solid #7E87EF 1px ',
