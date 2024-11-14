@@ -110,14 +110,6 @@ function CustomiseIngredients() {
                   <AccordionDetails className="flex w-full flex-col items-center justify-start gap-2">
                     {suggestedIngredients[category].map((ingredient, idx) => (
                       <>
-                        {showMoreItems === false && idx < 6 && (
-                          <IngredientOption
-                            optionValue={ingredient.ingredient}
-                            description={ingredient.nutritional_value}
-                            optionID={ingredient._id}
-                            key={ingredient._id}
-                          />
-                        )}
                         {showMoreItems === true && (
                           <IngredientOption
                             optionValue={ingredient.ingredient}
