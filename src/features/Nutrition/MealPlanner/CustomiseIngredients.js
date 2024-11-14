@@ -67,7 +67,6 @@ function CustomiseIngredients() {
                 <Accordion
                   key={category}
                   expanded={expandedAccordion === category}
-                  onChange={() => handleAccordionToggle(category)}
                   style={{
                     background: 'none',
                     border: 'solid #7E87EF 1px ',
