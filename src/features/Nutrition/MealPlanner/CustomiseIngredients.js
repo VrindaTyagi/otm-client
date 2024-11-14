@@ -63,39 +63,7 @@ function CustomiseIngredients() {
           </div>
           {Object.keys(suggestedIngredients)?.length !== 0 &&
             Object.keys(suggestedIngredients)?.map((category) => {
-              return (
-                <div>
-                  <Accordion
-                    key={category}
-                    style={{
-                      background: 'none',
-                      border: 'solid #7E87EF 1px ',
-                      boxShadow: 'none',
-                      borderRadius: '12px',
-                    }}
-                    className="flex w-full flex-col items-start justify-center rounded-md"
-                  >
-                    <AccordionSummary
-                      style={{
-                        width: '-webkit-fill-available',
-                        padding: '0px 16px',
-                      }}
-                      className="flex items-center  justify-center"
-                    >
-                      <Typography className="w-full text-[16px] capitalize text-[#7E87EF]">
-                        {category}
-                      </Typography>
-                      <Typography className="flex items-center text-lg text-[#7E87EF]">
-                        {expandedAccordion === category ? (
-                          <IoIosArrowUp />
-                        ) : (
-                          <IoIosArrowDown />
-                        )}
-                      </Typography>
-                    </AccordionSummary>
-                  </Accordion>
-                </div>
-              );
+              return <div></div>;
             })}
         </div>
       )}
