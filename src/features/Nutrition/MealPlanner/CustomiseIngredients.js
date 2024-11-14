@@ -4,6 +4,13 @@ import IngredientOption from './Components/IngredientOption';
 import * as Selectors from './Redux/selectors';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from '@mui/material';
+
 function CustomiseIngredients() {
   const [expandedAccordion, setExpandedAccordion] = useState(null);
 
@@ -23,6 +30,12 @@ function CustomiseIngredients() {
   const screen = questionSectionInfo.screen;
 
   const { calorie } = nutritionPlan;
+
+  useEffect(() => {
+    if (suggestedIngredients) {
+      setExpandedAccordion('protein');
+    }
+  }, [suggestedIngredients]);
 
   return (
     <div className="my-11 h-full w-full">
@@ -54,6 +67,71 @@ function CustomiseIngredients() {
               Uncheck ingredients you don’t want in your meal plan
             </p>
           </div>
+          {Object.keys(suggestedIngredients).length !== 0 &&
+            Object.keys(suggestedIngredients).map((category) => {
+              return (
+                <Accordion
+                  key={category}
+                  expanded={expandedAccordion === category}
+                  style={{
+                    background: 'none',
+                    border: 'solid #7E87EF 1px ',
+                    boxShadow: 'none',
+                    borderRadius: '12px',
+                  }}
+                  className="flex w-full flex-col items-start justify-center rounded-md"
+                >
+                  <AccordionSummary
+                    style={{
+                      width: '-webkit-fill-available',
+                      padding: '0px 16px',
+                    }}
+                    className="flex items-center  justify-center"
+                  >
+                    <Typography className="w-full text-[16px] capitalize text-[#7E87EF]">
+                      {category}
+                    </Typography>
+                    <Typography className="flex items-center text-lg text-[#7E87EF]">
+                      {expandedAccordion === category ? (
+                        <IoIosArrowUp />
+                      ) : (
+                        <IoIosArrowDown />
+                      )}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails className="flex w-full flex-col items-center justify-start gap-2">
+                    {suggestedIngredients[category].map((ingredient, idx) => (
+                      <>
+                        {showMoreItems === false && idx < 6 && (
+                          <IngredientOption
+                            optionValue={ingredient.ingredient}
+                            description={ingredient.nutritional_value}
+                            optionID={ingredient._id}
+                            key={ingredient._id}
+                          />
+                        )}
+                        {showMoreItems === true && (
+                          <IngredientOption
+                            optionValue={ingredient.ingredient}
+                            description={ingredient.nutritional_value}
+                            optionID={ingredient._id}
+                            key={ingredient._id}
+                          />
+                        )}
+                      </>
+                    ))}
+                    {suggestedIngredients[category].length > 6 && (
+                      <div
+                        onClick={() => setShowMoreItems(!showMoreItems)}
+                        className="text-sm text-blue"
+                      >
+                        {showMoreItems === false ? 'Show More' : 'Show Less'}
+                      </div>
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              );
+            })}
         </div>
       )}
     </div>
