@@ -9,6 +9,13 @@ import * as Actions from './Redux/actions';
 import { motion } from 'framer-motion';
 import MealUploadTile from './Components/MealUploadTile';
 
+function capitalizeWords(sentence) {
+  return sentence
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 function getCurrentWeek() {
   const today = new Date();
   const dayOfWeek = today.getDay(); // Day of the week (0-6) with 0 being Sunday
@@ -48,14 +55,26 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
   const weeklyPlan = useSelector(selectWeeklyPlans, shallowEqual);
   const [selectedDay, setSelectedDay] = useState(null);
   const [dateWiseWeeklyPlan, setDateWiseWeeklyPlan] = useState(null);
-  const [mealSelected, setMealSelected] = useState('Breakfast');
+  const [mealSelected, setMealSelected] = useState();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [takenCalorie, setTakenCalorie] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  console.log(mealData, takenCalorie);
+  const navigateQuestionnaire = () => {
+    dispatch(Actions.updateSectionName('Get Started'));
+    navigate('/meal-planner?questionnaire=true');
+  };
+
   useEffect(() => {
     setTakenCalorie(mealData?.totalCalories);
   }, [mealData]);
+
+  useEffect(() => {
+    if (dateWiseWeeklyPlan) {
+      setMealSelected(capitalizeWords(dateWiseWeeklyPlan.plan[0].meal));
+    }
+  }, [dateWiseWeeklyPlan]);
 
   const [isTrackerVisible, setIsTrackerVisible] = useState(null);
 
@@ -131,11 +150,17 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
     <>
       {dateWiseWeeklyPlan && (
         <div className="relative z-10 my-4 flex h-full w-full flex-col items-start justify-start ">
-          <div className="flex w-full flex-row items-center justify-between ">
+          <div
+            onClick={() => navigateQuestionnaire()}
+            className="flex items-center gap-2 rounded-md bg-black-opacity-45 px-3 py-1 text-offwhite"
+          >
+            <img src="/assets/settings.png" className="h-[20px] w-[20px]" />{' '}
+            Generate New Meal Plan
+          </div>
+          <div className="mt-2 flex w-full flex-row items-center justify-between ">
             {weeklyPlan &&
               weeklyPlan.map((item) => {
                 const slicedDay = item.day.substr(0, 3);
-                console.log(slicedDay);
                 return (
                   <div onClick={() => setSelectedDay(item.day)}>
                     <CalendarTile
@@ -199,37 +224,39 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
             </div>
           )}
           <div
-            className={`my-[20px] flex h-[38px] w-full items-center rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
+            className={`my-[20px] flex h-[38px] w-full items-center gap-2 overflow-x-scroll rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
           >
-            {foodPerDay.map((item) => (
-              <div
-                style={{
-                  border:
-                    item === mealSelected
-                      ? '0.5px solid rgba(221, 249, 136, 0.50)'
-                      : '',
-                  borderRadius: '7px',
-                }}
-                className={`${
-                  item === mealSelected
-                    ? `bg-[rgba(77,77,77,0.4)] text-floYellow`
-                    : 'text-white-opacity-50 '
-                } flex h-full grow items-center justify-center `}
-                onClick={() => setMealSelected(item)}
-              >
-                {item}{' '}
-              </div>
-            ))}
+            {mealSelected &&
+              dateWiseWeeklyPlan &&
+              dateWiseWeeklyPlan.plan.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      border:
+                        item.meal === mealSelected
+                          ? '0.5px solid rgba(221, 249, 136, 0.50)'
+                          : '',
+                      borderRadius: '7px',
+                      // Ensures enough space per item
+                    }}
+                    className={`${
+                      item.meal === mealSelected
+                        ? `bg-[rgba(77,77,77,0.4)] text-floYellow`
+                        : 'text-white-opacity-50'
+                    } h-full w-auto flex-shrink-0 items-center justify-center px-2 pt-1`}
+                    onClick={() => setMealSelected(capitalizeWords(item.meal))}
+                  >
+                    {capitalizeWords(item.meal)}
+                  </div>
+                );
+              })}
           </div>
           <div className="flex w-full flex-col items-center justify-start gap-2 ">
-            {dateWiseWeeklyPlan &&
+            {mealSelected &&
+              dateWiseWeeklyPlan &&
               dateWiseWeeklyPlan.plan.map((item) => {
-                const isSnack =
-                  mealSelected.toLowerCase() === 'snack' &&
-                  (item.meal.toLowerCase() === 'morning snack' ||
-                    item.meal.toLowerCase() === 'evening snack');
-
-                if (item.meal === mealSelected.toLowerCase() || isSnack) {
+                if (capitalizeWords(item.meal) === mealSelected) {
                   return (
                     <>
                       <MealInfoTile
@@ -250,23 +277,24 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
                 }
               })}
           </div>
-          {isTrackerVisible && (
+          {mealSelected && isTrackerVisible && (
             <Link
               to={`/MealUpload?meal=${mealSelected}&date=${selectedDate}`}
               className="mt-2 flex w-full gap-2"
             >
               <div className="flex h-[65px] grow items-center justify-between rounded-lg bg-[rgba(0,0,0,0.45)] p-1">
                 <div className="ml-[20px] flex items-center">
-                  {mealSelected.toLowerCase() === 'breakfast' && (
-                    <img src="/assets/trackbreakfast.svg" />
-                  )}
-                  {mealSelected.toLowerCase() === 'lunch' && (
+                  {mealSelected === 'Breakfast' ||
+                    (mealSelected === 'But Opening Meal' && (
+                      <img src="/assets/trackbreakfast.svg" />
+                    ))}
+                  {mealSelected === 'lunch' && (
                     <img src="/assets/tracklunch.svg" />
                   )}
-                  {mealSelected.toLowerCase() === 'snack' && (
+                  {mealSelected === 'enening snace' && (
                     <img src="/assets/tracksnack.svg" />
                   )}
-                  {mealSelected.toLowerCase() === 'dinner' && (
+                  {mealSelected === 'dinner' && (
                     <img src="/assets/trackdinner.svg" />
                   )}
 
@@ -283,15 +311,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
 
           {mealData &&
             mealData.meals.map((item) => {
-              const isSnack =
-                mealSelected.toLowerCase() === 'snack' &&
-                (item.mealType === 'morningSnack' ||
-                  item.mealType === 'eveningSnack');
-
-              if (
-                item.mealType.toLowerCase() === mealSelected.toLowerCase() ||
-                isSnack
-              ) {
+              if (item.mealType === mealSelected) {
                 return (
                   <div className="w-full" key={item._id}>
                     <MealUploadTile

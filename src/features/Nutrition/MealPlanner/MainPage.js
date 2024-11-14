@@ -28,7 +28,6 @@ function MainPage() {
   const [pageLoading, setPageLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [pageError, setPageError] = useState(false);
-  const [loadingWeeklyPlan, setLoadingWeeklyPlan] = useState(false);
 
   const selectQuestions = Selectors.makeGetQuestions();
   const selectResponses = Selectors.makeGetResponses();
@@ -40,8 +39,14 @@ function MainPage() {
   const questions = useSelector(selectQuestions, shallowEqual);
   const responses = useSelector(selectResponses, shallowEqual);
   const sectionName = useSelector(selectSectionName, shallowEqual);
+  const queryString = window.location.search;
+  const queryParams = new URLSearchParams(queryString);
+  const questionnaire = queryParams.get('questionnaire');
 
-  console.log(sectionName);
+  useEffect(() => {
+    if (questionnaire === 'true') {
+    }
+  }, [questionnaire]);
 
   const questionSectionInfo = useSelector(
     selectQuestionSectionInfo,
@@ -123,7 +128,6 @@ function MainPage() {
       });
   }
   function submitSelectedIngredients() {
-    setLoadingWeeklyPlan(true);
     setPageLoading(true);
     setFormLoading(true);
     axiosClient
@@ -134,6 +138,7 @@ function MainPage() {
       .then((res) => {
         console.log(res);
         dispatch(Actions.updateWeeklyPlan(res?.data?.plan));
+
         dispatch(Actions.updateSectionName('Weekly Plan'));
       })
       .catch((err) => {
@@ -142,8 +147,13 @@ function MainPage() {
       })
       .finally(() => {
         setPageLoading(false);
-        setLoadingWeeklyPlan(false);
+
         setFormLoading(false);
+        dispatch(
+          Actions.updateQuestionSectionInfo({
+            screen: 1,
+          }),
+        );
       });
   }
 
@@ -172,7 +182,6 @@ function MainPage() {
       }
     }
   }
-  console.log('Test phase ');
 
   // update the section name
   useEffect(() => {
@@ -184,8 +193,11 @@ function MainPage() {
       .then((res) => {
         console.log('response /meal-plan : ', res.data);
         if (res?.data?.success === true && res?.data?.data.length !== 0) {
-          dispatch(Actions.updateWeeklyPlan(res?.data?.data));
-          dispatch(Actions.updateSectionName('Weekly Plan'));
+          if (questionnaire !== 'true') {
+            dispatch(Actions.updateWeeklyPlan(res?.data?.data));
+
+            dispatch(Actions.updateSectionName('Weekly Plan'));
+          }
         } else {
           // else start with the 'Get Started'
           dispatch(Actions.updateSectionName('Get Started'));
