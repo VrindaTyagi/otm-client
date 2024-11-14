@@ -27,9 +27,9 @@ function CustomiseIngredients() {
     selectQuestionSectionInfo,
     shallowEqual,
   );
-  const screen = questionSectionInfo.screen;
+  const screen = questionSectionInfo?.screen;
 
-  const { calorie } = nutritionPlan;
+  const calorie = nutritionPlan?.calorie;
 
   return (
     <div className="my-11 h-full w-full">
@@ -66,7 +66,6 @@ function CustomiseIngredients() {
               return (
                 <Accordion
                   key={category}
-                  expanded={expandedAccordion === category}
                   style={{
                     background: 'none',
                     border: 'solid #7E87EF 1px ',
