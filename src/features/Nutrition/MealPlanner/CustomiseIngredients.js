@@ -61,10 +61,6 @@ function CustomiseIngredients() {
               Uncheck ingredients you don’t want in your meal plan
             </p>
           </div>
-          {Object.keys(suggestedIngredients)?.length !== 0 &&
-            Object.keys(suggestedIngredients)?.map((category) => {
-              return <div></div>;
-            })}
         </div>
       )}
     </div>
