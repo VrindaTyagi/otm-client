@@ -28,7 +28,6 @@ function MainPage() {
   const [pageLoading, setPageLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [pageError, setPageError] = useState(false);
-  const [loadingWeeklyPlan, setLoadingWeeklyPlan] = useState(false);
 
   const selectQuestions = Selectors.makeGetQuestions();
   const selectResponses = Selectors.makeGetResponses();
@@ -129,7 +128,6 @@ function MainPage() {
       });
   }
   function submitSelectedIngredients() {
-    setLoadingWeeklyPlan(true);
     setPageLoading(true);
     setFormLoading(true);
     axiosClient
@@ -149,7 +147,7 @@ function MainPage() {
       })
       .finally(() => {
         setPageLoading(false);
-        setLoadingWeeklyPlan(false);
+
         setFormLoading(false);
         dispatch(
           Actions.updateQuestionSectionInfo({

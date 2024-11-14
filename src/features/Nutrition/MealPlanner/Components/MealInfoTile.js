@@ -1,12 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { MdKeyboardArrowUp } from 'react-icons/md';
 import NutrientsBubble from './NutrientsBubble';
-import { useEffect } from 'react';
-import BreakfastGuide from './BreakfastGuide';
-import LunchDinnerGuide from './LunchDinnerGuide';
-import SnackGuide from './SnackGuide';
-import GutMealGuide from './GutMealGuide';
 
 function MealInfoTile({
   meal,
@@ -19,8 +14,6 @@ function MealInfoTile({
   dietPreference,
 }) {
   const [isCollapsed, setCollapsed] = useState(true);
-
-  const [isSvgLoaded, setIsSvgLoaded] = useState(false);
 
   function percentageToFloat(percentage) {
     // Remove the '%' symbol and convert the string to a float
@@ -50,12 +43,17 @@ function MealInfoTile({
                 {meal} Guide
               </h1>
               <div className="absolute top-0 flex w-full justify-center">
-                <img src="./assets/guide-bg.svg" className="     h-[150px]" />
+                <img
+                  alt="meal-guide"
+                  src="./assets/guide-bg.svg"
+                  className="     h-[150px]"
+                />
               </div>
               <div className="mt-2 px-1">
                 <div className={`relative z-50   `}>
                   {meal === 'dinner' && (
                     <img
+                      alt="dinner-guide"
                       src="./assets/DinnerGuide.png"
                       className={`relative  object-cover`}
                     />
@@ -63,12 +61,14 @@ function MealInfoTile({
                   {(meal === 'gut opening meal' ||
                     meal === 'evening snack') && (
                     <img
+                      alt="gut-meal-guide"
                       src="./assets/GutMealandEveningSnack.png"
                       className={`relative    object-cover`}
                     />
                   )}
                   {meal === 'lunch' && (
                     <img
+                      alt="lunch-guide"
                       src="./assets/LunchGuide.png"
                       className={`relative    object-cover`}
                     />
@@ -80,7 +80,11 @@ function MealInfoTile({
 
           <div className=" flex w-full items-start justify-start gap-2 rounded-[12px]  bg-[rgba(0,0,0,0.40)] p-2">
             <div className="  block  w-[77px] rounded-lg">
-              <img src={mealSuggestionImage} className="rounded-lg" />
+              <img
+                alt="meal"
+                src={mealSuggestionImage}
+                className="rounded-lg"
+              />
             </div>
             <div className="flex w-max grow flex-col items-start justify-start gap-2">
               <div className="flex w-full justify-between">

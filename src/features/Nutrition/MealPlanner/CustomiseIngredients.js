@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import NutrientsBubble from './Components/NutrientsBubble';
 import IngredientOption from './Components/IngredientOption';
 import * as Selectors from './Redux/selectors';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
@@ -30,7 +29,7 @@ function CustomiseIngredients() {
   );
   const screen = questionSectionInfo.screen;
 
-  const { calorie, proteins, fats, carbs } = nutritionPlan;
+  const { calorie } = nutritionPlan;
 
   const handleAccordionToggle = (category) => {
     setShowMoreItems(false);
@@ -43,7 +42,7 @@ function CustomiseIngredients() {
     if (suggestedIngredients) {
       setExpandedAccordion('protein');
     }
-  }, []);
+  }, [suggestedIngredients]);
 
   return (
     <div className="my-11 h-full w-full">
