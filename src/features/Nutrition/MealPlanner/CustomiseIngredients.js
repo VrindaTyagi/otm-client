@@ -4,12 +4,10 @@ import IngredientOption from './Components/IngredientOption';
 import * as Selectors from './Redux/selectors';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
 
 function CustomiseIngredients() {
   const [expandedAccordion, setExpandedAccordion] = useState(null);
