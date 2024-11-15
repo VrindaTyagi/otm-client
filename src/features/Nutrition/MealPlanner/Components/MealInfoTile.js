@@ -16,6 +16,13 @@ function MealInfoTile({
 }) {
   const [isCollapsed, setCollapsed] = useState(true);
 
+  function capitalizeWords(sentence) {
+    return sentence
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
   function percentageToFloat(percentage) {
     // Remove the '%' symbol and convert the string to a float
     const floatValue = percentage?.replace('%', '');
@@ -35,13 +42,13 @@ function MealInfoTile({
         transition={{ opacity: { duration: 0.3 }, height: { duration: 0.3 } }}
       >
         <div className="relative w-full">
-          {(meal === 'Lunch' ||
-            meal === 'Dinner' ||
-            meal === 'Gut Opening Meal' ||
-            meal === 'Evening Snack') && (
+          {(capitalizeWords(meal) === 'Lunch' ||
+            capitalizeWords(meal) === 'Dinner' ||
+            capitalizeWords(meal) === 'Gut Opening Meal' ||
+            capitalizeWords(meal) === 'Evening Snack') && (
             <div className="relative">
               <h1 className="ml-[7px] text-sm capitalize text-offwhite">
-                {meal} Guide
+                {capitalizeWords(meal)} Guide
               </h1>
               <div className="absolute top-0 flex w-full justify-center">
                 <img
@@ -52,22 +59,22 @@ function MealInfoTile({
               </div>
               <div className="mt-2 px-1">
                 <div className={`relative z-50   `}>
-                  {meal === 'Dinner' && (
+                  {capitalizeWords(meal) === 'Dinner' && (
                     <img
                       alt="dinner-guide"
                       src="./assets/DinnerGuide.png"
                       className={`relative  object-cover`}
                     />
                   )}
-                  {(meal === 'Gut Opening Meal' ||
-                    meal === 'Evening Snack') && (
+                  {(capitalizeWords(meal) === 'Gut Opening Meal' ||
+                    capitalizeWords(meal) === 'Evening Snack') && (
                     <img
                       alt="gut-meal-guide"
                       src="./assets/GutMealandEveningSnack.png"
                       className={`relative    object-cover`}
                     />
                   )}
-                  {meal === 'Lunch' && (
+                  {capitalizeWords(meal) === 'Lunch' && (
                     <img
                       alt="lunch-guide"
                       src="./assets/LunchGuide.png"
@@ -187,7 +194,7 @@ function MealInfoTile({
               className="text-[14px] font-semibold text-[#DDF988]"
               style={{ lineHeight: '16.71px' }}
             >
-              {meal}
+              {capitalizeWords(meal)}
             </h3>
             <div className="flex w-full flex-col items-start justify-center">
               <h3
