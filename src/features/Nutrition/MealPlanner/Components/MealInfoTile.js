@@ -99,7 +99,7 @@ function MealInfoTile({
                   <h4 className="text-[10px] text-darkTextGray">{container}</h4>
                 </div>
                 <h5
-                  className="flex w-[110px] grow items-end  justify-end pl-2 font-sfpro text-[20px] uppercase  text-yellow"
+                  className="flex w-[110px] grow items-center  justify-end pl-2 font-sfpro text-[20px] uppercase  text-yellow"
                   style={{ lineHeight: '12.76px' }}
                 >
                   {calories}

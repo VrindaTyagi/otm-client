@@ -20,11 +20,18 @@ function CustomiseIngredients() {
     selectSuggestedIngredients,
     shallowEqual,
   );
+
   const nutritionPlan = useSelector(selectNutritionPlan, shallowEqual);
   const questionSectionInfo = useSelector(
     selectQuestionSectionInfo,
     shallowEqual,
   );
+  const selectSelectedIngredients = Selectors.makeGetSelectedIngredients();
+  const selectedIngredients = useSelector(
+    selectSelectedIngredients,
+    shallowEqual,
+  );
+
   const screen = questionSectionInfo.screen;
 
   const { calorie } = nutritionPlan;
@@ -35,12 +42,6 @@ function CustomiseIngredients() {
       prevCategory === category ? null : category,
     );
   };
-
-  useEffect(() => {
-    if (suggestedIngredients) {
-      setExpandedAccordion('protein');
-    }
-  }, [suggestedIngredients]);
 
   return (
     <div className="my-11 h-full w-full">
@@ -74,6 +75,9 @@ function CustomiseIngredients() {
           </div>
           {Object.keys(suggestedIngredients).length !== 0 &&
             Object.keys(suggestedIngredients).map((category) => {
+              const filterSelectedIngredients = suggestedIngredients[
+                category
+              ].filter((item) => selectedIngredients.includes(item._id));
               return (
                 <Accordion
                   key={category}
@@ -97,13 +101,21 @@ function CustomiseIngredients() {
                     <Typography className="w-full text-[16px] capitalize text-[#7E87EF]">
                       {category}
                     </Typography>
-                    <Typography className="flex items-center text-lg text-[#7E87EF]">
-                      {expandedAccordion === category ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
+                    <div className="flex gap-2">
+                      {filterSelectedIngredients && (
+                        <Typography className="flex w-[100px] justify-end text-[10px] capitalize text-[#7E87EF]">
+                          {filterSelectedIngredients.length} selected
+                        </Typography>
                       )}
-                    </Typography>
+
+                      <Typography className="flex items-center text-lg text-[#7E87EF]">
+                        {expandedAccordion === category ? (
+                          <IoIosArrowUp />
+                        ) : (
+                          <IoIosArrowDown />
+                        )}
+                      </Typography>
+                    </div>
                   </AccordionSummary>
                   <AccordionDetails className="flex w-full flex-col items-center justify-start gap-2">
                     {suggestedIngredients[category].map((ingredient, idx) => (

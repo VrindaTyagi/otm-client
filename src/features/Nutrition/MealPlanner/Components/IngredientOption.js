@@ -29,7 +29,7 @@ function IngredientOption({ optionValue, optionID, description }) {
         }
       }}
     >
-      <div className="flex flex-col items-start justify-center w-full">
+      <div className="flex w-full flex-col items-start justify-center">
         <p
           className={`text-[16px] ${
             selectedIngredients?.find((elem) => elem === optionID)

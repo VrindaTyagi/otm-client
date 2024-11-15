@@ -152,10 +152,13 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
         <div className="relative z-10 my-4 flex h-full w-full flex-col items-start justify-start ">
           <div
             onClick={() => navigateQuestionnaire()}
-            className="flex items-center gap-2 rounded-md bg-black-opacity-45 px-3 py-1 text-offwhite"
+            className="flex items-center gap-2 rounded-md bg-black-opacity-45 px-3 py-1 text-green"
           >
-            <img src="/assets/settings.png" className="h-[20px] w-[20px]" />{' '}
-            Generate New Meal Plan
+            <img
+              src="/assets/settings.png"
+              className="h-[20px] w-[20px] text-green "
+            />{' '}
+            <div>Generate New Meal Plan</div>
           </div>
           <div className="mt-2 flex w-full flex-row items-center justify-between ">
             {weeklyPlan &&
@@ -234,14 +237,16 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
                     key={index}
                     style={{
                       border:
-                        item.meal === mealSelected
+                        capitalizeWords(item.meal) ===
+                        capitalizeWords(mealSelected)
                           ? '0.5px solid rgba(221, 249, 136, 0.50)'
                           : '',
                       borderRadius: '7px',
                       // Ensures enough space per item
                     }}
                     className={`${
-                      item.meal === mealSelected
+                      capitalizeWords(item.meal) ===
+                      capitalizeWords(mealSelected)
                         ? `bg-[rgba(77,77,77,0.4)] text-floYellow`
                         : 'text-white-opacity-50'
                     } h-full w-auto flex-shrink-0 items-center justify-center px-2 pt-1`}
@@ -256,7 +261,9 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
             {mealSelected &&
               dateWiseWeeklyPlan &&
               dateWiseWeeklyPlan.plan.map((item) => {
-                if (capitalizeWords(item.meal) === mealSelected) {
+                if (
+                  capitalizeWords(item.meal) === capitalizeWords(mealSelected)
+                ) {
                   return (
                     <>
                       <MealInfoTile
