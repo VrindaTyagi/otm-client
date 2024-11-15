@@ -12,6 +12,7 @@ function MealInfoTile({
   mealSuggestionImage,
   mealPreference,
   dietPreference,
+  container,
 }) {
   const [isCollapsed, setCollapsed] = useState(true);
 
@@ -34,10 +35,10 @@ function MealInfoTile({
         transition={{ opacity: { duration: 0.3 }, height: { duration: 0.3 } }}
       >
         <div className="relative w-full">
-          {(meal === 'lunch' ||
-            meal === 'dinner' ||
-            meal === 'gut opening meal' ||
-            meal === 'evening snack') && (
+          {(meal === 'Lunch' ||
+            meal === 'Dinner' ||
+            meal === 'Gut Opening Meal' ||
+            meal === 'Evening Snack') && (
             <div className="relative">
               <h1 className="ml-[7px] text-sm capitalize text-offwhite">
                 {meal} Guide
@@ -51,22 +52,22 @@ function MealInfoTile({
               </div>
               <div className="mt-2 px-1">
                 <div className={`relative z-50   `}>
-                  {meal === 'dinner' && (
+                  {meal === 'Dinner' && (
                     <img
                       alt="dinner-guide"
                       src="./assets/DinnerGuide.png"
                       className={`relative  object-cover`}
                     />
                   )}
-                  {(meal === 'gut opening meal' ||
-                    meal === 'evening snack') && (
+                  {(meal === 'Gut Opening Meal' ||
+                    meal === 'Evening Snack') && (
                     <img
                       alt="gut-meal-guide"
                       src="./assets/GutMealandEveningSnack.png"
                       className={`relative    object-cover`}
                     />
                   )}
-                  {meal === 'lunch' && (
+                  {meal === 'Lunch' && (
                     <img
                       alt="lunch-guide"
                       src="./assets/LunchGuide.png"
@@ -88,12 +89,15 @@ function MealInfoTile({
             </div>
             <div className="flex w-max grow flex-col items-start justify-start gap-2">
               <div className="flex w-full justify-between">
-                <h3
-                  className="flex items-start font-sfpro text-[12px]  capitalize text-darkTextGray"
-                  style={{ lineHeight: '16.71px' }}
-                >
-                  Meal Suggestion
-                </h3>
+                <div className="flex flex-col">
+                  <h3
+                    className="flex items-start font-sfpro text-[12px]  capitalize text-offwhite"
+                    style={{ lineHeight: '16.71px' }}
+                  >
+                    Meal Suggestion
+                  </h3>
+                  <h4 className="text-[10px] text-darkTextGray">{container}</h4>
+                </div>
                 <h5
                   className="flex w-[110px] grow items-end  justify-end pl-2 font-sfpro text-[20px] uppercase  text-yellow"
                   style={{ lineHeight: '12.76px' }}
@@ -104,7 +108,7 @@ function MealInfoTile({
               <h3 className="mt-1 font-sfpro text-[14px] leading-[14px]  text-offwhite">
                 {name}
               </h3>
-              <div className="flex w-full max-w-[200px] flex-wrap  items-start">
+              <div className="flex w-full max-w-[200px] flex-col flex-wrap  items-start">
                 {ingredients &&
                   ingredients.map((item) => {
                     return (
@@ -112,7 +116,7 @@ function MealInfoTile({
                         className="pr-1 text-darkTextGray"
                         style={{ fontSize: '11px', lineHeight: '12px' }}
                       >
-                        {item}
+                        ~ {item}
                       </p>
                     );
                   })}

@@ -224,7 +224,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
             </div>
           )}
           <div
-            className={`my-[20px] flex h-[38px] w-full items-center gap-2 overflow-x-scroll rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
+            className={`my-[20px] flex h-[38px] w-full items-center justify-between gap-2 overflow-x-scroll rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
           >
             {mealSelected &&
               dateWiseWeeklyPlan &&
@@ -263,6 +263,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
                         key={item.id} // Add a unique key for each element
                         name={item?.name}
                         meal={item?.meal}
+                        container={item?.container}
                         calories={item?.calories}
                         macros={item?.macros}
                         ingredients={item?.items}
@@ -277,24 +278,25 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
                 }
               })}
           </div>
-          {mealSelected && isTrackerVisible && (
+          {/* {mealSelected && isTrackerVisible && (
             <Link
               to={`/MealUpload?meal=${mealSelected}&date=${selectedDate}`}
               className="mt-2 flex w-full gap-2"
             >
               <div className="flex h-[65px] grow items-center justify-between rounded-lg bg-[rgba(0,0,0,0.45)] p-1">
                 <div className="ml-[20px] flex items-center">
-                  {mealSelected === 'Breakfast' ||
-                    (mealSelected === 'But Opening Meal' && (
-                      <img src="/assets/trackbreakfast.svg" />
-                    ))}
-                  {mealSelected === 'lunch' && (
+                  {(mealSelected === 'Breakfast' ||
+                    mealSelected === 'Gut Opening Meal') && (
+                    <img src="/assets/trackbreakfast.svg" />
+                  )}
+                  {mealSelected === 'Lunch' && (
                     <img src="/assets/tracklunch.svg" />
                   )}
-                  {mealSelected === 'enening snace' && (
-                    <img src="/assets/tracksnack.svg" />
-                  )}
-                  {mealSelected === 'dinner' && (
+                  {mealSelected === 'Evening Snack' ||
+                    (mealSelected === 'Morning Snack' && (
+                      <img src="/assets/tracksnack.svg" />
+                    ))}
+                  {mealSelected === 'Dinner' && (
                     <img src="/assets/trackdinner.svg" />
                   )}
 
@@ -307,7 +309,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
                 </div>
               </div>
             </Link>
-          )}
+          )} */}
 
           {mealData &&
             mealData.meals.map((item) => {
