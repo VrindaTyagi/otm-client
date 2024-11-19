@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import { AiOutlineRight } from 'react-icons/ai';
-import { Provider, shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader } from '../../components';
 import { axiosClient } from './apiClient';
-import MainPage from './MealPlanner/MainPage';
 import MealPlanPage from './MealPlanner/MealPlanPage';
 import * as Actions from './MealPlanner/Redux/actions';
-import * as Selectors from './MealPlanner/Redux/selectors';
-import ProfilePicture from '../Profile/ProfilePicture';
 import { capitalizeFirstLetter } from '../../utils';
 import {
   getCurrentHourInTimezone,
@@ -18,15 +14,11 @@ import {
 
 const NutritionPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [validation, setValidation] = useState({});
   const [loading, setLoading] = useState(true);
   const [mealLoading, setMealLoading] = useState(false);
   const [mealData, setMealData] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [previousSelectedDate, setPreviousSelectedDate] = useState(null);
-  const [pageError, setPageError] = useState(false);
-  const [loadingWeeklyPlan, setLoadingWeeklyPlan] = useState(false);
   const [weeklyPlan, setWeeklyPlan] = useState(null);
 
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];

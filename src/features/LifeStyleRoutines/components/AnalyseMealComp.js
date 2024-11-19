@@ -92,8 +92,6 @@ const AnalyseMealComp = ({
   const meal = searchParams.get('meal');
   const paramsDate = searchParams.get('date');
 
-  console.log('task and date are', task, date);
-
   // redux implementation
   const dispatch = useDispatch();
 
@@ -133,8 +131,6 @@ const AnalyseMealComp = ({
     }
   }, [storedMealInfoField]);
 
-  console.log('storedMealUrlField', storedMealUrlField);
-  console.log('storedMealInfoField', storedMealInfoField);
   // checking if arguments are empty
   useEffect(() => {
     if (meal) {
@@ -218,7 +214,6 @@ const AnalyseMealComp = ({
 
   // Meal image post request handling
   const handleMealUploadSubmit = async () => {
-    console.log(selectedTaskName);
     if (selectedImage && selectedTaskName && file) {
       setLoader(true);
       try {
@@ -245,12 +240,6 @@ const AnalyseMealComp = ({
           setLoader(false);
           const { mealUrl, mealNutritionAnalysis } = res.data;
           setIsVisible(false);
-
-          console.log(
-            'inside API selected circle and taskId',
-            TaskCircle,
-            selectedTaskId,
-          );
 
           setTempMealInfo(mealNutritionAnalysis);
           setTempMealUrl(mealUrl);

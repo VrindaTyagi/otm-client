@@ -28,7 +28,6 @@ function MainPage() {
   const [pageLoading, setPageLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [pageError, setPageError] = useState(false);
-  const [loadingWeeklyPlan, setLoadingWeeklyPlan] = useState(false);
 
   const selectQuestions = Selectors.makeGetQuestions();
   const selectResponses = Selectors.makeGetResponses();
@@ -40,8 +39,14 @@ function MainPage() {
   const questions = useSelector(selectQuestions, shallowEqual);
   const responses = useSelector(selectResponses, shallowEqual);
   const sectionName = useSelector(selectSectionName, shallowEqual);
+  const queryString = window.location.search;
+  const queryParams = new URLSearchParams(queryString);
+  const questionnaire = queryParams.get('questionnaire');
 
-  console.log(sectionName);
+  useEffect(() => {
+    if (questionnaire === 'true') {
+    }
+  }, [questionnaire]);
 
   const questionSectionInfo = useSelector(
     selectQuestionSectionInfo,
@@ -123,7 +128,6 @@ function MainPage() {
       });
   }
   function submitSelectedIngredients() {
-    setLoadingWeeklyPlan(true);
     setPageLoading(true);
     setFormLoading(true);
     axiosClient
@@ -134,6 +138,7 @@ function MainPage() {
       .then((res) => {
         console.log(res);
         dispatch(Actions.updateWeeklyPlan(res?.data?.plan));
+
         dispatch(Actions.updateSectionName('Weekly Plan'));
       })
       .catch((err) => {
@@ -142,8 +147,13 @@ function MainPage() {
       })
       .finally(() => {
         setPageLoading(false);
-        setLoadingWeeklyPlan(false);
+
         setFormLoading(false);
+        dispatch(
+          Actions.updateQuestionSectionInfo({
+            screen: 1,
+          }),
+        );
       });
   }
 
@@ -183,8 +193,11 @@ function MainPage() {
       .then((res) => {
         console.log('response /meal-plan : ', res.data);
         if (res?.data?.success === true && res?.data?.data.length !== 0) {
-          dispatch(Actions.updateWeeklyPlan(res?.data?.data));
-          dispatch(Actions.updateSectionName('Weekly Plan'));
+          if (questionnaire !== 'true') {
+            dispatch(Actions.updateWeeklyPlan(res?.data?.data));
+
+            dispatch(Actions.updateSectionName('Weekly Plan'));
+          }
         } else {
           // else start with the 'Get Started'
           dispatch(Actions.updateSectionName('Get Started'));
@@ -244,7 +257,7 @@ function MainPage() {
       {isSvgLoaded && formLoading === true && (
         <div className="fixed left-0 top-0 z-50 flex h-full w-full  items-center overflow-y-scroll  px-[14px]">
           <img
-            className="absolute top-0 left-0 z-0 w-full h-screen"
+            className="absolute left-0 top-0 z-0 h-screen w-full"
             src="/assets/nutrition-bg.svg"
             style={{
               height: '-webkit-fill-available',
@@ -253,10 +266,10 @@ function MainPage() {
           />
           <div className="relative z-20 mb-16 mt-14 flex h-min flex-col items-center rounded-xl bg-[rgba(0,0,0,0.45)] px-4 py-8">
             <img src="./assets/ricebowl.svg" />
-            <p className="relative text-3xl text-center text-offwhite ">
+            <p className="relative text-center text-3xl text-offwhite ">
               We're designing the blueprint for your nutrition success!
             </p>
-            <p className="mt-4 text-sm text-center text-white-opacity-50">
+            <p className="mt-4 text-center text-sm text-white-opacity-50">
               Give us 2 minutes while our AI chefs prepare your personalized
               meal plan. In the meantime, feel free to grab a glass of water or
               do a quick stretch{' '}
@@ -270,7 +283,7 @@ function MainPage() {
         </div>
       )}
       {!pageLoading === true && !pageError && (
-        <div className="w-full min-h-screen px-3 py-4 overflow-y-scroll bg-darkGray">
+        <div className="min-h-screen w-full overflow-y-scroll bg-darkGray px-3 py-4">
           <div className="fixed top-0 ">
             <ToastContainer
               position="top-center"
@@ -334,7 +347,7 @@ function MainPage() {
                   />
                 )}
                 {sectionName === 'Questions' && questionScreen === 1 && (
-                  <div className="flex flex-col items-center justify-center w-full">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <PageIndicator
                       currentPage={questionScreen}
                       totalNumberOfPages={totalQuestionScreen + 2}
@@ -356,13 +369,13 @@ function MainPage() {
                   sectionName === 'Questions' &&
                   questionScreen !== 1 &&
                   questionScreen <= totalQuestionScreen && (
-                    <div className="flex flex-col items-center justify-center w-full">
+                    <div className="flex w-full flex-col items-center justify-center">
                       <PageIndicator
                         currentPage={questionScreen}
                         totalNumberOfPages={totalQuestionScreen + 2}
                       />
-                      <div className="grid w-full grid-cols-6 gap-2 place-items-center">
-                        <div className="w-full col-span-2">
+                      <div className="grid w-full grid-cols-6 place-items-center gap-2">
+                        <div className="col-span-2 w-full">
                           <Button
                             type="mealplannerback"
                             text="Back"
@@ -375,7 +388,7 @@ function MainPage() {
                             }
                           />
                         </div>
-                        <div className="w-full col-span-4">
+                        <div className="col-span-4 w-full">
                           <Button
                             type="mealplanner"
                             text="Continue"
@@ -388,13 +401,13 @@ function MainPage() {
                     </div>
                   )}
                 {sectionName === 'Ingredients' && (
-                  <div className="flex flex-col items-center justify-center w-full">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <PageIndicator
                       currentPage={questionScreen}
                       totalNumberOfPages={totalQuestionScreen + 2}
                     />
-                    <div className="grid w-full grid-cols-6 gap-2 place-items-center">
-                      <div className="w-full col-span-2">
+                    <div className="grid w-full grid-cols-6 place-items-center gap-2">
+                      <div className="col-span-2 w-full">
                         <Button
                           type="mealplannerback"
                           text="Back"
@@ -407,7 +420,7 @@ function MainPage() {
                           }
                         />
                       </div>
-                      <div className="w-full col-span-4">
+                      <div className="col-span-4 w-full">
                         <Button
                           type="mealplanner"
                           text="Continue"

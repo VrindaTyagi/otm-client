@@ -3,6 +3,8 @@ import AnalyseMealComp from './components/AnalyseMealComp';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Provider } from 'react-redux';
+import store from './ReduxStore/store';
 
 const MealUploadHeading = styled.h1`
   color: var(--White, #fff);
@@ -20,29 +22,32 @@ const MealUpload = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-start w-full h-screen px-4 py-8">
-        {titleVisible && <div className="flex h-fit">
-          <div className="flex justify-between w-full">
-            <div className="flex flex-col items-start justify-between w-full h-full">
-              <div className="mb-4">
-                <HiArrowNarrowLeft
-                  size={20}
-                  onClick={() => {
-                    navigate('/nutrition');
-                  }}
-                />
-              </div>
-              <div className="flex flex-row items-center justify-between w-full">
-                <MealUploadHeading>Meal Upload</MealUploadHeading>
+      <div className="flex h-screen w-full flex-col justify-start px-4 py-8">
+        {titleVisible && (
+          <div className="flex h-fit">
+            <div className="flex w-full justify-between">
+              <div className="flex h-full w-full flex-col items-start justify-between">
+                <div className="mb-4">
+                  <HiArrowNarrowLeft
+                    size={20}
+                    onClick={() => {
+                      navigate('/nutrition');
+                    }}
+                  />
+                </div>
+
+                <div className="flex w-full flex-row items-center justify-between">
+                  <MealUploadHeading>Meal Upload</MealUploadHeading>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        }
-
-        <div className=" w-full mx-auto">
-          <AnalyseMealComp setIsTitleVisible={setIsTitleVisible} />
-        </div>
+        )}
+        <Provider store={store}>
+          <div className=" mx-auto w-full">
+            <AnalyseMealComp setIsTitleVisible={setIsTitleVisible} />
+          </div>
+        </Provider>
       </div>
     </>
   );

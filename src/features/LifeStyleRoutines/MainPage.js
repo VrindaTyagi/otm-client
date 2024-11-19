@@ -110,7 +110,6 @@ function MainPage() {
     if (lifestyleLoader) {
       getData(selectedDate);
       const timer = setTimeout(() => {
-        console.log('sixes');
         setShowLifestyleLoader(false);
         navigate('/lifestyle-routine');
       }, 5000);
@@ -331,7 +330,7 @@ function MainPage() {
                                     setSelectedDate={setSelectedDate}
                                   />
                                 )}
-                                {section == 1 ? (
+                                {section === 1 ? (
                                   <div className="flex w-full items-center justify-between px-3">
                                     <p className="text-lg">Summary</p>
                                     <button
