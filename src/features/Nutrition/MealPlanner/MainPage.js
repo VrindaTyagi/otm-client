@@ -320,7 +320,6 @@ function MainPage() {
             {sectionName === 'Questions' && (
               <div className="mb-[100px] mt-3 w-full">
                 <Questions
-                  responses={responses}
                   validation={validation}
                   setValidation={setValidation}
                 />
