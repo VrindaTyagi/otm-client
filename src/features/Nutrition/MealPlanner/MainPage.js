@@ -228,7 +228,6 @@ function MainPage() {
       } else if (questionScreen >= 4 && questionScreen <= 5) {
         dispatch(Actions.updateSectionName('Ingredients'));
       }
-      console.log('questions screen : ', questionScreen, totalQuestionScreen);
     }
   }, [questionScreen, totalQuestionScreen]);
 
@@ -321,6 +320,7 @@ function MainPage() {
             {sectionName === 'Questions' && (
               <div className="mb-[100px] mt-3 w-full">
                 <Questions
+                  responses={responses}
                   validation={validation}
                   setValidation={setValidation}
                 />

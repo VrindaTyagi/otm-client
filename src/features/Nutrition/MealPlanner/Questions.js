@@ -43,6 +43,16 @@ function Questions({ validation, setValidation }) {
   }, []);
 
   useEffect(() => {
+    if (
+      Object.keys(response).length > 0 &&
+      response['nt12'][0] === 'no_thanks' &&
+      response['nt13'][0] !== ''
+    ) {
+      setResponse((prev) => ({
+        ...prev,
+        nt13: [''],
+      }));
+    }
     dispatch(Actions.updateResponse(response));
   }, [response]);
 
@@ -64,48 +74,103 @@ function Questions({ validation, setValidation }) {
       {currentQuestion &&
         currentQuestion?.map((ques, idx) => {
           return (
-            <div
-              className="my-8 flex flex-col justify-center"
-              key={ques?.content}
-            >
-              <div className="my-3 w-full">
-                {/* Question */}
-                <h1 className="text-[20px] text-[#7e87ef]">
-                  {`${capitalizeFirstLetter(ques?.content)}${
-                    ques?.isRequired ? ' *' : ''
-                  }`}
-                </h1>
-                {/* Description */}
-                <p className="my-2 space-x-2 text-[14px] text-[#b1b1b1]">
-                  {capitalizeFirstLetter(ques?.description)}
-                </p>
-              </div>
-              {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
-              ques?.inputType?.toUpperCase() === 'MULTICHOICE' ? (
-                <Options
-                  questionCode={ques?.code}
-                  options={ques?.options}
-                  isMCQ={ques?.inputType !== 'singleChoice'}
-                  response={Object.keys(response)?.length > 0 && response}
-                  setResponse={setResponse}
-                />
-              ) : (
-                <InputText
-                  questionCode={ques?.code}
-                  response={Object.keys(response)?.length > 0 && response}
-                  setResponse={setResponse}
-                  key={ques?.code}
-                  inputType={ques?.inputType}
-                  placeholder={ques?.placeholder}
-                  isRequired={ques?.isRequired}
-                  validation={validation}
-                  setValidation={setValidation}
-                  inputAsNumberOrText={
-                    ques?.inputType === 'number' ? 'number' : 'text'
-                  }
-                />
+            <>
+              {ques.code !== 'nt13' && (
+                <div
+                  className="my-8 flex flex-col justify-center"
+                  key={ques?.content}
+                >
+                  <div className="my-3 w-full">
+                    {/* Question */}
+                    <h1 className="text-[20px] text-[#7e87ef]">
+                      {`${capitalizeFirstLetter(ques?.content)}${
+                        ques?.isRequired ? ' *' : ''
+                      }`}
+                    </h1>
+                    {/* Description */}
+                    <p className="my-2 space-x-2 text-[14px] text-[#b1b1b1]">
+                      {capitalizeFirstLetter(ques?.description)}
+                    </p>
+                  </div>
+                  {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
+                  ques?.inputType?.toUpperCase() === 'MULTICHOICE' ? (
+                    <Options
+                      questionCode={ques?.code}
+                      options={ques?.options}
+                      isMCQ={ques?.inputType !== 'singleChoice'}
+                      response={Object.keys(response)?.length > 0 && response}
+                      setResponse={setResponse}
+                    />
+                  ) : (
+                    <InputText
+                      questionCode={ques?.code}
+                      response={Object.keys(response)?.length > 0 && response}
+                      setResponse={setResponse}
+                      key={ques?.code}
+                      inputType={ques?.inputType}
+                      placeholder={ques?.placeholder}
+                      isRequired={ques?.isRequired}
+                      validation={validation}
+                      setValidation={setValidation}
+                      inputAsNumberOrText={
+                        ques?.inputType === 'number' ? 'number' : 'text'
+                      }
+                    />
+                  )}
+                </div>
               )}
-            </div>
+
+              {ques.code === 'nt13' &&
+                responses['nt12'][0] === 'lets_do_it' && (
+                  <div
+                    className="my-8 flex flex-col justify-center"
+                    key={ques?.content}
+                  >
+                    <div className="my-3 w-full">
+                      {/* Question */}
+                      <h1 className="text-[20px] text-[#7e87ef]">
+                        {`${capitalizeFirstLetter(ques?.content)}${
+                          ques?.isRequired ? ' *' : ''
+                        }`}
+                      </h1>
+                      {/* Description */}
+                      <p className="my-2 space-x-2 text-[14px] text-[#b1b1b1]">
+                        {capitalizeFirstLetter(ques?.description)}
+                      </p>
+                    </div>
+                    {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
+                    ques?.inputType?.toUpperCase() === 'MULTICHOICE' ? (
+                      <Options
+                        questionCode={ques?.code}
+                        options={ques?.options}
+                        isMCQ={ques?.inputType !== 'singleChoice'}
+                        response={Object.keys(response)?.length > 0 && response}
+                        setResponse={setResponse}
+                      />
+                    ) : (
+                      <InputText
+                        questionCode={ques?.code}
+                        response={
+                          Object.keys(response)?.length > 0 &&
+                          responses['nt12'][0] === 'lets_do_it'
+                            ? response
+                            : ''
+                        }
+                        setResponse={setResponse}
+                        key={ques?.code}
+                        inputType={ques?.inputType}
+                        placeholder={ques?.placeholder}
+                        isRequired={ques?.isRequired}
+                        validation={validation}
+                        setValidation={setValidation}
+                        inputAsNumberOrText={
+                          ques?.inputType === 'number' ? 'number' : 'text'
+                        }
+                      />
+                    )}
+                  </div>
+                )}
+            </>
           );
         })}
     </div>
