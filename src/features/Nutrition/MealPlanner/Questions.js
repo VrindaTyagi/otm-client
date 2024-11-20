@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as Actions from './Redux/actions';
 import {
@@ -75,7 +75,7 @@ function Questions({ validation, setValidation }) {
         currentQuestion?.map((ques, idx) => {
           return (
             <>
-              {ques.code !== 'nt13' && (
+              {ques?.code !== 'nt13' && (
                 <div
                   className="my-8 flex flex-col justify-center"
                   key={ques?.content}
@@ -120,7 +120,7 @@ function Questions({ validation, setValidation }) {
                 </div>
               )}
 
-              {ques.code === 'nt13' &&
+              {ques?.code === 'nt13' &&
                 responses['nt12'][0] === 'lets_do_it' && (
                   <div
                     className="my-8 flex flex-col justify-center"

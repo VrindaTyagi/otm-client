@@ -228,6 +228,7 @@ function MainPage() {
       } else if (questionScreen >= 4 && questionScreen <= 5) {
         dispatch(Actions.updateSectionName('Ingredients'));
       }
+      console.log('questions screen : ', questionScreen, totalQuestionScreen);
     }
   }, [questionScreen, totalQuestionScreen]);
 
