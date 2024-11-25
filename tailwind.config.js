@@ -26,6 +26,8 @@ module.exports = withMT({
         gradientStart: '#7E87EF',
         progressGray: '#A8A8A8',
         gradientEnd: '#B0B5F8',
+        transparent: 'rgba(48, 48, 48, 0.30)',
+        graySecond: 'rgba(52, 52, 52, 1)',
         'white-opacity-50': 'rgba(222, 222, 222, 0.5)',
         'white-opacity-23': 'rgba(255, 255, 255, 0.23)',
         'white-opacity-20': 'rgba(255, 255, 255, 0.20)',
@@ -38,12 +40,14 @@ module.exports = withMT({
         'black-opacity-65': 'rgba(0, 0, 0, 0.65)',
         'green-opacity-12': 'rgba(94, 204, 123, 0.12)',
         'browm-opacity-12': 'rgba(245, 197, 99, 0.12)',
+        'gray-opacity-44': 'rgba(37, 37, 37, 0.44)',
         'red-opacity-12': 'rgba(250, 87, 87, 0.12)',
         'dark-green-opacity-66': 'rgba(15, 15, 15, 0.66)',
         'gray-opacity-20': 'rgba(116, 116, 128, 0.2)',
         lightblue: 'rgba(118, 127, 227, 1)',
         customBlack: '#1F1F1F',
         screenBackgroundColor: '#161513',
+        lightSkyBlue: '#7CDCF6',
       },
       backgroundImage: {
         'mealInfo-gradient':
@@ -73,8 +77,7 @@ module.exports = withMT({
         serif: ['Inter', 'sans-serif'],
         sfpro: ['"SF Pro Display"', 'sans-serif'],
         anton: ['Anton'],
-        Future: ['Futura XBlkCnIt BT'],
-        Futusre: ['Futura XBlkCnIt BT'],
+        futura: ['Futura XBlkCnIt BT', 'sans-serif'],
       },
       backgroundSize: {
         '25%': '25%',

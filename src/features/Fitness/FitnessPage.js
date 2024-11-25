@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error, Counter } from '../../components';
-
+import { Loader, Error } from '../../components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useUserContext } from '../../contexts/UserContext';
 import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
-
-import TotalWorkoutFitness from './TotalWorkoutFitness';
 import WeeklyWorkoutReport from './WeeklyWorkoutReport';
-import FitnessScore from './FitnessScore';
 import DuePaymentIndicator from './DuePaymentIndicator';
-import { TimelineHeading } from '../Timeline/StyledComponents';
 import MonthlyWrapped from '../Profile/MonthlyWrapped';
-import StepTracker from './StepTracker';
-import { AiOutlineRight } from 'react-icons/ai';
 import AdditionalActivity from './AdditionalActivity';
 import { TbSwimming } from 'react-icons/tb';
 import InstallApp from '../../components/InstallPWA';
@@ -33,6 +26,7 @@ import LazyImage from '../../components/LazyLoadImage';
 import { axiosClient } from '../Profile/apiProfileClient';
 import { capitalizeFirstLetter } from '../../utils';
 import WorkoutLibrary from './WorkoutLibrary';
+import WeeklyCheckinTile from '../../components/WeeklyCheckinTile';
 
 function formatNumber(num) {
   if (num >= 1000) {
@@ -278,6 +272,8 @@ const FitnessPage = () => {
               />
             </section>
 
+            <WeeklyCheckinTile />
+
             <section>
               {currentDate < 5 && (
                 <section className="flex w-full flex-row items-center justify-center gap-3 ">
@@ -443,27 +439,6 @@ const FitnessPage = () => {
             </div>
 
             <StepTrackerTwo date={new Date()} />
-
-            {isWeekend && (
-              <Link to="/weekly-checkin" className="">
-                <div className="flex-col rounded-lg bg-gradient-to-b from-gradientStart to-gradientEnd p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="purple-white-gradient inline-block text-2xl font-semibold tracking-wider">
-                      Weekly Check-In
-                    </span>
-                    <span className="font-semibold">
-                      <AiOutlineRight size={26} className="text-white " />
-                    </span>
-                  </div>
-                  <div className="flex justify-center">
-                    <p className="max-w-[100%] text-left text-[12px] font-semibold text-white">
-                      View your weekly stats and register your thoughts and
-                      rating
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )}
 
             {/* <section>
               <FitnessScore

@@ -1270,3 +1270,8 @@ body,
     #000 100%
   );
 }
+
+@font-face {
+  font-family: 'Futura XBlkCnIt BT';
+  src: url('FuturaXBlkCnItBTExtraBlackItalic.ttf') format('truetype');
+}
