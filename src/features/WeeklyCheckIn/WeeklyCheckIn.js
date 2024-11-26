@@ -26,6 +26,24 @@ import {
 import OptionsSecond from '../Questionnaire/Components/inputs/OptionsSecond';
 import OptionsNumber from '../Questionnaire/Components/inputs/OptionsNumber';
 
+const slideAnimation = {
+  initial: {
+    opacity: 0,
+    y: '100vh', // Start from the bottom of the viewport
+    scale: '80%',
+  },
+  animate: {
+    opacity: 1,
+    y: '0%', // End at the center position
+    scale: '100%',
+  },
+  exit: {
+    opacity: 0,
+    y: '-20%',
+    scale: '80%',
+  },
+};
+
 const WeeklyCheckIn = () => {
   const [screen, setScreen] = useState('Introduction');
   const [questionnaireScreen, setQuestionnaireScreen] = useState(1);
@@ -34,6 +52,7 @@ const WeeklyCheckIn = () => {
   const profilePicCameraRef = useRef(null);
   const profilePicRef = useRef(null);
   const [profilePicFile, setProfilePicFile] = useState(null);
+  const [showNutritionScreen, setShowNutritionScreen] = useState(false);
   const [chosenPic, setChosenPic] = useState([]);
 
   const navigate = useNavigate();
@@ -328,6 +347,95 @@ const WeeklyCheckIn = () => {
 
   return (
     <div className="relative h-screen ">
+      {showNutritionScreen === true && (
+        <div className="absolute top-0 z-[120] h-screen w-full  backdrop-blur-sm">
+          <AnimatedComponent
+            animation={slideAnimation}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="absolute bottom-0 z-[100] flex h-[90%] w-screen flex-col justify-between gap-[44px]  overflow-y-scroll rounded-t-3xl bg-black px-[20px] pt-[28px]"
+          >
+            <div className=" flex flex-col gap-[44px] ">
+              <div className="flex justify-between">
+                <div className="flex grow gap-2 font-sfpro text-[20px] leading-[32px] text-offwhite">
+                  <img
+                    src="/assets/leaf.svg"
+                    className=" h-[31px] w-[31px] "
+                    alt="background"
+                  />
+                  Natural Principles
+                </div>
+                <div className="  flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+                  <RxCross1
+                    onClick={() => setShowNutritionScreen(false)}
+                    className=""
+                  />
+                </div>{' '}
+              </div>
+              <div className="flex flex-col gap-[26px]">
+                <div className="flex gap-[20px]">
+                  <div className="font-sfpro text-[14px] text-offwhite">1</div>
+                  <div>
+                    <h5 className="font-sfpro text-[14px] text-offwhite">
+                      Lorem ipsum dolor sit amet
+                    </h5>
+                    <p className="font-sfpro text-[14px] text-white-opacity-50">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-[20px]">
+                  <div className="font-sfpro text-[14px] text-offwhite">2</div>
+                  <div>
+                    <h5 className="font-sfpro text-[14px] text-offwhite">
+                      Lorem ipsum dolor sit amet
+                    </h5>
+                    <p className="font-sfpro text-[14px] text-white-opacity-50">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-[20px]">
+                  <div className="font-sfpro text-[14px] text-offwhite">3</div>
+                  <div>
+                    <h5 className="font-sfpro text-[14px] text-offwhite">
+                      Lorem ipsum dolor sit amet
+                    </h5>
+                    <p className="font-sfpro text-[14px] text-white-opacity-50">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-[20px]">
+                  <div className="font-sfpro text-[14px] text-offwhite">4</div>
+                  <div>
+                    <h5 className="font-sfpro text-[14px] text-offwhite">
+                      Lorem ipsum dolor sit amet
+                    </h5>
+                    <p className="font-sfpro text-[14px] text-white-opacity-50">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowNutritionScreen(false)}
+              className="  mb-[36px] flex w-full items-center justify-center gap-1 rounded-lg bg-white py-[14px] font-sfpro text-lg leading-[26px] text-black"
+            >
+              Back
+            </button>
+          </AnimatedComponent>
+        </div>
+      )}
       <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
         <RxCross1 onClick={() => navigate('/')} className="" />
       </div>
@@ -342,7 +450,7 @@ const WeeklyCheckIn = () => {
           {' '}
           <img
             src={questionnaireData[questionnaireScreen - 1].img}
-            className="absolute top-0 z-50 w-full  brightness-75 saturate-150 filter  "
+            className="absolute top-0 z-50 h-screen w-full  brightness-75 saturate-150 filter  "
             alt="background"
           />
           <div className="absolute z-[100] h-screen w-screen overflow-y-scroll px-4 pb-28 pt-4">
@@ -364,17 +472,32 @@ const WeeklyCheckIn = () => {
                 currentQuestion.map((ques) => {
                   return (
                     <div className="rounded-xl bg-black-opacity-45 px-[13px] py-[15px]">
-                      <div className="mb-3 w-full">
+                      <div className="mb-3 flex w-full ">
                         {/* Question */}
-                        <h1 className="text-[14px] text-white">
-                          {`${capitalizeFirstLetter(ques?.content)}${
-                            ques?.isRequired ? ' *' : ''
-                          }`}
-                        </h1>
-                        {/* Description */}
-                        <p className="my-[2px] space-x-2 text-[10px] text-white-opacity-50">
-                          {capitalizeFirstLetter(ques?.description)}
-                        </p>
+                        <div className="w-fit">
+                          <h1 className="text-[14px] text-white">
+                            {`${capitalizeFirstLetter(ques?.content)}${
+                              ques?.isRequired ? ' *' : ''
+                            }`}
+                          </h1>
+                          {/* Description */}
+                          <p className="my-[2px] space-x-2 text-[10px] text-white-opacity-50">
+                            {capitalizeFirstLetter(ques?.description)}
+                          </p>
+                        </div>
+                        {ques?.code === 'WKR4' && (
+                          <div
+                            className="flex h-min items-center gap-1  font-sfpro text-[14px] font-light text-white-opacity-50 "
+                            onClick={() => setShowNutritionScreen(true)}
+                          >
+                            info{' '}
+                            <img
+                              src="/assets/help-icon.svg"
+                              className=" h-[12px] w-[12px]"
+                              alt="icon"
+                            />{' '}
+                          </div>
+                        )}
                       </div>{' '}
                       {(ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
                         ques?.inputType?.toUpperCase() === 'MULTICHOICE' ||
