@@ -23,9 +23,9 @@ export function AdminDashboard() {
     setFilteredUsers(
       users.filter(
         (user) =>
-          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          user.code.toLowerCase().includes(searchTerm.toLowerCase()),
+          user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.code?.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
     );
   }, [searchTerm, users]);
