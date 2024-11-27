@@ -1,10 +1,16 @@
 import React from 'react';
 import AnimatedComponent from '../../components/AnimatedComponent';
 import { FaArrowRight } from 'react-icons/fa6';
+import { RxCross1 } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 const WeeklyCheckinInitialIntro = ({ setScreen }) => {
+  const navigate = useNavigate();
   return (
     <div className="relative z-40 flex h-screen flex-col ">
+      <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+        <RxCross1 onClick={() => navigate('/')} className="" />
+      </div>
       <img
         src="/assets/weekly-checkin-intro.svg"
         className=" w-full object-cover"

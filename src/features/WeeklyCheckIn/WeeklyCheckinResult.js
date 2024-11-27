@@ -1,10 +1,13 @@
 import React from 'react';
 import { FaHome } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
+import { RxCross1 } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 const WeeklyCheckinResult = ({ setScreen }) => {
   const profilePicture = localStorage.getItem('profilePicture');
   console.log(profilePicture);
+  const navigate = useNavigate();
   return (
     <div>
       <img
@@ -12,7 +15,10 @@ const WeeklyCheckinResult = ({ setScreen }) => {
         className="absolute top-0 -z-50 w-full  brightness-75 saturate-150 filter  "
         alt="background"
       />
-      <div className="bg-black-opacity-71 h-screen overflow-y-scroll px-[15px] pb-[110px] pt-[100px] ">
+      <div className="relative h-screen overflow-y-scroll bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
+        <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+          <RxCross1 onClick={() => navigate('/')} className="" />
+        </div>
         <div className="flex">
           <div>
             <div className="w-fit rounded  bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
@@ -154,7 +160,7 @@ const WeeklyCheckinResult = ({ setScreen }) => {
               <div className="flex flex-col  justify-between ">
                 <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
                   {' '}
-                  <img src="/assets/leaf-yellow-logo.svg" alt="graph" />
+                  <img src="/assets/leaf-yellow-icon.svg" alt="graph" />
                   stress levels
                 </div>
                 <img

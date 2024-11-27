@@ -442,9 +442,7 @@ const WeeklyCheckIn = () => {
           </AnimatedComponent>
         </div>
       )}
-      <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
-        <RxCross1 onClick={() => navigate('/')} className="" />
-      </div>
+
       {screen === 'Introduction' && (
         <WeeklyCheckinInitialIntro setScreen={setScreen} />
       )}
@@ -457,14 +455,15 @@ const WeeklyCheckIn = () => {
       )}
       {screen === 'questionnaire' && (
         <div>
-          {' '}
           <img
             src={questionnaireData[questionnaireScreen - 1].img}
             className="absolute top-0 z-50 h-screen w-full  brightness-75 saturate-150 filter  "
             alt="background"
           />
           <div className="absolute z-[100] h-screen w-screen overflow-y-scroll px-4 pb-28 pt-4">
-            {' '}
+            <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+              <RxCross1 onClick={() => navigate('/')} className="" />
+            </div>{' '}
             <ProgressBar
               currValue={questionnaireScreen}
               totalValue={3}

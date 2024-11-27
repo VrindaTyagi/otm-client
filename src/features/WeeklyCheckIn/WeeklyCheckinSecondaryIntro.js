@@ -1,6 +1,8 @@
 import React from 'react';
 import WeeklyCheckinConsistency from './WeeklyCheckinConsistency';
 import { FaArrowRight } from 'react-icons/fa6';
+import { RxCross1 } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 const WeeklyCheckinSecondaryIntro = ({ setScreen }) => {
   const last8WeekConsistency = [
@@ -38,8 +40,13 @@ const WeeklyCheckinSecondaryIntro = ({ setScreen }) => {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className="h-screen w-screen">
+      <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+        <RxCross1 onClick={() => navigate('/')} className="" />
+      </div>
       <img
         loading="lazy"
         src="assets/Movement-Frame.png"
