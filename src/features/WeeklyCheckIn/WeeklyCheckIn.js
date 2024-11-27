@@ -25,6 +25,9 @@ import {
 } from '../LifestyleQuiz/utils/utils';
 import OptionsSecond from '../Questionnaire/Components/inputs/OptionsSecond';
 import OptionsNumber from '../Questionnaire/Components/inputs/OptionsNumber';
+import WeeklyCheckinResult from './WeeklyCheckinResult';
+
+import WeeklyCheckinLoadingScreem from './WeeklyCheckinLoadingScreem';
 
 const slideAnimation = {
   initial: {
@@ -281,6 +284,9 @@ const WeeklyCheckIn = () => {
     if (questionnaireScreen < 3) {
       setQuestionnaireScreen(questionnaireScreen + 1);
     }
+    if (questionnaireScreen === 3) {
+      setScreen('result');
+    }
   };
 
   const handleBackClick = () => {
@@ -444,6 +450,10 @@ const WeeklyCheckIn = () => {
       )}
       {screen === 'Introduction2' && (
         <WeeklyCheckinSecondaryIntro setScreen={setScreen} />
+      )}
+      {screen === 'result' && <WeeklyCheckinResult setScreen={setScreen} />}
+      {screen === 'resultLoading' && (
+        <WeeklyCheckinLoadingScreem setScreen={setScreen} />
       )}
       {screen === 'questionnaire' && (
         <div>
