@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const WeeklyCheckinLoadingScreem = () => {
+const WeeklyCheckinLoadingScreem = ({ setScreen }) => {
   const LoadingGraphData = [
     { finalPercent: 55, initialPercent: 35, img: '/assets/bar-graph-logo.svg' },
     { finalPercent: 45, initialPercent: 85, img: '/assets/weight-icon.svg' },
@@ -14,6 +14,15 @@ const WeeklyCheckinLoadingScreem = () => {
     `Users who track their weekly progress have seen a <span class='text-blue'>significant improvement</span> in their fitness goals.`,
     `Consistent tracking is linked to higher motivation and a <span class='text-blue'>50% greater chance</span> of achieving long-term success!`,
   ];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setScreen('result');
+    }, 10000);
+
+    // Cleanup timeout on component unmount
+    return () => clearTimeout(timer);
+  }, []);
 
   const [graphData, setGraphData] = useState(LoadingGraphData);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -48,7 +57,7 @@ const WeeklyCheckinLoadingScreem = () => {
         className="h-scren absolute top-0 -z-50 w-full  brightness-75 saturate-150 filter"
         alt="background"
       />
-      <div className="pt-[40%]">
+      <div className="pt-[45%]">
         <h3 className="font-sfpro text-[20px] text-offwhite">
           Getting Your Report Ready
         </h3>

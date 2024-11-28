@@ -84,7 +84,7 @@ export function decreaseScreenAndRank(screen, setScreen) {
 // function to update currentQuestion based on current screen and rank values
 export function updateCurrentQuestion(questions, screen, setCurrentQuestion) {
   const filteredQuestions =
-    questions && questions.filter((ques) => ques?.screen === screen); // array of all the questions belonging to the same screen
+    questions && questions.filter((ques) => Number(ques?.screen) === screen); // array of all the questions belonging to the same screen
   // sorting the questions based on their ranks
   setCurrentQuestion(
     filteredQuestions?.sort((a, b) => {

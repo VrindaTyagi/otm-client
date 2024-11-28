@@ -11,30 +11,34 @@ const WeeklyCheckinTile = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const submitted = true;
   return (
     <Link to="/weekly-checkin" className="">
       <div
         style={{
-          background:
-            'var(--Gradient-purple, linear-gradient(95deg, #D6B6F0 2.94%, #848CE9 74.36%))',
+          background: submitted
+            ? 'var(--Gradient-purple, linear-gradient(95deg, #D6B6F0 2.94%, #848CE9 74.36%))'
+            : 'var(--aaaa, radial-gradient(100.01% 100% at 50.16% 0%, #97EBAD 0%, #439258 100%))',
         }}
         className="relative min-h-[98px] flex-col rounded-xl px-4 py-[9px]"
       >
         <div className="flex justify-between">
           <div>
-            <div className="absolute -right-2 -top-2 flex h-[22px] w-[22px] items-center justify-center rounded-full bg-black-opacity-25">
-              <div
-                className={` flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[rgba(245,15,15,0.46)]  transition-opacity duration-700 ${
-                  isVisible ? 'opacity-100' : 'opacity-50'
-                }`}
-              >
+            {submitted && (
+              <div className="absolute -right-2 -top-2 flex h-[22px] w-[22px] items-center justify-center rounded-full bg-black-opacity-25">
                 <div
-                  className={`h-[12px] w-[12px] rounded-full bg-[rgba(245,15,15)] transition-opacity duration-700 ${
+                  className={` flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[rgba(245,15,15,0.46)]  transition-opacity duration-700 ${
                     isVisible ? 'opacity-100' : 'opacity-50'
                   }`}
-                ></div>
+                >
+                  <div
+                    className={`h-[12px] w-[12px] rounded-full bg-[rgba(245,15,15)] transition-opacity duration-700 ${
+                      isVisible ? 'opacity-100' : 'opacity-50'
+                    }`}
+                  ></div>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="mb-2 flex h-min items-center">
               <img
@@ -54,15 +58,28 @@ const WeeklyCheckinTile = () => {
             </div>
           </div>
           <div className="h-[1px] w-[100px]"></div>
-          <div className="absolute bottom-[43px] right-5 z-[20] flex h-min items-center justify-center rounded-[3px] bg-green px-1 py-[2px] text-center text-[7px] leading-[8px] text-black-opacity-65">
-            <img src="/assets/upArrow-black.svg" alt="calender" />
-            12% since last week
-          </div>
+          {submitted && (
+            <div className="absolute bottom-[43px] right-5 z-[20] flex h-min items-center justify-center rounded-[3px] bg-green px-1 py-[2px] text-center text-[7px] leading-[8px] text-black-opacity-65">
+              <img src="/assets/upArrow-black.svg" alt="calender" />
+              12% since last week
+            </div>
+          )}
+
           <img
             src="/assets/weekly-checkin-intro-graph.svg"
             className="absolute bottom-0 right-[5px] z-10"
             alt="calender"
           />
+          {!submitted && (
+            <div className="absolute right-[5px] top-2 z-10 flex gap-1 rounded-[3px] bg-black-opacity-45 px-1 font-sfpro text-[10px] text-green ">
+              <img
+                src="/assets/tick-green-circular.svg"
+                className=""
+                alt="calender"
+              />
+              checked for this week
+            </div>
+          )}
         </div>
       </div>
     </Link>

@@ -46,27 +46,60 @@ function OptionsNumber({
     return (
       <div
         className={`border-box flex w-full flex-row items-center justify-between rounded-[12px]  ${
-          response[questionCode]?.find((elem) => elem === optionID)
+          response &&
+          response?.find(
+            (elem) =>
+              elem?.code === questionCode && elem?.value?.includes(optionID),
+          )
             ? `${numbersColor[optionID - 1].bg}`
             : 'bg-[#3d3d3d]/30'
         }`}
         onClick={() => {
-          // If an optionID is present, remove the empty string from the list
-          // If no optionID is present in the list, keep the response as [""]
-          if (MCQType === 'singleChoice') {
-            setResponse((prev) => {
-              return {
-                ...prev,
-                [questionCode]: [optionID],
+          setResponse((prev) => {
+            const existingIndex = prev.findIndex(
+              (item) => item.code === questionCode,
+            );
+
+            if (existingIndex > -1) {
+              // Update existing entry for the questionCode
+              const updatedResponse = [...prev];
+              updatedResponse[existingIndex] = {
+                ...updatedResponse[existingIndex],
+                value:
+                  MCQType === 'multiChoice'
+                    ? // Toggle the optionID for multiChoice
+                      updatedResponse[existingIndex].value.includes(optionID)
+                      ? updatedResponse[existingIndex].value.filter(
+                          (id) => id !== optionID,
+                        )
+                      : [...updatedResponse[existingIndex].value, optionID]
+                    : [optionID], // Replace for singleChoice
+                description: '', // Optional, update if needed
               };
-            });
-          }
+              return updatedResponse;
+            } else {
+              // Add a new entry
+              return [
+                ...prev,
+                {
+                  code: questionCode,
+                  value: [optionID],
+                  description: '',
+                },
+              ];
+            }
+          });
         }}
       >
         <div className={`flex w-full  justify-center  `}>
           <p
             className={`font-futura text-[32px]  ${
-              response[questionCode]?.find((elem) => elem === optionID)
+              response &&
+              response?.find(
+                (elem) =>
+                  elem?.code === questionCode &&
+                  elem?.value?.includes(optionID),
+              )
                 ? `${numbersColor[optionID - 1].text}`
                 : 'text-[#b1b1b1]'
             }`}
