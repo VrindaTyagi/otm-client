@@ -21,31 +21,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
 
   const summaryRef = useRef(null);
 
-  function convertToWeekFormat(input) {
-    // Match the pattern to extract the parts (handles single-digit dates too)
-    const match = input.match(
-      /^(\d{1,2}[A-Za-z]+)-(\d{1,2}[A-Za-z]+)-(\d{4})$/,
-    );
-
-    if (!match) {
-      throw new Error(
-        "Input format is incorrect. Expected format: 'DDMMM-DDMMM-YYYY'",
-      );
-    }
-
-    const [_, start, end, year] = match;
-
-    // Extract day and month for the start and end
-    const startDay = start.match(/^\d+/)[0]; // Extract digits
-    const startMonth = start.match(/[A-Za-z]+$/)[0]; // Extract letters
-
-    const endDay = end.match(/^\d+/)[0]; // Extract digits
-    const endMonth = end.match(/[A-Za-z]+$/)[0]; // Extract letters
-
-    // Combine into the desired format
-    return `Week ${startDay}-${endDay} ${startMonth}`;
-  }
-
   function formatToK(number) {
     if (number >= 1000) {
       return `${(number / 1000).toFixed(1).replace(/\.0$/, '')}k`;
@@ -163,9 +138,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
           </div>
           <div className="flex justify-between">
             <div>
-              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
-                {week && convertToWeekFormat(week)}
-              </div>
+              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue"></div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
                 Hi {name}, <br /> Here’s your week in Numbers
               </h5>
