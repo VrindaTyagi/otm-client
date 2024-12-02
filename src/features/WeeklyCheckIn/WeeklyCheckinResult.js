@@ -21,6 +21,50 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
 
   const summaryRef = useRef(null);
 
+  function convertToWeekFormat(input) {
+    // Ensure the input is a string
+    if (typeof input !== 'string') {
+      console.error('Input must be a string');
+      return 'Invalid Date Format';
+    }
+
+    // Match the pattern to extract the parts (handles single-digit dates too)
+    const regex = /^(\d{1,2}[A-Za-z]+)-(\d{1,2}[A-Za-z]+)-(\d{4})$/;
+    const match = input.match(regex);
+
+    if (!match) {
+      console.error(
+        "Input format is incorrect. Expected format: 'DDMMM-DDMMM-YYYY'. Received:",
+        input,
+      );
+      return 'Invalid Date Format';
+    }
+
+    const [_, start, end, year] = match;
+
+    // Extract day and month for the start and end
+    const startDay = start.match(/^\d+/)?.[0]; // Extract digits
+    const startMonth = start.match(/[A-Za-z]+$/)?.[0]; // Extract letters
+
+    const endDay = end.match(/^\d+/)?.[0]; // Extract digits
+    const endMonth = end.match(/[A-Za-z]+$/)?.[0]; // Extract letters
+
+    if (!startDay || !startMonth || !endDay || !endMonth) {
+      console.error('Unable to parse start or end date from input:', input);
+      return 'Invalid Date Format';
+    }
+
+    // Combine into the desired format
+    return `Week ${startDay}-${endDay} ${startMonth}`;
+  }
+
+  function formatToK(number) {
+    if (number >= 1000) {
+      return `${(number / 1000).toFixed(1).replace(/\.0$/, '')}k`;
+    }
+    return `${number}`;
+  }
+
   const weightLiftedComapre = () => {
     const latest = weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted;
     const secondLatest =
@@ -131,7 +175,9 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
           </div>
           <div className="flex justify-between">
             <div>
-              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue"></div>
+              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
+                {week && convertToWeekFormat(week)}
+              </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
                 Hi {name}, <br /> Here’s your week in Numbers
               </h5>
@@ -307,7 +353,10 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     <p className="font-sfpro text-[10px] text-floYellow">
                       target
                     </p>
-                    <p className="font-futura text-[18px] leading-[19px] text-blue"></p>
+                    <p className="font-futura text-[18px] leading-[19px] text-blue">
+                      {weeklyReport?.targetStepCount &&
+                        formatToK(weeklyReport?.targetStepCount)}
+                    </p>
                     <p className="font-sfpro text-[10px] text-white-opacity-50">
                       steps per day
                     </p>
