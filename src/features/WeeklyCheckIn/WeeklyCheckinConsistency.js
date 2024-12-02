@@ -72,8 +72,8 @@ const WeeklyCheckinConsistency = ({
 
   return (
     <div className="flex gap-[5px]">
-      {last8WeekConsistency?.map((item, index) => (
-        <Bar progress={item?.count} key={Math.random() * 1000} />
+      {[...last8WeekConsistency]?.reverse().map((item, index) => (
+        <Bar progress={item?.count} key={index} />
       ))}
     </div>
   );

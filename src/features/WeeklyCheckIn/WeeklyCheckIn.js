@@ -1,53 +1,17 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error } from '../../components';
+import React, { useEffect, useMemo, useState } from 'react';
+
 import axios from 'axios';
-import { motion } from 'framer-motion';
-import Calendar from './Calender';
-import { getFormattedDate } from '../LifeStyleRoutines/utils';
-import WeeklyWorkoutReport from '../Fitness/WeeklyWorkoutReport';
-import { HiChevronDown } from 'react-icons/hi';
-import WeeklyCheckInSuccessPopup from '../../components/WeeklyCheckInSuccessPopup';
-import { IoArrowBackOutline } from 'react-icons/io5';
-import mixpanel from 'mixpanel-browser';
-import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
-import { useNavigate } from 'react-router-dom';
 import AnimatedComponent from '../../components/AnimatedComponent';
-import WeeklyCheckinConsistency from './WeeklyCheckinConsistency';
 import WeeklyCheckinInitialIntro from './WeeklyCheckinInitialIntro';
 import WeeklyCheckinSecondaryIntro from './WeeklyCheckinSecondaryIntro';
-import ProgressBar from '../../components/ProgressBar';
-import {
-  capitalizeFirstLetter,
-  updateCurrentQuestion,
-} from '../LifestyleQuiz/utils/utils';
-import OptionsSecond from '../Questionnaire/Components/inputs/OptionsSecond';
-import OptionsNumber from '../Questionnaire/Components/inputs/OptionsNumber';
+import { updateCurrentQuestion } from '../LifestyleQuiz/utils/utils';
 import WeeklyCheckinResult from './WeeklyCheckinResult';
 
 import WeeklyCheckinLoadingScreem from './WeeklyCheckinLoadingScreem';
-import InputText from './Component/InputText';
 
 import QuestionnaireScreenOutput from './QuestionnaireScreenOutput';
-
-const slideAnimation = {
-  initial: {
-    opacity: 0,
-    y: '100vh', // Start from the bottom of the viewport
-    scale: '80%',
-  },
-  animate: {
-    opacity: 1,
-    y: '0%', // End at the center position
-    scale: '100%',
-  },
-  exit: {
-    opacity: 0,
-    y: '-20%',
-    scale: '80%',
-  },
-};
+import NutritionScreen from './NutritionScreen';
 
 const WeeklyCheckIn = () => {
   const [screen, setScreen] = useState('Introduction');
@@ -60,10 +24,14 @@ const WeeklyCheckIn = () => {
   const [questionnaireForm, setQuestionnaireForm] = useState(null);
   const [nutritionData, setNutritionData] = useState({});
   const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [week, setWeek] = useState('');
+  const [weeklyResponse, setWeeklyResponse] = useState(undefined);
+  const [weeklyReport, setWeeklyReport] = useState(undefined);
+  const [weeklyReviewLoading, setWeeklyReviewLoading] = useState(false);
 
-  useEffect(() => {
-    setQuestionnaireLoading(true);
-    async function getUserData() {
+  const getUserData = useMemo(
+    () => async () => {
+      setQuestionnaireLoading(true);
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
@@ -76,25 +44,60 @@ const WeeklyCheckIn = () => {
       } finally {
         setQuestionnaireLoading(false);
       }
-    }
-    getUserData();
-  }, []);
+    },
+    [], // Dependencies for memoization
+  );
 
   useEffect(() => {
-    async function getUserData() {
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week='11Nov-17Nov-2024'`,
-        );
-      } catch (err) {
-        console.error(err.message);
-      } finally {
+    getUserData(); // Invoke the memoized function
+  }, []);
+
+  console.log('90909', week);
+
+  const getWeeklyReviewData = useMemo(
+    () => async () => {
+      if (week) {
+        console.log('435445654654', week);
+        setWeeklyReviewLoading(true);
+        try {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
+          );
+          if (res) {
+            setWeeklyResponse(res.data.data.weeklyReview.response);
+            setWeeklyReport(res.data.data.report);
+          }
+        } catch (err) {
+          console.error(err.message);
+        } finally {
+          setWeeklyReviewLoading(false);
+        }
       }
-    }
-    getUserData();
-  }, []);
+    },
+    [week], // Dependencies for memoization
+  );
 
   useEffect(() => {
+    getWeeklyReviewData();
+  }, [week]);
+
+  // useEffect(() => {
+  //   //Func to call get weekly review API
+  //   async function getUserData() {
+  //     try {
+  //       const res = await axios.get(
+  //         `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}}`,
+  //       );
+  //     } catch (err) {
+  //       console.error(err.message);
+  //     } finally {
+  //     }
+  //   }
+  //   getUserData();
+  // }, []);
+
+  useEffect(() => {
+    //Func to call get weekly review API
     setNutritionLoading(true);
     async function getUserData() {
       try {
@@ -114,6 +117,7 @@ const WeeklyCheckIn = () => {
   }, []);
 
   const questionnaireData = [
+    //Data to show heading and Background Color on different pages of questionnaire form
     {
       color: 'blue',
       heading: 'Fitness and nutrition update',
@@ -133,6 +137,7 @@ const WeeklyCheckIn = () => {
 
   useEffect(() => {
     // it will update the current question as soon as the screen changes
+    console.log(questionnaireForm, '-------');
     questionnaireForm &&
       updateCurrentQuestion(
         questionnaireForm,
@@ -144,67 +149,30 @@ const WeeklyCheckIn = () => {
   return (
     <div className="relative h-screen ">
       {showNutritionScreen === true && (
-        <div className="absolute top-0 z-[120] h-screen w-full  backdrop-blur-sm">
-          <AnimatedComponent
-            animation={slideAnimation}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="absolute bottom-0 z-[100] flex h-[90%] w-screen flex-col justify-between gap-[44px]  overflow-y-scroll rounded-t-3xl bg-black px-[20px] pt-[28px]"
-          >
-            <div className=" flex flex-col gap-[44px] ">
-              <div className="flex justify-between">
-                <div className="flex grow gap-2 font-sfpro text-[20px] leading-[32px] text-offwhite">
-                  <img
-                    src="/assets/leaf.svg"
-                    className=" h-[31px] w-[31px] "
-                    alt="background"
-                  />
-                  Natural Principles
-                </div>
-                <div className="  flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
-                  <RxCross1
-                    onClick={() => setShowNutritionScreen(false)}
-                    className=""
-                  />
-                </div>{' '}
-              </div>
-              <div className="flex flex-col gap-[26px]">
-                {nutritionData?.map((item, index) => (
-                  <div className="flex flex-col gap-[26px]">
-                    <div className="flex gap-[20px]">
-                      <div className="font-sfpro text-[14px] text-offwhite">
-                        {index + 1}
-                      </div>
-                      <div>
-                        <h5 className="font-sfpro text-[14px] text-offwhite">
-                          {item.header}
-                        </h5>
-                        <p className="font-sfpro text-[14px] text-white-opacity-50">
-                          {item.content}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <button
-              onClick={() => setShowNutritionScreen(false)}
-              className="  mb-[36px] flex w-full items-center justify-center gap-1 rounded-lg bg-white py-[14px] font-sfpro text-lg leading-[26px] text-black"
-            >
-              Back
-            </button>
-          </AnimatedComponent>
-        </div>
+        <NutritionScreen
+          nutritionData={nutritionData}
+          setShowNutritionScreen={setShowNutritionScreen}
+        />
       )}
 
       {screen === 'Introduction' && (
         <WeeklyCheckinInitialIntro setScreen={setScreen} />
       )}
       {screen === 'Introduction2' && (
-        <WeeklyCheckinSecondaryIntro setScreen={setScreen} />
+        <WeeklyCheckinSecondaryIntro
+          weeklyReviewLoading={weeklyReviewLoading}
+          setWeek={setWeek}
+          setScreen={setScreen}
+          code={code}
+        />
       )}
-      {screen === 'result' && <WeeklyCheckinResult setScreen={setScreen} />}
+      {screen === 'result' && (
+        <WeeklyCheckinResult
+          setScreen={setScreen}
+          week={week}
+          weeklyReport={weeklyReport}
+        />
+      )}
       {screen === 'resultLoading' && (
         <WeeklyCheckinLoadingScreem setScreen={setScreen} />
       )}
@@ -219,6 +187,9 @@ const WeeklyCheckIn = () => {
           setShowNutritionScreen={setShowNutritionScreen}
           questionnaireScreen={questionnaireScreen}
           setQuestionnaireScreen={setQuestionnaireScreen}
+          week={week}
+          weeklyResponse={weeklyResponse}
+          getWeeklyReviewData={getWeeklyReviewData}
         />
       )}
     </div>

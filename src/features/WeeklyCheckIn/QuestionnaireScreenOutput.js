@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../components/ProgressBar';
@@ -19,6 +19,9 @@ const QuestionnaireScreenOutput = ({
   setScreen,
   questionnaireScreen,
   setQuestionnaireScreen,
+  week,
+  weeklyResponse,
+  getWeeklyReviewData,
 }) => {
   const navigate = useNavigate();
   const profilePicCameraRef = useRef(null);
@@ -27,13 +30,47 @@ const QuestionnaireScreenOutput = ({
   const [questionnaireFormLoading, setQuestionnaireFormLoading] =
     useState(false);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [chosenPic, setChosenPic] = useState([]);
+  const [chosenPicBinary, setChosenPicBinary] = useState([]);
+  console.log('00000000', chosenPicBinary);
+
+  console.log(response, currentQuestion);
+  useEffect(() => {
+    if (weeklyResponse) {
+      setResponse(weeklyResponse);
+    }
+  }, []);
+
+  const uploadMemberPic = () => {
+    async function uploadPicFunc() {
+      try {
+        if (chosenPicBinary.length > 0) {
+          const formData = new FormData();
+          formData.append('profilePicture', chosenPicBinary);
+          const res = await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/progress-img?memberCode=${code}&week=${week}`,
+            formData,
+          );
+          if (res.data) {
+            console.log('updates');
+          }
+        }
+      } finally {
+        console.log('updates');
+      }
+    }
+    uploadPicFunc();
+  };
 
   const fillQuestionnaire = () => {
     setQuestionnaireFormLoading(true);
     async function getUserData() {
       try {
-        if (response.length > 0) {
-          const transformedResponseData = response.map((item) => {
+        if (response.length > 0 && response !== weeklyResponse) {
+          const filteredObject = response.filter((item1) =>
+            currentQuestion.some((item2) => item1.code === item2.code),
+          );
+          const transformedResponseData = filteredObject.map((item) => {
             // Remove description if it's an empty string
             if (item.description === '') {
               delete item.description;
@@ -42,32 +79,42 @@ const QuestionnaireScreenOutput = ({
             if (item.value.length === 0) {
               delete item.value;
             }
-
             // Return the object as is if description is removed or doesn't exist
             return item;
           });
+          if (questionnaireScreen === 3) {
+            await axios.put(
+              `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
-          console.log(transformedResponseData, '909098080809808');
+              {
+                memberCode: code,
+                week: week,
+                response: transformedResponseData
+                  ? transformedResponseData
+                  : [{ code: 'WKR12', value: 0 }],
+                completed: true,
+              },
+            );
+          } else {
+            await axios.put(
+              `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
-          await axios.put(
-            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
-            {
-              memberCode: code,
-              week: '18Nov-24Nov-2024',
-              response: transformedResponseData,
-            },
-          );
+              {
+                memberCode: code,
+                week: week,
+                response: transformedResponseData,
+              },
+            );
+          }
         }
       } catch (err) {
       } finally {
         setQuestionnaireFormLoading(false);
-        setResponse([]);
+        getWeeklyReviewData();
       }
     }
     getUserData();
   };
-
-  const [chosenPic, setChosenPic] = useState([]);
 
   const handleNextClick = () => {
     if (questionnaireScreen < 3) {
@@ -76,6 +123,8 @@ const QuestionnaireScreenOutput = ({
     }
     if (questionnaireScreen === 3) {
       setScreen('resultLoading');
+      fillQuestionnaire();
+      uploadMemberPic();
     }
   };
 
@@ -97,6 +146,8 @@ const QuestionnaireScreenOutput = ({
         reader.onloadend = () => {
           setChosenPic((prevPics) => [...prevPics, reader.result]);
         };
+
+        setChosenPicBinary((prevPics) => [...prevPics, file]);
       }
 
       if (num === 0) {
@@ -104,6 +155,10 @@ const QuestionnaireScreenOutput = ({
         reader.onloadend = () => {
           setChosenPic((prevPics) => [reader.result, ...prevPics]);
         };
+        setChosenPicBinary(
+          chosenPicBinary.filter((item, index) => index !== num),
+        );
+        setChosenPicBinary((prevPics) => [file, ...prevPics]);
       }
 
       if (num === 1) {
@@ -111,6 +166,10 @@ const QuestionnaireScreenOutput = ({
         reader.onloadend = () => {
           setChosenPic((prevPics) => [...prevPics, reader.result]);
         };
+        setChosenPicBinary(
+          chosenPicBinary.filter((item, index) => index !== num),
+        );
+        setChosenPicBinary((prevPics) => [...prevPics, file]);
       }
 
       reader.readAsDataURL(file);
@@ -168,9 +227,14 @@ const QuestionnaireScreenOutput = ({
                         }`}
                       </h1>
                       {/* Description */}
-                      <p className="my-[2px] space-x-2 text-[10px] text-white-opacity-50">
-                        {capitalizeFirstLetter(ques?.description)}
-                      </p>
+                      {(ques.code === 'WKR5' ||
+                        ques.code === 'WKR6' ||
+                        ques.code === 'WKR7' ||
+                        ques.code === 'WKR8') && (
+                        <p className="my-[2px] space-x-2 text-[10px] text-white-opacity-50">
+                          {capitalizeFirstLetter(ques?.description)}
+                        </p>
+                      )}
                     </div>
                     {ques?.code === 'WKR4' && (
                       <div
@@ -236,31 +300,7 @@ const QuestionnaireScreenOutput = ({
         </div>
         {questionnaireScreen === 3 && (
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-4 rounded-xl bg-black-opacity-45 px-[14px] py-4 font-sfpro text-[14px] font-medium">
-              <p> Log your Latest Weight</p>
-              <div className="flex gap-[6px]">
-                <input
-                  type="number"
-                  className="h-[39px] w-[173px] rounded-[4px] bg-white-opacity-08 pl-2 placeholder:text-[10px]"
-                  placeholder="Eg. 50kg"
-                />
-                <button className="h-[39px] rounded bg-lightSkyBlue px-[21px] text-black">
-                  Save
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <p className="font-sfpro text-[18px] font-normal  leading-[25px] text-white-opacity-50">
-                Congratulations, you are{' '}
-                <span className="text-lightSkyBlue">1 KG</span> down from last
-                week and on track to achieve you monthly goals
-              </p>
-              <p className="font-sfpro text-[18px] font-normal  leading-[25px] text-white-opacity-50">
-                You lifted <span className="text-lightSkyBlue">98 KGs</span>{' '}
-                more this week as compared to last
-              </p>
-            </div>
-            <div className="rounded-xl bg-black-opacity-45 p-4">
+            <div className="mt-6 rounded-xl bg-black-opacity-45 p-4">
               <h4 className="font-sfpro text-sm leading-[18px]">
                 Progress Photos (upto 2)
               </h4>

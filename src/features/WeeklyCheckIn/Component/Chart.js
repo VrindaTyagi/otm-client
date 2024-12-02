@@ -24,7 +24,7 @@ const minWeight = Math.min(...data.last8WeekWeightHistory);
 
 const WeightLineChart = () => {
   return (
-    <ResponsiveContainer width={150} height={90}>
+    <ResponsiveContainer width={150}>
       <LineChart
         data={formattedData}
         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}

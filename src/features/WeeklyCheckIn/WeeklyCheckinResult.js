@@ -8,15 +8,124 @@ import { capitalizeFirstLetter } from '../../utils';
 import WeightLineChart from './Component/Chart';
 import domtoimage from 'dom-to-image';
 
-const WeeklyCheckinResult = ({ setScreen }) => {
+const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   const navigate = useNavigate();
   const userProfilePicture = JSON.parse(
     localStorage?.getItem('profilePicture'),
   );
+  const name = JSON.parse(localStorage.getItem('user'))['name'];
 
   const summaryRef = useRef(null);
 
+  function formatToK(number) {
+    if (number >= 1000) {
+      return `${(number / 1000).toFixed(1).replace(/\.0$/, '')}k`;
+    }
+    return `${number}`;
+  }
+
+  const result = {
+    weeklyReview: null,
+    report: {
+      last4WeekConsistency: [
+        {
+          week: '18Nov-24Nov-2024',
+          count: 0,
+        },
+        {
+          week: '11Nov-17Nov-2024',
+          count: 9,
+        },
+        {
+          week: '4Nov-10Nov-2024',
+          count: 14,
+        },
+        {
+          week: '28Oct-3Nov-2024',
+          count: 23,
+        },
+      ],
+      targetConsistency: 3,
+      last2WeekStepCount: [
+        {
+          week: '16Sep-22Sep-2024',
+          steps: 567,
+        },
+        {
+          week: '9Sep-15Sep-2024',
+          steps: 191,
+        },
+      ],
+      targetStepCount: 10000,
+      last8WeekWeightLifted: [
+        {
+          week: '18Nov-24Nov-2024',
+          totalWeightLifted: 0,
+        },
+        {
+          week: '11Nov-17Nov-2024',
+          totalWeightLifted: 0,
+        },
+        {
+          week: '4Nov-10Nov-2024',
+          totalWeightLifted: 520.4069119999999,
+        },
+        {
+          week: '28Oct-3Nov-2024',
+          totalWeightLifted: 3.175144,
+        },
+        {
+          week: '21Oct-27Oct-2024',
+          totalWeightLifted: 0,
+        },
+        {
+          week: '14Oct-20Oct-2024',
+          totalWeightLifted: 0,
+        },
+        {
+          week: '7Oct-13Oct-2024',
+          totalWeightLifted: 4,
+        },
+        {
+          week: '30Sep-6Oct-2024',
+          totalWeightLifted: 0,
+        },
+      ],
+      last8WeekWeightHistory: [
+        {
+          week: '18Nov-24Nov-2024',
+          weight: 0,
+        },
+        {
+          week: '11Nov-17Nov-2024',
+          weight: 0,
+        },
+      ],
+      weightUnit: 'KG',
+      nutritionRatingThisWeek: '3',
+      nutritionRatingLastWeek: 1,
+      energyLevelThisWeek: '2',
+      energyLevelLastWeek: 3,
+      stressLevelsThisWeek: '4',
+      stressLevelsLastWeek: 0,
+      sleepQualityThisWeek: '1',
+      sleepQualityLastWeek: 4,
+      perfectWeek: {
+        streak: 1,
+        isPerfectWeek: true,
+      },
+    },
+  };
+
+  const weightLiftedComapre = () => {
+    const latest = weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted;
+    const secondLatest =
+      weeklyReport?.last8WeekWeightLifted[1]?.totalWeightLifted;
+
+    return latest - secondLatest;
+  };
   const numbersColor = [
+    //Give UI to our stress /nutrition etc levels.
     {
       bg: 'bg-[rgba(250,87,87,0.20)]',
       text: 'text-[#FA5757]',
@@ -40,6 +149,7 @@ const WeeklyCheckinResult = ({ setScreen }) => {
   ];
 
   const captureAndShareToWhatsApp = async () => {
+    //function to take screenshot of our result screen and later share it.
     if (summaryRef.current) {
       try {
         // Capture screenshot
@@ -75,6 +185,8 @@ const WeeklyCheckinResult = ({ setScreen }) => {
       }
     }
   };
+
+  console.log(Number(weeklyReport?.stressLevelsThisWeek) - 1);
 
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
@@ -117,11 +229,11 @@ const WeeklyCheckinResult = ({ setScreen }) => {
           </div>
           <div className="flex justify-between">
             <div>
-              <div className="w-fit rounded  bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
-                Week 11-17 Nov
+              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
+                {week}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi Vrinda, <br /> Here’s your week in Numbers
+                Hi {name}, <br /> Here’s your week in Numbers
               </h5>
             </div>
             <div className="h-[40px] min-w-[40px]">
@@ -143,7 +255,7 @@ const WeeklyCheckinResult = ({ setScreen }) => {
 
           <div
             ref={summaryRef}
-            className="mt-[24px] flex h-full flex-col gap-2 bg-transparent"
+            className="mt-[24px] flex h-full flex-col gap-2 bg-none"
           >
             <div className=" relative flex flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
               <div className="flex items-center justify-between gap-3">
@@ -159,7 +271,9 @@ const WeeklyCheckinResult = ({ setScreen }) => {
               <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
                 {' '}
                 <span className="font-futura text-[58px]   leading-[40px] text-blue">
-                  4
+                  {weeklyReport?.last4WeekConsistency[0]?.count
+                    ? weeklyReport?.last4WeekConsistency[0]?.count
+                    : 0}
                 </span>{' '}
                 workout last week
               </p>
@@ -167,14 +281,16 @@ const WeeklyCheckinResult = ({ setScreen }) => {
                 <img src="/assets/target-icon.svg" alt="target" />
                 <p className="font-sfpro text-[10px] text-floYellow">target</p>
                 <p className="font-futura text-[18px] leading-[19px] text-blue">
-                  6
+                  {weeklyReport?.targetConsistency}
                 </p>
                 <p className="font-sfpro text-[10px] text-white-opacity-50">
                   workouts per week
                 </p>
               </div>
               <div className="absolute -right-3 top-6">
-                <WeightLineChart />
+                <WeightLineChart
+                  grahpData={weeklyReport?.last4WeekConsistency}
+                />
               </div>
             </div>
 
@@ -192,76 +308,130 @@ const WeeklyCheckinResult = ({ setScreen }) => {
               <p className=" flex flex-col gap-1 text-[10px] text-offwhite">
                 {' '}
                 <span className="font-futura text-[25px]   leading-[27px] text-blue">
-                  400KGs
+                  {weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted.toFixed(
+                    0,
+                  )}{' '}
+                  {weeklyReport?.weightUnit}
                 </span>{' '}
                 Total weight lifted this week
-                <div className="flex items-center gap-1">
-                  <div className="flex w-fit  items-center gap-1 rounded-[3px] bg-green-opacity-12 px-1 py-[2px] font-sfpro text-[12px] text-green">
-                    <img
-                      src="/assets/upArrow.svg"
-                      className="h-[11px] w-[11px]"
-                      alt="shoe"
-                    />
-                    32kg
+                {weightLiftedComapre() !== 0 && (
+                  <div className="flex items-center gap-1">
+                    <div
+                      className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
+                        weightLiftedComapre() > 0
+                          ? 'bg-green-opacity-12 text-green '
+                          : 'bg-red-opacity-12 text-red'
+                      } `}
+                    >
+                      {weightLiftedComapre() > 0 ? (
+                        <img
+                          src="/assets/upArrow.svg"
+                          className="h-[11px] w-[11px]"
+                          alt="shoe"
+                        />
+                      ) : (
+                        <img
+                          src="/assets/downArrow.svg"
+                          className="h-[11px] w-[11px]"
+                          alt="shoe"
+                        />
+                      )}
+                      {weightLiftedComapre().toFixed(0)}{' '}
+                      {weeklyReport?.weightUnit}
+                    </div>
+                    <p className="font-sfpro text-[10px] text-white-opacity-50">
+                      {weightLiftedComapre() > 0 ? 'more' : 'less'} than last
+                      week
+                    </p>
                   </div>
-                  <p className="font-sfpro text-[10px] text-white-opacity-50">
-                    more than last week
+                )}
+              </p>
+              <div className="absolute -right-3 top-6">
+                <WeightLineChart
+                  grahpData={weeklyReport?.last8WeekWeightLifted}
+                />
+              </div>
+            </div>
+
+            <div className="relative  flex justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                    {' '}
+                    <img src="/assets/shoe-icon.svg" alt="graph" />
+                    average steps
+                  </div>
+                  <p className="absolute right-3 text-[10px] text-white-opacity-50">
+                    last 1 week
                   </p>
                 </div>
-              </p>
-              <div className="absolute -right-3 top-6">
-                <WeightLineChart />
-              </div>
-            </div>
-
-            <div className="relative flex flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                <p className=" flex flex-col  text-[10px] text-offwhite">
                   {' '}
-                  <img src="/assets/shoe-icon.svg" alt="graph" />
-                  average steps
-                </div>
-                <p className="text-[10px] text-white-opacity-50">last 1 week</p>
-              </div>
-              <p className=" flex flex-col  text-[10px] text-offwhite">
-                {' '}
-                <span className="font-futura text-[25px]   leading-[27px] text-blue">
-                  12km
-                </span>{' '}
+                  <span className="font-futura text-[25px]   leading-[27px] text-blue">
+                    {weeklyReport?.last4WeekStepCount[0].steps} Steps
+                  </span>{' '}
+                  {weeklyReport?.last4WeekStepCount[1].steps > 0 && (
+                    <div className="flex items-center gap-1">
+                      10{' '}
+                      <span className="font-sfpro text-[10px] text-white-opacity-50">
+                        steps more than last week
+                      </span>
+                    </div>
+                  )}
+                </p>
                 <div className="flex items-center gap-1">
-                  10{' '}
-                  <span className="font-sfpro text-[10px] text-white-opacity-50">
-                    steps more than last week
-                  </span>
+                  <img src="/assets/target-icon.svg" alt="target" />
+                  <p className="font-sfpro text-[10px] text-floYellow">
+                    target
+                  </p>
+                  <p className="font-futura text-[18px] leading-[19px] text-blue">
+                    {formatToK(weeklyReport?.targetStepCount)}
+                  </p>
+                  <p className="font-sfpro text-[10px] text-white-opacity-50">
+                    steps per day
+                  </p>
                 </div>
-              </p>
-              <div className="flex items-center gap-1">
-                <img src="/assets/target-icon.svg" alt="target" />
-                <p className="font-sfpro text-[10px] text-floYellow">target</p>
-                <p className="font-futura text-[18px] leading-[19px] text-blue">
-                  10k
-                </p>
-                <p className="font-sfpro text-[10px] text-white-opacity-50">
-                  steps per day
-                </p>
               </div>
-              <div className="absolute -right-3 top-6">
-                <WeightLineChart />
-              </div>
+              <WeightLineChart />
             </div>
 
-            <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
-                  {' '}
-                  <img src="/assets/star-icon.svg" alt="graph" />
-                  perfect week streak
+            {weeklyReport?.perfectWeek?.isPerfectWeek === true && (
+              <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                    {' '}
+                    <img src="/assets/star-icon.svg" alt="graph" />
+                    perfect week streak
+                  </div>
+                  <p className="text-[10px] text-white-opacity-50">
+                    last 4 weeks
+                  </p>
                 </div>
-                <p className="text-[10px] text-white-opacity-50">
-                  last 4 weeks
-                </p>
-              </div>
-              {/* <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
+                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
+                  weeklyReport?.perfectWeek?.streak === 0 && (
+                    <div className="mt-2 font-sfpro text-[12px] text-offwhite">
+                      You Unlocked a perfectweek badge this week.
+                    </div>
+                  )}
+                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
+                  weeklyReport?.perfectWeek?.streak > 0 && (
+                    <div>
+                      <div className="flex items-center ">
+                        <div className="perfect-week mt-2 flex w-fit items-center rounded">
+                          <img src="assets/star.svg" alt="" />
+                          <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-[#4a3e1d] ">
+                            Perfect Week x{weeklyReport?.perfectWeek?.streak}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
+                        You Unlocked a perfectweek badge this week.Keep crushing
+                        your wokrout to maintain your streak.
+                      </div>
+                    </div>
+                  )}
+
+                {/* <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
               {' '}
               <span className="font-futura text-[58px]   leading-[40px] text-blue">
                 4
@@ -278,129 +448,280 @@ const WeeklyCheckinResult = ({ setScreen }) => {
                 workouts per week
               </p>
             </div> */}
-            </div>
+              </div>
+            )}
             <div className="flex flex-col justify-between gap-2">
               <div className="flex gap-2">
-                <div className=" flex w-1/2 grow flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-                  <div className="flex flex-col  justify-between ">
-                    <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
-                      {' '}
-                      <img src="/assets/leaf-yellow-icon.svg" alt="graph" />
-                      Energy level
+                {weeklyReport?.energyLevelThisWeek &&
+                  weeklyReport?.energyLevelThisWeek > 0 && (
+                    <div className=" flex w-1/2 grow flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                      <div className="flex flex-col  justify-between ">
+                        <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                          {' '}
+                          <img src="/assets/leaf-yellow-icon.svg" alt="graph" />
+                          Energy level
+                        </div>
+                        <div className="mt-2 flex gap-3">
+                          {' '}
+                          <div
+                            className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
+                              numbersColor[
+                                Number(weeklyReport?.energyLevelThisWeek) - 1
+                              ].bg
+                            }`}
+                          >
+                            <p
+                              className={`font-futura text-[32px]  ${`${
+                                numbersColor[
+                                  Number(weeklyReport?.energyLevelThisWeek) - 1
+                                ].text
+                              }`}`}
+                            >
+                              {weeklyReport?.energyLevelThisWeek}
+                            </p>
+                          </div>
+                          <div className="text-[10px] text-offwhite">
+                            {(Number(weeklyReport?.energyLevelLastWeek) === 0 ||
+                              !Number(weeklyReport?.energyLevelLastWeek)) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You rated {weeklyReport?.energyLevelThisWeek}{' '}
+                                out of 5 on stress level. Let's aim for a higher
+                                score
+                              </div>
+                            )}
+                            {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
+                              Number(weeklyReport?.energyLevelLastWeek) >
+                                Number(weeklyReport?.energyLevelThisWeek) && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You have rated a lower score than last week.
+                                  Let's aim for higher score
+                                </div>
+                              )}
+                            {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
+                              Number(weeklyReport?.energyLevelLastWeek) <
+                                Number(weeklyReport?.energyLevelThisWeek) && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You have rated a higher score than last
+                                  week.Keep Going!
+                                </div>
+                              )}
+                            {Number(weeklyReport?.energyLevelLastWeek) ===
+                              Number(weeklyReport?.energyLevelThisWeek) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You have rated the same as last week.Let's keep
+                                going!
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="mt-2 flex gap-3">
-                      {' '}
-                      <div
-                        className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${numbersColor[1].bg}`}
-                      >
-                        <p
-                          className={`font-futura text-[32px]  ${`${numbersColor[1].text}`}`}
+                  )}
+                {weeklyReport?.stressLevelsThisWeek &&
+                  weeklyReport?.stressLevelsThisWeek > 0 && (
+                    <div className=" flex w-1/2 grow  flex-col rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                      <div className="flex items-center justify-between ">
+                        <div className="flex grow items-center gap-1 text-[15px] font-semibold text-offwhite">
+                          {' '}
+                          <img
+                            src="/assets/heart-icon.png"
+                            alt="graph"
+                            className="h-[15px] w-[15px]"
+                          />
+                          Stress level
+                        </div>
+                      </div>
+                      <div className="mt-2 flex gap-3">
+                        {' '}
+                        <div
+                          className={`border-box flex  h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
+                            numbersColor[
+                              Number(weeklyReport?.stressLevelsThisWeek) - 1
+                            ].bg
+                          }`}
                         >
-                          1
-                        </p>
+                          <p
+                            className={`font-futura text-[32px]  ${`${
+                              numbersColor[
+                                Number(weeklyReport?.stressLevelsThisWeek) - 1
+                              ].text
+                            }`}`}
+                          >
+                            {weeklyReport?.stressLevelsThisWeek}
+                          </p>
+                        </div>
+                        {(Number(weeklyReport?.stressLevelsLastWeek) === 0 ||
+                          !Number(weeklyReport?.stressLevelsLastWeek)) && (
+                          <div className="font-sfpro text-[12px] text-offwhite">
+                            You rated {weeklyReport?.stressLevelsThisWeek} out
+                            of 5 on stress level. Let's aim for a lower score
+                          </div>
+                        )}
+                        {Number(weeklyReport?.stressLevelsLastWeek) >
+                          Number(weeklyReport?.stressLevelsThisWeek) && (
+                          <div className="font-sfpro text-[12px] text-offwhite">
+                            You have rated a higher score than last week. Let's
+                            aim for lower score
+                          </div>
+                        )}
+                        {Number(weeklyReport?.stressLevelsLastWeek) !== 0 &&
+                          Number(weeklyReport?.stressLevelsLastWeek) <
+                            Number(weeklyReport?.stressLevelsThisWeek) && (
+                            <div className="font-sfpro text-[12px] text-offwhite">
+                              You have rated a lower score than last week.Keep
+                              Going!
+                            </div>
+                          )}
+                        {Number(weeklyReport?.stressLevelsLastWeek) ===
+                          Number(weeklyReport?.stressLevelsThisWeek) && (
+                          <div className="font-sfpro text-[12px] text-offwhite">
+                            You have rated the same as last week.Let's keep
+                            going!
+                          </div>
+                        )}
                       </div>
-                      <div className="text-[10px] text-offwhite">
-                        {`You rated 3 out of 5 on stress level. Let's aim for a lower score`}
-                        {`You have rated a lower score than last week.Keep Going!`}
-                        {`You have rated a higher score than last week.Let's aim for lower score`}
-                        {`You have rated the same as last week.Let's keep going!`}
-                      </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className=" flex w-1/2 grow  flex-col rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-                  <div className="flex items-center justify-between ">
-                    <div className="flex grow items-center gap-1 text-[15px] font-semibold text-offwhite">
-                      {' '}
-                      <img
-                        src="/assets/heart-icon.png"
-                        alt="graph"
-                        className="h-[15px] w-[15px]"
-                      />
-                      Stress level
-                    </div>
-                  </div>
-                  <div className="mt-2 flex gap-3">
-                    {' '}
-                    <div
-                      className={`border-box flex  h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${numbersColor[1].bg}`}
-                    >
-                      <p
-                        className={`font-futura text-[32px]  ${`${numbersColor[1].text}`}`}
-                      >
-                        1
-                      </p>
-                    </div>
-                    <div className="text-[10px] text-offwhite">
-                      {`You rated 3 out of 5 on stress level. Let's aim for a lower score`}
-                      {`You have rated a lower score than last week.Keep Going!`}
-                      {`You have rated a higher score than last week.Let's aim for lower score`}
-                      {`You have rated the same as last week.Let's keep going!`}
-                    </div>
-                  </div>
-                </div>
+                  )}
               </div>
               <div className="flex gap-2">
-                <div className=" flex w-1/2 grow  flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-                  <div className="flex flex-col  justify-between ">
-                    <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
-                      {' '}
-                      <img src="/assets/leaf-yellow-icon.svg" alt="graph" />
-                      Sleep levels
-                    </div>
-                    <div className="mt-2 flex gap-3">
-                      {' '}
-                      <div
-                        className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${numbersColor[1].bg}`}
-                      >
-                        <p
-                          className={`font-futura text-[32px]  ${`${numbersColor[1].text}`}`}
-                        >
-                          1
-                        </p>
+                {weeklyReport?.sleepQualityThisWeek &&
+                  weeklyReport?.sleepQualityThisWeek > 0 && (
+                    <div className=" flex w-1/2 grow  flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                      <div className="flex flex-col  justify-between ">
+                        <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                          {' '}
+                          <img src="/assets/leaf-yellow-icon.svg" alt="graph" />
+                          Sleep levels
+                        </div>
+                        <div className="mt-2 flex gap-3">
+                          {' '}
+                          <div
+                            className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
+                              numbersColor[
+                                Number(weeklyReport?.sleepQualityThisWeek) - 1
+                              ].bg
+                            }`}
+                          >
+                            <p
+                              className={`font-futura text-[32px]  ${`${
+                                numbersColor[
+                                  Number(weeklyReport?.sleepQualityThisWeek) - 1
+                                ].text
+                              }`}`}
+                            >
+                              {weeklyReport?.sleepQualityThisWeek}
+                            </p>
+                          </div>
+                          <div className="text-[10px] text-offwhite">
+                            {(Number(weeklyReport?.sleepQualityLastWeek) ===
+                              0 ||
+                              !Number(weeklyReport?.sleepQualityLastWeek)) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You rated {weeklyReport?.sleepQualityThisWeek}{' '}
+                                out of 5 on stress level. Let's aim for a higher
+                                score
+                              </div>
+                            )}
+                            {Number(weeklyReport?.sleepQualityLastWeek) > 0 &&
+                              Number(weeklyReport?.sleepQualityLastWeek) >
+                                Number(weeklyReport?.sleepQualityThisWeek) && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You have rated a lower score than last week.
+                                  Let's aim for higher score
+                                </div>
+                              )}
+                            {Number(weeklyReport?.sleepQualityLastWeek) > 0 &&
+                              Number(weeklyReport?.sleepQualityLastWeek) <
+                                Number(weeklyReport?.sleepQualityThisWeek) && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You have rated a higher score than last
+                                  week.Keep Going!
+                                </div>
+                              )}
+                            {Number(weeklyReport?.sleepQualityLastWeek) ===
+                              Number(weeklyReport?.sleepQualityThisWeek) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You have rated the same as last week.Let's keep
+                                going!
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-[10px] text-offwhite">
-                        {`You rated 3 out of 5 on stress level. Let's aim for a lower score`}
-                        {`You have rated a lower score than last week.Keep Going!`}
-                        {`You have rated a higher score than last week.Let's aim for lower score`}
-                        {`You have rated the same as last week.Let's keep going!`}
-                      </div>
                     </div>
-                  </div>
-                </div>
+                  )}
 
-                <div className=" flex w-1/2 grow  flex-col rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
-                  <div className="flex items-center justify-between ">
-                    <div className="flex grow items-center gap-1 text-[15px] font-semibold text-offwhite">
-                      {' '}
-                      <img
-                        src="/assets/heart-icon.png"
-                        alt="graph"
-                        className="h-[15px] w-[15px]"
-                      />
-                      Nutrition level
+                {weeklyReport?.nutritionRatingThisWeek &&
+                  weeklyReport?.nutritionRatingThisWeek > 0 && (
+                    <div className=" flex w-1/2 grow  flex-col rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                      <div className="flex items-center justify-between ">
+                        <div className="flex grow items-center gap-1 text-[15px] font-semibold text-offwhite">
+                          {' '}
+                          <img
+                            src="/assets/heart-icon.png"
+                            alt="graph"
+                            className="h-[15px] w-[15px]"
+                          />
+                          Nutrition level
+                        </div>
+                      </div>
+                      <div className="mt-2 flex gap-3">
+                        {' '}
+                        <div
+                          className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
+                            numbersColor[
+                              Number(weeklyReport?.nutritionRatingThisWeek) - 1
+                            ].bg
+                          }`}
+                        >
+                          <p
+                            className={`font-futura text-[32px]  ${`${
+                              numbersColor[
+                                Number(weeklyReport?.nutritionRatingThisWeek) -
+                                  1
+                              ].text
+                            }`}`}
+                          >
+                            {weeklyReport?.nutritionRatingThisWeek}
+                          </p>
+                        </div>
+                        <div className="text-[10px] text-offwhite">
+                          {(Number(weeklyReport?.nutritionRatingLastWeek) ===
+                            0 ||
+                            !Number(weeklyReport?.nutritionRatingLastWeek)) && (
+                            <div className="font-sfpro text-[12px] text-offwhite">
+                              You rated {weeklyReport?.nutritionRatingThisWeek}{' '}
+                              out of 5 on stress level. Let's aim for a higher
+                              score
+                            </div>
+                          )}
+                          {Number(weeklyReport?.nutritionRatingLastWeek) > 0 &&
+                            Number(weeklyReport?.nutritionRatingLastWeek) >
+                              Number(weeklyReport?.nutritionRatingThisWeek) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You have rated a lower score than last week.
+                                Let's aim for higher score
+                              </div>
+                            )}
+                          {Number(weeklyReport?.nutritionRatingLastWeek) > 0 &&
+                            Number(weeklyReport?.nutritionRatingLastWeek) <
+                              Number(weeklyReport?.nutritionRatingThisWeek) && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                You have rated a higher score than last
+                                week.Keep Going!
+                              </div>
+                            )}
+                          {Number(weeklyReport?.nutritionRatingLastWeek) ===
+                            Number(weeklyReport?.nutritionRatingThisWeek) && (
+                            <div className="font-sfpro text-[12px] text-offwhite">
+                              You have rated the same as last week.Let's keep
+                              going!
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-2 flex gap-3">
-                    {' '}
-                    <div
-                      className={`border-box flex h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${numbersColor[1].bg}`}
-                    >
-                      <p
-                        className={`font-futura text-[32px]  ${`${numbersColor[1].text}`}`}
-                      >
-                        1
-                      </p>
-                    </div>
-                    <div className="text-[10px] text-offwhite">
-                      {`You rated 3 out of 5 on stress level. Let's aim for a lower score`}
-                      {`You have rated a lower score than last week.Keep Going!`}
-                      {`You have rated a higher score than last week.Let's aim for lower score`}
-                      {`You have rated the same as last week.Let's keep going!`}
-                    </div>
-                  </div>
-                </div>
+                  )}
               </div>
             </div>
 

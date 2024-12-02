@@ -51,11 +51,53 @@ const FitnessPage = () => {
   const [greeting, setGreeting] = useState('');
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
+  const [week, setWeek] = useState('');
   const userProfilePicture = JSON.parse(
     localStorage?.getItem('profilePicture'),
   );
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function getUserData() {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=PRAN`,
+          {
+            memberCode: 'PRAN',
+          },
+        );
+        if (res.data) {
+          setWeek(res.data.data[0].last8WeekConsistency[0].week);
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+      }
+    }
+    getUserData();
+  }, []);
+
+  useEffect(() => {
+    //Func to call get Weekly review
+    console.log('8989', week);
+    async function getUserData() {
+      try {
+        if (week) {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
+          );
+          if (res.data) {
+          }
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+      }
+    }
+    getUserData();
+  }, [week]);
 
   async function getMemberData(code) {
     try {
@@ -74,6 +116,18 @@ const FitnessPage = () => {
       console.error('Error fetching profile:', error);
     }
   }
+
+  const getISTDay = () => {
+    const now = new Date();
+    const options = { timeZone: 'Asia/Kolkata', weekday: 'long' };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(now); // Returns day name like 'Sunday', 'Monday', etc.
+  };
+
+  const currentDay = getISTDay();
+
+  // Check if today is Sunday, Monday, or Tuesday
+  const showComponent = ['Sunday', 'Monday', 'Tuesday'].includes(currentDay);
 
   useEffect(() => {
     if (!userProfilePicture && userProfilePicture !== '') {
@@ -271,8 +325,11 @@ const FitnessPage = () => {
                 lastEightWeeksWorkout={homeStats?.lastEightWeeksWorkout}
               />
             </section>
-
-            <WeeklyCheckinTile />
+            {showComponent && (
+              <WeeklyCheckinTile
+                isWeeklyReviewSubmitted={homeStats?.isWeeklyReviewSubmitted}
+              />
+            )}
 
             <section>
               {currentDate < 5 && (
