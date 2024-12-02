@@ -17,13 +17,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
 
   const summaryRef = useRef(null);
 
-  function formatToK(number) {
-    if (number >= 1000) {
-      return `${(number / 1000).toFixed(1).replace(/\.0$/, '')}k`;
-    }
-    return `${number}`;
-  }
-
   const result = {
     weeklyReview: null,
     report: {
@@ -384,9 +377,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   <p className="font-sfpro text-[10px] text-floYellow">
                     target
                   </p>
-                  <p className="font-futura text-[18px] leading-[19px] text-blue">
-                    {formatToK(weeklyReport?.targetStepCount)}
-                  </p>
+                  <p className="font-futura text-[18px] leading-[19px] text-blue"></p>
                   <p className="font-sfpro text-[10px] text-white-opacity-50">
                     steps per day
                   </p>

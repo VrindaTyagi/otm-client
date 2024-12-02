@@ -18,7 +18,7 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
     <div
       idD
       onClick={() => {
-        isWeeklyReviewSubmitted && navigate('/weekly-checkin');
+        navigate('/weekly-checkin');
       }}
       className=""
     >
