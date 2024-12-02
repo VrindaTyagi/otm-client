@@ -49,9 +49,10 @@ function OptionsNumber({
           response &&
           response?.find(
             (elem) =>
-              elem?.code === questionCode && elem?.value?.includes(optionID),
+              elem?.code === questionCode &&
+              elem?.value?.includes(Number(optionID)),
           )
-            ? `${numbersColor[optionID - 1].bg}`
+            ? `${numbersColor[Number(optionID) - 1].bg}`
             : 'bg-[#3d3d3d]/30'
         }`}
         onClick={() => {
@@ -59,7 +60,6 @@ function OptionsNumber({
             const existingIndex = prev.findIndex(
               (item) => item.code === questionCode,
             );
-
             if (existingIndex > -1) {
               // Update existing entry for the questionCode
               const updatedResponse = [...prev];
@@ -73,7 +73,7 @@ function OptionsNumber({
                           (id) => id !== optionID,
                         )
                       : [...updatedResponse[existingIndex].value, optionID]
-                    : [optionID], // Replace for singleChoice
+                    : [Number(optionID)], // Replace for singleChoice
                 description: '', // Optional, update if needed
               };
               return updatedResponse;
@@ -83,7 +83,7 @@ function OptionsNumber({
                 ...prev,
                 {
                   code: questionCode,
-                  value: [optionID],
+                  value: [Number(optionID)],
                   description: '',
                 },
               ];
@@ -98,9 +98,9 @@ function OptionsNumber({
               response?.find(
                 (elem) =>
                   elem?.code === questionCode &&
-                  elem?.value?.includes(optionID),
+                  elem?.value?.includes(Number(optionID)),
               )
-                ? `${numbersColor[optionID - 1].text}`
+                ? `${numbersColor[Number(optionID) - 1].text}`
                 : 'text-[#b1b1b1]'
             }`}
           >

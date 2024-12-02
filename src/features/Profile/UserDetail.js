@@ -26,6 +26,7 @@ import { Name } from '../LifestyleQuiz';
 import { WhatsappShareButton } from 'react-share';
 import GiftCard from '../ReferralUser/GiftCard';
 import mixpanel from 'mixpanel-browser';
+import WeeklyCheckinTile from '../../components/WeeklyCheckinTile';
 
 const ProfilePicHeading = styled.div`
   color: #d7d7d7;
@@ -65,6 +66,8 @@ const UserDetails = ({ showHistory }) => {
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const currentDate = new Date().getDate();
+  const [week, setWeek] = useState('');
+  const [weeklyResponse, setWeeklyResponse] = useState(undefined);
 
   const imageUrl =
     'https://storage.googleapis.com/otm_client_profile_pictures/DUAAKA3938_Dummy_Aakash_7921.jpg';
@@ -86,6 +89,42 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       getMemberData(user);
     }
   }, []);
+
+  useEffect(() => {
+    async function getStatsData() {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
+        );
+        if (res.data) {
+          setWeek(res.data.data[0].week);
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+      }
+    }
+    getStatsData();
+  }, []);
+
+  useEffect(() => {
+    async function getWeeklyReviewData() {
+      try {
+        if (week) {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
+          );
+          if (res.data) {
+            setWeeklyResponse(res.data.data);
+          }
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+      }
+    }
+    getWeeklyReviewData();
+  }, [week]);
 
   const showElite =
     memberData && parseInt(memberData.avgIntensity) > 10 ? true : false;
@@ -194,7 +233,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
     },
   };
 
-  if(showReferralLinkPopup) {
+  if (showReferralLinkPopup) {
     mixpanel.track('Referral Page viewed', {
       'Path name': window.location.pathname,
     });
@@ -263,7 +302,6 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       )}
 
       {showReferralLinkPopup && (
-
         <div
           initial="hidden"
           animate={showReferralLinkPopup ? 'visible' : 'hidden'}
@@ -606,6 +644,11 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                     </div>
                   </div>
 
+                  <WeeklyCheckinTile
+                    isWeeklyReviewSubmitted={
+                      weeklyResponse?.weeklyReview?.report
+                    }
+                  />
                   <Link
                     to="/marketplace"
                     className=" flex min-h-[190px] w-full flex-col items-center justify-start rounded-[12px]  bg-black-opacity-45 "

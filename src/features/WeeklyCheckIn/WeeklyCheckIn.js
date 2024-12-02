@@ -52,12 +52,9 @@ const WeeklyCheckIn = () => {
     getUserData(); // Invoke the memoized function
   }, []);
 
-  console.log('90909', week);
-
   const getWeeklyReviewData = useMemo(
     () => async () => {
       if (week) {
-        console.log('435445654654', week);
         setWeeklyReviewLoading(true);
         try {
           const res = await axios.get(
@@ -137,7 +134,6 @@ const WeeklyCheckIn = () => {
 
   useEffect(() => {
     // it will update the current question as soon as the screen changes
-    console.log(questionnaireForm, '-------');
     questionnaireForm &&
       updateCurrentQuestion(
         questionnaireForm,

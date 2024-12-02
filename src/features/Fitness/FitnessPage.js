@@ -58,37 +58,34 @@ const FitnessPage = () => {
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [loading, setLoading] = useState(false);
+  const [weeklyResponse, setWeeklyResponse] = useState(undefined);
 
   useEffect(() => {
-    async function getUserData() {
+    async function getStatsData() {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=PRAN`,
-          {
-            memberCode: 'PRAN',
-          },
+          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
         );
         if (res.data) {
-          setWeek(res.data.data[0].last8WeekConsistency[0].week);
+          setWeek(res.data.data[0].week);
         }
       } catch (err) {
         console.error(err.message);
       } finally {
       }
     }
-    getUserData();
+    getStatsData();
   }, []);
 
   useEffect(() => {
-    //Func to call get Weekly review
-    console.log('8989', week);
-    async function getUserData() {
+    async function getWeeklyReviewData() {
       try {
         if (week) {
           const res = await axios.get(
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
           );
           if (res.data) {
+            setWeeklyResponse(res.data.data);
           }
         }
       } catch (err) {
@@ -96,7 +93,7 @@ const FitnessPage = () => {
       } finally {
       }
     }
-    getUserData();
+    getWeeklyReviewData();
   }, [week]);
 
   async function getMemberData(code) {
@@ -327,7 +324,7 @@ const FitnessPage = () => {
             </section>
             {showComponent && (
               <WeeklyCheckinTile
-                isWeeklyReviewSubmitted={homeStats?.isWeeklyReviewSubmitted}
+                isWeeklyReviewSubmitted={weeklyResponse?.weeklyReview?.report}
               />
             )}
 

@@ -18,7 +18,7 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
     <div
       idD
       onClick={() => {
-        navigate('/weekly-checkin');
+        !isWeeklyReviewSubmitted && navigate('/weekly-checkin');
       }}
       className=""
     >
@@ -78,7 +78,7 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
             className="absolute bottom-0 right-[5px] z-10"
             alt="calender"
           />
-          {!isWeeklyReviewSubmitted && (
+          {isWeeklyReviewSubmitted && (
             <div className="absolute right-[5px] top-2 z-10 flex gap-1 rounded-[3px] bg-black-opacity-45 px-1 font-sfpro text-[10px] text-green ">
               <img
                 src="/assets/tick-green-circular.svg"

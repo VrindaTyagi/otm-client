@@ -32,14 +32,14 @@ const QuestionnaireScreenOutput = ({
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [chosenPic, setChosenPic] = useState([]);
   const [chosenPicBinary, setChosenPicBinary] = useState([]);
-  console.log('00000000', chosenPicBinary);
 
-  console.log(response, currentQuestion);
   useEffect(() => {
     if (weeklyResponse) {
       setResponse(weeklyResponse);
     }
   }, []);
+
+  console.log(questionnaireData[questionnaireScreen - 1]);
 
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
@@ -61,7 +61,7 @@ const QuestionnaireScreenOutput = ({
     }
     uploadPicFunc();
   };
-
+  console.log('questionnaireScreen', questionnaireScreen);
   const fillQuestionnaire = () => {
     setQuestionnaireFormLoading(true);
     async function getUserData() {
@@ -82,6 +82,7 @@ const QuestionnaireScreenOutput = ({
             // Return the object as is if description is removed or doesn't exist
             return item;
           });
+
           if (questionnaireScreen === 3) {
             await axios.put(
               `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
@@ -89,13 +90,15 @@ const QuestionnaireScreenOutput = ({
               {
                 memberCode: code,
                 week: week,
-                response: transformedResponseData
-                  ? transformedResponseData
-                  : [{ code: 'WKR12', value: 0 }],
+                response:
+                  transformedResponseData.length > 0
+                    ? transformedResponseData
+                    : [{ code: 'WKR12', value: [0] }],
                 completed: true,
               },
             );
-          } else {
+          }
+          if (transformedResponseData.length > 0) {
             await axios.put(
               `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
@@ -106,6 +109,18 @@ const QuestionnaireScreenOutput = ({
               },
             );
           }
+        }
+        if (response.length === 0 && questionnaireScreen === 3) {
+          await axios.put(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
+
+            {
+              memberCode: code,
+              week: week,
+              response: [{ code: 'WKR12', value: [0] }],
+              completed: true,
+            },
+          );
         }
       } catch (err) {
       } finally {
@@ -221,7 +236,7 @@ const QuestionnaireScreenOutput = ({
                   <div className="mb-3 flex w-full ">
                     {/* Question */}
                     <div className="w-fit">
-                      <h1 className="text-[14px] text-white">
+                      <h1 className="text-[14px]  ">
                         {`${capitalizeFirstLetter(ques?.content)}${
                           ques?.isRequired ? ' *' : ''
                         }`}

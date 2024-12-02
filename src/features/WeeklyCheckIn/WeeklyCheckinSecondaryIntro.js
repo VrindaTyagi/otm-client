@@ -102,7 +102,7 @@ const WeeklyCheckinSecondaryIntro = ({
                         {' '}
                         <img src="/assets/bar-graph-logo.svg" alt="graph" />
                         {/* <img loading="lazy" src="/assets/line-graph-logo.svg" /> */}
-                        consistency
+                        Consistency
                       </div>
                       <p className="mb-[5px] flex items-center gap-1 text-[10px] text-offwhite">
                         {' '}
@@ -127,7 +127,7 @@ const WeeklyCheckinSecondaryIntro = ({
                           src="/assets/line-graph-logo.svg"
                           alt="line-graph"
                         />
-                        metcon intensity
+                        Metcon Intensity
                       </div>
                       <div className="font-futura text-[32px]   leading-[40px] text-blue">
                         {statsData?.metconIntensity}
@@ -146,7 +146,7 @@ const WeeklyCheckinSecondaryIntro = ({
                         src="/assets/muscle-logo.svg"
                         alt="muscle-logo"
                       />
-                      volume
+                      Volume
                     </div>
                     <div className="font-futura text-[32px]   leading-[40px] text-blue">
                       {statsData?.totalWeightLiftedThisWeek?.toFixed(0)}{' '}
@@ -156,7 +156,7 @@ const WeeklyCheckinSecondaryIntro = ({
                 ) : (
                   <></>
                 )}
-                {statsData?.streak && (
+                {statsData?.perfectWeek?.isPerfectWeek && (
                   <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
                     <div className="flex gap-1  text-[15px] font-semibold text-offwhite">
                       {' '}
@@ -165,9 +165,22 @@ const WeeklyCheckinSecondaryIntro = ({
                         src="/assets/achievement-logo.svg"
                         alt="achievement"
                       />
-                      Perfect Week Streak
+                      Perfect Streak
                     </div>
-                    <div className="font-futura text-[32px]   leading-[40px] text-blue"></div>
+
+                    <div className="mt-1 font-sfpro text-[14px]   text-offwhite">
+                      {statsData?.perfectWeek?.streak > 0 && (
+                        <div className="mb-2 flex items-center">
+                          <div className="perfect-week mt-2 flex w-fit items-center rounded">
+                            <img src="assets/star.svg" alt="" />
+                            <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-[#4a3e1d]">
+                              Perfect Week x{statsData?.perfectWeek?.streak}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      You have unlocked perfect streak.
+                    </div>
                   </div>
                 )}
               </div>

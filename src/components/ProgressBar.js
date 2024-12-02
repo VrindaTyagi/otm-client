@@ -7,9 +7,12 @@ const ProgressBar = ({ currValue, totalValue, questionnaireData }) => {
 
   useEffect(() => {
     setTotalLength(widthRef.current?.clientWidth);
+
     // setting the progress length according to the currValue
     setProgressLength((currValue / totalValue) * totalLength);
   }, [currValue, totalValue, totalLength]);
+
+  console.log('45345353245345', progressLength);
   return (
     <div className="flex flex-col items-center">
       {/* 

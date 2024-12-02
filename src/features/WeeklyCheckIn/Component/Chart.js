@@ -9,40 +9,49 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const data = {
-  last8WeekWeightHistory: [50, 40, 10, 34, 30, 55, 56, 57],
-};
-
 // Transform the data into a format suitable for Recharts
-const formattedData = data.last8WeekWeightHistory.map((weight, index) => ({
-  week: index + 1, // X-axis points (index + 1 to make it 1-based)
-  weight, // Y-axis points
-}));
 
 // Calculate the minimum weight for the Y-axis starting point
-const minWeight = Math.min(...data.last8WeekWeightHistory);
 
-const WeightLineChart = () => {
+const WeightLineChart = ({ grahpData, yAxisKey }) => {
+  const minValue = grahpData
+    ? Math.min(...grahpData.map((data) => data[yAxisKey]))
+    : 0;
   return (
-    <ResponsiveContainer width={150}>
-      <LineChart
-        data={formattedData}
-        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-      >
-        <XAxis
-          hide
-          dataKey="week"
-          label={{ value: 'Week', position: 'insideBottom', offset: -5 }}
-        />
-        <YAxis
-          hide
-          domain={[minWeight, 'dataMax']} // Start from the lowest value
-          label={{ value: 'Weight (kg)', angle: -90, position: 'insideLeft' }}
-        />
-        <Tooltip />
-        <Line type="monotone" dataKey="weight" stroke="#8884d8" dot={false} />
-      </LineChart>
-    </ResponsiveContainer>
+    <>
+      {grahpData?.length > 0 ? (
+        <ResponsiveContainer width={150} height={90}>
+          <LineChart
+            data={grahpData}
+            margin={{ top: 10, right: 0, left: 20, bottom: 10 }}
+          >
+            <XAxis
+              hide
+              dataKey="week"
+              label={{ value: 'Week', position: 'insideBottom', offset: -5 }}
+            />
+            <YAxis
+              domain={[minValue, 'dataMax']} // Set the domain to start from minValue
+              hide // Hide the Y-axis if needed
+              label={{
+                value: 'Weight (kg)',
+                angle: -90,
+                position: 'insideLeft',
+              }}
+            />
+
+            <Line
+              type="monotone"
+              dataKey={yAxisKey}
+              stroke="#8884d8"
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
