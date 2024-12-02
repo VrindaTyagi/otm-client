@@ -15,31 +15,6 @@ const WeeklyCheckinSecondaryIntro = ({
   const [loading, setLoading] = useState(false);
   const [statsData, setStatsData] = useState(null);
 
-  function convertToWeekFormat(input) {
-    // Match the pattern to extract the parts (handles single-digit dates too)
-    const match = input.match(
-      /^(\d{1,2}[A-Za-z]+)-(\d{1,2}[A-Za-z]+)-(\d{4})$/,
-    );
-
-    if (!match) {
-      throw new Error(
-        "Input format is incorrect. Expected format: 'DDMMM-DDMMM-YYYY'",
-      );
-    }
-
-    const [_, start, end, year] = match;
-
-    // Extract day and month for the start and end
-    const startDay = start.match(/^\d+/)[0]; // Extract digits
-    const startMonth = start.match(/[A-Za-z]+$/)[0]; // Extract letters
-
-    const endDay = end.match(/^\d+/)[0]; // Extract digits
-    const endMonth = end.match(/[A-Za-z]+$/)[0]; // Extract letters
-
-    // Combine into the desired format
-    return `Week ${startDay}-${endDay} ${startMonth}`;
-  }
-
   useEffect(() => {
     if (statsData) {
       setWeek(statsData?.week);
@@ -87,9 +62,7 @@ const WeeklyCheckinSecondaryIntro = ({
         <>
           {' '}
           <div className="flex w-screen flex-col items-center justify-center px-[16px] pt-[35%]">
-            <div className="rounded-lg bg-black-opacity-40 px-2 py-[2px] text-[20px] text-blue">
-              {statsData?.week && convertToWeekFormat(statsData?.week)}
-            </div>
+            <div className="rounded-lg bg-black-opacity-40 px-2 py-[2px] text-[20px] text-blue"></div>
             <h3 className="my-[26px] font-sfpro text-[32px] font-medium leading-[40px] text-blue">
               A quick glance at your performance
             </h3>
