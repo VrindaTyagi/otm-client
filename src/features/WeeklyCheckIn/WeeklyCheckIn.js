@@ -62,7 +62,7 @@ const WeeklyCheckIn = () => {
           );
           if (res) {
             setWeeklyResponse(res.data.data.weeklyReview.response);
-            setWeeklyReport(res.data.data.report);
+            setWeeklyReport(res.data.data.weeklyReview.report);
           }
         } catch (err) {
           console.error(err.message);

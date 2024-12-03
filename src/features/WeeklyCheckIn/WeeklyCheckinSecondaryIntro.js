@@ -93,9 +93,7 @@ const WeeklyCheckinSecondaryIntro = ({
       <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
         <RxCross1 onClick={() => navigate('/')} className="" />
       </div>
-      {weeklyReviewLoading === true || loading === true ? (
-        <Loader />
-      ) : (
+      {weeklyReviewLoading === false && loading === false ? (
         <>
           {' '}
           <div className="flex w-screen flex-col items-center justify-center px-[16px] pt-[35%]">
@@ -208,6 +206,8 @@ const WeeklyCheckinSecondaryIntro = ({
             Next <FaArrowRight />
           </button>
         </>
+      ) : (
+        <Loader />
       )}
     </div>
   );

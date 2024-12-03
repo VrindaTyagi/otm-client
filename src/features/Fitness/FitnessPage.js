@@ -80,6 +80,7 @@ const FitnessPage = () => {
   useEffect(() => {
     async function getWeeklyReviewData() {
       try {
+        setLoading(true);
         if (week) {
           const res = await axios.get(
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
@@ -91,6 +92,7 @@ const FitnessPage = () => {
       } catch (err) {
         console.error(err.message);
       } finally {
+        setLoading(false);
       }
     }
     getWeeklyReviewData();
@@ -191,7 +193,7 @@ const FitnessPage = () => {
       {!loader && !error && (
         <FeatureUpdatePopup backendVersion={homeStats?.lastSeenUiVersion} />
       )}
-      {loader && <Loader />}
+      {(loading || loader) && <Loader />}
       {error && <Error>{error}</Error>}
       {showActivity === true && (
         <AdditionalActivity

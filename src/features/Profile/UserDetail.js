@@ -68,6 +68,7 @@ const UserDetails = ({ showHistory }) => {
   const currentDate = new Date().getDate();
   const [week, setWeek] = useState('');
   const [weeklyResponse, setWeeklyResponse] = useState(undefined);
+  const [isWeeklyResponseLoading, setIsWeeklyResponseLoading] = useState(true);
 
   const imageUrl =
     'https://storage.googleapis.com/otm_client_profile_pictures/DUAAKA3938_Dummy_Aakash_7921.jpg';
@@ -121,6 +122,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       } catch (err) {
         console.error(err.message);
       } finally {
+        setIsWeeklyResponseLoading(false);
       }
     }
     getWeeklyReviewData();
@@ -162,7 +164,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
     logout();
   }
 
-  if (isLoading) {
+  if (isLoading || isWeeklyResponseLoading === true) {
     return <Loader />;
   }
 
