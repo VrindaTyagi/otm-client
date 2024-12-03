@@ -463,26 +463,23 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                           <div className="text-[10px] text-offwhite">
                             {(Number(weeklyReport?.energyLevelLastWeek) === 0 ||
                               !Number(weeklyReport?.energyLevelLastWeek)) &&
-                              Number(weeklyReport?.energyLevelThisWeek) <
-                                5(
-                                  <div className="font-sfpro text-[12px] text-offwhite">
-                                    You rated{' '}
-                                    {weeklyReport?.energyLevelThisWeek} out of 5
-                                    on energy level. Let's aim for a higher
-                                    score
-                                  </div>,
-                                )}
+                              Number(weeklyReport?.energyLevelThisWeek) < 5 && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
+                                  out of 5 on energy level. Let's aim for a
+                                  higher score
+                                </div>
+                              )}
 
                             {(Number(weeklyReport?.energyLevelLastWeek) === 0 ||
                               !Number(weeklyReport?.energyLevelLastWeek)) &&
                               Number(weeklyReport?.energyLevelThisWeek) ===
-                                5(
-                                  <div className="font-sfpro text-[12px] text-offwhite">
-                                    You rated{' '}
-                                    {weeklyReport?.energyLevelThisWeek} out of 5
-                                    on energy level. Keep going!
-                                  </div>,
-                                )}
+                                5 && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
+                                  out of 5 on energy level. Keep going!
+                                </div>
+                              )}
                             {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
                               Number(weeklyReport?.energyLevelLastWeek) >
                                 Number(weeklyReport?.energyLevelThisWeek) && (

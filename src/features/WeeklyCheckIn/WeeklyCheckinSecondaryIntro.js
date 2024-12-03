@@ -146,8 +146,7 @@ const WeeklyCheckinSecondaryIntro = ({
                   )}
               </div>
               <div className="flex w-full flex-col gap-2">
-                {statsData?.totalWeightLiftedLastWeek &&
-                statsData?.totalWeightLiftedLastWeek > 0 ? (
+                {statsData?.totalWeightLiftedLastWeek ? (
                   <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
                     <div className="flex gap-1  text-[15px] font-semibold text-offwhite ">
                       {' '}
