@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import WeeklyCheckinConsistency from './WeeklyCheckinConsistency';
 import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Loader } from '../../components';
 
 const WeeklyCheckinSecondaryIntro = ({
   setScreen,
-  setWeek,
-  code,
   weeklyReviewLoading,
+  loading,
+  statsData,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [statsData, setStatsData] = useState(null);
-
   function convertToWeekFormat(input) {
     // Ensure the input is a string
     if (typeof input !== 'string') {
@@ -52,34 +48,6 @@ const WeeklyCheckinSecondaryIntro = ({
     return `Week ${startDay}-${endDay} ${startMonth}`;
   }
 
-  useEffect(() => {
-    if (statsData) {
-      setWeek(statsData?.week);
-    }
-  }, [statsData]);
-
-  useEffect(() => {
-    setLoading(true);
-    async function getUserData() {
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
-          {
-            memberCode: 'PRAN',
-          },
-        );
-        if (res.data) {
-          setStatsData(res.data.data[0]);
-        }
-      } catch (err) {
-        console.error(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    getUserData();
-  }, []);
-
   const navigate = useNavigate();
 
   return (
@@ -105,28 +73,29 @@ const WeeklyCheckinSecondaryIntro = ({
             </h3>
             <div className="flex w-full gap-2">
               <div className="flex w-full flex-col gap-2">
-                {statsData?.last8WeekConsistency &&
-                  statsData?.last8WeekConsistency.length > 0 && (
-                    <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
-                      <div className="flex gap-1 text-[15px] font-semibold text-offwhite">
-                        {' '}
-                        <img src="/assets/bar-graph-logo.svg" alt="graph" />
-                        {/* <img loading="lazy" src="/assets/line-graph-logo.svg" /> */}
-                        Consistency
-                      </div>
-                      <p className="mb-[5px] flex items-center gap-1 text-[10px] text-offwhite">
-                        {' '}
-                        <span className="font-futura text-[32px]   leading-[40px] text-blue">
-                          {statsData?.last8WeekConsistency[0].count}
-                        </span>{' '}
-                        workout last week
-                      </p>
-                      <WeeklyCheckinConsistency
-                        last8WeekConsistency={statsData?.last8WeekConsistency}
-                        suggestedWorkoutPerWeek={4}
-                      />
+                {statsData?.last8WeekConsistency && (
+                  <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
+                    <div className="flex gap-1 text-[15px] font-semibold text-offwhite">
+                      {' '}
+                      <img src="/assets/bar-graph-logo.svg" alt="graph" />
+                      {/* <img loading="lazy" src="/assets/line-graph-logo.svg" /> */}
+                      Consistency
                     </div>
-                  )}
+                    <p className="mb-[5px] flex items-center gap-1 text-[10px] text-offwhite">
+                      {' '}
+                      <span className="font-futura text-[32px]   leading-[40px] text-blue">
+                        {statsData?.last8WeekConsistency[0]?.count
+                          ? statsData?.last8WeekConsistency[0]?.count
+                          : 0}
+                      </span>{' '}
+                      workout last week
+                    </p>
+                    <WeeklyCheckinConsistency
+                      last8WeekConsistency={statsData?.last8WeekConsistency}
+                      suggestedWorkoutPerWeek={4}
+                    />
+                  </div>
+                )}
                 {statsData?.metconIntensity &&
                   statsData?.metconIntensity > 0 && (
                     <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
@@ -146,7 +115,7 @@ const WeeklyCheckinSecondaryIntro = ({
                   )}
               </div>
               <div className="flex w-full flex-col gap-2">
-                {statsData?.totalWeightLiftedLastWeek ? (
+                {
                   <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
                     <div className="flex gap-1  text-[15px] font-semibold text-offwhite ">
                       {' '}
@@ -162,10 +131,8 @@ const WeeklyCheckinSecondaryIntro = ({
                       {statsData?.totalWeightLiftedUnit}
                     </div>
                   </div>
-                ) : (
-                  <></>
-                )}
-                {statsData?.perfectWeek?.isPerfectWeek && (
+                }
+                {statsData?.perfectWeek?.isPerfectWeek ? (
                   <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
                     <div className="flex gap-1  text-[15px] font-semibold text-offwhite">
                       {' '}
@@ -188,7 +155,27 @@ const WeeklyCheckinSecondaryIntro = ({
                           </div>
                         </div>
                       )}
-                      You have unlocked perfect streak.
+                    </div>
+                  </div>
+                ) : (
+                  <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
+                    {' '}
+                    <div className="flex gap-1  text-[15px] font-semibold text-offwhite">
+                      {' '}
+                      <img
+                        loading="lazy"
+                        src="/assets/achievement-logo.svg"
+                        alt="achievement"
+                      />
+                      Perfect Streak
+                    </div>
+                    <div className=" flex items-center gap-2 text-[10px] text-offwhite">
+                      {' '}
+                      <div className="font-futura text-[32px]   leading-[40px] text-blue">
+                        {' '}
+                        0{' '}
+                      </div>
+                      week streak unlocked.
                     </div>
                   </div>
                 )}

@@ -11,6 +11,8 @@ import { GiNightSleep } from 'react-icons/gi';
 import { IoIosNutrition } from 'react-icons/io';
 import { MdArrowDropDown } from 'react-icons/md';
 import { MdArrowDropUp } from 'react-icons/md';
+import ShareWeeklyCheckinScreen from './ShareWeeklyCheckinScreen';
+import { Loader } from '../../components';
 
 const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   const navigate = useNavigate();
@@ -20,6 +22,15 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   const name = JSON.parse(localStorage.getItem('user'))['name'];
 
   const summaryRef = useRef(null);
+
+  function reverseArray(arr) {
+    // Create a copy of the array to avoid modifying the original
+    const reversed = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      reversed.push(arr[i]);
+    }
+    return reversed;
+  }
 
   function convertToWeekFormat(input) {
     // Ensure the input is a string
@@ -66,10 +77,10 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   }
 
   const weightLiftedComapre = () => {
-    const latest = weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted;
-    const secondLatest =
-      weeklyReport?.last8WeekWeightLifted[1]?.totalWeightLifted;
-
+    const report = weeklyReport?.last8WeekWeightLifted;
+    const latest = report?.[0]?.totalWeightLifted;
+    const secondLatest = report?.[1]?.totalWeightLifted;
+    console.log(weeklyReport?.last8WeekWeightLifted);
     return latest - secondLatest;
   };
   const numbersColor = [
@@ -95,6 +106,8 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
       text: 'text-[#5ECC7B]',
     },
   ];
+
+  console.log('hlohlohlohlo', weeklyReport?.last8WeekWeightHistory);
 
   const captureAndShareToWhatsApp = async () => {
     //function to take screenshot of our result screen and later share it.
@@ -160,6 +173,9 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   if (!userProfilePicture && userProfilePicture !== '') {
     getMemberData(code);
   }
+  if (!weeklyReport) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -199,10 +215,18 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
             </div>
           </div>
 
-          <div
-            ref={summaryRef}
-            className="mt-[24px] flex h-full flex-col gap-2 bg-none"
-          >
+          <div className="pointer-events-none absolute opacity-0 ">
+            <ShareWeeklyCheckinScreen
+              formatToK={formatToK}
+              numbersColor={numbersColor}
+              summaryRef={summaryRef}
+              weeklyReport={weeklyReport}
+              weightLiftedComapre={weightLiftedComapre}
+              reverseArray={reverseArray}
+            />
+          </div>
+
+          <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
             <div className=" relative flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex grow gap-2 text-[15px] font-semibold text-offwhite">
@@ -239,7 +263,10 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   </div>
                 </div>
                 <WeightLineChart
-                  grahpData={weeklyReport?.last4WeekConsistency}
+                  grahpData={
+                    weeklyReport?.last4WeekConsistency &&
+                    reverseArray(weeklyReport?.last4WeekConsistency)
+                  }
                   yAxisKey={'count'}
                 />
               </div>
@@ -267,7 +294,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                       {weeklyReport?.weightUnit}
                     </span>{' '}
                     Total weight lifted this week
-                    {weightLiftedComapre() !== 0 && (
+                    {
                       <div className="flex items-center gap-1">
                         <div
                           className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
@@ -297,11 +324,14 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                           last week
                         </p>
                       </div>
-                    )}
+                    }
                   </p>
                 </div>
                 <WeightLineChart
-                  grahpData={weeklyReport?.last8WeekWeightLifted}
+                  grahpData={
+                    weeklyReport?.last8WeekWeightLifted &&
+                    reverseArray(weeklyReport?.last8WeekWeightLifted)
+                  }
                   yAxisKey={'totalWeightLifted'}
                 />
               </div>
@@ -363,7 +393,10 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   </div>
                 </div>
                 <WeightLineChart
-                  grahpData={weeklyReport?.last4WeekStepCount}
+                  grahpData={
+                    weeklyReport?.last4WeekStepCount &&
+                    reverseArray(weeklyReport?.last4WeekStepCount)
+                  }
                   yAxisKey={'steps'}
                 />
               </div>
@@ -755,7 +788,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 </div>
               </div>
             )}
-            {weeklyReport?.last8WeekWeightHistory > 0 && (
+            {weeklyReport?.last8WeekWeightHistory.length > 0 && (
               <div className=" flex flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
@@ -800,7 +833,10 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   </div>
                   {weeklyReport?.last8WeekWeightHistory.length > 1 && (
                     <WeightLineChart
-                      grahpData={weeklyReport?.last8WeekWeightHistory}
+                      grahpData={
+                        weeklyReport?.last8WeekWeightHistory &&
+                        reverseArray(weeklyReport?.last8WeekWeightHistory)
+                      }
                       yAxisKey={'weight'}
                     />
                   )}

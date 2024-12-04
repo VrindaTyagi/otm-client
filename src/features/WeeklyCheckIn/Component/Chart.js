@@ -43,7 +43,12 @@ const WeightLineChart = ({ grahpData, yAxisKey }) => {
             <Line
               type="monotone"
               dataKey={yAxisKey}
-              stroke="#8884d8"
+              stroke={
+                grahpData[grahpData?.length - 1][yAxisKey] >
+                grahpData[grahpData?.length - 2][yAxisKey]
+                  ? '#5ECC7B'
+                  : '#FA5757'
+              }
               dot={false}
             />
           </LineChart>

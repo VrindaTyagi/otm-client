@@ -93,7 +93,7 @@ const QuestionnaireScreenOutput = ({
                 response:
                   transformedResponseData.length > 0
                     ? transformedResponseData
-                    : [{ code: 'WKR12', value: [0] }],
+                    : [{ code: 'WKR12', value: ['0'] }],
                 completed: true,
               },
             );

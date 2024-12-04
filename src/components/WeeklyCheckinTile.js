@@ -11,15 +11,15 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const submitted = true;
-
   const navigate = useNavigate();
   return (
     <>
       <div
         idD
         onClick={() => {
-          navigate('/weekly-checkin');
+          isWeeklyReviewSubmitted
+            ? navigate(`/weekly-checkin?formSubmit=${true}`)
+            : navigate('/weekly-checkin');
         }}
         className=""
       >
@@ -66,13 +66,6 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
                 insights and visualize your progress
               </div>
             </div>
-            <div className="h-[1px] w-[100px]"></div>
-            {!isWeeklyReviewSubmitted && (
-              <div className="absolute bottom-[43px] right-5 z-[20] flex h-min items-center justify-center rounded-[3px] bg-green px-1 py-[2px] text-center text-[7px] leading-[8px] text-black-opacity-65">
-                <img src="/assets/upArrow-black.svg" alt="calender" />
-                12% since last week
-              </div>
-            )}
 
             <img
               src="/assets/weekly-checkin-intro-graph.svg"

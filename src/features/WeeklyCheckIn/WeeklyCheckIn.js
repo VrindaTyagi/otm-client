@@ -12,6 +12,7 @@ import WeeklyCheckinLoadingScreem from './WeeklyCheckinLoadingScreem';
 
 import QuestionnaireScreenOutput from './QuestionnaireScreenOutput';
 import NutritionScreen from './NutritionScreen';
+import { useLocation } from 'react-router-dom';
 
 const WeeklyCheckIn = () => {
   const [screen, setScreen] = useState('Introduction');
@@ -28,6 +29,13 @@ const WeeklyCheckIn = () => {
   const [weeklyResponse, setWeeklyResponse] = useState(undefined);
   const [weeklyReport, setWeeklyReport] = useState(undefined);
   const [weeklyReviewLoading, setWeeklyReviewLoading] = useState(false);
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [statsData, setStatsData] = useState(null);
+
+  // Parse the query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const formSubmit = queryParams.get('formSubmit');
 
   const getUserData = useMemo(
     () => async () => {
@@ -75,8 +83,40 @@ const WeeklyCheckIn = () => {
   );
 
   useEffect(() => {
+    if (formSubmit) {
+      getWeeklyReviewData();
+      setScreen('result');
+    } else {
+      setScreen('Introduction');
+    }
+  }, [formSubmit, week]);
+
+  useEffect(() => {
     getWeeklyReviewData();
   }, [week]);
+
+  useEffect(() => {
+    setLoading(true);
+    async function getUserData() {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
+          {
+            memberCode: 'PRAN',
+          },
+        );
+        if (res.data) {
+          setStatsData(res.data.data[0]);
+          setWeek(res.data.data[0].week);
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getUserData();
+  }, []);
 
   // useEffect(() => {
   //   //Func to call get weekly review API
@@ -160,6 +200,8 @@ const WeeklyCheckIn = () => {
           setWeek={setWeek}
           setScreen={setScreen}
           code={code}
+          loading={loading}
+          statsData={statsData}
         />
       )}
       {screen === 'result' && (

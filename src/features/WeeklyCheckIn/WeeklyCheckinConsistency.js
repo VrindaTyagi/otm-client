@@ -4,7 +4,7 @@ const WeeklyCheckinConsistency = ({
   suggestedWorkoutPerWeek,
   last8WeekConsistency,
 }) => {
-  const Bar = ({ progress }) => {
+  const Bar = ({ progress, isFirstBar }) => {
     const [basicgreen, intermediategreen, advancedgreen, red, yellow, gray] = [
       '#7FE08A',
       '#29C344',
@@ -66,15 +66,29 @@ const WeeklyCheckinConsistency = ({
         <div className="flex h-full w-full flex-col items-center justify-end bg-transparent">
           <div style={barStyles} className="barStyle w-full rounded-xl"></div>
         </div>
+        {isFirstBar && (
+          <div className="absolute bottom-0 left-1/2 mt-1 h-[4px] w-[4px] -translate-x-1/2 translate-y-[8px] transform rounded-full bg-white"></div>
+        )}
       </div>
     );
   };
 
   return (
     <div className="flex gap-[5px]">
-      {[...last8WeekConsistency]?.reverse().map((item, index) => (
-        <Bar progress={item?.count} key={index} />
-      ))}
+      {[...Array(8).keys()].reverse().map((item, index) => {
+        const reversedIndex = 7 - index;
+        const progressCount =
+          last8WeekConsistency[reversedIndex] !== undefined
+            ? last8WeekConsistency[reversedIndex]?.count
+            : 0;
+        return (
+          <Bar
+            progress={progressCount}
+            key={Math.random() * 1000}
+            isFirstBar={index === 7}
+          />
+        );
+      })}
     </div>
   );
 };

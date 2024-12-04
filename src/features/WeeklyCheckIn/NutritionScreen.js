@@ -35,7 +35,7 @@ const NutritionScreen = ({ setShowNutritionScreen, nutritionData }) => {
                 className=" h-[31px] w-[31px] "
                 alt="background"
               />
-              Natural Principles
+              Nutrition Principles
             </div>
             <div className="  flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
               <RxCross1
