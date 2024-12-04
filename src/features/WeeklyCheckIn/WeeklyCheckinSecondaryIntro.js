@@ -130,6 +130,59 @@ const WeeklyCheckinSecondaryIntro = ({
                       {statsData?.totalWeightLiftedThisWeek?.toFixed(0)}{' '}
                       {statsData?.totalWeightLiftedUnit}
                     </div>
+                    {/* {statsData?.totalWeightLiftedLastWeek === 0 && (
+                      <div>
+                      <div>
+                        {statsData?.totalWeightLiftedThisWeek -
+                          statsData?.totalWeightLiftedLastWeek} {statsData?.totalWeightLiftedUnit}
+                      </div> 
+
+                      </div>
+                    )} */}
+
+                    {statsData?.totalWeightLiftedThisWeek !==
+                    statsData?.totalWeightLiftedLastWeek ? (
+                      <div className="flex items-center gap-1">
+                        <div
+                          className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
+                            statsData?.totalWeightLiftedThisWeek -
+                              statsData?.totalWeightLiftedLastWeek >
+                            0
+                              ? 'bg-green-opacity-12 text-green '
+                              : 'bg-red-opacity-12 text-red'
+                          } `}
+                        >
+                          {statsData?.totalWeightLiftedThisWeek -
+                            statsData?.totalWeightLiftedLastWeek >
+                          0 ? (
+                            <img
+                              src="/assets/upArrow.svg"
+                              className="h-[11px] w-[11px]"
+                              alt="shoe"
+                            />
+                          ) : (
+                            <img
+                              src="/assets/downArrow.svg"
+                              className="h-[11px] w-[11px]"
+                              alt="shoe"
+                            />
+                          )}
+                          {statsData?.totalWeightLiftedThisWeek -
+                            statsData?.totalWeightLiftedLastWeek}{' '}
+                          {statsData?.totalWeightLiftedUnit}
+                        </div>
+                        <p className="font-sfpro text-[10px] text-white-opacity-50">
+                          {statsData?.totalWeightLiftedThisWeek -
+                            statsData?.totalWeightLiftedLastWeek >
+                          0
+                            ? 'more'
+                            : 'less'}{' '}
+                          than last week
+                        </p>
+                      </div>
+                    ) : (
+                      <div></div>
+                    )}
                   </div>
                 }
                 {statsData?.perfectWeek?.isPerfectWeek ? (

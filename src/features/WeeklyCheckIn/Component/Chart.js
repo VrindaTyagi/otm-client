@@ -31,7 +31,6 @@ const WeightLineChart = ({ grahpData, yAxisKey }) => {
               label={{ value: 'Week', position: 'insideBottom', offset: -5 }}
             />
             <YAxis
-              domain={[minValue, 'dataMax']} // Set the domain to start from minValue
               hide // Hide the Y-axis if needed
               label={{
                 value: 'Weight (kg)',
@@ -44,8 +43,8 @@ const WeightLineChart = ({ grahpData, yAxisKey }) => {
               type="monotone"
               dataKey={yAxisKey}
               stroke={
-                grahpData[grahpData?.length - 1][yAxisKey] >
-                grahpData[grahpData?.length - 2][yAxisKey]
+                grahpData[0][yAxisKey] <=
+                grahpData[grahpData?.length - 1][yAxisKey]
                   ? '#5ECC7B'
                   : '#FA5757'
               }

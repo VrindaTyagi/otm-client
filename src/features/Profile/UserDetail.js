@@ -117,12 +117,12 @@ Here's a 20% off discount because I'd love for you to get healthy too!
           );
           if (res.data) {
             setWeeklyResponse(res.data.data);
+            setIsWeeklyResponseLoading(false);
           }
         }
       } catch (err) {
         console.error(err.message);
       } finally {
-        setIsWeeklyResponseLoading(false);
       }
     }
     getWeeklyReviewData();
@@ -164,7 +164,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
     logout();
   }
 
-  if (isLoading || isWeeklyResponseLoading === true) {
+  if (isLoading !== false || isWeeklyResponseLoading !== false) {
     return <Loader />;
   }
 

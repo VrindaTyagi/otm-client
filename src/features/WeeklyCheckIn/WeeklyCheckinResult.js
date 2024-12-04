@@ -223,6 +223,11 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
               weeklyReport={weeklyReport}
               weightLiftedComapre={weightLiftedComapre}
               reverseArray={reverseArray}
+              caiptalInitial={caiptalInitial}
+              convertToWeekFormat={convertToWeekFormat}
+              name={name}
+              userProfilePicture={userProfilePicture}
+              week={week}
             />
           </div>
 
