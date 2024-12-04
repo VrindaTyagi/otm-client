@@ -119,7 +119,7 @@ const Aerobic = () => {
   }, []);
 
   return (
-    <AnimatedComponent className="bg-screenBackgroundColor relative h-screen overflow-y-scroll">
+    <AnimatedComponent className="relative h-screen overflow-y-scroll bg-screenBackgroundColor">
       <div className=" absolute left-3 top-3 z-50 flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
         <FaArrowLeftLong onClick={() => handleBackButton()} />
       </div>
@@ -223,7 +223,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Distance
                   </h3>
-                  <div className="border-b-white-opacity-20 mt-[14px] flex h-[40px] items-center   gap-5  rounded-t-md border-b ">
+                  <div className="mt-[14px] flex h-[40px] items-center gap-5   rounded-t-md  border-b border-b-white-opacity-20 ">
                     <div className="flex w-full gap-2">
                       <input
                         type="number"
@@ -245,7 +245,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Calories Burned
                   </h3>
-                  <div className=" border-b-white-opacity-20 mt-[20px] flex h-[40px] border-b">
+                  <div className=" mt-[20px] flex h-[40px] border-b border-b-white-opacity-20">
                     <input
                       type="number"
                       name="m"
