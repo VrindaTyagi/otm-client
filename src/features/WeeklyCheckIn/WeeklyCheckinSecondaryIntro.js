@@ -130,15 +130,6 @@ const WeeklyCheckinSecondaryIntro = ({
                       {statsData?.totalWeightLiftedThisWeek?.toFixed(0)}{' '}
                       {statsData?.totalWeightLiftedUnit}
                     </div>
-                    {/* {statsData?.totalWeightLiftedLastWeek === 0 && (
-                      <div>
-                      <div>
-                        {statsData?.totalWeightLiftedThisWeek -
-                          statsData?.totalWeightLiftedLastWeek} {statsData?.totalWeightLiftedUnit}
-                      </div> 
-
-                      </div>
-                    )} */}
 
                     {statsData?.totalWeightLiftedThisWeek !==
                     statsData?.totalWeightLiftedLastWeek ? (
