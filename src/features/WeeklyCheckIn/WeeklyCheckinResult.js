@@ -211,7 +211,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
               )}
             </div>
           </div>
-          {/* 
+
           <div className="pointer-events-none absolute opacity-0 ">
             <ShareWeeklyCheckinScreen
               formatToK={formatToK}
@@ -226,7 +226,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
               userProfilePicture={userProfilePicture}
               week={week}
             />
-          </div> */}
+          </div>
 
           <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
             <div className=" relative flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
