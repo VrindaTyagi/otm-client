@@ -221,7 +221,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
               weightLiftedComapre={weightLiftedComapre}
               reverseArray={reverseArray}
               caiptalInitial={caiptalInitial}
-              convertToWeekFormat={convertToWeekFormat}
               userProfilePicture={userProfilePicture}
               week={week}
             />

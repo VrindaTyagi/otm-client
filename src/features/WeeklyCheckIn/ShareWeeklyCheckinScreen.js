@@ -15,12 +15,47 @@ const ShareWeeklyCheckinScreen = ({
   formatToK,
   reverseArray,
   week,
-  convertToWeekFormat,
   userProfilePicture,
   caiptalInitial,
 }) => {
   const navigate = useNavigate();
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
+  function convertToWeekFormat(input) {
+    // Ensure the input is a string
+    if (typeof input !== 'string') {
+      console.error('Input must be a string');
+      return 'Invalid Date Format';
+    }
+
+    // Match the pattern to extract the parts (handles single-digit dates too)
+    const regex = /^(\d{1,2}[A-Za-z]+)-(\d{1,2}[A-Za-z]+)-(\d{4})$/;
+    const match = input.match(regex);
+
+    if (!match) {
+      console.error(
+        "Input format is incorrect. Expected format: 'DDMMM-DDMMM-YYYY'. Received:",
+        input,
+      );
+      return 'Invalid Date Format';
+    }
+
+    const [_, start, end, year] = match;
+
+    // Extract day and month for the start and end
+    const startDay = start.match(/^\d+/)?.[0]; // Extract digits
+    const startMonth = start.match(/[A-Za-z]+$/)?.[0]; // Extract letters
+
+    const endDay = end.match(/^\d+/)?.[0]; // Extract digits
+    const endMonth = end.match(/[A-Za-z]+$/)?.[0]; // Extract letters
+
+    if (!startDay || !startMonth || !endDay || !endMonth) {
+      console.error('Unable to parse start or end date from input:', input);
+      return 'Invalid Date Format';
+    }
+
+    // Combine into the desired format
+    return `Week ${startDay}-${endDay} ${startMonth}`;
+  }
   return (
     <div ref={summaryRef} className="bg-black">
       <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
@@ -30,9 +65,9 @@ const ShareWeeklyCheckinScreen = ({
           </div>
           <div className="flex justify-between">
             <div>
-              {/* <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
+              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
                 {week && convertToWeekFormat(week)}
-              </div> */}
+              </div>
               {/* <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
                 Hi {fullName}, <br /> Here’s your week in Numbers
               </h5> */}
