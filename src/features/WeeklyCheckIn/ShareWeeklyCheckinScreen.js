@@ -25,6 +25,20 @@ const ShareWeeklyCheckinScreen = ({
     <div ref={summaryRef} className="bg-black">
       <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
+          <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
+            <RxCross1 onClick={() => navigate('/')} className="" />
+          </div>
+          <div className="flex justify-between">
+            <div>
+              <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
+                {week && convertToWeekFormat(week)}
+              </div>
+              <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
+                Hi {name && name}, <br /> Here’s your week in Numbers
+              </h5>
+            </div>
+          </div>
+
           <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
             <div className=" relative flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
               <div className="flex items-center justify-between gap-3">
