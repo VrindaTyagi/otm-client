@@ -20,7 +20,7 @@ const WeightLineChart = ({ grahpData, yAxisKey }) => {
   return (
     <>
       {grahpData?.length > 0 ? (
-        <ResponsiveContainer width={150} height={90}>
+        <ResponsiveContainer width={150} height={80}>
           <LineChart
             data={grahpData}
             margin={{ top: 10, right: 0, left: 20, bottom: 10 }}

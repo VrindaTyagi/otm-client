@@ -122,6 +122,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
         }
       } catch (err) {
         console.error(err.message);
+        setIsWeeklyResponseLoading(false);
       } finally {
       }
     }
@@ -568,6 +569,9 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                 </p>
 
                 <div className="mt-[15px] flex flex-col gap-[10px]">
+                  <WeeklyCheckinTile
+                    isWeeklyReviewSubmitted={weeklyResponse?.report}
+                  />
                   <div
                     className="mx-auto max-h-max w-full rounded-xl bg-black-opacity-45 px-4 py-3"
                     onClick={() => setShowProfilePicPopup(false)}
@@ -646,11 +650,6 @@ Here's a 20% off discount because I'd love for you to get healthy too!
                     </div>
                   </div>
 
-                  <WeeklyCheckinTile
-                    isWeeklyReviewSubmitted={
-                      weeklyResponse?.weeklyReview?.report
-                    }
-                  />
                   <Link
                     to="/marketplace"
                     className=" flex min-h-[190px] w-full flex-col items-center justify-start rounded-[12px]  bg-black-opacity-45 "

@@ -69,8 +69,8 @@ const WeeklyCheckIn = () => {
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
           );
           if (res) {
-            setWeeklyResponse(res.data.data.weeklyReview.response);
-            setWeeklyReport(res.data.data.weeklyReview.report);
+            setWeeklyResponse(res.data.data.response);
+            setWeeklyReport(res.data.data.report);
           }
         } catch (err) {
           console.error(err.message);

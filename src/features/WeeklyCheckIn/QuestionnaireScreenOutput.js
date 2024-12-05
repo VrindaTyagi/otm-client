@@ -39,8 +39,6 @@ const QuestionnaireScreenOutput = ({
     }
   }, []);
 
-  console.log(questionnaireData[questionnaireScreen - 1]);
-
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
       try {
@@ -61,7 +59,6 @@ const QuestionnaireScreenOutput = ({
     }
     uploadPicFunc();
   };
-  console.log('questionnaireScreen', questionnaireScreen);
   const fillQuestionnaire = () => {
     setQuestionnaireFormLoading(true);
     async function getUserData() {
@@ -93,7 +90,7 @@ const QuestionnaireScreenOutput = ({
                 response:
                   transformedResponseData.length > 0
                     ? transformedResponseData
-                    : [{ code: 'WKR12', value: ['0'] }],
+                    : [{ code: 'WKR12', value: [0] }],
                 completed: true,
               },
             );

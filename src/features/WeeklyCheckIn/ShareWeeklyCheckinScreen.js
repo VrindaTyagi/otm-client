@@ -536,7 +536,7 @@ const ShareWeeklyCheckinScreen = ({
                 </div>
               </div>
             )}
-            {weeklyReport?.last8WeekWeightHistory.length > 0 && (
+            {weeklyReport?.userLast8WeekWeightHistory.length > 0 && (
               <div className=" flex flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
@@ -553,23 +553,26 @@ const ShareWeeklyCheckinScreen = ({
                     <p className=" mb-1 mt-[10px] flex items-center gap-1 text-[10px] text-offwhite">
                       {' '}
                       <span className="font-futura text-[32px]   leading-[40px] text-blue">
-                        {weeklyReport?.last8WeekWeightHistory[0]?.weight}{' '}
+                        {weeklyReport?.userLast8WeekWeightHistory[0]?.weight}{' '}
                         {weeklyReport?.weightUnit}
                       </span>{' '}
                     </p>
-                    {weeklyReport?.last8WeekWeightHistory[1]?.weight && (
+                    {weeklyReport?.userLast8WeekWeightHistory[1]?.weight && (
                       <div className="flex items-center gap-1">
                         <div className="flex w-fit items-center  rounded-[3px] bg-[rgba(245,197,99,0.2)] px-1 py-[2px] font-sfpro text-[12px] text-yellow">
-                          {weeklyReport?.last8WeekWeightHistory[0]?.weight -
-                            weeklyReport?.last8WeekWeightHistory[1]?.weight >
+                          {weeklyReport?.userLast8WeekWeightHistory[0]?.weight -
+                            weeklyReport?.userLast8WeekWeightHistory[1]
+                              ?.weight >
                           0 ? (
                             <MdArrowDropUp />
                           ) : (
                             <MdArrowDropDown />
                           )}
                           {Math.abs(
-                            weeklyReport?.last8WeekWeightHistory[0]?.weight -
-                              weeklyReport?.last8WeekWeightHistory[1]?.weight,
+                            weeklyReport?.userLast8WeekWeightHistory[0]
+                              ?.weight -
+                              weeklyReport?.userLast8WeekWeightHistory[1]
+                                ?.weight,
                           )}{' '}
                           {weeklyReport?.weightUnit}
                         </div>
@@ -579,11 +582,11 @@ const ShareWeeklyCheckinScreen = ({
                       </div>
                     )}
                   </div>
-                  {weeklyReport?.last8WeekWeightHistory.length > 1 && (
+                  {weeklyReport?.userLast8WeekWeightHistory.length > 1 && (
                     <WeightLineChart
                       grahpData={
-                        weeklyReport?.last8WeekWeightHistory &&
-                        reverseArray(weeklyReport?.last8WeekWeightHistory)
+                        weeklyReport?.userLast8WeekWeightHistory &&
+                        reverseArray(weeklyReport?.userLast8WeekWeightHistory)
                       }
                       yAxisKey={'weight'}
                     />

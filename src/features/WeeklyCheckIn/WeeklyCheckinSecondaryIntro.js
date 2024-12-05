@@ -45,7 +45,7 @@ const WeeklyCheckinSecondaryIntro = ({
     }
 
     // Combine into the desired format
-    return `Week ${startDay}-${endDay} ${startMonth}`;
+    return `Week ${startDay}${startMonth} - ${endDay}${endMonth} `;
   }
 
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const WeeklyCheckinSecondaryIntro = ({
                     </p>
                     <WeeklyCheckinConsistency
                       last8WeekConsistency={statsData?.last8WeekConsistency}
-                      suggestedWorkoutPerWeek={4}
+                      suggestedWorkoutPerWeek={statsData?.frequncy}
                     />
                   </div>
                 )}
@@ -142,7 +142,7 @@ const WeeklyCheckinSecondaryIntro = ({
 
                     {statsData?.totalWeightLiftedThisWeek !==
                     statsData?.totalWeightLiftedLastWeek ? (
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <div
                           className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
                             statsData?.totalWeightLiftedThisWeek -
