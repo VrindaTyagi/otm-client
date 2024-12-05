@@ -19,7 +19,17 @@ const ShareWeeklyCheckinScreen = ({
   caiptalInitial,
 }) => {
   const navigate = useNavigate();
-  const fullName = JSON.parse(localStorage.getItem('user'))['name'];
+  let fullName = '';
+  try {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      fullName = parsedUser?.name || ''; // Use optional chaining to safely access 'name'
+    }
+  } catch (error) {
+    console.error('Failed to fetch user data from localStorage:', error);
+    fullName = ''; // Fallback in case of an error
+  }
   function convertToWeekFormat(input) {
     // Ensure the input is a string
     if (typeof input !== 'string') {
@@ -69,8 +79,7 @@ const ShareWeeklyCheckinScreen = ({
                 {week ? convertToWeekFormat(week) : 'Week Data Unavailable'}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi {fullName ? fullName : ''}, <br /> Here’s your week in
-                Numbers
+                Hi {fullName || 'User'}, <br /> Here’s your week in Numbers
               </h5>
             </div>
           </div>
