@@ -68,9 +68,10 @@ const ShareWeeklyCheckinScreen = ({
               <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
                 {week ? convertToWeekFormat(week) : 'Week Data Unavailable'}
               </div>
-              {/* <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi {fullName}, <br /> Here’s your week in Numbers
-              </h5> */}
+              <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
+                Hi {fullName ? fullName : ''}, <br /> Here’s your week in
+                Numbers
+              </h5>
             </div>
           </div>
 
