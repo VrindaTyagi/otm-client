@@ -229,6 +229,119 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
           </div> */}
 
           <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
+            <div className=" relative flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex grow gap-2 text-[15px] font-semibold text-offwhite">
+                  {' '}
+                  <img src="/assets/bar-graph-logo.svg" alt="graph" />
+                  Workouts completed this week
+                </div>
+                <p className="absolute right-3 text-[10px] text-white-opacity-50">
+                  last 4 weeks
+                </p>
+              </div>
+              <div className=" flex justify-between">
+                <div className=" mt-3 flex flex-col gap-3">
+                  <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
+                    {' '}
+                    <span className="font-futura text-[58px]   leading-[40px] text-blue">
+                      {weeklyReport?.last4WeekConsistency[0]?.count
+                        ? weeklyReport?.last4WeekConsistency[0]?.count
+                        : 0}
+                    </span>{' '}
+                    workout last week
+                  </p>
+                  <div className="flex items-center gap-1">
+                    <img src="/assets/target-icon.svg" alt="target" />
+                    <p className="font-sfpro text-[10px] text-floYellow">
+                      target
+                    </p>
+                    <p className="font-futura text-[18px] leading-[19px] text-blue">
+                      {weeklyReport?.targetConsistency}
+                    </p>
+                    <p className="font-sfpro text-[10px] text-white-opacity-50">
+                      workouts per week
+                    </p>
+                  </div>
+                </div>
+                <WeightLineChart
+                  grahpData={
+                    weeklyReport?.last4WeekConsistency &&
+                    reverseArray(weeklyReport?.last4WeekConsistency)
+                  }
+                  yAxisKey={'count'}
+                />
+              </div>
+            </div>
+
+            <div className="relative flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex grow gap-2 text-[15px] font-semibold text-offwhite">
+                  {' '}
+                  <img src="/assets/weight-icon.svg" alt="graph" />
+                  Weight lifted
+                </div>
+                <p className="absolute right-3 text-[10px] text-white-opacity-50">
+                  last 8 weeks
+                </p>
+              </div>
+              <div className=" flex justify-between">
+                <div className=" mt-3 flex flex-col gap-3">
+                  <p className=" flex flex-col gap-1 text-[10px] text-offwhite">
+                    {' '}
+                    <span className="font-futura text-[25px]   leading-[27px] text-blue">
+                      {weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted?.toFixed(
+                        0,
+                      )}{' '}
+                      {weeklyReport?.weightUnit}
+                    </span>{' '}
+                    Total weight lifted this week
+                    {weeklyReport?.last8WeekWeightLifted[0]
+                      ?.totalWeightLifted !==
+                      weeklyReport?.last8WeekWeightLifted[1]
+                        ?.totalWeightLifted && (
+                      <div className="flex items-center gap-1">
+                        <div
+                          className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
+                            weightLiftedComapre() > 0
+                              ? 'bg-green-opacity-12 text-green '
+                              : 'bg-red-opacity-12 text-red'
+                          } `}
+                        >
+                          {weightLiftedComapre() > 0 ? (
+                            <img
+                              src="/assets/upArrow.svg"
+                              className="h-[11px] w-[11px]"
+                              alt="shoe"
+                            />
+                          ) : (
+                            <img
+                              src="/assets/downArrow.svg"
+                              className="h-[11px] w-[11px]"
+                              alt="shoe"
+                            />
+                          )}
+                          {weightLiftedComapre().toFixed(0)}{' '}
+                          {weeklyReport?.weightUnit}
+                        </div>
+                        <p className="font-sfpro text-[10px] text-white-opacity-50">
+                          {weightLiftedComapre() > 0 ? 'more' : 'less'} than
+                          last week
+                        </p>
+                      </div>
+                    )}
+                  </p>
+                </div>
+                <WeightLineChart
+                  grahpData={
+                    weeklyReport?.last8WeekWeightLifted &&
+                    reverseArray(weeklyReport?.last8WeekWeightLifted)
+                  }
+                  yAxisKey={'totalWeightLifted'}
+                />
+              </div>
+            </div>
+
             <div className="relative  flex flex-col justify-between rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
