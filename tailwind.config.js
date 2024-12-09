@@ -16,6 +16,7 @@ module.exports = withMT({
         red: '#FA5757',
         floYellow: '#DDF988',
         blue: '#7E87EF',
+        teal: '#7CDCF6',
         lightGray: '#B1B1B1',
         gray: '#3B3B3B',
         yellow: '#F5C563',
@@ -49,8 +50,12 @@ module.exports = withMT({
         lightblue: 'rgba(118, 127, 227, 1)',
         customBlack: '#1F1F1F',
         screenBackgroundColor: '#161513',
-        lightSkyBlue: '#7CDCF6',
       },
+      safelist: [
+        {
+          pattern: /bg-teal/, // Safelist dynamic background classes
+        },
+      ],
       backgroundImage: {
         'mealInfo-gradient':
           'radial-gradient(50% 50% at 50% 50%, #5ECC7B 49.83%, #F5C563 100%)',

@@ -156,17 +156,20 @@ const WeeklyCheckIn = () => {
   const questionnaireData = [
     //Data to show heading and Background Color on different pages of questionnaire form
     {
-      color: 'blue',
+      bg: 'bg-blue',
+      text: 'text-blue',
       heading: 'Fitness and nutrition update',
       img: '/assets/weekly-checkin-intro-bg.svg',
     },
     {
-      color: 'yellow',
+      bg: 'bg-yellow',
+      text: 'text-yellow',
       heading: 'Mind & body check-in',
       img: '/assets/yellow-background.svg',
     },
     {
-      color: 'lightSkyBlue',
+      bg: 'bg-teal',
+      text: 'text-teal',
       heading: 'Measurements & photos',
       img: '/assets/blue-background.svg',
     },
@@ -183,7 +186,7 @@ const WeeklyCheckIn = () => {
   }, [questionnaireScreen, questionnaireForm]);
 
   return (
-    <div className="relative h-screen ">
+    <div className="bg- relative h-screen">
       {showNutritionScreen === true && (
         <NutritionScreen
           nutritionData={nutritionData}

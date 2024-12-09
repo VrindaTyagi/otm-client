@@ -32,6 +32,9 @@ const QuestionnaireScreenOutput = ({
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [chosenPic, setChosenPic] = useState([]);
   const [chosenPicBinary, setChosenPicBinary] = useState([]);
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [imgResponse, setImgResponse] = useState(null);
 
   useEffect(() => {
     if (weeklyResponse) {

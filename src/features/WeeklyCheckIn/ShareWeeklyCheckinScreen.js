@@ -19,17 +19,7 @@ const ShareWeeklyCheckinScreen = ({
   caiptalInitial,
 }) => {
   const navigate = useNavigate();
-  let fullName = '';
-  try {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      const parsedUser = JSON.parse(userData);
-      fullName = parsedUser?.name || ''; // Use optional chaining to safely access 'name'
-    }
-  } catch (error) {
-    console.error('Failed to fetch user data from localStorage:', error);
-    fullName = ''; // Fallback in case of an error
-  }
+  const fullName = JSON.parse(localStorage?.getItem('user'))['name'];
   function convertToWeekFormat(input) {
     // Ensure the input is a string
     if (typeof input !== 'string') {
@@ -68,7 +58,7 @@ const ShareWeeklyCheckinScreen = ({
   }
   return (
     <div ref={summaryRef} className="bg-black">
-      <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
+      <div className="relative h-screen  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
             <RxCross1 onClick={() => navigate('/')} className="" />
@@ -78,9 +68,10 @@ const ShareWeeklyCheckinScreen = ({
               <div className="w-fit rounded   bg-white-opacity-08 px-[6px]  text-[14px] font-extralight text-blue">
                 {week ? convertToWeekFormat(week) : 'Week Data Unavailable'}
               </div>
-              {/* <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi {fullName || 'User'}, <br /> Here’s your week in Numbers
-              </h5> */}
+              <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
+                Hi {fullName ? fullName : ''}, <br /> Here’s your week in
+                Numbers
+              </h5>
             </div>
           </div>
 

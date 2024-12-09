@@ -80,7 +80,7 @@ const WeeklyCheckinLoadingScreem = ({ setScreen }) => {
           </div>
         ))}
       </div>
-      <div className="relative h-[100px] w-full overflow-hidden">
+      <div className="relative h-[140px] w-full overflow-hidden">
         <div
           style={{
             display: 'flex', // Flex container for sliding effect

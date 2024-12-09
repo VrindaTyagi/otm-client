@@ -9,10 +9,9 @@ const ProgressBar = ({ currValue, totalValue, questionnaireData }) => {
     setTotalLength(widthRef.current?.clientWidth);
 
     // setting the progress length according to the currValue
-    setProgressLength((currValue / totalValue) * totalLength);
+    setProgressLength((currValue / totalValue) * totalLength - totalLength / 3);
   }, [currValue, totalValue, totalLength]);
 
-  console.log('45345353245345', progressLength);
   return (
     <div className="flex flex-col items-center">
       {/* 
@@ -29,7 +28,7 @@ const ProgressBar = ({ currValue, totalValue, questionnaireData }) => {
     </div>
   ) */}
       <div
-        className={`mb-[36px] mt-[45px] w-fit rounded bg-black-opacity-45 px-2 py-[2px] text-[14px] font-medium text-${questionnaireData.color}`}
+        className={`mb-[36px] mt-[45px] w-fit rounded bg-black-opacity-45 px-2 py-[2px] text-[14px] font-medium ${questionnaireData.text}`}
       >
         step {currValue} of 3
       </div>
@@ -38,7 +37,7 @@ const ProgressBar = ({ currValue, totalValue, questionnaireData }) => {
         className="h-[6px] w-full rounded-[24px] bg-black-opacity-25"
       >
         <div
-          className={` h-[6px] rounded-[30px] bg-${questionnaireData.color}  `}
+          className={` h-[6px] rounded-[30px] ${questionnaireData.bg}  `}
           style={{ width: progressLength }}
         />
       </div>

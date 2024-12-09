@@ -66,7 +66,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
     }
 
     // Combine into the desired format
-    return `Week ${startDay}-${endDay} ${startMonth}`;
+    return `Week ${startDay} ${startMonth}-${endDay} ${endMonth} `;
   }
 
   function formatToK(number) {
@@ -812,7 +812,9 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                         {weeklyReport?.weightUnit}
                       </span>{' '}
                     </p>
-                    {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ? (
+                    {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ||
+                    weeklyReport?.userLast8WeekWeightHistory[1]?.weight ===
+                      '' ? (
                       <div className="flex items-center gap-1">
                         <div className="flex w-fit items-center  rounded-[3px] bg-[rgba(245,197,99,0.2)] px-1 py-[2px] font-sfpro text-[12px] text-yellow">
                           {weeklyReport?.userLast8WeekWeightHistory[0]?.weight -
@@ -824,10 +826,14 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                             <MdArrowDropDown />
                           )}
                           {Math.abs(
-                            weeklyReport?.userLast8WeekWeightHistory[0]
-                              ?.weight -
-                              weeklyReport?.userLast8WeekWeightHistory[1]
+                            Number(
+                              weeklyReport?.userLast8WeekWeightHistory[0]
                                 ?.weight,
+                            ) -
+                              Number(
+                                weeklyReport?.userLast8WeekWeightHistory[1]
+                                  ?.weight,
+                              ),
                           )}{' '}
                           {weeklyReport?.weightUnit}
                         </div>
