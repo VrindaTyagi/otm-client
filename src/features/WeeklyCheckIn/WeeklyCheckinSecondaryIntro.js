@@ -217,7 +217,7 @@ const WeeklyCheckinSecondaryIntro = ({
                         src="/assets/achievement-logo.svg"
                         alt="achievement"
                       />
-                      Perfect Wewk
+                      Perfect Week
                     </div>
                     <div className=" flex items-center gap-2 text-[10px] text-offwhite">
                       {' '}
