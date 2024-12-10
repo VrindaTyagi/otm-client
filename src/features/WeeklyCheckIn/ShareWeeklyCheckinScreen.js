@@ -257,7 +257,7 @@ const ShareWeeklyCheckinScreen = ({
               </div>
             </div>
 
-            {weeklyReport?.perfectWeek?.isPerfectWeek === true && (
+            {/* {weeklyReport?.perfectWeek?.isPerfectWeek === true && (
               <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
                   weeklyReport?.perfectWeek?.streak === 0 && (
@@ -316,7 +316,7 @@ const ShareWeeklyCheckinScreen = ({
                   </p>
                 </span>{' '}
               </div>
-            )}
+            )} */}
             {/* {weeklyReport?.energyLevelThisWeek === 0 &&
             weeklyReport?.sleepQualityThisWeek === 0 &&
             weeklyReport?.nutritionRatingThisWeek === 0 &&
@@ -549,7 +549,7 @@ const ShareWeeklyCheckinScreen = ({
                         {weeklyReport?.weightUnit}
                       </span>{' '}
                     </p>
-                    {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ? (
+                    {/* {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ? (
                       <div className="flex items-center gap-1">
                         <div className="flex w-fit items-center  rounded-[3px] bg-[rgba(245,197,99,0.2)] px-1 py-[2px] font-sfpro text-[12px] text-yellow">
                           {weeklyReport?.userLast8WeekWeightHistory[0]?.weight -
@@ -574,7 +574,7 @@ const ShareWeeklyCheckinScreen = ({
                       </div>
                     ) : (
                       <></>
-                    )}
+                    )} */}
                   </div>
                   {weeklyReport?.userLast8WeekWeightHistory.length > 1 && (
                     <WeightLineChart

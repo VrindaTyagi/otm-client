@@ -69,6 +69,7 @@ const QuestionnaireScreenOutput = ({
     setQuestionnaireFormLoading(true);
     async function getUserData() {
       try {
+        console.log('232323', response);
         if (response.length > 0 && response !== weeklyResponse) {
           const filteredObject = response.filter((item1) =>
             currentQuestion.some((item2) => item1.code === item2.code),
@@ -112,7 +113,10 @@ const QuestionnaireScreenOutput = ({
             );
           }
         }
-        if (response === weeklyResponse && questionnaireScreen === 3) {
+        if (
+          response?.lenght === 0 ||
+          (response === weeklyResponse && questionnaireScreen === 3)
+        ) {
           await axios.put(
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
@@ -217,13 +221,13 @@ const QuestionnaireScreenOutput = ({
         <div className="absolute z-[110] flex h-screen w-screen items-center justify-center bg-black-opacity-25 backdrop-blur-sm">
           <div className="w-[240px] rounded-lg bg-black-opacity-71 px-2 py-3 text-center text-[10px] text-red">
             You are almost Done!
-            <div
-              onClick={() => navigate('/home')}
-              className="text-[14px] text-offwhite"
-            >
+            <div className="text-[14px] text-offwhite">
               Finish logging your data to visualise your progress
             </div>
-            <div className="mt-4 flex w-full justify-between px-4">
+            <div
+              onClick={() => navigate('/home')}
+              className="mt-4 flex w-full justify-between px-4"
+            >
               <div className="rounded-md border border-offwhite px-2 py-1 text-[14px] text-offwhite">
                 LEAVE
               </div>
