@@ -8,6 +8,7 @@ import OptionsNumber from '../Questionnaire/Components/inputs/OptionsNumber';
 import InputText from './Component/InputText';
 import { FaArrowRight } from 'react-icons/fa6';
 import axios from 'axios';
+import { Loader } from '../../components';
 
 const QuestionnaireScreenOutput = ({
   screen,
@@ -35,14 +36,13 @@ const QuestionnaireScreenOutput = ({
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [imgResponse, setImgResponse] = useState(null);
-
-  console.log(chosenPic, '343');
+  const [closeForm, setCloseForm] = useState(false);
 
   useEffect(() => {
     if (weeklyResponse) {
       setResponse(weeklyResponse);
     }
-  }, []);
+  }, [weeklyResponse]);
 
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
@@ -85,7 +85,6 @@ const QuestionnaireScreenOutput = ({
             // Return the object as is if description is removed or doesn't exist
             return item;
           });
-
           if (questionnaireScreen === 3) {
             await axios.put(
               `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
@@ -101,7 +100,7 @@ const QuestionnaireScreenOutput = ({
               },
             );
           }
-          if (transformedResponseData.length > 0) {
+          if (transformedResponseData.length > 0 && questionnaireScreen !== 3) {
             await axios.put(
               `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
@@ -113,14 +112,14 @@ const QuestionnaireScreenOutput = ({
             );
           }
         }
-        if (response.length === 0 && questionnaireScreen === 3) {
+        if (response === weeklyResponse && questionnaireScreen === 3) {
           await axios.put(
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/questionnaire`,
 
             {
               memberCode: code,
               week: week,
-              response: [{ code: 'WKR12', value: [0] }],
+              response: [{ code: 'WKR12', value: ['0'] }],
               completed: true,
             },
           );
@@ -208,8 +207,37 @@ const QuestionnaireScreenOutput = ({
     }
   }
 
+  if (!currentQuestion) {
+    return <Loader />;
+  }
+
   return (
     <div>
+      {closeForm === true && (
+        <div className="absolute z-[110] flex h-screen w-screen items-center justify-center bg-black-opacity-25 backdrop-blur-sm">
+          <div className="w-[240px] rounded-lg bg-black-opacity-71 px-2 py-3 text-center text-[10px] text-red">
+            You are almost Done!
+            <div
+              onClick={() => navigate('/home')}
+              className="text-[14px] text-offwhite"
+            >
+              Finish logging your data to visualise your progress
+            </div>
+            <div className="mt-4 flex w-full justify-between px-4">
+              <div className="rounded-md border border-offwhite px-2 py-1 text-[14px] text-offwhite">
+                LEAVE
+              </div>
+              <div
+                onClick={() => setCloseForm(false)}
+                className="rounded-md border border-green px-2 py-1 text-[14px] text-darkGreen"
+              >
+                CONTINUE
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <img
         src={questionnaireData[questionnaireScreen - 1].img}
         className="absolute top-0 z-50 h-screen w-full  brightness-75 saturate-150 filter  "
@@ -217,7 +245,7 @@ const QuestionnaireScreenOutput = ({
       />
       <div className="absolute z-[100] h-screen w-screen overflow-y-scroll px-4 pb-28 pt-4">
         <div className=" absolute right-6 top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
-          <RxCross1 onClick={() => navigate('/')} className="" />
+          <RxCross1 onClick={() => setCloseForm(true)} className="" />
         </div>{' '}
         <ProgressBar
           currValue={questionnaireScreen}

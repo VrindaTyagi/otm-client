@@ -89,7 +89,7 @@ const WeeklyCheckinSecondaryIntro = ({
                           : 0}
                       </span>{' '}
                       workout
-                      {statsData?.last8WeekConsistency[0]?.count > 1 &&
+                      {statsData?.last8WeekConsistency[0]?.count === 1 &&
                         's'}{' '}
                       last week
                     </p>
@@ -219,13 +219,9 @@ const WeeklyCheckinSecondaryIntro = ({
                       />
                       Perfect Week
                     </div>
-                    <div className=" flex items-center gap-2 text-[10px] text-offwhite">
+                    <div className=" mt-3 flex items-center gap-2 text-[10px] text-offwhite">
                       {' '}
-                      <div className="font-futura text-[32px]   leading-[40px] text-blue">
-                        {' '}
-                        0{' '}
-                      </div>
-                      week streak unlocked.
+                      No streak unlocked
                     </div>
                   </div>
                 )}

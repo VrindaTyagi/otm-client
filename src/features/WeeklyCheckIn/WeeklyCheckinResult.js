@@ -66,7 +66,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
     }
 
     // Combine into the desired format
-    return `Week ${startDay} ${startMonth}-${endDay} ${endMonth} `;
+    return `Week ${startDay}${startMonth}-${endDay}${endMonth} `;
   }
 
   function formatToK(number) {
@@ -181,6 +181,19 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
         className="absolute top-0 -z-50 w-full  brightness-75 saturate-150 filter  "
         alt="background"
       />
+      <div className="pointer-events-none absolute opacity-0 ">
+        <ShareWeeklyCheckinScreen
+          formatToK={formatToK}
+          numbersColor={numbersColor}
+          summaryRef={summaryRef}
+          weeklyReport={weeklyReport}
+          weightLiftedComapre={weightLiftedComapre}
+          reverseArray={reverseArray}
+          caiptalInitial={caiptalInitial}
+          userProfilePicture={userProfilePicture}
+          week={week}
+        />
+      </div>
       <div className="relative h-screen overflow-y-scroll bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
@@ -192,7 +205,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 {week && convertToWeekFormat(week)}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi , <br /> Here’s your week in Numbers
+                Hi {name}, <br /> Here’s your week in Numbers
               </h5>
             </div>
             <div className="h-[40px] min-w-[40px]">
@@ -210,20 +223,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 </div>
               )}
             </div>
-          </div>
-
-          <div className="pointer-events-none absolute opacity-0 ">
-            <ShareWeeklyCheckinScreen
-              formatToK={formatToK}
-              numbersColor={numbersColor}
-              summaryRef={summaryRef}
-              weeklyReport={weeklyReport}
-              weightLiftedComapre={weightLiftedComapre}
-              reverseArray={reverseArray}
-              caiptalInitial={caiptalInitial}
-              userProfilePicture={userProfilePicture}
-              week={week}
-            />
           </div>
 
           <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
@@ -248,7 +247,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                         : 0}
                     </span>{' '}
                     workout
-                    {weeklyReport?.last4WeekConsistency[0]?.count > 1 &&
+                    {weeklyReport?.last4WeekConsistency[0]?.count === 1 &&
                       's'}{' '}
                     last week
                   </p>
@@ -288,7 +287,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
               </div>
               <div className=" flex justify-between">
                 <div className=" mt-3 flex flex-col gap-3">
-                  <p className=" flex flex-col gap-1 text-[10px] text-offwhite">
+                  <p className=" flex h-full flex-col justify-end gap-1 text-[10px] text-offwhite">
                     {' '}
                     <span className="font-futura text-[25px]   leading-[27px] text-blue">
                       {weeklyReport?.last8WeekWeightLifted[0]?.totalWeightLifted?.toFixed(
@@ -455,15 +454,16 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     Perfect week streak
                   </div>
                 </div>
-                <span className="ml-3 flex gap-3 font-futura text-[58px]  leading-[40px] text-blue">
+
+                <p className="font-sfpro text-[12px] text-offwhite">
+                  You were{' '}
                   {Number(weeklyReport?.targetConsistency) -
                     (Number(weeklyReport?.last4WeekConsistency[0]?.count)
                       ? Number(weeklyReport?.last4WeekConsistency[0]?.count)
-                      : 0)}
-                  <p className="font-sfpro text-[10px] text-white-opacity-50">
-                    Workout away for a perfect week streak
-                  </p>
-                </span>{' '}
+                      : 0)}{' '}
+                  workouts away from unlocking a perfect week badge. Let's do
+                  better next week!
+                </p>
               </div>
             )}
             {weeklyReport?.energyLevelThisWeek === 0 &&

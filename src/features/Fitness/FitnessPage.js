@@ -335,6 +335,7 @@ const FitnessPage = () => {
             </section>
             {showComponent && (
               <WeeklyCheckinTile
+                isWeeklyResponseSubmitted={weeklyResponse?.response}
                 isWeeklyReviewSubmitted={weeklyResponse?.report}
               />
             )}

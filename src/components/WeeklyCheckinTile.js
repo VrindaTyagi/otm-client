@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
+const WeeklyCheckinTile = ({
+  isWeeklyReviewSubmitted,
+  isWeeklyResponseSubmitted,
+}) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -19,7 +22,9 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
         onClick={() => {
           isWeeklyReviewSubmitted
             ? navigate(`/weekly-checkin?formSubmit=${true}`)
-            : navigate('/weekly-checkin');
+            : isWeeklyResponseSubmitted?.length > 0
+            ? navigate(`/weekly-checkin?responseCreated=${true}`)
+            : navigate(`/weekly-checkin`);
         }}
         className=""
       >

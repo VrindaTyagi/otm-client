@@ -15,7 +15,7 @@ import NutritionScreen from './NutritionScreen';
 import { useLocation } from 'react-router-dom';
 
 const WeeklyCheckIn = () => {
-  const [screen, setScreen] = useState('Introduction');
+  const [screen, setScreen] = useState(null);
   const [questionnaireScreen, setQuestionnaireScreen] = useState(1);
   const [response, setResponse] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -33,9 +33,15 @@ const WeeklyCheckIn = () => {
   const [loading, setLoading] = useState(false);
   const [statsData, setStatsData] = useState(null);
 
+  useEffect(() => {
+    setScreen('questionnaire');
+  }, []);
+  console.log(screen);
+
   // Parse the query parameters
   const queryParams = new URLSearchParams(location.search);
   const formSubmit = queryParams.get('formSubmit');
+  const responseCreated = queryParams.get('responseCreated');
 
   const getUserData = useMemo(
     () => async () => {
@@ -86,10 +92,12 @@ const WeeklyCheckIn = () => {
     if (formSubmit) {
       getWeeklyReviewData();
       setScreen('result');
+    } else if (responseCreated) {
+      setScreen('questionnaire');
     } else {
       setScreen('Introduction');
     }
-  }, [formSubmit, week]);
+  }, [formSubmit, week, responseCreated]);
 
   useEffect(() => {
     getWeeklyReviewData();
