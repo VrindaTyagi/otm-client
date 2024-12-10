@@ -378,7 +378,7 @@ const QuestionnaireScreenOutput = ({
                 JPEG & PNG
               </h5>
               <div className="mt-[14px] flex justify-center gap-4">
-                {chosenPic?.length > 0 && (
+                {/* {chosenPic?.length > 0 && (
                   <div className="h-[188px] w-[155px] ">
                     {' '}
                     {chosenPic?.length === 2 && (
@@ -450,7 +450,7 @@ const QuestionnaireScreenOutput = ({
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
       <div className="absolute bottom-0 z-[100] flex w-full gap-2 px-4 pb-[36px]">
         <button
