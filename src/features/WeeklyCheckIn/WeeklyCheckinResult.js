@@ -192,7 +192,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 {week && convertToWeekFormat(week)}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi {name}, <br /> Here’s your week in Numbers
+                Hi , <br /> Here’s your week in Numbers
               </h5>
             </div>
             <div className="h-[40px] min-w-[40px]">
