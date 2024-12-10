@@ -317,7 +317,7 @@ const ShareWeeklyCheckinScreen = ({
                 </span>{' '}
               </div>
             )}
-            {weeklyReport?.energyLevelThisWeek === 0 &&
+            {/* {weeklyReport?.energyLevelThisWeek === 0 &&
             weeklyReport?.sleepQualityThisWeek === 0 &&
             weeklyReport?.nutritionRatingThisWeek === 0 &&
             weeklyReport?.stressLevelsThisWeek === 0 ? (
@@ -527,7 +527,7 @@ const ShareWeeklyCheckinScreen = ({
                   )}
                 </div>
               </div>
-            )}
+            )} */}
             {weeklyReport?.userLast8WeekWeightHistory.length > 0 && (
               <div className=" flex flex-col  rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 <div className="flex items-center justify-between gap-3">
