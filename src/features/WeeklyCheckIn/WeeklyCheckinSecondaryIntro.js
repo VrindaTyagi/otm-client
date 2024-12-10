@@ -219,13 +219,8 @@ const WeeklyCheckinSecondaryIntro = ({
                       />
                       Perfect Week
                     </div>
-                    <div className=" flex items-center gap-2 text-[10px] text-offwhite">
-                      {' '}
-                      <div className="font-futura text-[32px]   leading-[40px] text-blue">
-                        {' '}
-                        0{' '}
-                      </div>
-                      week streak unlocked.
+                    <div className=" mt-3 flex items-center gap-2 text-[10px] text-offwhite">
+                      No streak unlocked
                     </div>
                   </div>
                 )}
