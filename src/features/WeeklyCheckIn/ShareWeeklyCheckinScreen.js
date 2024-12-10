@@ -19,7 +19,7 @@ const ShareWeeklyCheckinScreen = ({
   caiptalInitial,
 }) => {
   const navigate = useNavigate();
-
+  const fullName = JSON.parse(localStorage?.getItem('user'))['name'];
   function convertToWeekFormat(input) {
     // Ensure the input is a string
     if (typeof input !== 'string') {
@@ -69,7 +69,8 @@ const ShareWeeklyCheckinScreen = ({
                 {week ? convertToWeekFormat(week) : 'Week Data Unavailable'}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi, <br /> Here’s your week in Numbers
+                Hi {fullName ? fullName : ''}, <br /> Here’s your week in
+                Numbers
               </h5>
             </div>
           </div>

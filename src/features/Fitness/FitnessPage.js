@@ -173,7 +173,7 @@ const FitnessPage = () => {
             localStorage.setItem('isLegend', res.data.isLegend);
             setLoader(false);
             setError(null);
-            if (res.data.isWeeklyReviewSubmitted) {
+            if (res?.data?.isWeeklyReviewSubmitted) {
               setStatsLoading(true);
             }
           }
