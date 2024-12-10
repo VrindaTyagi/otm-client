@@ -97,8 +97,9 @@ const ShareWeeklyCheckinScreen = ({
                         : 0}
                     </span>{' '}
                     workout
-                    {/* {weeklyReport?.last4WeekConsistency[0]?.count !== 1 &&
-                      's'}{' '} */}
+                    {weeklyReport?.last4WeekConsistency[0]?.count &&
+                      weeklyReport?.last4WeekConsistency[0]?.count !== 1 &&
+                      's'}{' '}
                     last week
                   </p>
                   <div className="flex items-center gap-1">
