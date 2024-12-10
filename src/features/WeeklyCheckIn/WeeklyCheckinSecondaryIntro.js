@@ -88,7 +88,10 @@ const WeeklyCheckinSecondaryIntro = ({
                           ? statsData?.last8WeekConsistency[0]?.count
                           : 0}
                       </span>{' '}
-                      workout last week
+                      workout
+                      {statsData?.last8WeekConsistency[0]?.count > 1 &&
+                        's'}{' '}
+                      last week
                     </p>
                     <WeeklyCheckinConsistency
                       last8WeekConsistency={statsData?.last8WeekConsistency}
@@ -185,7 +188,7 @@ const WeeklyCheckinSecondaryIntro = ({
                         src="/assets/achievement-logo.svg"
                         alt="achievement"
                       />
-                      Perfect Streak
+                      Perfect Week
                     </div>
 
                     <div className="mt-1 font-sfpro text-[14px]   text-offwhite">
@@ -199,6 +202,9 @@ const WeeklyCheckinSecondaryIntro = ({
                           </div>
                         </div>
                       )}
+                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
+                        You unlocked a perfect week badge this week.
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -211,7 +217,7 @@ const WeeklyCheckinSecondaryIntro = ({
                         src="/assets/achievement-logo.svg"
                         alt="achievement"
                       />
-                      Perfect Streak
+                      Perfect Wewk
                     </div>
                     <div className=" flex items-center gap-2 text-[10px] text-offwhite">
                       {' '}

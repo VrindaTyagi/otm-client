@@ -36,6 +36,8 @@ const QuestionnaireScreenOutput = ({
   const [file2, setFile2] = useState(null);
   const [imgResponse, setImgResponse] = useState(null);
 
+  console.log(chosenPic, '343');
+
   useEffect(() => {
     if (weeklyResponse) {
       setResponse(weeklyResponse);
@@ -45,9 +47,10 @@ const QuestionnaireScreenOutput = ({
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
       try {
-        if (chosenPicBinary.length > 0) {
+        if (chosenPic.length > 0) {
           const formData = new FormData();
-          formData.append('profilePicture', chosenPicBinary);
+          formData.append('img1', file1);
+          formData.append('img2', file2);
           const res = await axios.post(
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/progress-img?memberCode=${code}&week=${week}`,
             formData,
@@ -152,39 +155,39 @@ const QuestionnaireScreenOutput = ({
     }
   };
 
-  function handlePicUpload(e, num) {
+  function handlePicUpload(e, setFile) {
     const file = e.target.files[0];
     if (file) {
       setProfilePicFile(file);
       const reader = new FileReader();
-      if (num === undefined) {
+      console.log(setFile);
+      if (setFile === 1) {
         reader.onloadend = () => {
-          setChosenPic((prevPics) => [...prevPics, reader.result]);
+          setChosenPic((prevPics) => {
+            if (prevPics.length >= 2) {
+              // Replace the first item and keep the rest of the array intact, then add the new item
+              return [reader.result, chosenPic[1]];
+            }
+            // If length is less than 2, just add the new item
+            return [...prevPics, reader.result];
+          });
+          setFile1(file);
         };
-
-        setChosenPicBinary((prevPics) => [...prevPics, file]);
       }
 
-      if (num === 0) {
-        setChosenPic(chosenPic.filter((item, index) => index !== num));
+      if (setFile === 2) {
         reader.onloadend = () => {
-          setChosenPic((prevPics) => [reader.result, ...prevPics]);
-        };
-        setChosenPicBinary(
-          chosenPicBinary.filter((item, index) => index !== num),
-        );
-        setChosenPicBinary((prevPics) => [file, ...prevPics]);
-      }
+          setChosenPic((prevPics) => {
+            if (prevPics.length >= 2) {
+              // Replace the first item and keep the rest of the array intact, then add the new item
+              return [chosenPic[0], reader.result];
+            }
+            // If length is less than 2, just add the new item
+            return [...prevPics, reader.result];
+          });
 
-      if (num === 1) {
-        setChosenPic(chosenPic.filter((item, index) => index !== num));
-        reader.onloadend = () => {
-          setChosenPic((prevPics) => [...prevPics, reader.result]);
+          setFile2(file);
         };
-        setChosenPicBinary(
-          chosenPicBinary.filter((item, index) => index !== num),
-        );
-        setChosenPicBinary((prevPics) => [...prevPics, file]);
       }
 
       reader.readAsDataURL(file);
@@ -222,8 +225,8 @@ const QuestionnaireScreenOutput = ({
           questionnaireData={questionnaireData[questionnaireScreen - 1]}
         />
         <h2
-          className={`py-[25px] font-sfpro text-[32px] font-medium leading-[40px] text-${
-            questionnaireData[questionnaireScreen - 1].color
+          className={`py-[25px] font-sfpro text-[32px] font-medium leading-[40px] ${
+            questionnaireData[questionnaireScreen - 1].text
           }  `}
         >
           {questionnaireData[questionnaireScreen - 1].heading}
@@ -302,7 +305,27 @@ const QuestionnaireScreenOutput = ({
                     ques.code !== 'WKR4' &&
                     ques.code !== 'WKR6' &&
                     ques.code !== 'WKR7' &&
-                    ques.code !== 'WKR8' && (
+                    ques.code !== 'WKR8' &&
+                    ques.code !== 'WKR3' &&
+                    ques.code !== 'WKR5' && (
+                      <InputText
+                        questionCode={ques?.code}
+                        response={Object.keys(response)?.length > 0 && response}
+                        setResponse={setResponse}
+                      />
+                    )}
+                  {ques.code === 'WKR5' &&
+                    response?.find((elem) => elem?.code === 'WKR5')
+                      ?.value?.[0] === 'YES' && (
+                      <InputText
+                        questionCode={ques?.code}
+                        response={Object.keys(response)?.length > 0 && response}
+                        setResponse={setResponse}
+                      />
+                    )}
+                  {ques.code === 'WKR3' &&
+                    response?.find((elem) => elem?.code === 'WKR3')
+                      ?.value?.[0] === 'YES' && (
                       <InputText
                         questionCode={ques?.code}
                         response={Object.keys(response)?.length > 0 && response}
@@ -335,7 +358,7 @@ const QuestionnaireScreenOutput = ({
                         name="profile image camera"
                         className="relative z-20"
                         hidden
-                        onInput={(e) => handlePicUpload(e, 0)}
+                        onInput={(e) => handlePicUpload(e, 1)}
                       ></input>
                     )}
                     <img
@@ -356,7 +379,7 @@ const QuestionnaireScreenOutput = ({
                       accept="image/png, image/jpg, image/jpeg"
                       name="profile image camera"
                       hidden
-                      onInput={(e) => handlePicUpload(e)}
+                      onInput={(e) => handlePicUpload(e, 1)}
                     ></input>
                     <img
                       onClick={() => profilePicCameraRef.current.click()}
@@ -381,7 +404,7 @@ const QuestionnaireScreenOutput = ({
                         name="profile image camera"
                         className="relative z-20"
                         hidden
-                        onInput={(e) => handlePicUpload(e, 1)}
+                        onInput={(e) => handlePicUpload(e, 2)}
                       ></input>
                       <img
                         onClick={() => profilePicCameraRef.current.click()}

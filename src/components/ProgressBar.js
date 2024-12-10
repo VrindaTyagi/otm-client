@@ -9,7 +9,7 @@ const ProgressBar = ({ currValue, totalValue, questionnaireData }) => {
     setTotalLength(widthRef.current?.clientWidth);
 
     // setting the progress length according to the currValue
-    setProgressLength((currValue / totalValue) * totalLength - totalLength / 3);
+    setProgressLength((currValue / totalValue) * totalLength);
   }, [currValue, totalValue, totalLength]);
 
   return (

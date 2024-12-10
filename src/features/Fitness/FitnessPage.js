@@ -58,24 +58,30 @@ const FitnessPage = () => {
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [loading, setLoading] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
   const [weeklyResponse, setWeeklyResponse] = useState(undefined);
 
   useEffect(() => {
     async function getStatsData() {
       try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
-        );
-        if (res.data) {
-          setWeek(res.data.data[0].week);
+        if (homeStats?.isWeeklyReviewSubmitted === true) {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
+          );
+          if (res.data) {
+            setWeek(res.data.data[0].week);
+          }
         }
       } catch (err) {
         console.error(err.message);
       } finally {
+        if (homeStats?.isWeeklyReviewSubmitted === true) {
+          setStatsLoading(false);
+        }
       }
     }
     getStatsData();
-  }, []);
+  }, [homeStats]);
 
   useEffect(() => {
     async function getWeeklyReviewData() {
@@ -167,6 +173,9 @@ const FitnessPage = () => {
             localStorage.setItem('isLegend', res.data.isLegend);
             setLoader(false);
             setError(null);
+            if (res.data.isWeeklyReviewSubmitted) {
+              setStatsLoading(true);
+            }
           }
         })
         .catch((err) => {
@@ -193,7 +202,7 @@ const FitnessPage = () => {
       {!loader && !error && (
         <FeatureUpdatePopup backendVersion={homeStats?.lastSeenUiVersion} />
       )}
-      {(loading || loader) && <Loader />}
+      {(loading || loader || statsLoading) && <Loader />}
       {error && <Error>{error}</Error>}
       {showActivity === true && (
         <AdditionalActivity

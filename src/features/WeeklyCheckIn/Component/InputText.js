@@ -2,10 +2,19 @@ import React from 'react';
 
 function InputText({ questionCode, response, setResponse }) {
   return (
-    <div>
-      <div className="mt-2 w-full">
-        {questionCode !== 'WKR12' && (
-          <input
+    <div className="h-full">
+      <div className="mt-2 h-full w-full">
+        {questionCode !== 'WKR12' && questionCode !== 'WKR2' && (
+          <textarea
+            style={{
+              border: 'none', // Removes the border
+              outline: 'none', // Removes focus outline
+              overflow: 'hidden', // Prevents scrollbars
+            }}
+            onInput={(e) => {
+              e.target.style.height = 'auto'; // Reset height
+              e.target.style.height = `${e.target.scrollHeight}px`; // Set height to match content
+            }}
             type="text"
             value={
               questionCode === 'WKR11' ||
@@ -20,8 +29,7 @@ function InputText({ questionCode, response, setResponse }) {
                       ?.description) ||
                   ''
             }
-            style={{ borderColor: '#7e87ef' }}
-            className="flex h-[67px] w-full items-start rounded-xl bg-white-opacity-08 p-3 text-start font-light placeholder:absolute placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
+            className="flex h-min w-full items-start rounded-xl bg-white-opacity-08 p-3 text-start font-light placeholder:absolute placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
             onChange={(e) => {
               const descriptionValue = e.target.value;
 

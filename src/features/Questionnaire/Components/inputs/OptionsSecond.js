@@ -99,7 +99,7 @@ function OptionsSecond({
           }`}
         >
           <p
-            className={`text-center text-[14px]  ${
+            className={`text-center text-[12px]  ${
               response[questionCode]?.find((elem) => elem === optionID)
                 ? 'text-[#7e87ef]'
                 : 'text-[#b1b1b1]'

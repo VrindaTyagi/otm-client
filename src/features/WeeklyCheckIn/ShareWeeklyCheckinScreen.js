@@ -646,7 +646,7 @@ const ShareWeeklyCheckinScreen = ({
                   <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
                     {' '}
                     <img src="/assets/weight-machine.svg" alt="graph" />
-                    Weight comparison
+                    Latest Body Weight
                   </div>
                   <p className="text-[10px] text-white-opacity-50">
                     last 8 weeks

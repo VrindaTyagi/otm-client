@@ -348,7 +348,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   Average steps
                 </div>
                 <p className="absolute right-3 text-[10px] text-white-opacity-50">
-                  last 4 week
+                  last 4 weeks
                 </p>
               </div>
               <div className=" flex justify-between">
@@ -407,6 +407,62 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
 
             {weeklyReport?.perfectWeek?.isPerfectWeek === true && (
               <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
+                  weeklyReport?.perfectWeek?.streak === 0 && (
+                    <>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                          {' '}
+                          <img src="/assets/star-icon.svg" alt="graph" />
+                          Perfect week streak
+                        </div>
+                      </div>
+
+                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
+                        You Unlocked a perfect week badge this week.
+                      </div>
+                    </>
+                  )}
+                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
+                  weeklyReport?.perfectWeek?.streak > 0 && (
+                    <div>
+                      <div className="flex items-center ">
+                        <div className="perfect-week mt-2 flex w-fit items-center rounded">
+                          <img src="assets/star.svg" alt="" />
+                          <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-[#4a3e1d] ">
+                            Perfect Week x{weeklyReport?.perfectWeek?.streak}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
+                        You unlocked a perfect week badge this week.Keep
+                        crushing your workout to maintain your streak.
+                      </div>
+                    </div>
+                  )}
+
+                {/* <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
+              {' '}
+              <span className="font-futura text-[58px]   leading-[40px] text-blue">
+                4
+              </span>{' '}
+              workout last week
+            </p>
+            <div className="flex items-center gap-1">
+              <img src="/assets/st-icon.svg" alt="target" />
+              <p className="font-sfpro text-[10px] text-floYellow">target</p>
+              <p className="font-futura text-[18px] leading-[19px] text-blue">
+                6
+              </p>
+              <p className="font-sfpro text-[10px] text-white-opacity-50">
+                workouts per week
+              </p>
+            </div> */}
+              </div>
+            )}
+            {weeklyReport?.perfectWeek?.isPerfectWeek === false && (
+              <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
                     {' '}
@@ -414,33 +470,15 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     Perfect week streak
                   </div>
                 </div>
-                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
-                  weeklyReport?.perfectWeek?.streak === 0 && (
-                    <div className="mt-2 font-sfpro text-[12px] text-offwhite">
-                      You Unlocked a perfect week badge this week.
-                    </div>
-                  )}
-                {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
-                  weeklyReport?.perfectWeek?.streak > 0 && (
-                    <div>
-                      {weeklyReport?.perfectWeek?.streak > 1 && (
-                        <div className="flex items-center ">
-                          <div className="perfect-week mt-2 flex w-fit items-center rounded">
-                            <img src="assets/star.svg" alt="" />
-                            <span className="mx-0.5  text-xs font-[700] -tracking-[0.36px] text-[#4a3e1d] ">
-                              Perfect Week x{weeklyReport?.perfectWeek?.streak}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
-                        You Unlocked a perfect week badge this week.Keep
-                        crushing your workout to maintain your streak.
-                      </div>
-                    </div>
-                  )}
-
+                <span className="ml-3 flex gap-3 font-futura text-[58px]  leading-[40px] text-blue">
+                  {Number(weeklyReport?.targetConsistency) -
+                    (Number(weeklyReport?.last4WeekConsistency[0]?.count)
+                      ? Number(weeklyReport?.last4WeekConsistency[0]?.count)
+                      : 0)}
+                  <p className="font-sfpro text-[10px] text-white-opacity-50">
+                    Workout away for a perfect week streak
+                  </p>
+                </span>{' '}
                 {/* <p className="ml-[20px] flex items-center gap-1 text-[10px] text-offwhite">
               {' '}
               <span className="font-futura text-[58px]   leading-[40px] text-blue">
@@ -501,9 +539,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                               !Number(weeklyReport?.energyLevelLastWeek)) &&
                               Number(weeklyReport?.energyLevelThisWeek) < 5 && (
                                 <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
-                                  out of 5 on energy level. Let's aim for a
-                                  higher score
+                                  Let's aim for a higher score
                                 </div>
                               )}
 
@@ -512,8 +548,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                               Number(weeklyReport?.energyLevelThisWeek) ===
                                 5 && (
                                 <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
-                                  out of 5 on energy level. Keep going!
+                                  Keep going!
                                 </div>
                               )}
                             {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
@@ -583,16 +618,14 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                           !Number(weeklyReport?.stressLevelsLastWeek)) &&
                           Number(weeklyReport?.stressLevelsThisWeek) > 1 && (
                             <div className="font-sfpro text-[12px] text-offwhite">
-                              You rated {weeklyReport?.stressLevelsThisWeek} out
-                              of 5 on stress level. Let's aim for a lower score
+                              Let's aim for a lower score
                             </div>
                           )}
                         {(Number(weeklyReport?.stressLevelsLastWeek) === 0 ||
                           !Number(weeklyReport?.stressLevelsLastWeek)) &&
                           Number(weeklyReport?.stressLevelsThisWeek) === 1 && (
                             <div className="font-sfpro text-[12px] text-offwhite">
-                              You rated {weeklyReport?.stressLevelsThisWeek} out
-                              of 5 on stress level. Keep going
+                              Keep going
                             </div>
                           )}
                         {Number(weeklyReport?.stressLevelsLastWeek) >
@@ -659,9 +692,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                               Number(weeklyReport?.sleepQualityThisWeek) <
                                 5 && (
                                 <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.sleepQualityThisWeek}{' '}
-                                  out of 5 on sleep level. Let's aim for a
-                                  higher score
+                                  Let's aim for a higher score
                                 </div>
                               )}
                             {(Number(weeklyReport?.sleepQualityLastWeek) ===
@@ -670,8 +701,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                               Number(weeklyReport?.sleepQualityThisWeek) ===
                                 5 && (
                                 <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.sleepQualityThisWeek}{' '}
-                                  out of 5 on sleep level. Keep going
+                                  Keep going
                                 </div>
                               )}
                             {Number(weeklyReport?.sleepQualityLastWeek) > 0 &&
@@ -742,9 +772,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                             Number(weeklyReport?.nutritionRatingThisWeek) <
                               5 && (
                               <div className="font-sfpro text-[12px] text-offwhite">
-                                You rated{' '}
-                                {weeklyReport?.nutritionRatingThisWeek} out of 5
-                                on nutrition level. Let's aim for a higher score
+                                Let's aim for a higher score
                               </div>
                             )}
 
@@ -754,9 +782,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                             Number(weeklyReport?.nutritionRatingThisWeek) ===
                               5 && (
                               <div className="font-sfpro text-[12px] text-offwhite">
-                                You rated{' '}
-                                {weeklyReport?.nutritionRatingThisWeek} out of 5
-                                on nutrition level. Keep going
+                                Keep going
                               </div>
                             )}
                           {Number(weeklyReport?.nutritionRatingLastWeek) > 0 &&
@@ -797,7 +823,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                   <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
                     {' '}
                     <img src="/assets/weight-machine.svg" alt="graph" />
-                    Weight comparison
+                    Latest Body Weight
                   </div>
                   <p className="text-[10px] text-white-opacity-50">
                     last 8 weeks
