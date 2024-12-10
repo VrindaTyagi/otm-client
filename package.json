@@ -48,9 +48,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -72,11 +72,8 @@
     ]
   },
   "devDependencies": {
-    "customize-cra": "^1.0.0",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.5",
-    "react-app-rewired": "^2.2.1",
-    "tailwindcss": "^3.3.3",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "tailwindcss": "^3.3.3"
   }
 }
