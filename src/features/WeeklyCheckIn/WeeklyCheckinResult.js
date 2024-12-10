@@ -248,7 +248,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                         : 0}
                     </span>{' '}
                     workout
-                    {weeklyReport?.last4WeekConsistency[0]?.count > 1 &&
+                    {weeklyReport?.last4WeekConsistency[0]?.count !== 1 &&
                       's'}{' '}
                     last week
                   </p>

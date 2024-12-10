@@ -89,7 +89,7 @@ const WeeklyCheckinSecondaryIntro = ({
                           : 0}
                       </span>{' '}
                       workout
-                      {statsData?.last8WeekConsistency[0]?.count > 1 &&
+                      {statsData?.last8WeekConsistency[0]?.count !== 1 &&
                         's'}{' '}
                       last week
                     </p>

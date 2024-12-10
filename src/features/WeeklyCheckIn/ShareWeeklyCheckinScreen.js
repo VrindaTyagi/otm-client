@@ -96,7 +96,10 @@ const ShareWeeklyCheckinScreen = ({
                         ? weeklyReport?.last4WeekConsistency[0]?.count
                         : 0}
                     </span>{' '}
-                    workout last week
+                    workout
+                    {weeklyReport?.last4WeekConsistency[0]?.count !== 1 &&
+                      's'}{' '}
+                    last week
                   </p>
                   <div className="flex items-center gap-1">
                     <img src="/assets/target-icon.svg" alt="target" />
@@ -285,7 +288,7 @@ const ShareWeeklyCheckinScreen = ({
 
                       <div className="mt-2 font-sfpro text-[12px] text-offwhite">
                         You Unlocked a perfect week badge this week. Keep
-                        crushing your workout to maintain your streak.
+                        crushing your workouts to maintain your streak.
                       </div>
                     </div>
                   )}
