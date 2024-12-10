@@ -57,8 +57,8 @@ const ShareWeeklyCheckinScreen = ({
     return `Week ${startDay}-${endDay} ${startMonth}`;
   }
   return (
-    <div ref={summaryRef} className="bg-black">
-      <div className="relative h-screen  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
+    <div ref={summaryRef} className="h-full bg-black">
+      <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
             <RxCross1 onClick={() => navigate('/')} className="" />
@@ -96,7 +96,10 @@ const ShareWeeklyCheckinScreen = ({
                         ? weeklyReport?.last4WeekConsistency[0]?.count
                         : 0}
                     </span>{' '}
-                    workout last week
+                    workout
+                    {weeklyReport?.last4WeekConsistency[0]?.count > 1 &&
+                      's'}{' '}
+                    last week
                   </p>
                   <div className="flex items-center gap-1">
                     <img src="/assets/target-icon.svg" alt="target" />
@@ -284,8 +287,8 @@ const ShareWeeklyCheckinScreen = ({
                       )}
 
                       <div className="mt-2 font-sfpro text-[12px] text-offwhite">
-                        You Unlocked a perfect week badge this week.Keep
-                        crushing your workout to maintain your streak.
+                        You Unlocked a perfect week badge this week. Keep
+                        crushing your workouts to maintain your streak.
                       </div>
                     </div>
                   )}
@@ -346,48 +349,19 @@ const ShareWeeklyCheckinScreen = ({
                             </p>
                           </div>
                           <div className="text-[10px] text-offwhite">
-                            {(Number(weeklyReport?.energyLevelLastWeek) === 0 ||
-                              !Number(weeklyReport?.energyLevelLastWeek)) &&
-                              Number(weeklyReport?.energyLevelThisWeek) < 5 && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
-                                  out of 5 on energy level. Let's aim for a
-                                  higher score
-                                </div>
-                              )}
-
-                            {(Number(weeklyReport?.energyLevelLastWeek) === 0 ||
-                              !Number(weeklyReport?.energyLevelLastWeek)) &&
-                              Number(weeklyReport?.energyLevelThisWeek) ===
-                                5 && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.energyLevelThisWeek}{' '}
-                                  out of 5 on energy level. Keep going!
-                                </div>
-                              )}
-                            {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
-                              Number(weeklyReport?.energyLevelLastWeek) >
-                                Number(weeklyReport?.energyLevelThisWeek) && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You have rated a lower score than last week.
-                                  Let's aim for higher score
-                                </div>
-                              )}
-                            {Number(weeklyReport?.energyLevelLastWeek) > 0 &&
-                              Number(weeklyReport?.energyLevelLastWeek) <
-                                Number(weeklyReport?.energyLevelThisWeek) && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You have rated a higher score than last
-                                  week.Keep Going!
-                                </div>
-                              )}
-                            {Number(weeklyReport?.energyLevelLastWeek) ===
-                              Number(weeklyReport?.energyLevelThisWeek) && (
+                            {Number(weeklyReport?.energyLevelThisWeek) <= 3 && (
                               <div className="font-sfpro text-[12px] text-offwhite">
-                                You have rated the same as last week.Let's keep
-                                going!
+                                let's aim for a higher score
                               </div>
                             )}
+
+                            {Number(weeklyReport?.energyLevelThisWeek) > 3 &&
+                              Number(weeklyReport?.energyLevelThisWeek) <=
+                                5 && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  Good job! Let's keep at it
+                                </div>
+                              )}
                           </div>
                         </div>
                       </div>
@@ -428,42 +402,14 @@ const ShareWeeklyCheckinScreen = ({
                             {weeklyReport?.stressLevelsThisWeek}
                           </p>
                         </div>
-                        {(Number(weeklyReport?.stressLevelsLastWeek) === 0 ||
-                          !Number(weeklyReport?.stressLevelsLastWeek)) &&
-                          Number(weeklyReport?.stressLevelsThisWeek) > 1 && (
-                            <div className="font-sfpro text-[12px] text-offwhite">
-                              You rated {weeklyReport?.stressLevelsThisWeek} out
-                              of 5 on stress level. Let's aim for a lower score
-                            </div>
-                          )}
-                        {(Number(weeklyReport?.stressLevelsLastWeek) === 0 ||
-                          !Number(weeklyReport?.stressLevelsLastWeek)) &&
-                          Number(weeklyReport?.stressLevelsThisWeek) === 1 && (
-                            <div className="font-sfpro text-[12px] text-offwhite">
-                              You rated {weeklyReport?.stressLevelsThisWeek} out
-                              of 5 on stress level. Keep going
-                            </div>
-                          )}
-                        {Number(weeklyReport?.stressLevelsLastWeek) >
-                          Number(weeklyReport?.stressLevelsThisWeek) && (
+                        {Number(weeklyReport?.stressLevelsThisWeek) > 2 && (
                           <div className="font-sfpro text-[12px] text-offwhite">
-                            You have rated a higher score than last week. Let's
-                            aim for lower score
+                            Let's aim for a lower score
                           </div>
                         )}
-                        {Number(weeklyReport?.stressLevelsLastWeek) !== 0 &&
-                          Number(weeklyReport?.stressLevelsLastWeek) <
-                            Number(weeklyReport?.stressLevelsThisWeek) && (
-                            <div className="font-sfpro text-[12px] text-offwhite">
-                              You have rated a lower score than last week.Keep
-                              Going!
-                            </div>
-                          )}
-                        {Number(weeklyReport?.stressLevelsLastWeek) ===
-                          Number(weeklyReport?.stressLevelsThisWeek) && (
+                        {Number(weeklyReport?.stressLevelsThisWeek) <= 2 && (
                           <div className="font-sfpro text-[12px] text-offwhite">
-                            You have rated the same as last week.Let's keep
-                            going!
+                            Good job! Let's keep at it
                           </div>
                         )}
                       </div>
@@ -502,50 +448,19 @@ const ShareWeeklyCheckinScreen = ({
                             </p>
                           </div>
                           <div className="text-[10px] text-offwhite">
-                            {(Number(weeklyReport?.sleepQualityLastWeek) ===
-                              0 ||
-                              !Number(weeklyReport?.sleepQualityLastWeek)) &&
-                              Number(weeklyReport?.sleepQualityThisWeek) <
-                                5 && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.sleepQualityThisWeek}{' '}
-                                  out of 5 on sleep level. Let's aim for a
-                                  higher score
-                                </div>
-                              )}
-                            {(Number(weeklyReport?.sleepQualityLastWeek) ===
-                              0 ||
-                              !Number(weeklyReport?.sleepQualityLastWeek)) &&
-                              Number(weeklyReport?.sleepQualityThisWeek) ===
-                                5 && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You rated {weeklyReport?.sleepQualityThisWeek}{' '}
-                                  out of 5 on sleep level. Keep going
-                                </div>
-                              )}
-                            {Number(weeklyReport?.sleepQualityLastWeek) > 0 &&
-                              Number(weeklyReport?.sleepQualityLastWeek) >
-                                Number(weeklyReport?.sleepQualityThisWeek) && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You have rated a lower score than last week.
-                                  Let's aim for higher score
-                                </div>
-                              )}
-                            {Number(weeklyReport?.sleepQualityLastWeek) > 0 &&
-                              Number(weeklyReport?.sleepQualityLastWeek) <
-                                Number(weeklyReport?.sleepQualityThisWeek) && (
-                                <div className="font-sfpro text-[12px] text-offwhite">
-                                  You have rated a higher score than last
-                                  week.Keep Going!
-                                </div>
-                              )}
-                            {Number(weeklyReport?.sleepQualityLastWeek) ===
-                              Number(weeklyReport?.sleepQualityThisWeek) && (
+                            {Number(weeklyReport?.sleepQualityThisWeek) <=
+                              3 && (
                               <div className="font-sfpro text-[12px] text-offwhite">
-                                You have rated the same as last week.Let's keep
-                                going!
+                                Let's aim for a higher score
                               </div>
                             )}
+                            {Number(weeklyReport?.sleepQualityThisWeek) > 3 &&
+                              Number(weeklyReport?.sleepQualityThisWeek) <=
+                                5 && (
+                                <div className="font-sfpro text-[12px] text-offwhite">
+                                  Good job! Let's keep at it
+                                </div>
+                              )}
                           </div>
                         </div>
                       </div>
@@ -585,52 +500,20 @@ const ShareWeeklyCheckinScreen = ({
                           </p>
                         </div>
                         <div className="text-[10px] text-offwhite">
-                          {(Number(weeklyReport?.nutritionRatingLastWeek) ===
-                            0 ||
-                            !Number(weeklyReport?.nutritionRatingLastWeek)) &&
-                            Number(weeklyReport?.nutritionRatingThisWeek) <
-                              5 && (
-                              <div className="font-sfpro text-[12px] text-offwhite">
-                                You rated{' '}
-                                {weeklyReport?.nutritionRatingThisWeek} out of 5
-                                on nutrition level. Let's aim for a higher score
-                              </div>
-                            )}
-
-                          {(Number(weeklyReport?.nutritionRatingLastWeek) ===
-                            0 ||
-                            !Number(weeklyReport?.nutritionRatingLastWeek)) &&
-                            Number(weeklyReport?.nutritionRatingThisWeek) ===
-                              5 && (
-                              <div className="font-sfpro text-[12px] text-offwhite">
-                                You rated{' '}
-                                {weeklyReport?.nutritionRatingThisWeek} out of 5
-                                on nutrition level. Keep going
-                              </div>
-                            )}
-                          {Number(weeklyReport?.nutritionRatingLastWeek) > 0 &&
-                            Number(weeklyReport?.nutritionRatingLastWeek) >
-                              Number(weeklyReport?.nutritionRatingThisWeek) && (
-                              <div className="font-sfpro text-[12px] text-offwhite">
-                                You have rated a lower score than last week.
-                                Let's aim for higher score
-                              </div>
-                            )}
-                          {Number(weeklyReport?.nutritionRatingLastWeek) > 0 &&
-                            Number(weeklyReport?.nutritionRatingLastWeek) <
-                              Number(weeklyReport?.nutritionRatingThisWeek) && (
-                              <div className="font-sfpro text-[12px] text-offwhite">
-                                You have rated a higher score than last
-                                week.Keep Going!
-                              </div>
-                            )}
-                          {Number(weeklyReport?.nutritionRatingLastWeek) ===
-                            Number(weeklyReport?.nutritionRatingThisWeek) && (
+                          {Number(weeklyReport?.nutritionRatingThisWeek) <=
+                            3 && (
                             <div className="font-sfpro text-[12px] text-offwhite">
-                              You have rated the same as last week.Let's keep
-                              going!
+                              Let's aim for a higher score
                             </div>
                           )}
+
+                          {Number(weeklyReport?.nutritionRatingThisWeek) > 3 &&
+                            Number(weeklyReport?.nutritionRatingThisWeek) <=
+                              5 && (
+                              <div className="font-sfpro text-[12px] text-offwhite">
+                                Keep going
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -668,9 +551,9 @@ const ShareWeeklyCheckinScreen = ({
                             weeklyReport?.userLast8WeekWeightHistory[1]
                               ?.weight >
                           0 ? (
-                            <MdArrowDropUp />
+                            <MdArrowDropUp className=" text-[19px]" />
                           ) : (
-                            <MdArrowDropDown />
+                            <MdArrowDropDown className=" text-[19px]" />
                           )}
                           {Math.abs(
                             weeklyReport?.userLast8WeekWeightHistory[0]
