@@ -57,8 +57,8 @@ const ShareWeeklyCheckinScreen = ({
     return `Week ${startDay}-${endDay} ${startMonth}`;
   }
   return (
-    <div ref={summaryRef} className="h-full bg-black">
-      <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
+    <div ref={summaryRef} className="bg-black">
+      <div className="relative h-screen  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
             <RxCross1 onClick={() => navigate('/')} className="" />
@@ -96,10 +96,7 @@ const ShareWeeklyCheckinScreen = ({
                         ? weeklyReport?.last4WeekConsistency[0]?.count
                         : 0}
                     </span>{' '}
-                    workout
-                    {weeklyReport?.last4WeekConsistency[0]?.count > 1 &&
-                      's'}{' '}
-                    last week
+                    workout last week
                   </p>
                   <div className="flex items-center gap-1">
                     <img src="/assets/target-icon.svg" alt="target" />
@@ -288,7 +285,7 @@ const ShareWeeklyCheckinScreen = ({
 
                       <div className="mt-2 font-sfpro text-[12px] text-offwhite">
                         You Unlocked a perfect week badge this week. Keep
-                        crushing your workouts to maintain your streak.
+                        crushing your workout to maintain your streak.
                       </div>
                     </div>
                   )}
