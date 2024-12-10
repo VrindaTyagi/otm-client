@@ -665,7 +665,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                             Number(weeklyReport?.nutritionRatingThisWeek) <=
                               5 && (
                               <div className="font-sfpro text-[12px] text-offwhite">
-                                Keep going
+                                Good job! Let's keep at it
                               </div>
                             )}
                         </div>
