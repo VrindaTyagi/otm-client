@@ -1,11 +1,10 @@
 import React from 'react';
-import WeightLineChart from './Component/Chart';
 import { GiNightSleep } from 'react-icons/gi';
 import { IoIosNutrition } from 'react-icons/io';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
-import { FaHome } from 'react-icons/fa';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
+import WeightLineChart from './Component/Chart';
 
 const ShareWeeklyCheckinScreen = ({
   weeklyReport,

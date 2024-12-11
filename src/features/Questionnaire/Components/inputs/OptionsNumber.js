@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { HOME, FULL, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
+import React from 'react';
 
 function OptionsNumber({
   questionCode,
@@ -9,8 +8,6 @@ function OptionsNumber({
   response,
   setResponse,
 }) {
-  const [isTextFieldActive, setTextFieldActive] = useState(false);
-
   const Option = ({
     questionCode,
     optionID,

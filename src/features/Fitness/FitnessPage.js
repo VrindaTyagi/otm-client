@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error } from '../../components';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
+import React, { useEffect, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
+import { TbSwimming } from 'react-icons/tb';
+import { Link, useNavigate } from 'react-router-dom';
+import { Error, Loader } from '../../components';
 import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
-import WeeklyWorkoutReport from './WeeklyWorkoutReport';
-import DuePaymentIndicator from './DuePaymentIndicator';
+import InstallApp from '../../components/InstallPWA';
+import LazyImage from '../../components/LazyLoadImage';
+import WeeklyCheckinTile from '../../components/WeeklyCheckinTile';
+import { useAuth } from '../../contexts/AuthContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { capitalizeFirstLetter } from '../../utils';
+import { axiosClient } from '../Profile/apiProfileClient';
 import MonthlyWrapped from '../Profile/MonthlyWrapped';
 import AdditionalActivity from './AdditionalActivity';
-import { TbSwimming } from 'react-icons/tb';
-import InstallApp from '../../components/InstallPWA';
-import { FaArrowRight } from 'react-icons/fa6';
+import DuePaymentIndicator from './DuePaymentIndicator';
+import StepTrackerTwo from './StepTrackerTwo';
 import {
   getCurrentHourInTimezone,
-  getCurrentWeekDates,
-  getCurrentWeekFullDate,
   getDeviceTimezone,
   getGreeting,
 } from './utils';
-import StepTrackerTwo from './StepTrackerTwo';
-import { RxCross1 } from 'react-icons/rx';
-import { FaArrowLeftLong } from 'react-icons/fa6';
-import LazyImage from '../../components/LazyLoadImage';
-import { axiosClient } from '../Profile/apiProfileClient';
-import { capitalizeFirstLetter } from '../../utils';
+import WeeklyWorkoutReport from './WeeklyWorkoutReport';
 import WorkoutLibrary from './WorkoutLibrary';
-import WeeklyCheckinTile from '../../components/WeeklyCheckinTile';
 
 function formatNumber(num) {
   if (num >= 1000) {
@@ -218,6 +214,7 @@ const FitnessPage = () => {
         <div>
           <img
             loading="lazy"
+            alt="img"
             src="assets/Movement-Frame.png"
             className="absolute left-0 top-0 -z-10 h-full w-full saturate-150"
           />
@@ -261,6 +258,7 @@ const FitnessPage = () => {
                           <img
                             loading="lazy"
                             src={userProfilePicture}
+                            alt="img"
                             className="h-[53px] w-[53px] rounded-xl object-cover"
                           />
                         ) : (
@@ -402,6 +400,7 @@ const FitnessPage = () => {
                         <img
                           src="/assets/yellowTimer.svg"
                           className="mr-[2px]"
+                          alt="img"
                         />
                         {homeStats.hyperWorkoutParams.duration} mins
                       </h2>
@@ -413,6 +412,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellow-power.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.hyperWorkoutParams.calories} cal
@@ -461,6 +461,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellowTimer.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.flexWorkoutParams.duration} mins
@@ -473,6 +474,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellow-power.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.flexWorkoutParams.calories} cal
@@ -498,6 +500,7 @@ const FitnessPage = () => {
                 <img
                   loading="lazy"
                   src="/assets/fitness-add.svg"
+                  alt="img"
                   className="h-[30px] w-[30px]"
                 />
               </div>
