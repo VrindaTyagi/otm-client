@@ -1,25 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import TaskCard from './TaskCard';
-import { axiosClient } from '../apiClient';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   changeMoodIcon,
-  toggleCompletion,
   handleFeedbackChange,
   handleMealInfoChange,
   handleMealUrlChange,
+  toggleCompletion,
 } from '../ReduxStore/actions';
+import { axiosClient } from '../apiClient';
 import { getFormattedDate, isIPhone } from '../utils';
-import { toast } from 'react-toastify';
+import TaskCard from './TaskCard';
 
-import FullMealInfoCard from './FullMealInfoCard';
-import MealPage from './MealPage';
-import { Loader } from '../../../components';
-import MealUploadButton from './MealUploadButton';
-import MealImageicon from './icons/MealImageicon';
-import MealCrossIcon from './icons/MealCrossIcon';
-import SparkleIcon from './icons/SparkleIcon';
 import AnalyseMealComp from './AnalyseMealComp';
+import FullMealInfoCard from './FullMealInfoCard';
 
 const TaskDetail = ({
   SelectedCircle,
@@ -27,20 +21,14 @@ const TaskDetail = ({
   setShowTaskDetail,
   setTaskCompleted,
   date,
-  taskCompleted,
 }) => {
   const [parentVisibilityCheck, setParentVisibilityCheck] = useState(true);
 
   const [isMealTask, setIsMealTask] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedFeeling, setSelectedFeeling] = useState(-1);
   const [feedback, setFeedback] = useState('');
-  const [showMealInfoPage, setshowMealInfoPage] = useState(false);
-  const [showImageUploadPage, setshowImageUploadPage] = useState(false);
 
   // meal info handling
-
-  const [loading, setLoader] = useState(false);
 
   const formattedDate = getFormattedDate();
   const finalDate = date === null || date === undefined ? formattedDate : date;
@@ -256,12 +244,6 @@ const TaskDetail = ({
   const handleClick = () => {
     // setShowProfilePicPopup(true);
     setParentVisibilityCheck(false);
-    console.log('clicked');
-  };
-
-  const handleClose = () => {
-    // setShowProfilePicPopup(true);
-    setshowImageUploadPage(false);
     console.log('clicked');
   };
 
@@ -563,18 +545,6 @@ const TaskDetail = ({
             date={finalDate}
             SelectedCircle={SelectedCircle}
           />
-        </div>
-      )}
-
-      {/* loading component */}
-
-      {loading && (
-        <div className="mx-auto mb-2  flex max-w-sm items-center space-x-6 rounded-lg bg-mediumGray p-3  shadow-md  ">
-          <div className="bg-gray-800 fixed inset-0 z-50 flex items-center justify-center bg-opacity-75">
-            <div className=" rounded-lg p-6 shadow-lg">
-              <Loader />
-            </div>
-          </div>
         </div>
       )}
     </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import CalendarTile from './components/CalendarTile';
-import { formatDate } from './utils';
 import ProgressBar from './ProgressBar';
 
 function Calendar({

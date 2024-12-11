@@ -148,7 +148,7 @@ function WeeklyWorkoutReport({
         <div className="flex flex-col justify-between">
           <section className="flex w-full flex-row items-center justify-between">
             <div className="flex gap-2">
-              <img src="/assets/bar-graph-logo.svg" />
+              <img src="/assets/bar-graph-logo.svg" alt="img" />
               <Heading>Weekly workout consistency</Heading>
             </div>
           </section>

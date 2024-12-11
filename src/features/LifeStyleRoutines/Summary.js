@@ -1,6 +1,5 @@
 import React from 'react';
 import SummaryTile from './components/SummaryTile';
-import { isIPhone } from './utils';
 
 function Summary({ circles, date, color }) {
   return (

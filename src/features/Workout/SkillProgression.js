@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '../../components';
 import { useSelector } from 'react-redux';
+import { Button } from '../../components';
 
-import { HiX } from 'react-icons/hi';
-import { HiCheck } from 'react-icons/hi';
-import { HiOutlineChevronDoubleRight } from 'react-icons/hi';
-import { HiOutlineChevronDoubleLeft } from 'react-icons/hi';
 import axios from 'axios';
-import SkillScore from './SkillScore';
+import {
+  HiCheck,
+  HiOutlineChevronDoubleLeft,
+  HiOutlineChevronDoubleRight,
+  HiX,
+} from 'react-icons/hi';
 import AnimatedComponent from '../../components/AnimatedComponent';
+import SkillScore from './SkillScore';
 
 const SkillProgression = ({ setShowLevel }) => {
   const [index, setIndex] = useState(1);
   const [currentInfo, setCurrentInfo] = useState({});
   const [levelArray, setLevelArray] = useState([]);
-  const [description, setDescription] = useState('');
 
   const { workout } = useSelector((store) => store.workoutReducer);
 
@@ -43,10 +44,9 @@ const SkillProgression = ({ setShowLevel }) => {
         );
         if (res.data) {
           const data = res.data.data;
-          setDescription(data.description);
           setLevelData(data);
         }
-      } catch (error) { }
+      } catch (error) {}
     }
 
     getSkillData();
@@ -54,20 +54,20 @@ const SkillProgression = ({ setShowLevel }) => {
   const badgeIconAnimation = {
     initial: {
       opacity: 0,
-      x: "30%",
-      scale: "90%"
+      x: '30%',
+      scale: '90%',
     },
     animate: {
       opacity: 1,
-      x: "0%",
-      scale: "100%",
+      x: '0%',
+      scale: '100%',
     },
     exit: {
       opacity: 0,
-      x: "-20%",
-      scale: "90%",
-    }
-  }
+      x: '-20%',
+      scale: '90%',
+    },
+  };
   return (
     <AnimatedComponent>
       <div className="h-screen w-screen overflow-y-hidden bg-[#141414] px-4 py-8">
@@ -82,16 +82,19 @@ const SkillProgression = ({ setShowLevel }) => {
         {levelArray.length > 0 && (
           <div className="flex h-full flex-col justify-around">
             <section className="flex flex-col items-center justify-center">
-              <h1 className="mb-4 text-2xl">{levelArray[index - 1].movement}</h1>
+              <h1 className="mb-4 text-2xl">
+                {levelArray[index - 1].movement}
+              </h1>
               <p className="text-center text-base text-lightGray"></p>
             </section>
             <section className="flex flex-col items-center justify-center ">
-                <div
-                  className={`${index > currentInfo.level ? 'opacity-25' : 'opacity-100'
-                    } my-8 text-3xl text-floYellow `}
-                >
-                  {levelArray[index - 1].name}
-                </div>
+              <div
+                className={`${
+                  index > currentInfo.level ? 'opacity-25' : 'opacity-100'
+                } my-8 text-3xl text-floYellow `}
+              >
+                {levelArray[index - 1].name}
+              </div>
               {index === currentInfo.level && (
                 <>
                   <div className="-my-4 w-full ">
@@ -125,7 +128,10 @@ const SkillProgression = ({ setShowLevel }) => {
                     }}
                   />
                 </span>
-                <AnimatedComponent key={Math.random() * 1000} animation={badgeIconAnimation}>
+                <AnimatedComponent
+                  key={Math.random() * 1000}
+                  animation={badgeIconAnimation}
+                >
                   <span className="flex h-32 items-center justify-center ">
                     {index > currentInfo.level ? (
                       <img

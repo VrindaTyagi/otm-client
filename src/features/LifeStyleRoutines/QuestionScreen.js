@@ -1,23 +1,21 @@
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
 
-import Options from '../Questionnaire/Components/inputs/Options';
-import BackButton from '../../components/BackButton';
-import { Button } from '../../components';
 import { useNavigate } from 'react-router-dom';
-import InputText from '../Questionnaire/Components/inputs/InputText';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { Loader } from 'rsuite';
+import { Button } from '../../components';
+import BackButton from '../../components/BackButton';
+import { ProgressBar } from '../LifestyleQuiz';
 import {
   capitalizeFirstLetter,
   decreaseScreenAndRank,
-  getFitnessScreen,
-  getGeneralScreen,
   getScreenCounts,
   isAnyEmptyResponseFitness,
   updateCurrentQuestion,
 } from '../LifestyleQuiz/utils/utils';
-import { ProgressBar } from '../LifestyleQuiz';
-import { Loader } from 'rsuite';
+import InputText from '../Questionnaire/Components/inputs/InputText';
+import Options from '../Questionnaire/Components/inputs/Options';
 
 const Questionare = ({ setQuestionnaireScreen }) => {
   const [questions, setQuestions] = useState(null);
@@ -26,14 +24,6 @@ const Questionare = ({ setQuestionnaireScreen }) => {
   const [screen, setScreen] = useState(1);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const navigate = useNavigate();
-
-  const maxScreenCount = getScreenCounts(questions);
-  const generalScreen = getGeneralScreen(questions);
-  const fitnessScreen = getFitnessScreen(questions);
-  const [pageError, setPageError] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
-  const [showAssessmentScreen, setShowAssessmentScreen] = useState(false);
-  const [showBMIScreen, setShowBMIScreen] = useState(false);
 
   const memberCode = JSON.parse(localStorage.getItem('user'))['code'];
 

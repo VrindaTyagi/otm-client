@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import { m } from 'framer-motion';
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -79,11 +79,10 @@ const SkillScore = ({ progress, total }) => {
       <Inner>
         <BarContainer>
           {[...new Array(totalSteps)].map((_, i) => (
-
             <BlockContainer key={i}>
               <Block
                 style={{
-                  backgroundColor: i <= stepsToFill ?  '#DDF988' : '#242424',
+                  backgroundColor: i <= stepsToFill ? '#DDF988' : '#242424',
                   width:
                     i === stepsToFill
                       ? `${((progress / total) * totalSteps - i) * 15}px`

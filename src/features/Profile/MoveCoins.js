@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BGMoveCoins from '../../assets/images/bg-movecoins.svg';
-import { useNavigate } from 'react-router-dom';
 
 const Heading = styled.div`
   color: var(--Light-gray, #b1b1b1);

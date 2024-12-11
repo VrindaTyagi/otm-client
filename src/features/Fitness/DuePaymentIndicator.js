@@ -22,15 +22,7 @@ const WarningText = styled.p`
   line-height: normal;
   letter-spacing: 1px;
 `;
-const RightArrow = styled.p`
-  color: var(--Red, #fa5757);
-  text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 21px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
+
 function DuePaymentIndicator() {
   const Warning = () => {
     return (

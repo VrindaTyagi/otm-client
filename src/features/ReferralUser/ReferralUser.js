@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { PageNotFound } from '../../pages';
 import GiftCard from './GiftCard';
 

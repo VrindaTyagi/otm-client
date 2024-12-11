@@ -1,30 +1,25 @@
 //MainPage.js
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { NavigationTab } from './index';
-import Calendar from './Calendar';
-import { axiosClient } from './apiClient';
-import { getFormattedDate } from './utils';
-import BackButton from '../../components/BackButton';
-import Routines from './Routines';
-import Summary from './Summary';
-import { Link, useNavigate } from 'react-router-dom';
-import { Loader } from '../LifestyleQuiz';
-import { Error } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialStateSuccess } from './ReduxStore/actions';
-import { TimelineHeading } from '../Timeline/StyledComponents';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
-import domtoimage from 'dom-to-image';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Error } from '../../components';
+import { capitalizeFirstLetter } from '../../utils';
 import {
   getCurrentHourInTimezone,
   getDeviceTimezone,
   getGreeting,
 } from '../Fitness/utils';
+import { Loader } from '../LifestyleQuiz';
+import { axiosClient } from './apiClient';
+import Calendar from './Calendar';
 import ShareCoachScreen from './components/ShareCoachScreen';
+import { NavigationTab } from './index';
 import Questionare from './QuestionScreen';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { capitalizeFirstLetter } from '../../utils';
+import { fetchInitialStateSuccess } from './ReduxStore/actions';
+import Routines from './Routines';
+import Summary from './Summary';
+import { getFormattedDate } from './utils';
 
 function MainPage() {
   // Defining states for the fetched data
@@ -38,7 +33,6 @@ function MainPage() {
   const [isCircleOpen, setIsCircleOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const pageRef = useRef(null);
   const [greeting, setGreeting] = useState('');
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
@@ -86,7 +80,6 @@ function MainPage() {
 
   // Get the value of the 'LifestyleLoader' parameter
   const lifestyleLoader = queryParams.get('lifestyleLoader');
-  const handleLoader = () => {};
 
   const getData = async (date) => {
     setPageLoading(true);
@@ -126,13 +119,14 @@ function MainPage() {
     setGreeting(greetingMessage);
   }, []);
 
-  const { completionHistory, circles, percentCompletion, lifeStyleMemberCode } =
-    useSelector((state) => ({
+  const { completionHistory, circles, lifeStyleMemberCode } = useSelector(
+    (state) => ({
       completionHistory: state.completionHistory,
       circles: state.lifeStyleDetails?.circles,
       percentCompletion: state.lifeStyleDetails?.completionHistory,
       lifeStyleMemberCode: state.lifeStyleDetails?.memberCode,
-    }));
+    }),
+  );
 
   useEffect(() => {
     if (lifeStyleMemberCode && lifeStyleMemberCode !== 'GENERAL') {
@@ -204,6 +198,7 @@ function MainPage() {
                     }}
                     className="absolute left-0 top-0 -z-20 h-screen w-full"
                     src="/assets/lifestyle-main-frame.svg"
+                    alt="img"
                   />
 
                   <div className="my-auto rounded-lg  ">
@@ -211,12 +206,14 @@ function MainPage() {
                       <img
                         loading="lazy"
                         src="./assets/lifestyle-ai-bg.svg"
+                        alt="img"
                         className="w-full pb-[27px] "
                       />
                       <img
                         loading="lazy"
                         src="./assets/lifestyle-check.svg"
                         className=" absolute  top-16 pb-[27px] "
+                        alt="img"
                       />
                     </div>
                     <p className="w-full text-center text-[20px] text-yellow">
@@ -236,6 +233,7 @@ function MainPage() {
                     filter: ' saturate(1.8) brightness(0.7) ',
                   }}
                   className="absolute top-0 -z-20 h-screen w-full"
+                  alt="img"
                   src="/assets/lifestyle-main-frame.svg"
                 />
                 <div>
@@ -277,6 +275,7 @@ function MainPage() {
                                   loading="lazy"
                                   src={userProfilePicture}
                                   className="h-[53px] w-[53px] rounded-xl object-cover "
+                                  alt="img"
                                 />
                               ) : (
                                 <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">
@@ -295,6 +294,7 @@ function MainPage() {
                                       loading="lazy"
                                       src="./assets/lifestyle-check.svg"
                                       className=" h-[120px] w-[120px] p-4 "
+                                      alt="img"
                                     />
 
                                     <div className="mt-2 flex w-full flex-1 flex-col justify-center">

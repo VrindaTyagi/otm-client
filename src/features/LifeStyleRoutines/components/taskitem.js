@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import TaskDetail from './TaskDetail';
-import { axiosClient } from '../apiClient';
+import axios from 'axios';
+import mixpanel from 'mixpanel-browser';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { toggleCompletion } from '../ReduxStore/actions';
 import { getFormattedDate } from '../utils';
-import { toast } from 'react-toastify';
-import { current } from '@reduxjs/toolkit';
-import mixpanel from 'mixpanel-browser';
-import axios from 'axios';
+import TaskDetail from './TaskDetail';
 
 function TaskItem({ task, SelectedCircle, date }) {
   const [showTaskDetail, setShowTaskDetail] = useState(false);

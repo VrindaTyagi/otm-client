@@ -16,6 +16,7 @@ const AerobicInstructions = ({
               <img
                 src={IMAGE_URL[index]}
                 className=" ml-1 h-[62px] w-[62px] "
+                alt="img"
               />
             </div>
             <div>
@@ -30,14 +31,15 @@ const AerobicInstructions = ({
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className="bg-dark-green-opacity-66 ml-1 flex w-fit items-center rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
+                    className="ml-1 flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                   >
                     <img
                       src="/assets/yellowTimer.svg"
                       className=" mr-[4px] h-[12px] w-[12px]"
+                      alt="img"
                     />
 
-                    {item?.id !== 'version_3'
+                    {item?.id !== 'sprint_work'
                       ? item.time
                       : getSubstringUntilSec(item.notes[0])}
                   </h2>
@@ -46,7 +48,7 @@ const AerobicInstructions = ({
                 <div className="flex gap-1">
                   <h2 className=" text-sm text-white-opacity-50">Target </h2>
 
-                  {item.id === 'version_3' ? (
+                  {item.id === 'sprint_work' ? (
                     <h2 className="flex w-fit items-center bg-green-opacity-12 px-1 text-center text-xs  text-green">
                       MAX EFFORT
                     </h2>
@@ -55,20 +57,21 @@ const AerobicInstructions = ({
                       style={{
                         border: '0.5px solid rgba(221,249,136,0.4)',
                       }}
-                      className="bg-dark-green-opacity-66 flex w-fit items-center rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
+                      className="flex w-fit items-center rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                     >
                       <img
                         src="/assets/round-icon.svg"
                         className=" mr-[4px] h-[12px] w-[12px]"
+                        alt="img"
                       />
-                      {item.id === 'version_1' &&
+                      {item.id === 'cardio_intervals' &&
                         `${item.minRounds} - ${item.maxRounds} Rounds`}
-                      {item.id === 'version_2' && `1 Round`}
+                      {item.id === 'steady_state_zone_2_cardio' && `1 Round`}
                     </h2>
                   )}
                 </div>
 
-                {item.id === 'version_3' ? (
+                {item.id === 'sprint_work' ? (
                   <h2 className="flex  text-sm text-white-opacity-50">
                     {item.notes[1]}
                   </h2>

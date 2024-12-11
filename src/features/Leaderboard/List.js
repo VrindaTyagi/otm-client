@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
 import ListItem from './ListItem';
 
 const List = ({ data, mode, code }) => {
@@ -7,21 +7,16 @@ const List = ({ data, mode, code }) => {
   const matchingUser = data?.find((entry) => entry.code === code);
 
   // Create a LeaderboardItem for the matching user
-  const matchingUserItem =
-    matchingUser ? (
-      <motion.div
-        key={-1} // Assign a unique key for the matching user
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ListItem
-          isCurrentUser={true}
-          user={matchingUser}
-          mode={mode}
-        />
-      </motion.div>
-    ) : null;
+  const matchingUserItem = matchingUser ? (
+    <motion.div
+      key={-1} // Assign a unique key for the matching user
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <ListItem isCurrentUser={true} user={matchingUser} mode={mode} />
+    </motion.div>
+  ) : null;
 
   return (
     <div>
@@ -36,11 +31,7 @@ const List = ({ data, mode, code }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
           >
-            <ListItem
-              mode={mode}
-              user={entry}
-              isCurrentUser={false}
-            />
+            <ListItem mode={mode} user={entry} isCurrentUser={false} />
           </motion.div>
         ))}
     </div>

@@ -1,14 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Loader, Error } from '../../components';
-import SectionItem from './Section';
-import { useNavigate, useParams } from 'react-router-dom';
-import UpdateWorkout from './UpdateWorkout';
-import { HiArrowNarrowLeft } from 'react-icons/hi';
-import { setIndex } from './WorkoutSlice';
 import { useEffect, useState } from 'react';
+import { HiArrowNarrowLeft } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Error, Loader } from '../../components';
 import AnimatedComponent from '../../components/AnimatedComponent';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import LazyImage from '../../components/LazyLoadImage';
+import SectionItem from './Section';
+import UpdateWorkout from './UpdateWorkout';
+import { setIndex } from './WorkoutSlice';
 
 const MainPage = () => {
   const [showUpdateWorkout, setShowUpdateWorkout] = useState(false);
@@ -91,6 +90,7 @@ const MainPage = () => {
       <img
         loading="eager"
         src={'/assets/Movement-Frame.png'}
+        alt="img"
         style={{ height: `calc(100vh - 246px)` }}
         className={`absolute left-0 -z-20 h-screen w-full saturate-150 ${
           showUpdateWorkout === true ? 'top-0' : 'top-60 '

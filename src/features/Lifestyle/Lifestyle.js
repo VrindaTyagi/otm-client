@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { Error, Loader } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error } from '../../components';
 
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
-import LifeStyleScore from './LifeStyleScore';
-import LifeStyleRoutine from './LifeStyleRoutine';
-import { TimelineHeading } from '../Timeline/StyledComponents';
+import { useUserContext } from '../../contexts/UserContext';
 import MainPage from '../LifeStyleRoutines/MainPage';
+import { TimelineHeading } from '../Timeline/StyledComponents';
+import LifeStyleRoutine from './LifeStyleRoutine';
+import LifeStyleScore from './LifeStyleScore';
 
 const Lifestryle = () => {
   const { setUserData } = useUserContext();

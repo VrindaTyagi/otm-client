@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import BarChart from './Components/BarChart';
-import RadarChart from './Components/RadarChart';
-import Overview from './Components/Overview';
-import {
-  getPreviousMonthYear,
-  getPreviousMonth,
-  getCurrentYear,
-} from './utils';
+import mixpanel from 'mixpanel-browser';
+import React, { useEffect, useState } from 'react';
 import Stories from 'react-insta-stories';
 import { useNavigate } from 'react-router-dom';
-import { axiosClient } from './apiClient';
-import Loader from '../../components/Loader';
 import Error from '../../components/Error';
-import mixpanel from 'mixpanel-browser';
+import Loader from '../../components/Loader';
+import { axiosClient } from './apiClient';
+import BarChart from './Components/BarChart';
+import Overview from './Components/Overview';
+import RadarChart from './Components/RadarChart';
+import {
+  getCurrentYear,
+  getPreviousMonth,
+  getPreviousMonthYear,
+} from './utils';
 
 function MainPage() {
   const todayDate = getPreviousMonthYear();
@@ -37,7 +37,7 @@ function MainPage() {
     axiosClient
       .get(`?user=${userCode}&month=${currentMonthNumber}&year=${currentYear}`)
       .then((res) => {
-        mixpanel.track('Monthly wrapped opened')
+        mixpanel.track('Monthly wrapped opened');
 
         const {
           rank,
@@ -112,7 +112,7 @@ function MainPage() {
             <div className="relative bottom-[100px] h-[200px] w-[350px]">
               <img src="/assets/star_fire_streak.png" alt="star" />
             </div>
-            <div className="flex flex-col items-center justify-center w-full gap-3">
+            <div className="flex w-full flex-col items-center justify-center gap-3">
               <h1
                 className="text-[47px] text-white/80"
                 style={{
@@ -154,8 +154,8 @@ function MainPage() {
             >
               {userName}
             </h2>
-            <div className="flex flex-row items-center justify-between w-full">
-              <div className="flex flex-col items-center justify-center w-fit">
+            <div className="flex w-full flex-row items-center justify-between">
+              <div className="flex w-fit flex-col items-center justify-center">
                 <h4
                   style={{
                     letterSpacing: '0.288px',
@@ -178,7 +178,7 @@ function MainPage() {
                   {barChartData?.rank}
                 </p>
               </div>
-              <div className="flex flex-col items-center justify-center w-fit">
+              <div className="flex w-fit flex-col items-center justify-center">
                 <h4
                   style={{
                     letterSpacing: '0.288px',
@@ -201,7 +201,7 @@ function MainPage() {
                   {barChartData?.totalWorkout}
                 </p>
               </div>
-              <div className="flex flex-col items-center justify-center w-fit">
+              <div className="flex w-fit flex-col items-center justify-center">
                 <h4
                   style={{
                     letterSpacing: '0.288px',
@@ -346,12 +346,12 @@ function MainPage() {
       )}
       {!loading && !error && (
         <div
-          className="w-full min-h-screen bg-center bg-no-repeat bg-cover overflow-y-screen"
+          className="overflow-y-screen min-h-screen w-full bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${'/assets/monthly_wrapped_bg.svg'})`,
           }}
         >
-          <div className="flex flex-col items-center justify-start w-full min-h-screen gap-3 py-5 overflow-y-scroll">
+          <div className="flex min-h-screen w-full flex-col items-center justify-start gap-3 overflow-y-scroll py-5">
             <div className="relative flex w-full flex-col items-center justify-center gap-[1px]">
               <p className="text-[9.3px] text-[#929292] ">Monthly Wrapped</p>
               <p className="text-[14px] text-[#7E87EF]">{todayDate}</p>
@@ -365,7 +365,7 @@ function MainPage() {
                 onClick={closePage}
               />
             </div>
-            <div className="flex-1 w-full h-full bg-transparent">
+            <div className="h-full w-full flex-1 bg-transparent">
               <Stories
                 loop={true}
                 keyboardNavigation

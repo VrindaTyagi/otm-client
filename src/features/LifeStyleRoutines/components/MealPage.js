@@ -1,13 +1,12 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MealDoughnut } from './MealDoughnut';
 import MealCrossIcon from './icons/MealCrossIcon';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 const MealPage = ({
   mealInfo = {},
   imageURL = 'No URL',
   finalDate = 'No Date',
-  setIsVisible,
   setParentVisibilityCheck,
 }) => {
   console.log('mealInfo', mealInfo);
@@ -26,7 +25,7 @@ const MealPage = ({
 
   return (
     <div className="py-4">
-      <div className="flex flex-row items-center justify-center w-full ">
+      <div className="flex w-full flex-row items-center justify-center ">
         <p className="pl-2 font-sfpro  text-[14px] font-medium text-custompurple">
           {finalDate}
         </p>
@@ -38,12 +37,12 @@ const MealPage = ({
 
       {Object.keys(mealInfo).length !== 0 ? (
         <>
-          <div className="flex items-center justify-center h-auto mb-5 mt-7">
+          <div className="mb-5 mt-7 flex h-auto items-center justify-center">
             {/* meal info */}
-            <div className="w-full p-5 text-white rounded-lg  h-fit">
+            <div className="h-fit w-full rounded-lg p-5  text-white">
               <img
                 src={imageURL} // Replace this with the actual image URL
-                alt="image title"
+                alt="imagetitle"
                 className="float-left mr-3 max-h-[130px] w-[122px] rounded-lg object-cover"
               />
               <h2 className="text-left font-sfpro text-[20px] font-medium leading-[31.03px]">
@@ -64,7 +63,7 @@ const MealPage = ({
         </div>
       )}
 
-      <div onClick={handleClick} className="fixed left-0 w-full px-3 bottom-4">
+      <div onClick={handleClick} className="fixed bottom-4 left-0 w-full px-3">
         <button className="w-full rounded-xl bg-custompurple px-[14px] py-[10px] text-black ">
           Done
         </button>

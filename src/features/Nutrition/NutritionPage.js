@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Loader } from '../../components';
-import { axiosClient } from './apiClient';
-import MealPlanPage from './MealPlanner/MealPlanPage';
-import * as Actions from './MealPlanner/Redux/actions';
 import { capitalizeFirstLetter } from '../../utils';
 import {
   getCurrentHourInTimezone,
   getDeviceTimezone,
   getGreeting,
 } from '../Fitness/utils';
+import { axiosClient } from './apiClient';
+import MealPlanPage from './MealPlanner/MealPlanPage';
+import * as Actions from './MealPlanner/Redux/actions';
 
 const NutritionPage = () => {
   const dispatch = useDispatch();
@@ -114,6 +114,7 @@ const NutritionPage = () => {
           <img
             className="absolute left-0 top-0 z-0 h-screen w-full"
             src="/assets/nutrition-bg.svg"
+            alt="img"
             style={{
               height: '-webkit-fill-available',
               filter: 'brightness(0.5)',
@@ -141,6 +142,7 @@ const NutritionPage = () => {
                     loading="lazy"
                     src={userProfilePicture}
                     className="h-[53px] w-[53px] rounded-xl object-cover"
+                    alt="img"
                   />
                 ) : (
                   <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">
@@ -162,6 +164,7 @@ const NutritionPage = () => {
                     <img
                       src="/assets/arrow-board.svg"
                       className="h-[150px] w-[150px]"
+                      alt="img"
                     />
                     <div className="flex flex-col justify-center">
                       <h3 className="  font-sfpro text-[20px] font-medium text-offwhite">
@@ -187,7 +190,7 @@ const NutritionPage = () => {
                 >
                   <div className="my-2 ml-4 ">
                     <div className="flex gap-2">
-                      <img src="/assets/camera-logo.svg" />
+                      <img src="/assets/camera-logo.svg" alt="img" />
                       <h3 className="text-offwhite">Meal Analysis</h3>
                     </div>
                     <div className="mt-1 max-w-[250px] text-[14px]  leading-[16px] text-lightGray">
@@ -202,10 +205,12 @@ const NutritionPage = () => {
                     <img
                       className="absolute right-0 "
                       src="/assets/spiral.svg"
+                      alt="img"
                     />
                     <img
                       className="absolute right-[16px]   "
                       src="/assets/meal-photo.png"
+                      alt="img"
                     />
                   </div>
                 </Link>

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
@@ -63,6 +62,7 @@ const Navbar = () => {
                   ? activeImagePath[index]
                   : inActiveImagePath[index]
               }
+              alt="img"
             />
           </Link>
         </div>

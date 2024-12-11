@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { ProgressBar } from '../LifestyleQuiz';
-import BackButton from '../../components/BackButton';
-import { Button } from '../../components';
-import Options from './Components/inputs/Options';
-import { axiosClient } from '../LifestyleQuiz';
-import {
-  getScreenCounts,
-  capitalizeFirstLetter,
-  increaseScreenAndRank,
-  decreaseScreenAndRank,
-  updateCurrentQuestion,
-  isAnyEmptyResponse,
-  getGeneralScreen,
-  getFitnessScreen,
-} from '../LifestyleQuiz';
-import InputText from './Components/inputs/InputText';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Error } from '../../components';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Loader } from '../LifestyleQuiz';
 import styled from 'styled-components';
-import BMIScreen from './BMIScreen';
+import { Button, Error } from '../../components';
+import BackButton from '../../components/BackButton';
+import {
+  axiosClient,
+  capitalizeFirstLetter,
+  decreaseScreenAndRank,
+  getFitnessScreen,
+  getGeneralScreen,
+  getScreenCounts,
+  increaseScreenAndRank,
+  isAnyEmptyResponse,
+  Loader,
+  ProgressBar,
+  updateCurrentQuestion,
+} from '../LifestyleQuiz';
 import AssessmentScreen from './AssessmentScreen';
+import BMIScreen from './BMIScreen';
+import InputText from './Components/inputs/InputText';
+import Options from './Components/inputs/Options';
 
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
@@ -37,14 +36,6 @@ function LandingPage() {
   const [showAssessmentScreen, setShowAssessmentScreen] = useState(false);
   const [showBMIScreen, setShowBMIScreen] = useState(false);
   const navigate = useNavigate();
-
-  const questionnaireIntroducntion = [
-    ' <b className="bg-red"> </b> to guide you every step of the way',
-    '  Your weekly workout schedule to meet your goals',
-    'Custom made meal planning suited to your taste',
-    ' A personalised lifestyle design that works',
-    'An accounatability coach to fool to proof your success',
-  ];
 
   const StarterText = styled.div`
     color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
@@ -364,7 +355,11 @@ function LandingPage() {
                       className=""
                     />
 
-                    <img src={'/assets/text_cut.svg'} className="mt-[44px]" />
+                    <img
+                      src={'/assets/text_cut.svg'}
+                      className="mt-[44px]"
+                      alt="img"
+                    />
 
                     <GradientText className="mt-2 flex w-min flex-wrap text-center text-4xl">
                       Sustainable Solution
@@ -493,8 +488,8 @@ function LandingPage() {
               screen === maxScreenCount
                 ? 'Finish'
                 : currentQuestion[0]?.target === 'ASSESSMENT'
-                ? 'Take Assessment'
-                : 'Next'
+                  ? 'Take Assessment'
+                  : 'Next'
             }
             type="lifestyle"
             action={() => {

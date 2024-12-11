@@ -2,14 +2,13 @@ import React, { useMemo } from 'react';
 // Import react-circular-progressbar module and styles
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { getDayOfWeek, extractDay, getColor } from '../utils';
+import { extractDay, getColor, getDayOfWeek } from '../utils';
 
 function CalendarTile({
   date,
   percentCompletion,
   isSelected,
   setSelectedDate,
-  isToday,
 }) {
   const colors = useMemo(
     () => [

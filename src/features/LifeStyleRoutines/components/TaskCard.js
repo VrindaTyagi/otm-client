@@ -1,10 +1,6 @@
 import React from 'react';
-import { FaArrowRight } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
 
 const TaskCard = ({ task, index }) => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <div className="rounded-xl bg-mediumGray p-4">

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import AnalyseMealComp from './components/AnalyseMealComp';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
+import { Provider } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Provider } from 'react-redux';
+import AnalyseMealComp from './components/AnalyseMealComp';
 import store from './ReduxStore/store';
 
 const MealUploadHeading = styled.h1`

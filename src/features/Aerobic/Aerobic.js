@@ -2,13 +2,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaArrowLeftLong } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AnimatedComponent from '../../components/AnimatedComponent';
 import Duration from '../../components/Duration';
+import AerobicEquipment from './AerobicEquipment';
 import AerobicHeading from './AerobicHeading';
 import AerobicInitialTile from './AerobicInitialTile';
 import AerobicInstructions from './AerobicInstructions';
-import AerobicEquipment from './AerobicEquipment';
-import AnimatedComponent from '../../components/AnimatedComponent';
 
 const Aerobic = () => {
   const navigate = useNavigate();
@@ -49,14 +49,6 @@ const Aerobic = () => {
     './assets/aerobic-skipping.svg ',
     './assets/aerobic-run.svg ',
   ];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDistance((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleBackButton = () => {
     if (selectWorkoutId === null) {
@@ -119,7 +111,7 @@ const Aerobic = () => {
   }, []);
 
   return (
-    <AnimatedComponent className="bg-screenBackgroundColor relative h-screen overflow-y-scroll">
+    <AnimatedComponent className="relative h-screen overflow-y-scroll bg-screenBackgroundColor">
       <div className=" absolute left-3 top-3 z-50 flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
         <FaArrowLeftLong onClick={() => handleBackButton()} />
       </div>
@@ -128,6 +120,7 @@ const Aerobic = () => {
       <img
         src="./assets/aerobic-background.png "
         className="gradi absolute z-10 h-[45%] w-full object-cover "
+        alt="img"
       />
 
       <AerobicHeading
@@ -223,7 +216,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Distance
                   </h3>
-                  <div className="border-b-white-opacity-20 mt-[14px] flex h-[40px] items-center   gap-5  rounded-t-md border-b ">
+                  <div className="mt-[14px] flex h-[40px] items-center gap-5   rounded-t-md  border-b border-b-white-opacity-20 ">
                     <div className="flex w-full gap-2">
                       <input
                         type="number"
@@ -245,7 +238,7 @@ const Aerobic = () => {
                   <h3 className="font-sfpro text-[16px] text-offwhite">
                     Calories Burned
                   </h3>
-                  <div className=" border-b-white-opacity-20 mt-[20px] flex h-[40px] border-b">
+                  <div className=" mt-[20px] flex h-[40px] border-b border-b-white-opacity-20">
                     <input
                       type="number"
                       name="m"

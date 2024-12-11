@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Duration = ({ setDuration }) => {
   const containerRef = useRef(null);
   const itemHeightRef = useRef(0);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [selectedValue, setSelectedValue] = useState(5);
-  const [showTimeInput, setShowTimeInput] = useState(true);
-  const [timeChecked, setTimeChecked] = useState(true);
 
   const items = Array.from({ length: 43 }, (_, i) => {
     if (i === 0 || i === 1 || i === 2 || i === 42 || i === 41 || i === 40) {
@@ -19,13 +16,8 @@ const Duration = ({ setDuration }) => {
   });
 
   useEffect(() => {
-    if (timeChecked === true) {
-      setDuration(`${selectedValue} mins`);
-    }
-    if (timeChecked === false) {
-      setDuration('');
-    }
-  }, [selectedValue, timeChecked]);
+    setDuration(`${selectedValue} mins`);
+  }, [selectedValue]);
 
   useEffect(() => {
     // Set the item height after the component mounts
@@ -82,13 +74,7 @@ const Duration = ({ setDuration }) => {
             }
 
             return (
-              <div
-                onClick={
-                  position === 0 ? () => setShowTimeInput(false) : undefined
-                }
-                key={index}
-                className={className}
-              >
+              <div key={index} className={className}>
                 {item}
                 {'    '}
                 {position === 0 && <div className="pl-5">mins</div>}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Blurhash } from 'react-blurhash';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import styled from 'styled-components';
 
 const ImageWrapper = styled.div``;
@@ -13,15 +13,9 @@ const LazyImage = ({
   ImageClassName,
 }) => {
   const [isLoaded, setLoaded] = useState(false);
-  const [isLoadStarted, setLoadStarted] = useState(false);
 
   const handleLoad = () => {
     setLoaded(true);
-  };
-
-  const handleLoadStarted = () => {
-    console.log('Started: ');
-    setLoadStarted(true);
   };
 
   return (
@@ -31,7 +25,6 @@ const LazyImage = ({
         src={src}
         alt={altText}
         onLoad={handleLoad}
-        beforeLoad={handleLoadStarted}
         className={`${!isLoaded && 'absolute -z-10'}  w-full ${ImageClassName}`}
       />
       {!isLoaded && (

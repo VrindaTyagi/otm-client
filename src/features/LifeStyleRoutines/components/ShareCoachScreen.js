@@ -1,3 +1,6 @@
+import { format } from 'date-fns';
+import domtoimage from 'dom-to-image';
+import { motion } from 'framer-motion';
 import {
   forwardRef,
   useEffect,
@@ -5,17 +8,13 @@ import {
   useRef,
   useState,
 } from 'react';
-import Summary from '../Summary';
-import { format } from 'date-fns';
-import { motion } from 'framer-motion';
-import domtoimage from 'dom-to-image';
 import { RxCross1 } from 'react-icons/rx';
+import Summary from '../Summary';
 
 const ShareCoachScreen = forwardRef(
   ({ circles, date, completionHistory, setShareSummaryVisible }, ref) => {
     const [day, setDay] = useState(null);
     const contentAreaRef = useRef(null);
-    const completedCaloriePercentage = 90;
     let gradient;
     const [
       percentCompletionOfSelectedDate,

@@ -1,17 +1,17 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  GrayMorningCircleIcon,
   GrayAfternoonCircleIcon,
-  GrayEveningCircleIcon,
-  GrayNightCircleIcon,
   GrayAlwaysActiveCircleIcon,
+  GrayEveningCircleIcon,
+  GrayMorningCircleIcon,
+  GrayNightCircleIcon,
 } from '../index';
 // Import react-circular-progressbar module and styles
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import SummaryTag from './SummaryTag';
-import CircleSummary from './CircleSummary';
 import { getColor } from '../utils';
+import CircleSummary from './CircleSummary';
+import SummaryTag from './SummaryTag';
 
 /**
  * @returns a component which shows the list of completed and incompleted tasks

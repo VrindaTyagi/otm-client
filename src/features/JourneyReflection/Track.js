@@ -24,37 +24,40 @@ const TrackSlider = ({ heading, detail, index }) => {
   );
 };
 
-
 const Track = () => {
   const data = [
     {
-      id:1,
-      heading:"Calorie Counting",
-      detail:"We'll keep tabs on those delicious calories you're fueling up with, so you can optimise your diet and unlock your full power potential!",
+      id: 1,
+      heading: 'Calorie Counting',
+      detail:
+        "We'll keep tabs on those delicious calories you're fueling up with, so you can optimise your diet and unlock your full power potential!",
     },
     {
-      id:2,
-      heading:"Step Tracker",
-      detail:"Get ready to become a step-counting machine! We'll monitor your daily steps to ensure you're staying active and energised like a true fitness dynamo.",
+      id: 2,
+      heading: 'Step Tracker',
+      detail:
+        "Get ready to become a step-counting machine! We'll monitor your daily steps to ensure you're staying active and energised like a true fitness dynamo.",
     },
     {
-      id:3,
-      heading:"Performance Goals",
-      detail:"It's time to set some epic performance targets, like crushing more Metcon rounds in record time or lifting weights that would make Thor jealous. These goals will keep you laser-focused and motivated to the max!",
+      id: 3,
+      heading: 'Performance Goals',
+      detail:
+        "It's time to set some epic performance targets, like crushing more Metcon rounds in record time or lifting weights that would make Thor jealous. These goals will keep you laser-focused and motivated to the max!",
     },
     {
-      id:4,
-      heading:"Feeling Fantastic",
-      detail:"We want to know how you're feeling on this adventure – your energy levels, motivation, and overall awesomeness. This will help us fine-tune your journey for maximum enjoyment and satisfaction",
+      id: 4,
+      heading: 'Feeling Fantastic',
+      detail:
+        "We want to know how you're feeling on this adventure – your energy levels, motivation, and overall awesomeness. This will help us fine-tune your journey for maximum enjoyment and satisfaction",
     },
-  ]
+  ];
   return (
     <div>
-      <div className="px-2 sm:mt-10 mt-4 sm:px-10">
-        <h1 className="purple-gradient font-sf-pro text-left text-[22.33px] sm:text-center sm:text-2xl px-4">
+      <div className="mt-4 px-2 sm:mt-10 sm:px-10">
+        <h1 className="purple-gradient font-sf-pro px-4 text-left text-[22.33px] sm:text-center sm:text-2xl">
           What More We Want to Track
         </h1>
-        <p className="font-sf-pro sm:mt-10 mt-4 text-left text-sm text-white sm:px-32 sm:text-center sm:text-base px-4">
+        <p className="font-sf-pro mt-4 px-4 text-left text-sm text-white sm:mt-10 sm:px-32 sm:text-center sm:text-base">
           To take your fitness journey to the next level, we've got a few extra
           metrics to track that'll make you feel like a true{' '}
           <span className="text-[#7E87EF]">fitness superhero :</span>

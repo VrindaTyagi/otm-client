@@ -1,8 +1,7 @@
 import { FaUserCircle } from 'react-icons/fa';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Arrow from '../Leaderboard/Arrow';
 import ProfilePicture from '../Profile/ProfilePicture';
-import { CommunityName } from '../Timeline/StyledComponents';
 
 const RankDisplay = ({
   selectedDataType,
@@ -13,11 +12,11 @@ const RankDisplay = ({
   isCurrentUser,
   profilePicture,
 }) => {
-  const defaultClassName = ` h-[75px]  ${
-    isCurrentUser
-      ? 'mix-blend-screen bg-[#3C3C3C] bg-opacity-10 leaderboard-user-list-item border-opacity-80 rounded-xl'
-      : ''
-  } w-full flex flex-row justify-between px-auto`;
+  // const defaultClassName = ` h-[75px]  ${
+  //   isCurrentUser
+  //     ? 'mix-blend-screen bg-[#3C3C3C] bg-opacity-10 leaderboard-user-list-item border-opacity-80 rounded-xl'
+  //     : ''
+  // } w-full flex flex-row justify-between px-auto`;
 
   return (
     <Link

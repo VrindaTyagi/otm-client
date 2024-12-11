@@ -1,17 +1,15 @@
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Bar,
+  CartesianGrid,
+  Cell,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  ComposedChart,
-  Cell,
-  ResponsiveContainer,
-  CartesianGrid,
-  Line,
-  Tooltip,
 } from 'recharts';
 import { CustomizedWorkoutLabel } from '../CustomizedWorkoutLabel';
 import ParabolicBar from './bar/ParabolicBar';

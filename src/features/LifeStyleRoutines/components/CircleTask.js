@@ -1,15 +1,15 @@
 import React, { useMemo } from 'react';
-import TaskItem from './taskitem.js';
-import {
-  MorningCircleIcon,
-  AfternoonCircleIcon,
-  EveningCircleIcon,
-  NightCircleIcon,
-  AlwaysActiveIcon,
-} from '../index.js';
-import { formatDate, isIPhone } from '../utils.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  AfternoonCircleIcon,
+  AlwaysActiveIcon,
+  EveningCircleIcon,
+  MorningCircleIcon,
+  NightCircleIcon,
+} from '../index.js';
+import { formatDate, isIPhone } from '../utils.js';
+import TaskItem from './taskitem.js';
 
 const CircleTask = ({
   SelectedCircle,

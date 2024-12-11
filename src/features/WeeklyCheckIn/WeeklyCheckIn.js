@@ -1,18 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import axios from 'axios';
-import { RxCross1 } from 'react-icons/rx';
-import AnimatedComponent from '../../components/AnimatedComponent';
-import WeeklyCheckinInitialIntro from './WeeklyCheckinInitialIntro';
-import WeeklyCheckinSecondaryIntro from './WeeklyCheckinSecondaryIntro';
 import { updateCurrentQuestion } from '../LifestyleQuiz/utils/utils';
+import WeeklyCheckinInitialIntro from './WeeklyCheckinInitialIntro';
 import WeeklyCheckinResult from './WeeklyCheckinResult';
+import WeeklyCheckinSecondaryIntro from './WeeklyCheckinSecondaryIntro';
 
 import WeeklyCheckinLoadingScreem from './WeeklyCheckinLoadingScreem';
 
-import QuestionnaireScreenOutput from './QuestionnaireScreenOutput';
-import NutritionScreen from './NutritionScreen';
 import { useLocation } from 'react-router-dom';
+import NutritionScreen from './NutritionScreen';
+import QuestionnaireScreenOutput from './QuestionnaireScreenOutput';
 
 const WeeklyCheckIn = () => {
   const [screen, setScreen] = useState('Introduction');

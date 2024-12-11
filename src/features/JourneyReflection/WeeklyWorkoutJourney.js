@@ -61,15 +61,15 @@ const WeeklyWorkoutJourney = ({ apiData }) => {
 
     return (
       <div className="h-[90px] w-[50px] rounded-xl bg-[#323232] ">
-        <div className="flex flex-col items-center justify-end w-full h-full bg-transparent">
-          <div style={barStyles} className="w-full barStyle rounded-xl"></div>
+        <div className="flex h-full w-full flex-col items-center justify-end bg-transparent">
+          <div style={barStyles} className="barStyle w-full rounded-xl"></div>
         </div>
       </div>
     );
   };
   return (
     <div>
-      <p className="m-2 mb-8 text-center text-[12px] text-gray-500 sm:mb-6">
+      <p className="text-gray-500 m-2 mb-8 text-center text-[12px] sm:mb-6">
         last 8 weeks
       </p>
       {lastEightWeeksWorkout ? (

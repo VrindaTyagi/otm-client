@@ -1,28 +1,23 @@
 //WorkoutSummary.js
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import MoveCoinsPopUp from './MoveCoinsPopUp.js';
-import { Error, Loader } from '../../components';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   HiHome,
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Error, Loader } from '../../components';
 
-import { FaArrowUp, FaArrowDown, FaPlus, FaMinus } from 'react-icons/fa';
+import domtoimage from 'dom-to-image';
+import mixpanel from 'mixpanel-browser';
+import { FaArrowDown, FaArrowUp, FaMinus, FaPlus } from 'react-icons/fa';
 import styled from 'styled-components';
-import { axiosClient } from './apiClient';
-import { setStatus } from './WorkoutSlice';
 import AnimatedComponent from '../../components/AnimatedComponent.js';
 import useLocalStorage from '../../hooks/useLocalStorage.js';
-import { AnimatePresence } from 'framer-motion';
-import { useAuth } from '../../contexts/AuthContext';
-import axios from 'axios';
+import { axiosClient } from './apiClient';
 import { axiosflexClient } from './apiFlexClient.js';
-import domtoimage from 'dom-to-image';
-import Counter from '../../components/Counter';
-import mixpanel from 'mixpanel-browser';
+import { setStatus } from './WorkoutSlice';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
   month: 'short',
@@ -30,17 +25,13 @@ const today = new Date().toLocaleDateString('en-us', {
 });
 
 const WorkoutSummary = () => {
-  const [inputIds, setInputIds, getStoredInputIds] = useLocalStorage(
-    'inputIds',
-    [],
-  );
+  const [inputIds, getStoredInputIds] = useLocalStorage('inputIds', []);
   const navigate = useNavigate();
   const [workoutSummary, setWorkoutSummary] = useState({});
   const [achievements, setAchievements] = useState([]);
   const [achievementsIndex, setAchievementsIndex] = useState(0);
   const [coachNotes, setCoachNotes] = useState([]);
   const [notesIndex, setNotesIndex] = useState(0);
-  const { user } = useAuth();
   // const [showMoveCoinsPopup, setShowMoveCoinsPopup] = useState(false);
   const dispatch = useDispatch();
   const params = useParams();
@@ -55,7 +46,7 @@ const WorkoutSummary = () => {
   const summaryRef = useRef(null);
   const captureAndShareToWhatsApp = async () => {
     mixpanel.track('Workout Summary share button clicked');
-    console.log("Workout Summary share button clicked");
+    console.log('Workout Summary share button clicked');
     if (summaryRef.current) {
       try {
         // Capture screenshot
@@ -488,41 +479,6 @@ const WorkoutSummary = () => {
                   </section>
                 )}
                 {/* TODO Do not show movecoins message */}
-                {params.value !== 'flex' && (
-                  <div className="flex h-fit w-full flex-col items-center justify-center gap-5">
-                    <div className="flex min-h-[100px] w-full flex-row items-center justify-center rounded-[20px] bg-[#121212]">
-                      <div
-                        className="h-full w-full rounded-[12px] border-[0.5px] border-[#383838]  bg-right  bg-no-repeat  p-3 backdrop-blur-[1px]"
-                        style={{
-                          backgroundImage: `url('/assets/coins_popup_bg.svg')`,
-                        }}
-                      >
-                        <div className="text-[16px] text-[#D6B6F0]">
-                          • Movecoins
-                        </div>
-
-                        <div className="text-[14px] text-lightGray">
-                          You earned
-                          <img
-                            className="mx-1 inline-block w-4"
-                            src={`${process.env.PUBLIC_URL}/assets/move-coins-logo.svg`}
-                            alt="MoveCoins Logo"
-                          />
-                          <GradientText>
-                            {workoutSummary?.moveCoins}
-                          </GradientText>{' '}
-                          MoveCoins! <br />
-                          Head to the marketplace and{' '}
-                          <GradientText>treat yourself </GradientText>
-                          to something special!
-                        </div>
-                        {/* <p className="font-normal leading-normal break-words text-slate-500">
-                  {' '}
-                </p> */}
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 {workoutSummary &&
                   workoutSummary.sectionPerformance?.map(
@@ -580,7 +536,7 @@ const WorkoutSummary = () => {
                       ),
                   )}
 
-                <div className="mt-8 grid grid-cols-2 grid-rows-5 gap-4">
+                <div className="my-8 grid grid-cols-2  gap-4">
                   {workoutSummary &&
                     workoutSummary.sectionPerformance?.map(
                       (section, index) =>
@@ -615,6 +571,41 @@ const WorkoutSummary = () => {
                         ),
                     )}
                 </div>
+                {workoutSummary?.moveCoins > 0 && params.value !== 'flex' && (
+                  <div className="flex h-fit w-full flex-col items-center justify-center gap-5">
+                    <div className="flex min-h-[100px] w-full flex-row items-center justify-center rounded-[20px] bg-[#121212]">
+                      <div
+                        className="h-full w-full rounded-[12px] border-[0.5px] border-[#383838]  bg-right  bg-no-repeat  p-3 backdrop-blur-[1px]"
+                        style={{
+                          backgroundImage: `url('/assets/coins_popup_bg.svg')`,
+                        }}
+                      >
+                        <div className="text-[16px] text-[#D6B6F0]">
+                          • Movecoins
+                        </div>
+
+                        <div className="text-[14px] text-lightGray">
+                          You earned
+                          <img
+                            className="mx-1 inline-block w-4"
+                            src={`${process.env.PUBLIC_URL}/assets/move-coins-logo.svg`}
+                            alt="MoveCoins Logo"
+                          />
+                          <GradientText>
+                            {workoutSummary?.moveCoins}
+                          </GradientText>{' '}
+                          MoveCoins! <br />
+                          Head to the marketplace and{' '}
+                          <GradientText>treat yourself </GradientText>
+                          to something special!
+                        </div>
+                        {/* <p className="font-normal leading-normal break-words text-slate-500">
+                  {' '}
+                </p> */}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </AnimatedComponent>
             </div>
           </div>
