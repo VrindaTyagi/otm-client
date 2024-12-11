@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 
 function ProfilePicture({ inputPic, altText, width, height }) {
   const [isZoomed, setIsZoomed] = useState(false);

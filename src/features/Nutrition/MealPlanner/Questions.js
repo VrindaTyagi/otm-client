@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import * as Actions from './Redux/actions';
-import {
-  updateCurrentQuestion,
-  capitalizeFirstLetter,
-} from '../../LifestyleQuiz/utils/utils';
 import InputText from '../../LifestyleQuiz/InputText';
 import Options from '../../LifestyleQuiz/Options';
+import {
+  capitalizeFirstLetter,
+  updateCurrentQuestion,
+} from '../../LifestyleQuiz/utils/utils';
+import * as Actions from './Redux/actions';
 import * as Selectors from './Redux/selectors';
 
 function Questions({ validation, setValidation }) {

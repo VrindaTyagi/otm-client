@@ -1,47 +1,36 @@
 //App.js
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useParams,
-} from 'react-router-dom';
-import { Login, PageNotFound } from './pages';
-import Timeline from './features/Timeline/Timeline';
-import { SectionDetail, WorkoutSummary, Workout } from './features/Workout';
-import { Leaderboard } from './features/Leaderboard';
-import { Profile } from './features/Profile';
-import { MarketPlace } from './features/Marketplace';
-import { LifeStyle } from './features/LifestyleQuiz';
-import { Report } from './features/LifestyleQuiz';
-import { Questionnaire } from './features/Questionnaire';
-import { FitnessScoreScreen } from './features/Questionnaire';
-import JourneyReflectionPage from './features/JourneyReflection/JourneyReflectionPage';
-import { LifeStyleRoutine } from './features/LifeStyleRoutines';
-import { MonthlyWrapped } from './features/MonthlyWrapped';
 import { Provider } from 'react-redux';
-import { store } from './features/LifeStyleRoutines';
-import { mealPlannerStore } from './features/Nutrition/MealPlanner';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
-import FitnessPage from './features/Fitness/FitnessPage';
 import { Community } from './features/Community';
-import Lifestyle from './features/Lifestyle/Lifestyle';
+import FitnessPage from './features/Fitness/FitnessPage';
+import JourneyReflectionPage from './features/JourneyReflection/JourneyReflectionPage';
+import { Leaderboard } from './features/Leaderboard';
+import { LifeStyle, Report } from './features/LifestyleQuiz';
+import { LifeStyleRoutine, store } from './features/LifeStyleRoutines';
+import { MarketPlace } from './features/Marketplace';
+import { MonthlyWrapped } from './features/MonthlyWrapped';
+import { mealPlannerStore } from './features/Nutrition/MealPlanner';
+import { Profile } from './features/Profile';
+import { FitnessScoreScreen, Questionnaire } from './features/Questionnaire';
+import Timeline from './features/Timeline/Timeline';
+import { SectionDetail, Workout, WorkoutSummary } from './features/Workout';
+import { Login, PageNotFound } from './pages';
 
-import { AdminLogin } from './features/AdminLogin/AdminLogin';
-import { AdminDashboard } from './features/AdminLogin/AdminDashboard';
 import { useAuth } from './contexts/AuthContext';
+import { AdminDashboard } from './features/AdminLogin/AdminDashboard';
+import { AdminLogin } from './features/AdminLogin/AdminLogin';
 
-import MealUpload from './features/LifeStyleRoutines/MealUpload';
-import NutritionPage from './features/Nutrition/NutritionPage';
-import { MealPlanner } from './features/Nutrition/MealPlanner';
-import WeeklyCheckIn from './features/WeeklyCheckIn/WeeklyCheckIn';
-import ReferralUser from './features/ReferralUser/ReferralUser';
-import FtnesssQuestionare from './features/FitnessQuestionaire/FintessQuesrionire';
-import { ToastContainer } from 'react-toastify';
-import DynamicStretchScreen from './features/DynamicStretchScreen/DynamicStretchScreen';
-import FitnessPageNew from './features/Fitness/FitnessPageNew';
 import mixpanel from 'mixpanel-browser';
 import Aerobic from './features/Aerobic/Aerobic';
+import DynamicStretchScreen from './features/DynamicStretchScreen/DynamicStretchScreen';
+import FitnessPageNew from './features/Fitness/FitnessPageNew';
+import FtnesssQuestionare from './features/FitnessQuestionaire/FintessQuesrionire';
+import MealUpload from './features/LifeStyleRoutines/MealUpload';
+import { MealPlanner } from './features/Nutrition/MealPlanner';
+import NutritionPage from './features/Nutrition/NutritionPage';
+import ReferralUser from './features/ReferralUser/ReferralUser';
+import WeeklyCheckIn from './features/WeeklyCheckIn/WeeklyCheckIn';
 
 function App() {
   // Near entry of your product, init Mixpanel
@@ -50,14 +39,6 @@ function App() {
     track_pageview: true,
     persistence: 'localStorage',
   });
-
-  const isLocalhost = () => {
-    return (
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1' ||
-      window.location.hostname.includes('local')
-    );
-  };
 
   //   if (isLocalhost()) {
   //     mixpanel.disable(['pageview']);

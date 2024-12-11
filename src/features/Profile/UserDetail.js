@@ -1,31 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader } from '../../components';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { capitalizeFirstLetter, formatDate } from '../../utils';
-import { axiosClient } from './apiProfileClient';
-import { FaUserCircle } from 'react-icons/fa';
-import { HiArrowNarrowLeft } from 'react-icons/hi';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import axios from 'axios';
+import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsImageFill } from 'react-icons/bs';
 import { IoMdTrash } from 'react-icons/io';
 import { IoCamera } from 'react-icons/io5';
-import { Error } from '../../components';
-import ProfilePicture from './ProfilePicture';
-import axios from 'axios';
-import AnimatedComponent from '../../components/AnimatedComponent';
-import { motion } from 'framer-motion';
-import MoveCoins from './MoveCoins';
-import MonthlyWrapped from './MonthlyWrapped';
-import { CoinsIndicator, Movecoins } from '../Marketplace';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
-import { FaUser } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Error, Loader } from '../../components';
+import AnimatedComponent from '../../components/AnimatedComponent';
+import { useAuth } from '../../contexts/AuthContext';
+import { capitalizeFirstLetter, formatDate } from '../../utils';
+import { CoinsIndicator, Movecoins } from '../Marketplace';
+import { axiosClient } from './apiProfileClient';
+import MonthlyWrapped from './MonthlyWrapped';
+import ProfilePicture from './ProfilePicture';
 
-import { Name } from '../LifestyleQuiz';
+import mixpanel from 'mixpanel-browser';
 import { WhatsappShareButton } from 'react-share';
 import GiftCard from '../ReferralUser/GiftCard';
-import mixpanel from 'mixpanel-browser';
 
 const ProfilePicHeading = styled.div`
   color: #d7d7d7;
@@ -57,7 +51,6 @@ const UserDetails = ({ showHistory }) => {
   // state to store the chosen profile pic
   const [chosenPic, setChosenPic] = useState(null);
   // state to store the file object to send to the server
-  const [profilePicFile, setProfilePicFile] = useState(null);
   const [uniqueImageURLKey, setUniqueImageURLKey] = useState(null);
   const [profilePicError, setProfilePicError] = useState(false);
   const [showReferralLinkPopup, setShowReferralLinkPopup] = useState(false);
@@ -130,7 +123,6 @@ Here's a 20% off discount because I'd love for you to get healthy too!
   function handlePicChange(e) {
     const file = e.target.files[0];
     if (file) {
-      setProfilePicFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setChosenPic(reader.result);
@@ -159,7 +151,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
 
   function handlePicDelete() {
     setChosenPic(null);
-    setProfilePicFile(null); // reset the file object
+
     setShowProfilePicPopup(false); // close the popup after deleting the pic
     const email = JSON.parse(localStorage.getItem('user'))?.email;
     axiosClient
@@ -194,7 +186,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
     },
   };
 
-  if(showReferralLinkPopup) {
+  if (showReferralLinkPopup) {
     mixpanel.track('Referral Page viewed', {
       'Path name': window.location.pathname,
     });
@@ -263,7 +255,6 @@ Here's a 20% off discount because I'd love for you to get healthy too!
       )}
 
       {showReferralLinkPopup && (
-
         <div
           initial="hidden"
           animate={showReferralLinkPopup ? 'visible' : 'hidden'}
@@ -411,6 +402,7 @@ Here's a 20% off discount because I'd love for you to get healthy too!
             <img
               className="absolute left-0 right-0 -z-20 h-screen w-full"
               src="/assets/main-frame-large.svg"
+              alt="img"
               style={{
                 width: '100%',
 

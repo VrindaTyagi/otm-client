@@ -1,9 +1,9 @@
+import axios from 'axios';
+import { useState } from 'react';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
-import AlertDialog from '../Workout/AlertDialog';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import AlertDialog from '../Workout/AlertDialog';
 
 const DynamicStretchScreen = () => {
   const navigate = useNavigate();
@@ -52,6 +52,7 @@ const DynamicStretchScreen = () => {
         loading="lazy"
         src="assets/movement-frame.svg"
         className="absolute left-0 top-0 -z-10 h-full w-full"
+        alt="img"
       />
       <div className="flex h-full flex-col justify-between px-5 py-8">
         <div>

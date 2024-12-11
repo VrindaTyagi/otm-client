@@ -1,9 +1,8 @@
-import styled, { keyframes } from 'styled-components';
-import { RiRunFill } from 'react-icons/ri';
-import { AiOutlineClose } from 'react-icons/ai';
-import { FaArrowRight } from 'react-icons/fa6';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { RiRunFill } from 'react-icons/ri';
+import styled, { keyframes } from 'styled-components';
 
 const SlideDown = keyframes`
   from {
@@ -65,7 +64,6 @@ const StepTrackerTwo = ({ date }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (stepCount && date) {
-      const today = new Date();
       setShowStepCount(false);
       setShowInput(false);
       try {
@@ -148,6 +146,7 @@ const StepTrackerTwo = ({ date }) => {
                         src="/assets/fitness-add.svg"
                         className="h-[30px] w-[30px]"
                         onClick={handleShowInput}
+                        alt="img"
                       />
                     </div>
                   ))}
@@ -182,7 +181,7 @@ const StepTrackerTwo = ({ date }) => {
               disabled={!stepCount}
               className="h-[30px] rounded px-2 font-medium"
             >
-              <img loading="lazy" src="./assets/tick-green.svg" />
+              <img loading="lazy" src="./assets/tick-green.svg" alt="img" />
             </button>
           </form>
         </InputContainer>

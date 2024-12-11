@@ -1,43 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
-import {
-  IoIosArrowDropdownCircle,
-  IoIosArrowDropupCircle,
-  IoIosArrowDown,
-  IoMdArrowRoundUp,
-} from 'react-icons/io';
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
-import { IoChatbubbleOutline } from 'react-icons/io5';
-import { AiTwotoneLike, AiOutlineLike } from 'react-icons/ai';
-import { FaUserCircle } from 'react-icons/fa';
-import ProfilePicture from '../Profile/ProfilePicture';
 import { useFormattedDateTime } from '../../hooks/useFormattedDateTime';
 import { useTagAndColor } from '../../hooks/useTagAndColor';
 
-import { motion } from 'framer-motion';
-import AssesmentTile from '../Timeline/AssesmentTile';
-import WorkoutTile from '../Timeline/WorkoutTile';
-import IndividualComment from '../Timeline/IndividualComment';
-import {
-  Name,
-  Date,
-  TagText,
-  CommunityTile,
-  CommunityName,
-} from '../Timeline/StyledComponents';
-import { axiosClient } from '../Timeline/apiClient';
 import { useNavigate } from 'react-router-dom';
+import { TagText } from '../Timeline/StyledComponents';
 
 const TimelineDisplay = ({ data, timeline }) => {
-  const [collapsed, setCollapsed] = useState(true);
-  const [coachNoteIndex, setCoachNoteIndex] = useState(0);
-  const [achievementsIndex, setAchievementsIndex] = useState(0);
-
   // custom hooks
   const [formattedDate, formattedTime] = useFormattedDateTime(data?.time);
-  const [tag, color, position, tags, colors] = useTagAndColor(
-    data?.fitnessScoreUpdates?.newScore,
-  );
+  const [tag, color] = useTagAndColor(data?.fitnessScoreUpdates?.newScore);
 
   const navigate = useNavigate();
 

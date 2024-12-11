@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import CrossIcon from '../../../components/CrossIcon';
-import { Button } from '../../../components';
-import GetStarted from './GetStarted';
-import Questions from './Questions';
-import CustomiseIngredients from './CustomiseIngredients';
+import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Button, Error } from '../../../components';
+import CrossIcon from '../../../components/CrossIcon';
 import {
   getScreenCounts,
   isAnyEmptyResponse,
   validResponses,
 } from '../../LifestyleQuiz/utils/utils';
 import { axiosClient } from '../apiClient';
-import * as Actions from './Redux/actions';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import PageIndicator from './Components/PageIndicator';
-import { useNavigate } from 'react-router-dom';
-import { Loader } from '../../LifestyleQuiz';
-import { Error } from '../../../components';
+import CustomiseIngredients from './CustomiseIngredients';
+import GetStarted from './GetStarted';
+import Questions from './Questions';
+import * as Actions from './Redux/actions';
 
 import * as Selectors from './Redux/selectors';
 
@@ -259,13 +257,14 @@ function MainPage() {
           <img
             className="absolute left-0 top-0 z-0 h-screen w-full"
             src="/assets/nutrition-bg.svg"
+            alt="img"
             style={{
               height: '-webkit-fill-available',
               filter: 'brightness(1)',
             }}
           />
           <div className="relative z-20 mb-16 mt-14 flex h-min flex-col items-center rounded-xl bg-[rgba(0,0,0,0.45)] px-4 py-8">
-            <img src="./assets/ricebowl.svg" />
+            <img src="./assets/ricebowl.svg" alt="img" />
             <p className="relative text-center text-3xl text-offwhite ">
               We're designing the blueprint for your nutrition success!
             </p>

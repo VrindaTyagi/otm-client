@@ -2,13 +2,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaArrowLeftLong } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AnimatedComponent from '../../components/AnimatedComponent';
 import Duration from '../../components/Duration';
+import AerobicEquipment from './AerobicEquipment';
 import AerobicHeading from './AerobicHeading';
 import AerobicInitialTile from './AerobicInitialTile';
 import AerobicInstructions from './AerobicInstructions';
-import AerobicEquipment from './AerobicEquipment';
-import AnimatedComponent from '../../components/AnimatedComponent';
 
 const Aerobic = () => {
   const navigate = useNavigate();
@@ -49,14 +49,6 @@ const Aerobic = () => {
     './assets/aerobic-skipping.svg ',
     './assets/aerobic-run.svg ',
   ];
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDistance((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleBackButton = () => {
     if (selectWorkoutId === null) {
@@ -128,6 +120,7 @@ const Aerobic = () => {
       <img
         src="./assets/aerobic-background.png "
         className="gradi absolute z-10 h-[45%] w-full object-cover "
+        alt="img"
       />
 
       <AerobicHeading

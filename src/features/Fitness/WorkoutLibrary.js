@@ -9,6 +9,7 @@ const WorkoutLibrary = ({ homeStats, setShowLibrary }) => {
         loading="lazy"
         src="assets/Movement-Frame.png"
         className="absolute left-0 top-0 -z-10 h-full w-full saturate-150"
+        alt="img"
       />
       <div className="mx-[9px] mb-[26px] flex items-center justify-between">
         <div className="  flex h-[37px] w-[37px] items-center justify-center rounded-full bg-black-opacity-45 ">
@@ -31,18 +32,26 @@ const WorkoutLibrary = ({ homeStats, setShowLibrary }) => {
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
+                    className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/yellowTimer.svg"
+                      className="mr-[2px]"
+                      alt="img"
+                    />
                     {homeStats.hyperWorkoutParams.duration} mins
                   </h2>
                   <h2
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
+                    className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/yellow-power.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/yellow-power.svg"
+                      className="mr-[2px]"
+                      alt="img"
+                    />
                     {homeStats.hyperWorkoutParams.calories} cal
                   </h2>
                 </div>
@@ -74,18 +83,26 @@ const WorkoutLibrary = ({ homeStats, setShowLibrary }) => {
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className="bg-dark-green-opacity-66  flex rounded-md border border-floYellow px-1   font-sfpro text-[12px] text-floYellow"
+                    className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/yellowTimer.svg"
+                      className="mr-[2px]"
+                      alt="img"
+                    />
                     {homeStats.flexWorkoutParams.duration} mins
                   </h2>
                   <h2
                     style={{
                       border: '0.5px solid rgba(221,249,136,0.4)',
                     }}
-                    className=" bg-dark-green-opacity-66 flex rounded-md border border-floYellow px-1  font-sfpro text-[12px] text-floYellow"
+                    className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/yellow-power.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/yellow-power.svg"
+                      className="mr-[2px]"
+                      alt="img"
+                    />
                     {homeStats.flexWorkoutParams.calories} cal
                   </h2>
                 </div>
@@ -111,7 +128,7 @@ const WorkoutLibrary = ({ homeStats, setShowLibrary }) => {
           <div className="flex items-center">
             <Link
               to="/aerobic"
-              className="bg-aerobic-img relative flex h-[105px] grow items-center justify-between rounded-xl bg-cover py-2 pl-4 pr-7 "
+              className="relative flex h-[105px] grow items-center justify-between rounded-xl bg-aerobic-img bg-cover py-2 pl-4 pr-7 "
             >
               <div className="flex h-full flex-col justify-center">
                 <div className="flex gap-3">

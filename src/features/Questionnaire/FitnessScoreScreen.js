@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Button } from '../../components';
 import { motion } from 'framer-motion';
-import { axiosClient } from '../LifestyleQuiz';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Error } from '../../components';
-import BackButton from '../../components/BackButton';
-import { useTagAndColor } from '../../hooks/useTagAndColor';
-import FitnessLoader from './FitnessLoader';
 import styled from 'styled-components';
+import { Button, Error } from '../../components';
+import { useTagAndColor } from '../../hooks/useTagAndColor';
+import { axiosClient } from '../LifestyleQuiz';
+import FitnessLoader from './FitnessLoader';
 
 const HorizontalBar = styled.div`
   --color: ${(props) => props.color};
@@ -168,30 +166,7 @@ function FitnessScorePage() {
     );
   };
   // personalised workout component
-  const PersonalisedWorkout = ({ heading, detail, index }) => {
-    const colors = useMemo(
-      () => ['#7E87EF', '#F5C563', '#DDF988', '#5ECC7B'],
-      [],
-    );
-    const headingColor = colors[index % colors.length];
-    return (
-      <div className="flex min-w-[300px] flex-col items-start justify-start gap-[2px]">
-        <div className="w-full rounded-t-[12px] bg-[#1c1c1e] px-3 py-2">
-          <h1
-            className="text-[15px]"
-            style={{ fontWeight: 600, color: headingColor }}
-          >
-            {heading}
-          </h1>
-        </div>
-        <div className="w-full rounded-b-[12px] bg-[#1c1c1e] p-3">
-          <p className="text-[14px] text-[#fff]" style={{ fontWeight: 500 }}>
-            {detail}
-          </p>
-        </div>
-      </div>
-    );
-  };
+
   return (
     <>
       {pageLoading && <FitnessLoader />}

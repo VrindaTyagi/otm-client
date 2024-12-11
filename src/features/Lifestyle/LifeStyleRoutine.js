@@ -38,7 +38,7 @@ function LifeStyleRoutine() {
 
   return (
     <Container
-      className="flex flex-col items-center justify-center w-full gap-1"
+      className="flex w-full flex-col items-center justify-center gap-1"
       onClick={() => navigate('/lifestyle-routine')}
     >
       <Heading className="text-center">Lifestyle Design</Heading>

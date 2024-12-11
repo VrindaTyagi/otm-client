@@ -2,10 +2,10 @@
 import { HiX } from 'react-icons/hi';
 import ChartComponent from './ChartComponent';
 //import AnimatedComponent from '../../components/AnimatedComponent';
-import { IoIosSearch } from 'react-icons/io';
-import { GiSkippingRope } from 'react-icons/gi';
-import { useEffect, useState } from 'react';
 import { motion, useTransform, useViewportScroll } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { GiSkippingRope } from 'react-icons/gi';
+import { IoIosSearch } from 'react-icons/io';
 
 const MovementDetail = ({
   movement,

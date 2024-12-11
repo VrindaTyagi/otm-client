@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Loader } from '../../components';
 import { useAuth } from '../../contexts/AuthContext';
-import { axiosClient } from '../Leaderboard/apiClient';
-import Arrow from '../Leaderboard/Arrow';
-import RankDisplay from './RankDisplay';
-import TimelineDisplay from './TimelineDisplay';
-import { axiosClient as TimelineAxiosClient } from '../Timeline/apiClient';
-import { TimelineHeading } from '../Timeline/StyledComponents';
 import { capitalizeFirstLetter } from '../../utils';
 import {
   getCurrentHourInTimezone,
   getDeviceTimezone,
   getGreeting,
 } from '../Fitness/utils';
+import { axiosClient } from '../Leaderboard/apiClient';
+import { axiosClient as TimelineAxiosClient } from '../Timeline/apiClient';
+import RankDisplay from './RankDisplay';
+import TimelineDisplay from './TimelineDisplay';
 
 const Community = () => {
   const [fitnessScoreData, setFitnessScoreData] = useState([]);
@@ -25,14 +21,11 @@ const Community = () => {
   const [communityloading, setCommunityLoading] = useState(false);
   const [personalLoading, setPersonalLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [isError, setError] = useState(false);
   const [data, setData] = useState(null);
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
   const userProfilePicture = JSON.parse(localStorage.getItem('profilePicture'));
   const { getUserFromStorage, user } = useAuth();
-  const navigate = useNavigate();
-  const { value } = useParams();
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [greeting, setGreeting] = useState('');
@@ -77,7 +70,6 @@ const Community = () => {
         setCommunityLoading(false);
       })
       .catch((err) => {
-        setError(true);
         setCommunityLoading(false);
         console.log(err);
       });
@@ -94,7 +86,6 @@ const Community = () => {
         setPersonalLoading(false);
       })
       .catch((err) => {
-        setError(true);
         setPersonalLoading(false);
         console.log(err);
       });
@@ -167,7 +158,11 @@ const Community = () => {
 
   return (
     <div>
-      <img className="absolute -z-10  w-full " src="/assets/community-bg.svg" />
+      <img
+        className="absolute -z-10  w-full "
+        src="/assets/community-bg.svg"
+        alt="img"
+      />
 
       <div className=" h-screen w-screen grow overflow-y-scroll px-4 pb-[95px]">
         <div className="mt-[77px] flex justify-between ">
@@ -191,6 +186,7 @@ const Community = () => {
                 loading="lazy"
                 src={userProfilePicture}
                 className="object- h-[53px] w-[53px] rounded-xl object-cover"
+                alt="img"
               />
             ) : (
               <div className="flex h-[53px] w-[53px] items-center justify-center rounded-xl bg-black-opacity-45 text-3xl text-white">

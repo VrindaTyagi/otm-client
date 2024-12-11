@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { MarketPlaceHeading, Name, OffersTitle } from './StyledComponents';
-import Movecoins from './Movecoins';
-import CoinsIndicator from './CoinsIndicator';
-import OfferTile from './OfferTile';
-import PurchaseTile from './PurchaseTile';
 import AnimatedComponent from '../../components/AnimatedComponent';
 import Error from '../../components/Error';
 import Loader from '../../components/Loader';
 import { axiosClient } from './apiClient';
-import { motion } from 'framer-motion';
+import CoinsIndicator from './CoinsIndicator';
+import Movecoins from './Movecoins';
+import OfferTile from './OfferTile';
+import PurchaseTile from './PurchaseTile';
+import { MarketPlaceHeading, Name, OffersTitle } from './StyledComponents';
 
 function MarketPlace() {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ function MarketPlace() {
         </Error>
       )}
       {data && !loading && !error && (
-        <div className="flex flex-col w-screen min-h-screen px-4 py-4 hide-scrollbar">
+        <div className="hide-scrollbar flex min-h-screen w-screen flex-col px-4 py-4">
           <div className="mb-4">
             <HiArrowNarrowLeft
               size={20}
@@ -76,13 +76,13 @@ function MarketPlace() {
               }}
             />
           </div>
-          <div className="flex flex-row items-center justify-between w-full mb-3">
+          <div className="mb-3 flex w-full flex-row items-center justify-between">
             <MarketPlaceHeading>OTM Marketplace</MarketPlaceHeading>
           </div>
           <AnimatedComponent>
             <div className="my-2 flex min-h-[210px] w-full flex-col items-center justify-start gap-7 rounded-[12px] border-[0.5px] border-[#383838] bg-gradient-to-b from-[#171717] to-[#0F0F0F]">
               <div
-                className="flex flex-col items-start justify-center w-full px-3 py-2 bg-right-top bg-no-repeat"
+                className="flex w-full flex-col items-start justify-center bg-right-top bg-no-repeat px-3 py-2"
                 style={{
                   backgroundImage: `url(${'/assets/Marketplace_bgcoins.svg'})`,
                 }}
@@ -90,15 +90,15 @@ function MarketPlace() {
                 <Name>Hello {name},</Name>
                 <Movecoins fontSize={'26px'} coins={data.moveCoins} />
               </div>
-              <div className="w-full mt-2">
+              <div className="mt-2 w-full">
                 <CoinsIndicator coins={data.moveCoins} offers={data.offers} />
               </div>
             </div>
           </AnimatedComponent>
-          <div className="w-full my-2">
+          <div className="my-2 w-full">
             <OffersTitle>My Offers</OffersTitle>
             <motion.div
-              className="flex flex-row items-center justify-start w-full gap-5 my-2 overflow-x-scroll hide-scrollbar"
+              className="hide-scrollbar my-2 flex w-full flex-row items-center justify-start gap-5 overflow-x-scroll"
               variants={container}
               initial="hidden"
               animate="show"
@@ -125,10 +125,10 @@ function MarketPlace() {
                 })}
             </motion.div>
           </div>
-          <div className="w-full my-2">
+          <div className="my-2 w-full">
             <OffersTitle>My Purchases</OffersTitle>
             <motion.div
-              className="flex flex-row items-center justify-start w-full gap-5 my-2 overflow-x-scroll hide-scrollbar"
+              className="hide-scrollbar my-2 flex w-full flex-row items-center justify-start gap-5 overflow-x-scroll"
               variants={container}
               initial="hidden"
               animate="show"

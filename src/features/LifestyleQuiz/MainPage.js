@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import ProgressBar from './Components/ProgressBar';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+import { Button, Error } from '../../components';
 import BackButton from '../../components/BackButton';
-import { Button } from '../../components';
+import Loader from './Components/Loader';
+import ProgressBar from './Components/ProgressBar';
+import InputText from './InputText';
 import Options from './Options';
 import { axiosClient } from './apiClient';
 import {
-  getScreenCounts,
   capitalizeFirstLetter,
-  increaseScreenAndRank,
   decreaseScreenAndRank,
-  updateCurrentQuestion,
-  isAnyEmptyResponse,
-  validResponses,
   getEmail,
-  getGeneralScreen,
+  getScreenCounts,
+  increaseScreenAndRank,
+  isAnyEmptyResponse,
+  updateCurrentQuestion,
+  validResponses,
 } from './utils/utils';
-import InputText from './InputText';
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { Error } from '../../components';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Loader from './Components/Loader';
-import styled from 'styled-components';
 
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
@@ -33,7 +31,6 @@ function LandingPage() {
   const maxScreenCount = getScreenCounts(questions);
   // const generalScreen = getGeneralScreen(questions);
   const [sessionID, setSessionID] = useState(null);
-  const [exitModalOpen, setExitModalOpen] = useState(false);
   const [pageError, setPageError] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const navigate = useNavigate();

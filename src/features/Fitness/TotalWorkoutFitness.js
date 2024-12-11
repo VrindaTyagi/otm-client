@@ -4,7 +4,7 @@ import FitnessCounter from './FitnessCounter';
 const TotalWorkoutFitness = ({ apiData }) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="px-4 mt-4 sm:mt-10 sm:px-10">
+      <div className="mt-4 px-4 sm:mt-10 sm:px-10">
         <h2 className="font-sf-pro text-left text-[9px] tracking-[3px] text-[#B1B1B1] sm:text-center sm:text-lg">
           TOTAL WORKOUTS
         </h2>

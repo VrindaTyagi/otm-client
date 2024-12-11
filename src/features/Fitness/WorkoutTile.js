@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled, { keyframes } from 'styled-components';
 
@@ -185,6 +185,7 @@ const WorkoutTile = ({ homeStats, isDisabled, setHomeStats, date }) => {
                     {item.movementName !== 'Rest' && (
                       <img
                         className="h-[55px] w-[55px] rounded-xl"
+                        alt="img"
                         style={{
                           boxShadow:
                             item.completed === true
@@ -271,6 +272,7 @@ const WorkoutTile = ({ homeStats, isDisabled, setHomeStats, date }) => {
                   {item.movementName !== 'Rest' && (
                     <img
                       className="h-[55px] w-[55px] rounded-xl"
+                      alt="img"
                       style={{
                         boxShadow:
                           item.completed === true

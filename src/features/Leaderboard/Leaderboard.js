@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { useNavigate, useParams } from 'react-router-dom';
+import AnimatedComponent from '../../components/AnimatedComponent';
 import Loader from '../../components/Loader';
 import { useAuth } from '../../contexts/AuthContext';
-import List from './List';
-import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { axiosClient } from './apiClient';
-import AnimatedComponent from '../../components/AnimatedComponent';
+import List from './List';
 
 const Leaderboard = () => {
   const [fitnessScoreData, setFitnessScoreData] = useState([]);

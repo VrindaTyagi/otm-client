@@ -1,19 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Error } from '../../components';
 import { axiosClient } from './apiClient';
+import Loader from './Components/Loader';
 import {
-  BookCallHeading,
+  ActionText,
   BookCallContainer,
+  BookCallHeading,
   BookCallInnerText,
   FeatureHeading,
   LifestyleHeading,
   Name,
-  PlanText,
   PlanFeatureText,
-  ActionText,
+  PlanText,
 } from './SytledComponents';
-import Loader from './Components/Loader';
-import { Error } from '../../components';
 
 function Report() {
   const [data, setData] = useState(null);

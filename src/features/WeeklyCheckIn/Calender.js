@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CalendarTile from '../LifeStyleRoutines/components/CalendarTile';
-import { formatDate } from '../LifeStyleRoutines/utils';
 import ProgressBar from '../LifeStyleRoutines/ProgressBar';
+import { formatDate } from '../LifeStyleRoutines/utils';
 
 function Calendar({
   completionHistory,

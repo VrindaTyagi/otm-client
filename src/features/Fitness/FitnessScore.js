@@ -22,20 +22,20 @@ const Heading = styled.div`
   font-weight: 500;
   line-height: 16.71px;
 `;
-const Score = styled.div`
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 40px;
-  background: var(
-    --Green-purple-gradient,
-    linear-gradient(96deg, #9bf2c0 1.49%, #91bdf6 103.49%)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
+// const Score = styled.div`
+//   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+//   font-size: 32px;
+//   font-style: normal;
+//   font-weight: 500;
+//   line-height: 40px;
+//   background: var(
+//     --Green-purple-gradient,
+//     linear-gradient(96deg, #9bf2c0 1.49%, #91bdf6 103.49%)
+//   );
+//   background-clip: text;
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+// `;
 const ScoreDetail = styled.div`
   color: #929292;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -65,7 +65,7 @@ const TagText = styled.p`
 `;
 
 function FitnessScore({ score, percentile }) {
-  const [tag, color, position, colors, tags] = useTagAndColor(score);
+  const [tag, color, position, colors] = useTagAndColor(score);
 
   // Indicator component
   const Indicator = ({ style }) => {
@@ -117,7 +117,7 @@ function FitnessScore({ score, percentile }) {
       <div className="flex h-full w-full flex-row justify-between">
         <div className="flex flex-col justify-between ">
           <div className="flex gap-2">
-            <img loading="lazy" src="/assets/line-graph-logo.svg" />
+            <img loading="lazy" src="/assets/line-graph-logo.svg" alt="img" />
             <Heading>Fitness score</Heading>
           </div>
           <div className="flex flex-col">

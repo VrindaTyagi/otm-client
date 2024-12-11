@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axiosClient from './ApiClient';
 import Conclusion from './Conclusion';
 import FitnessProgress from './FitnessProgress';
 import FuturePlan from './FuturePlan';
+import MovecoinsDetail from './MovecoinsDetails';
 import Objectives from './Objectives';
 import Strategies from './Strategies';
+import TotalWorkout from './TotalWorkout';
 import Track from './Track';
 import WeeklyWorkoutJourney from './WeeklyWorkoutJourney';
 import WorkoutConsitency from './WorkoutConsitency';
-import { useParams } from 'react-router-dom';
-import axiosClient from './ApiClient';
-import TotalWorkout from './TotalWorkout';
-import MovecoinsDetail from './MovecoinsDetails';
 
 const JourneyReflectionPage = () => {
   const { reportId } = useParams();
@@ -35,9 +35,9 @@ const JourneyReflectionPage = () => {
     return <div className="mt-12 text-center">Something Went Wrong!</div>;
 
   return (
-    <div className="flex flex-col w-full h-auto px-2 py-5 bg-black sm:py-10">
+    <div className="flex h-auto w-full flex-col bg-black px-2 py-5 sm:py-10">
       <div className={`px-4 sm:px-10`}>
-        <h1 className="mt-8 text-3xl text-left purple-gradient font-sfpro sm:mt-14 sm:text-center sm:text-4xl">
+        <h1 className="purple-gradient mt-8 text-left font-sfpro text-3xl sm:mt-14 sm:text-center sm:text-4xl">
           Your Journey Reflection
         </h1>
         <p className="mt-6 text-left font-sfpro text-[14px] font-[300] text-white sm:text-center sm:text-base">
@@ -45,14 +45,14 @@ const JourneyReflectionPage = () => {
           experimenting and staying consistent - you’re on the right path!
         </p>
       </div>
-      <div className="px-4 mt-10 sm:px-10">
-        <h1 className="text-lg text-left font-sfpro sm:text-center sm:text-2xl">
+      <div className="mt-10 px-4 sm:px-10">
+        <h1 className="text-left font-sfpro text-lg sm:text-center sm:text-2xl">
           Let's glance at your journey,{' '}
           <span className="text-[#7E87EF]">{firstName}</span>
         </h1>
       </div>
       <div className="flex flex-col space-y-20">
-        <section className="flex items-center justify-center px-4 mt-12 sm:px-10">
+        <section className="mt-12 flex items-center justify-center px-4 sm:px-10">
           <WeeklyWorkoutJourney apiData={apiData} />
         </section>
         <section>

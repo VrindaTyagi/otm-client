@@ -18,7 +18,11 @@ const AerobicEquipment = ({
               setEquipmentSelected(item.title);
             }}
           >
-            <img src={item.gif} className="w-p[65px] h-[65px] rounded" />
+            <img
+              src={item.gif}
+              className="w-p[65px] h-[65px] rounded"
+              alt="img"
+            />
             <div className="flex  justify-between px-4">
               <h5 className="text-[20px]">{item.title}</h5>
             </div>

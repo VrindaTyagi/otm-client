@@ -49,7 +49,7 @@ export const MealDoughnut = ({ mealInfo = {} }) => {
           </div>
 
           <div className="absolute inset-0 top-[100px] text-center ">
-          <p className='text-lightGray'>Total Calories</p>
+            <p className="text-lightGray">Total Calories</p>
 
             <p className="tracking-1.286px font-sfpro text-[8px] font-semibold uppercase not-italic leading-normal text-lightGray">
               APPROX

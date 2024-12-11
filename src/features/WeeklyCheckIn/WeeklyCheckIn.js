@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error } from '../../components';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import Calendar from './Calender';
-import { getFormattedDate } from '../LifeStyleRoutines/utils';
-import WeeklyWorkoutReport from '../Fitness/WeeklyWorkoutReport';
-import { HiChevronDown } from 'react-icons/hi';
-import WeeklyCheckInSuccessPopup from '../../components/WeeklyCheckInSuccessPopup';
-import { IoArrowBackOutline } from 'react-icons/io5';
 import mixpanel from 'mixpanel-browser';
+import React, { useEffect, useMemo, useState } from 'react';
+import { HiChevronDown } from 'react-icons/hi';
+import { IoArrowBackOutline } from 'react-icons/io5';
+import { Error, Loader } from '../../components';
+import WeeklyCheckInSuccessPopup from '../../components/WeeklyCheckInSuccessPopup';
+import { useAuth } from '../../contexts/AuthContext';
+import WeeklyWorkoutReport from '../Fitness/WeeklyWorkoutReport';
+import { getFormattedDate } from '../LifeStyleRoutines/utils';
+import Calendar from './Calender';
 
 const WeeklyCheckIn = () => {
   const [loader, setLoader] = useState(false);
@@ -22,8 +22,6 @@ const WeeklyCheckIn = () => {
   const [completionHistory, setCompletionHistory] = useState([]);
 
   const [weekRating, setWeekRating] = useState('');
-  const achievementRef = useRef('');
-  const learningsRef = useRef('');
   const [achievement, setAchievement] = useState('');
   const [learnings, setLearnings] = useState('');
   const [weight, setWeight] = useState('');

@@ -29,12 +29,6 @@ const DataInputComponent = ({
     dispatch(updateInput(inputId, newValue));
   };
 
-  const inputDropdownStyle = {
-    backgroundColor: '#0F0F0F',
-    color: 'black',
-    width: '10px',
-  };
-
   // Set default value to an empty string if not provided
   const value = storedValue !== undefined ? storedValue : '';
 

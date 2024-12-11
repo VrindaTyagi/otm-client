@@ -1,28 +1,23 @@
 //WorkoutSummary.js
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import MoveCoinsPopUp from './MoveCoinsPopUp.js';
-import { Error, Loader } from '../../components';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   HiHome,
   HiOutlineChevronLeft,
   HiOutlineChevronRight,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Error, Loader } from '../../components';
 
-import { FaArrowUp, FaArrowDown, FaPlus, FaMinus } from 'react-icons/fa';
+import domtoimage from 'dom-to-image';
+import mixpanel from 'mixpanel-browser';
+import { FaArrowDown, FaArrowUp, FaMinus, FaPlus } from 'react-icons/fa';
 import styled from 'styled-components';
-import { axiosClient } from './apiClient';
-import { setStatus } from './WorkoutSlice';
 import AnimatedComponent from '../../components/AnimatedComponent.js';
 import useLocalStorage from '../../hooks/useLocalStorage.js';
-import { AnimatePresence } from 'framer-motion';
-import { useAuth } from '../../contexts/AuthContext';
-import axios from 'axios';
+import { axiosClient } from './apiClient';
 import { axiosflexClient } from './apiFlexClient.js';
-import domtoimage from 'dom-to-image';
-import Counter from '../../components/Counter';
-import mixpanel from 'mixpanel-browser';
+import { setStatus } from './WorkoutSlice';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
   month: 'short',
@@ -30,17 +25,13 @@ const today = new Date().toLocaleDateString('en-us', {
 });
 
 const WorkoutSummary = () => {
-  const [inputIds, setInputIds, getStoredInputIds] = useLocalStorage(
-    'inputIds',
-    [],
-  );
+  const [inputIds, getStoredInputIds] = useLocalStorage('inputIds', []);
   const navigate = useNavigate();
   const [workoutSummary, setWorkoutSummary] = useState({});
   const [achievements, setAchievements] = useState([]);
   const [achievementsIndex, setAchievementsIndex] = useState(0);
   const [coachNotes, setCoachNotes] = useState([]);
   const [notesIndex, setNotesIndex] = useState(0);
-  const { user } = useAuth();
   // const [showMoveCoinsPopup, setShowMoveCoinsPopup] = useState(false);
   const dispatch = useDispatch();
   const params = useParams();
