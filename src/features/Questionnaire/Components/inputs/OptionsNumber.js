@@ -40,6 +40,32 @@ function OptionsNumber({
       },
     ];
 
+    const revNumbersColor = [
+      {
+        bg: 'bg-[rgba(94,204,123,0.20)]',
+        text: 'text-[#5ECC7B]',
+      },
+
+      {
+        bg: 'bg-[rgba(148,176,48,0.08)]',
+        text: 'text-[#94B030]',
+      },
+      {
+        bg: 'bg-[rgba(245,197,99,0.20)]',
+        text: 'text-[#F5C563]',
+      },
+
+      {
+        bg: 'bg-[rgba(206,138,71,0.20)]',
+        text: 'text-[#CE8A47]',
+      },
+
+      {
+        bg: 'bg-[rgba(250,87,87,0.20)]',
+        text: 'text-[#FA5757]',
+      },
+    ];
+
     return (
       <div
         className={`border-box flex w-full flex-row items-center justify-between rounded-[12px]  ${
@@ -49,7 +75,13 @@ function OptionsNumber({
               elem?.code === questionCode &&
               elem?.value?.includes(Number(optionID)),
           )
-            ? `${numbersColor[Number(optionID) - 1].bg}`
+            ? response?.find(
+                (elem) =>
+                  elem?.code === questionCode &&
+                  elem?.value?.includes(Number(optionID)),
+              ).code !== 'WKR7'
+              ? `${numbersColor[Number(optionID) - 1].bg}`
+              : `${revNumbersColor[Number(optionID) - 1].bg}`
             : 'bg-[#3d3d3d]/30'
         }`}
         onClick={() => {
@@ -97,7 +129,13 @@ function OptionsNumber({
                   elem?.code === questionCode &&
                   elem?.value?.includes(Number(optionID)),
               )
-                ? `${numbersColor[Number(optionID) - 1].text}`
+                ? response?.find(
+                    (elem) =>
+                      elem?.code === questionCode &&
+                      elem?.value?.includes(Number(optionID)),
+                  ).code !== 'WKR7'
+                  ? `${numbersColor[Number(optionID) - 1].text}`
+                  : `${revNumbersColor[Number(optionID) - 1].text}`
                 : 'text-[#b1b1b1]'
             }`}
           >

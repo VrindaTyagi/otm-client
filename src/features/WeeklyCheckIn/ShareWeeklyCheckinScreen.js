@@ -14,6 +14,7 @@ const ShareWeeklyCheckinScreen = ({
   formatToK,
   reverseArray,
   week,
+  revrseNumbersColor,
   userProfilePicture,
   caiptalInitial,
 }) => {
@@ -409,14 +410,14 @@ const ShareWeeklyCheckinScreen = ({
                         {' '}
                         <div
                           className={`border-box flex  h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
-                            numbersColor[
+                            revrseNumbersColor[
                               Number(weeklyReport?.stressLevelsThisWeek) - 1
                             ].bg
                           }`}
                         >
                           <p
                             className={`font-futura text-[32px]  ${`${
-                              numbersColor[
+                              revrseNumbersColor[
                                 Number(weeklyReport?.stressLevelsThisWeek) - 1
                               ].text
                             }`}`}

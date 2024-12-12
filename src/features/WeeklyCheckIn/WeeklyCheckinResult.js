@@ -31,6 +31,25 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
     return reversed;
   }
 
+  const dummygraphData = [
+    {
+      week: '2Dec-8Dec-2024',
+      count: 0,
+    },
+    {
+      week: '25Nov-1Dec-2024',
+      count: 0,
+    },
+    {
+      week: '18Nov-24Nov-2024',
+      count: 0,
+    },
+    {
+      week: '11Nov-17Nov-2024',
+      count: 0,
+    },
+  ];
+
   function convertToWeekFormat(input) {
     // Ensure the input is a string
     if (typeof input !== 'string') {
@@ -102,6 +121,31 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
     {
       bg: 'bg-[rgba(94,204,123,0.20)]',
       text: 'text-[#5ECC7B]',
+    },
+  ];
+  const revrseNumbersColor = [
+    //Give UI to our stress /nutrition etc levels.
+    {
+      bg: 'bg-[rgba(94,204,123,0.20)]',
+      text: 'text-[#5ECC7B]',
+    },
+    {
+      bg: 'bg-[rgba(148,176,48,0.08)]',
+      text: 'text-[#94B030]',
+    },
+
+    {
+      bg: 'bg-[rgba(245,197,99,0.20)]',
+      text: 'text-[#F5C563]',
+    },
+    {
+      bg: 'bg-[rgba(206,138,71,0.20)]',
+      text: 'text-[#CE8A47]',
+    },
+
+    {
+      bg: 'bg-[rgba(250,87,87,0.20)]',
+      text: 'text-[#FA5757]',
     },
   ];
 
@@ -179,6 +223,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
         <ShareWeeklyCheckinScreen
           formatToK={formatToK}
           numbersColor={numbersColor}
+          revrseNumbersColor={revrseNumbersColor}
           summaryRef={summaryRef}
           weeklyReport={weeklyReport}
           weightLiftedComapre={weightLiftedComapre}
@@ -267,7 +312,9 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 <WeightLineChart
                   grahpData={
                     weeklyReport?.last4WeekConsistency &&
-                    reverseArray(weeklyReport?.last4WeekConsistency)
+                    weeklyReport?.last4WeekConsistency.length > 0
+                      ? reverseArray(weeklyReport?.last4WeekConsistency)
+                      : reverseArray(dummygraphData)
                   }
                   yAxisKey={'count'}
                 />
@@ -536,14 +583,14 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                         {' '}
                         <div
                           className={`border-box flex  h-min w-min flex-row items-center justify-between rounded-[12px] px-3  ${
-                            numbersColor[
+                            revrseNumbersColor[
                               Number(weeklyReport?.stressLevelsThisWeek) - 1
                             ].bg
                           }`}
                         >
                           <p
                             className={`font-futura text-[32px]  ${`${
-                              numbersColor[
+                              revrseNumbersColor[
                                 Number(weeklyReport?.stressLevelsThisWeek) - 1
                               ].text
                             }`}`}

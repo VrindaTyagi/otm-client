@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HOME, FULL, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
+import { FULL, HOME, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
 
 function OptionsSecond({
   questionCode,
@@ -47,7 +47,7 @@ function OptionsSecond({
   }) => {
     return (
       <div
-        className={`border-box flex w-full flex-row items-center justify-between rounded-[12px] bg-[#3d3d3d]/30 pl-3 pr-5 ${
+        className={`border-box flex w-full flex-row items-center justify-between rounded-[12px] bg-[#3d3d3d]/30  ${
           response &&
           response?.find(
             (elem) =>
@@ -94,9 +94,7 @@ function OptionsSecond({
         }}
       >
         <div
-          className={`flex w-full flex-col items-center justify-center ${
-            questionCode === 'su1' ? 'items-center py-3' : 'items-start py-4'
-          }`}
+          className={`flex w-full flex-col items-center justify-center py-4 `}
         >
           <p
             className={`text-center text-[12px]  ${

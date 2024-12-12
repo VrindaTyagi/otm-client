@@ -28,19 +28,22 @@ const WeeklyCheckinLoadingScreem = ({ setScreen }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
 
   useEffect(() => {
-    // Start the animation after the component mounts
-    const timer = setTimeout(() => {
+    let isInitial = true; // Toggle between initial and final percent
+    const graphTimer = setInterval(() => {
       setGraphData((prev) =>
         prev.map((item) => ({
           ...item,
-          initialPercent: item.finalPercent, // Smoothly update to the final percentage
+          initialPercent: isInitial
+            ? item.finalPercent
+            : LoadingGraphData.find((data) => data.img === item.img)
+                ?.initialPercent,
         })),
       );
-    }, 500); // Delay before animation starts
+      isInitial = !isInitial; // Toggle state
+    }, 2000); // Loop every 2 seconds
 
-    return () => clearTimeout(timer);
+    return () => clearInterval(graphTimer);
   }, []);
-
   useEffect(() => {
     // Cycle through texts with slide and fade transition
     const textTimer = setInterval(() => {
