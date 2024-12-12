@@ -1,18 +1,17 @@
+import domtoimage from 'dom-to-image';
 import React, { useRef } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
-import { RxCross1 } from 'react-icons/rx';
-import { useNavigate } from 'react-router-dom';
-import { axiosClient } from '../Profile/apiProfileClient';
-import { capitalizeFirstLetter } from '../../utils';
-import WeightLineChart from './Component/Chart';
-import domtoimage from 'dom-to-image';
 import { GiNightSleep } from 'react-icons/gi';
 import { IoIosNutrition } from 'react-icons/io';
-import { MdArrowDropDown } from 'react-icons/md';
-import { MdArrowDropUp } from 'react-icons/md';
-import ShareWeeklyCheckinScreen from './ShareWeeklyCheckinScreen';
+import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import { RxCross1 } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 import { Loader } from '../../components';
+import { capitalizeFirstLetter } from '../../utils';
+import { axiosClient } from '../Profile/apiProfileClient';
+import WeightLineChart from './Component/Chart';
+import ShareWeeklyCheckinScreen from './ShareWeeklyCheckinScreen';
 
 const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
     }
 
     // Combine into the desired format
-    return `Week ${startDay} ${startMonth}-${endDay} ${endMonth} `;
+    return `Week ${startDay}${startMonth} - ${endDay}${endMonth} `;
   }
 
   function formatToK(number) {
@@ -176,11 +175,25 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
 
   return (
     <div>
+      <div className="pointer-events-none   absolute -top-[500px] z-[10] h-min opacity-0">
+        <ShareWeeklyCheckinScreen
+          formatToK={formatToK}
+          numbersColor={numbersColor}
+          summaryRef={summaryRef}
+          weeklyReport={weeklyReport}
+          weightLiftedComapre={weightLiftedComapre}
+          reverseArray={reverseArray}
+          caiptalInitial={caiptalInitial}
+          userProfilePicture={userProfilePicture}
+          week={week}
+        />
+      </div>
       <img
         src="/assets/weekly-checkin-intro-bg.svg"
-        className="absolute top-0 -z-50 w-full  brightness-75 saturate-150 filter  "
+        className="absolute top-0 -z-50 h-screen w-full  brightness-75 saturate-150 filter  "
         alt="background"
       />
+
       <div className="relative h-screen overflow-y-scroll bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
@@ -192,7 +205,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 {week && convertToWeekFormat(week)}
               </div>
               <h5 className="mt-[2px] text-[20px] leading-[32px] text-offwhite">
-                Hi , <br /> Here’s your week in Numbers
+                Hi {name}, <br /> Here’s your week in Numbers
               </h5>
             </div>
             <div className="h-[40px] min-w-[40px]">
@@ -210,20 +223,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                 </div>
               )}
             </div>
-          </div>
-
-          <div className="pointer-events-none absolute opacity-0 ">
-            <ShareWeeklyCheckinScreen
-              formatToK={formatToK}
-              numbersColor={numbersColor}
-              summaryRef={summaryRef}
-              weeklyReport={weeklyReport}
-              weightLiftedComapre={weightLiftedComapre}
-              reverseArray={reverseArray}
-              caiptalInitial={caiptalInitial}
-              userProfilePicture={userProfilePicture}
-              week={week}
-            />
           </div>
 
           <div className="mt-[24px] flex h-full flex-col gap-2 bg-none">
@@ -301,7 +300,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                       ?.totalWeightLifted !==
                       weeklyReport?.last8WeekWeightLifted[1]
                         ?.totalWeightLifted && (
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <div
                           className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
                             weightLiftedComapre() > 0
@@ -411,7 +410,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
             {weeklyReport?.perfectWeek?.isPerfectWeek === true && (
               <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
                 {weeklyReport?.perfectWeek?.isPerfectWeek === true &&
-                  weeklyReport?.perfectWeek?.streak === 0 && (
+                  weeklyReport?.perfectWeek?.streak > 0 && (
                     <>
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
@@ -419,10 +418,6 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                           <img src="/assets/star-icon.svg" alt="graph" />
                           Perfect week streak
                         </div>
-                      </div>
-
-                      <div className="mt-2 font-sfpro text-[12px] text-offwhite">
-                        You Unlocked a perfect week badge this week.
                       </div>
                     </>
                   )}
@@ -455,15 +450,15 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     Perfect week streak
                   </div>
                 </div>
-                <span className="ml-3 flex gap-3 font-futura text-[58px]  leading-[40px] text-blue">
+                <p className="font-sfpro text-[12px] text-offwhite">
+                  You were{' '}
                   {Number(weeklyReport?.targetConsistency) -
                     (Number(weeklyReport?.last4WeekConsistency[0]?.count)
                       ? Number(weeklyReport?.last4WeekConsistency[0]?.count)
-                      : 0)}
-                  <p className="font-sfpro text-[10px] text-white-opacity-50">
-                    Workout away for a perfect week streak
-                  </p>
-                </span>{' '}
+                      : 0)}{' '}
+                  workouts away from unlocking a perfect week badge. Let's do
+                  better next week!
+                </p>
               </div>
             )}
             {weeklyReport?.energyLevelThisWeek === 0 &&
@@ -701,7 +696,7 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ||
                     weeklyReport?.userLast8WeekWeightHistory[1]?.weight ===
                       '' ? (
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <div className="flex w-fit items-center  rounded-[3px] bg-[rgba(245,197,99,0.2)] px-1 py-[2px] font-sfpro text-[12px] text-yellow">
                           {weeklyReport?.userLast8WeekWeightHistory[0]?.weight -
                             weeklyReport?.userLast8WeekWeightHistory[1]

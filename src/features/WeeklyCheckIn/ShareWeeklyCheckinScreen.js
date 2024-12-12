@@ -53,11 +53,11 @@ const ShareWeeklyCheckinScreen = ({
     }
 
     // Combine into the desired format
-    return `Week ${startDay}-${endDay} ${startMonth}`;
+    return `Week ${startDay}${startMonth} - ${endDay}${endMonth} `;
   }
   return (
     <div ref={summaryRef} className="bg-black">
-      <div className="relative h-screen  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
+      <div className="relative h-full  bg-black-opacity-65 px-[15px] pb-[110px] pt-[100px] ">
         <div>
           <div className=" absolute right-[16px] top-10 z-[110] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-gray-opacity-44 ">
             <RxCross1 onClick={() => navigate('/')} className="" />
@@ -151,7 +151,7 @@ const ShareWeeklyCheckinScreen = ({
                       ?.totalWeightLifted !==
                       weeklyReport?.last8WeekWeightLifted[1]
                         ?.totalWeightLifted && (
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <div
                           className={`flex w-fit  items-center gap-1 rounded-[3px] px-1 py-[2px] font-sfpro text-[12px] ${
                             weightLiftedComapre() > 0
@@ -311,6 +311,27 @@ const ShareWeeklyCheckinScreen = ({
                 workouts per week
               </p>
             </div> */}
+              </div>
+            )}
+
+            {weeklyReport?.perfectWeek?.isPerfectWeek === false && (
+              <div className=" flex min-h-[113px] flex-col gap-3 rounded-lg bg-white-opacity-08 px-[16px] py-[9px]">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex grow gap-1 text-[15px] font-semibold text-offwhite">
+                    {' '}
+                    <img src="/assets/star-icon.svg" alt="graph" />
+                    Perfect week streak
+                  </div>
+                </div>
+                <p className="font-sfpro text-[12px] text-offwhite">
+                  You were{' '}
+                  {Number(weeklyReport?.targetConsistency) -
+                    (Number(weeklyReport?.last4WeekConsistency[0]?.count)
+                      ? Number(weeklyReport?.last4WeekConsistency[0]?.count)
+                      : 0)}{' '}
+                  workouts away from unlocking a perfect week badge. Let's do
+                  better next week!
+                </p>
               </div>
             )}
             {weeklyReport?.energyLevelThisWeek === 0 &&
@@ -546,7 +567,7 @@ const ShareWeeklyCheckinScreen = ({
                       </span>{' '}
                     </p>
                     {weeklyReport?.userLast8WeekWeightHistory[1]?.weight ? (
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <div className="flex w-fit items-center  rounded-[3px] bg-[rgba(245,197,99,0.2)] px-1 py-[2px] font-sfpro text-[12px] text-yellow">
                           {weeklyReport?.userLast8WeekWeightHistory[0]?.weight -
                             weeklyReport?.userLast8WeekWeightHistory[1]
