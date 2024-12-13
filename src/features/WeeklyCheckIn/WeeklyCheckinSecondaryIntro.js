@@ -1,9 +1,9 @@
 import React from 'react';
-import WeeklyCheckinConsistency from './WeeklyCheckinConsistency';
 import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../../components';
+import WeeklyCheckinConsistency from './WeeklyCheckinConsistency';
 
 const WeeklyCheckinSecondaryIntro = ({
   setScreen,
@@ -102,7 +102,7 @@ const WeeklyCheckinSecondaryIntro = ({
                 {statsData?.metconIntensity &&
                   statsData?.metconIntensity > 0 && (
                     <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
-                      <div className="flex gap-1  text-[15px] font-semibold text-offwhite ">
+                      <div className="flex   gap-2 text-[15px] font-semibold text-offwhite ">
                         {' '}
                         <img
                           loading="lazy"

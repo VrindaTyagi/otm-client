@@ -1,13 +1,13 @@
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import ProgressBar from '../../components/ProgressBar';
 import { capitalizeFirstLetter } from '../LifestyleQuiz/utils/utils';
-import OptionsSecond from '../Questionnaire/Components/inputs/OptionsSecond';
 import OptionsNumber from '../Questionnaire/Components/inputs/OptionsNumber';
+import OptionsSecond from '../Questionnaire/Components/inputs/OptionsSecond';
 import InputText from './Component/InputText';
-import { FaArrowRight } from 'react-icons/fa6';
-import axios from 'axios';
 
 const QuestionnaireScreenOutput = ({
   screen,
@@ -35,8 +35,6 @@ const QuestionnaireScreenOutput = ({
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [imgResponse, setImgResponse] = useState(null);
-
-  console.log(chosenPic, '343');
 
   useEffect(() => {
     if (weeklyResponse) {
@@ -379,7 +377,11 @@ const QuestionnaireScreenOutput = ({
                       accept="image/png, image/jpg, image/jpeg"
                       name="profile image camera"
                       hidden
-                      onInput={(e) => handlePicUpload(e, 1)}
+                      onInput={(e) =>
+                        chosenPic.length > 0
+                          ? handlePicUpload(e, 2)
+                          : handlePicUpload(e, 1)
+                      }
                     ></input>
                     <img
                       onClick={() => profilePicCameraRef.current.click()}
