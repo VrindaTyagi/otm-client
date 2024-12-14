@@ -1,15 +1,13 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Area,
+  CartesianGrid,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  LineChart,
-  Area,
-  ResponsiveContainer,
-  CartesianGrid,
-  Tooltip,
 } from 'recharts';
 import { CustomizedProgressLabel } from '../CustomizedProgressLabel';
 

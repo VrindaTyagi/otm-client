@@ -82,20 +82,20 @@ export default function workoutReducer(state = initialState, action) {
         ...state,
         workout: {
           ...state.workout,
-          program: [...state.workout.program].map(prg => {
+          program: [...state.workout.program].map((prg) => {
             if (prg.code === action.payload.code) {
               return action.payload;
             }
             return prg;
-          })
-        }
-      }
+          }),
+        },
+      };
     case 'updateSwapMovementsList':
       return {
         ...state,
         swapMovementsList: [...action.payload],
         oldSwapMovementCode: action.oldSwapMovementCode,
-      }
+      };
     default:
       return state;
   }
@@ -168,31 +168,37 @@ export function updateSectionWorkout(oldMvmt, newMvmt, sectionCode, workoutID) {
   return async function (dispatch) {
     try {
       dispatch(setMovementSwapSectionStatus('loading'));
-      const res = await axiosClient.put(`/section?workoutId=${workoutID}&sectionCode=${sectionCode}&oldMvmt=${oldMvmt}&newMvmt=${newMvmt}`);
-      console.log("movement Swap Section : ", res.data.section);
+      const res = await axiosClient.put(
+        `/section?workoutId=${workoutID}&sectionCode=${sectionCode}&oldMvmt=${oldMvmt}&newMvmt=${newMvmt}`,
+      );
+      console.log('movement Swap Section : ', res.data.section);
       dispatch(setMovementSwapSectionStatus('success'));
       dispatch({ type: 'updateSection', payload: res?.data?.section });
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err.message, 'ERROR');
       dispatch(setMovementSwapSectionStatus('error'));
     }
-  }
+  };
 }
 
 export function fetchSwapMovementList(movementCode) {
   return async function (dispatch) {
     try {
       dispatch(setStatus('loading'));
-      const res = await axios.get(`https://otm-main-production.up.railway.app/api/v1/workout/movement/alternate?mvmt=${movementCode}`);
-      console.log("Movement Swap Movements List : ", res?.data?.mvmtList);
+      const res = await axios.get(
+        `https://otm-main-production.up.railway.app/api/v1/workout/movement/alternate?mvmt=${movementCode}`,
+      );
+      console.log('Movement Swap Movements List : ', res?.data?.mvmtList);
       dispatch(setStatus('success'));
-      dispatch({ type: 'updateSwapMovementsList', payload: res?.data?.mvmtList, oldSwapMovementCode: movementCode });
+      dispatch({
+        type: 'updateSwapMovementsList',
+        payload: res?.data?.mvmtList,
+        oldSwapMovementCode: movementCode,
+      });
+    } catch (err) {
+      console.log(err.message, 'ERROR');
+      dispatch({ type: 'updateSwapMovementsList', payload: [] });
+      dispatch(setStatus('error'));
     }
-    catch (err) {
-      console.log(err.message, "ERROR");
-      dispatch({ type: 'updateSwapMovementsList', payload: [] })
-      dispatch(setStatus('error'))
-    }
-  }
+  };
 }

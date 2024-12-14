@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error, Counter } from '../../components';
-import styled, { keyframes } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
+import { Loader } from '../../components';
+import { useAuth } from '../../contexts/AuthContext';
 import { useUserContext } from '../../contexts/UserContext';
-import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
 
-import TotalWorkoutFitness from './TotalWorkoutFitness';
-import WeeklyWorkoutReport from './WeeklyWorkoutReport';
-import FitnessScore from './FitnessScore';
-import DuePaymentIndicator from './DuePaymentIndicator';
-import { TimelineHeading } from '../Timeline/StyledComponents';
-import MonthlyWrapped from '../Profile/MonthlyWrapped';
-import StepTracker from './StepTracker';
-import { AiOutlineRight } from 'react-icons/ai';
-import AdditionalActivity from './AdditionalActivity';
-import { TbSwimming } from 'react-icons/tb';
-import { FaArrowRight } from 'react-icons/fa6';
-import CalendarTile from '../Nutrition/MealPlanner/Components/CalendarTile';
-import EvolveScreen from './EvolveScreen';
-import WeeklySchedule from './WeeklySchedule';
-import WorkoutTile from './WorkoutTile';
-import BatteryLevel from './BatteryLevel';
 import { format } from 'date-fns';
+import { toast } from 'react-toastify';
+import InstallApp from '../../components/InstallPWA';
+import CalendarTile from '../Nutrition/MealPlanner/Components/CalendarTile';
+import AdditionalActivity from './AdditionalActivity';
+import EvolveScreen from './EvolveScreen';
+import StepTrackerTwo from './StepTrackerTwo';
 import {
   getCurrentHourInTimezone,
   getCurrentWeekDates,
@@ -31,9 +20,8 @@ import {
   getDeviceTimezone,
   getGreeting,
 } from './utils';
-import InstallApp from '../../components/InstallPWA';
-import { toast } from 'react-toastify';
-import StepTrackerTwo from './StepTrackerTwo';
+import WeeklySchedule from './WeeklySchedule';
+import WorkoutTile from './WorkoutTile';
 
 function formatNumber(num) {
   if (num >= 1000) {
@@ -60,19 +48,16 @@ const WokoutTileContainer = styled.div`
 const FitnessPageNew = () => {
   const [showInitialScreen, setShowInitialScreen] = useState(false);
   const { setUserData } = useUserContext();
-  const { logout } = useAuth();
+
   // const [user, getUserFromStorage] = useState({});
   const [loader, setLoader] = useState(true);
-  const [error, setError] = useState(false);
-  const [isWeekend, setIsWeekend] = useState(false);
+
   const [homeStats, setHomeStats] = useState(null);
   const { getUserFromStorage, user } = useAuth();
   const [showActivity, setShowActivity] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
-  const currentDate = new Date().getDate();
-  const showElite =
-    homeStats && parseInt(homeStats.avgIntensity) > 100 ? true : false;
+
   const queryString = window.location.search;
   const [showLoader, setShowLoader] = useState(true);
   // Initialize URLSearchParams with the query string
@@ -189,8 +174,6 @@ const FitnessPageNew = () => {
         if (res.data) {
           setUserData(res.data.data);
           setHomeStats(res.data.data);
-
-          setError(null);
         }
       })
       .catch((err) => {
@@ -207,16 +190,6 @@ const FitnessPageNew = () => {
   };
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString('en-GB');
-
-    const axiosClient = axios.create({
-      baseURL: `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-movement`,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-
     getUserFromStorage();
 
     if (user && user.email) {
@@ -226,14 +199,7 @@ const FitnessPageNew = () => {
         getUserData();
       }
     } else {
-      setError('Please login first');
     }
-
-    const checkIfWeekend = () => {
-      const presentday = new Date().getDay();
-      setIsWeekend(presentday === 0 || presentday === 6); // 0 is Sunday, 6 is Saturday
-    };
-    checkIfWeekend();
   }, []);
 
   return (
@@ -459,12 +425,14 @@ const FitnessPageNew = () => {
                 loading="lazy"
                 src="assets/movement-frame.svg"
                 className="absolute left-0 top-0 -z-10 h-full w-full"
+                alt="img"
               />
               <div className="my-auto rounded-lg bg-black-opacity-45 pb-[16px] pt-[47px]">
                 <img
                   loading="lazy"
                   src="./assets/movement-ai-bg.svg"
                   className="w-full pb-[27px] "
+                  alt="img"
                 />
                 <p className="w-full text-center text-[32px] text-blue">
                   Hang tight!
@@ -494,6 +462,7 @@ const FitnessPageNew = () => {
         loading="lazy"
         src="assets/Movement-Frame.png"
         className="absolute left-0 top-0 -z-10 h-full w-full saturate-150"
+        alt="img"
       />
       {!loader && showActivity === false && (
         <>
@@ -544,6 +513,7 @@ const FitnessPageNew = () => {
                           loading="lazy"
                           src="/assets/purple-arm.svg"
                           className="h-[120px] w-[120px] p-4"
+                          alt="img"
                         />
                         <div className="flex w-full flex-1 flex-col justify-center">
                           <h3 className="  font-sfpro text-[20px] font-medium text-offwhite">
@@ -625,6 +595,7 @@ const FitnessPageNew = () => {
                               loading="lazy"
                               src="/assets/fitness-add.svg"
                               className="h-[30px] w-[30px]"
+                              alt="img"
                             />
                           </div>
                         </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { HiX } from 'react-icons/hi';
-import { useAuth } from '../../contexts/AuthContext';
 import { Loader } from '../../components';
+import AnimatedComponent from '../../components/AnimatedComponent';
+import { useAuth } from '../../contexts/AuthContext';
 import { formatPaymentData } from '../../utils';
 import { axiosClient } from './apiProfileClient';
-import AnimatedComponent from '../../components/AnimatedComponent';
 import PaymentList from './PaymentList';
 
 const PaymentHistory = ({ onClose }) => {
@@ -51,10 +51,10 @@ const PaymentHistory = ({ onClose }) => {
             <HiX size={20} />
           </span>
         </div>
-        <h1 className="flex items-center justify-center my-2 text-3xl font-medium leading-10 text-neutral-400 px-auto">
+        <h1 className="text-neutral-400 px-auto my-2 flex items-center justify-center text-3xl font-medium leading-10">
           Payment History
         </h1>
-        <div className="items-center justify-center grow">
+        <div className="grow items-center justify-center">
           {paymentHistory && paymentHistory.length !== 0 ? (
             <PaymentList data={paymentHistory} />
           ) : (

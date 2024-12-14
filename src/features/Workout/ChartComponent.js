@@ -1,5 +1,5 @@
-import Chart from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
+import Chart from 'chart.js/auto';
 import { useState } from 'react';
 import { BarChart } from './BarChart';
 

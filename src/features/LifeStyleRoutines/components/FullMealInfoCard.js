@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
 
-const FullMealInfoCard = ({
-  mealInfo = {},
-  imageURL = '',
-  finalDate = '',
-
-}) => {
+const FullMealInfoCard = ({ mealInfo = {}, imageURL = '', finalDate = '' }) => {
   console.log('inside FullMealInfoCard mealInfo ', mealInfo);
 
-  const { carbohydrates, fat, protein, calories, feedback, mealName } = mealInfo;
+  const { carbohydrates, fat, protein, calories, feedback, mealName } =
+    mealInfo;
 
   return (
     <>
-      <div
-        className="rounded-xl border border-[rgba(94,204,123,0.66)] bg-mediumGray pb-3 shadow-[0_50px_14px_0_rgba(94,204,123,0),0_32px_13px_0_rgba(94,204,123,0.03),0_18px_11px_0_rgba(94,204,123,0.1),0_8px_8px_0_rgba(94,204,123,0.17),0_2px_4px_0_rgba(94,204,123,0.2)]"
-
-      >
+      <div className="rounded-xl border border-[rgba(94,204,123,0.66)] bg-mediumGray pb-3 shadow-[0_50px_14px_0_rgba(94,204,123,0),0_32px_13px_0_rgba(94,204,123,0.03),0_18px_11px_0_rgba(94,204,123,0.1),0_8px_8px_0_rgba(94,204,123,0.17),0_2px_4px_0_rgba(94,204,123,0.2)]">
         <div className="flex  items-center justify-between p-4 text-white shadow-md">
           <div className="flex">
             <img
               src={imageURL}
               alt="Meal"
-              className="max-w-20 mr-4 aspect-square max-h-20 rounded-lg object-cover"
+              className="mr-4 aspect-square max-h-20 max-w-20 rounded-lg object-cover"
             />
             <div>
               <div className="flex flex-row items-center justify-between">
@@ -32,8 +25,10 @@ const FullMealInfoCard = ({
                 )}
               </div>
 
-              <h2 className="font-sfpro text-[14px] font-medium leading-[16.71px] text-left">{mealName}</h2>
-              <p className="truncate-text text-sm text-gray-400">{feedback}</p>
+              <h2 className="text-left font-sfpro text-[14px] font-medium leading-[16.71px]">
+                {mealName}
+              </h2>
+              <p className="truncate-text text-gray-400 text-sm">{feedback}</p>
             </div>
           </div>
         </div>

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Button from './Button';
 import axios from 'axios';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import Button from './Button';
 
 // uiVersion must be updated whenever a new feature is added
 export const uiVersion = '1.1.1';
@@ -34,9 +33,6 @@ const FeatureUpdatePopup = ({ backendVersion }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const heading = 'INTRODUCING YOUR NEW FAVORITE FEATURES';
-  const featureBody =
-    'Earn Movecoins with every workout and unlock exclusive offers';
-  const featureImage = 'assets/movecoins-feature.png';
 
   useEffect(() => {
     // If the UI version is greater than the backend version, show the popup

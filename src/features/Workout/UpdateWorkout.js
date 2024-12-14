@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import axios from 'axios';
+import { RxCross1 } from 'react-icons/rx';
+import AnimatedComponent from '../../components/AnimatedComponent';
 import DataInputComponent from './DataInputComponent';
 import { updateWorkout } from './WorkoutSlice';
-import { HiX } from 'react-icons/hi';
-import AnimatedComponent from '../../components/AnimatedComponent';
-import { RxCross1 } from 'react-icons/rx';
-import axios from 'axios';
 
 const WORKOUT_BASE_THEME_OPTIONS = [
   'Horizontal Push',

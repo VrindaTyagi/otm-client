@@ -16,6 +16,7 @@ const AerobicInstructions = ({
               <img
                 src={IMAGE_URL[index]}
                 className=" ml-1 h-[62px] w-[62px] "
+                alt="img"
               />
             </div>
             <div>
@@ -35,6 +36,7 @@ const AerobicInstructions = ({
                     <img
                       src="/assets/yellowTimer.svg"
                       className=" mr-[4px] h-[12px] w-[12px]"
+                      alt="img"
                     />
 
                     {item?.id !== 'sprint_work'
@@ -60,6 +62,7 @@ const AerobicInstructions = ({
                       <img
                         src="/assets/round-icon.svg"
                         className=" mr-[4px] h-[12px] w-[12px]"
+                        alt="img"
                       />
                       {item.id === 'cardio_intervals' &&
                         `${item.minRounds} - ${item.maxRounds} Rounds`}

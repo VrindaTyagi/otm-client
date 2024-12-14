@@ -16,7 +16,7 @@ const AerobicInitialTile = ({
           >
             <div>
               <div className="flex">
-                <img src={IMAGE_URL[index]} className=" " />
+                <img src={IMAGE_URL[index]} alt="img" />
                 <div className="ml-1 text-[20px]">{item.title}</div>
               </div>
               <div className="mt-2 flex gap-3">
@@ -26,7 +26,11 @@ const AerobicInitialTile = ({
                   }}
                   className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
                 >
-                  <img src="/assets/yellowTimer.svg" className="mr-[2px]" />
+                  <img
+                    src="/assets/yellowTimer.svg"
+                    className="mr-[2px]"
+                    alt="img"
+                  />
 
                   {item?.id !== 'sprint_work'
                     ? item.time
@@ -44,7 +48,11 @@ const AerobicInitialTile = ({
                     }}
                     className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
                   >
-                    <img src="/assets/round-icon.svg" className="mr-[2px]" />
+                    <img
+                      src="/assets/round-icon.svg"
+                      className="mr-[2px]"
+                      alt="img"
+                    />
                     {item.id === 'cardio_intervals' &&
                       `${item.minRounds} - ${item.maxRounds} rounds`}
                     {item.id === 'steady_state_zone_2_cardio' && `1 round`}
@@ -59,6 +67,7 @@ const AerobicInitialTile = ({
                   '0 4px 6px rgba(221, 249, 136, 0.2), 0 -4px 6px rgba(221, 249, 136, 0.2), 4px 0 6px rgba(221, 249, 136, 0.2), -4px 0 6px rgba(221, 249, 136, 0.2)',
               }}
               src={'/assets/yellow-play.svg'}
+              alt="img"
             />
           </div>
         ))}

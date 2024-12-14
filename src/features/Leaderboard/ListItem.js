@@ -1,7 +1,7 @@
 import React from 'react';
-import Arrow from './Arrow';
 import { FaUserCircle } from 'react-icons/fa';
 import ProfilePicture from '../Profile/ProfilePicture';
+import Arrow from './Arrow';
 
 const ListItem = ({ isCurrentUser, user, mode }) => {
   const { rank, name, rankChange, profilePicture } = user;
@@ -14,14 +14,14 @@ const ListItem = ({ isCurrentUser, user, mode }) => {
   } w-full flex flex-row justify-between px-auto`;
 
   return (
-    <div className="w-full border-b-[0.5px] border-gray-600">
+    <div className="border-gray-600 w-full border-b-[0.5px]">
       <div className={defaultClassName}>
-        <div className="flex flex-row items-center justify-start w-full gap-2 px-3">
-          <div className="flex flex-row items-center justify-start leaderboard-gradient-text basis-1/6">
+        <div className="flex w-full flex-row items-center justify-start gap-2 px-3">
+          <div className="leaderboard-gradient-text flex basis-1/6 flex-row items-center justify-start">
             {rank}
           </div>
           {profilePicture !== '' ? (
-            <div className="flex flex-row items-center justify-center h-fit w-fit">
+            <div className="flex h-fit w-fit flex-row items-center justify-center">
               <ProfilePicture
                 inputPic={profilePicture}
                 altText={name}
@@ -42,7 +42,7 @@ const ListItem = ({ isCurrentUser, user, mode }) => {
           <Arrow value={rankChange} />
         </div>
       </div>
-      {!isCurrentUser && <div className="w-7/8 h-[0.5] bg-gray-700"></div>}
+      {!isCurrentUser && <div className="w-7/8 bg-gray-700 h-[0.5]"></div>}
     </div>
   );
 };

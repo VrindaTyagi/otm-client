@@ -1,10 +1,6 @@
-import styled, { keyframes } from 'styled-components';
-import { RiRunFill } from 'react-icons/ri';
-import { AiOutlineClose } from 'react-icons/ai';
-import { FaArrowRight, FaBedPulse } from 'react-icons/fa6';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
 import { TbSwimming } from 'react-icons/tb';
 import { toast, ToastContainer } from 'react-toastify';
@@ -178,6 +174,7 @@ const AdditionalActivity = ({ setShowActivity, date }) => {
         loading="lazy"
         src="assets/Movement-Frame.png"
         className="absolute left-0 top-0 -z-10 h-full w-full saturate-150"
+        alt="img"
       />
 
       {activityListLoader || anotherActivityLoader ? (
@@ -257,12 +254,14 @@ const AdditionalActivity = ({ setShowActivity, date }) => {
                         loading="lazy"
                         src="./assets/up-arrow-white.svg"
                         onClick={() => setShowTypeInput(false)}
+                        alt="img"
                       />
                     ) : (
                       <img
                         loading="lazy"
                         onClick={() => setShowTypeInput(true)}
                         src="./assets/down-arrow-white.svg"
+                        alt="img"
                       />
                     )}
                   </div>
@@ -323,9 +322,14 @@ const AdditionalActivity = ({ setShowActivity, date }) => {
                         loading="lazy"
                         src="./assets/up-arrow-white.svg"
                         onClick={() => setShowTimeInput(false)}
+                        alt="img"
                       />
                     ) : (
-                      <img loading="lazy" src="./assets/down-arrow-white.svg" />
+                      <img
+                        loading="lazy"
+                        src="./assets/down-arrow-white.svg"
+                        alt="img"
+                      />
                     )}
                   </div>
                   {showTimeInput === true ? (

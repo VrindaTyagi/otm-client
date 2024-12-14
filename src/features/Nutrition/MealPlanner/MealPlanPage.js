@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import CalendarTile from './Components/CalendarTile';
 import MealInfoTile from './Components/MealInfoTile';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import * as Selectors from './Redux/selectors';
-import * as Actions from './Redux/actions';
-import { motion } from 'framer-motion';
 import MealUploadTile from './Components/MealUploadTile';
+import * as Actions from './Redux/actions';
+import * as Selectors from './Redux/selectors';
 
 function capitalizeWords(sentence) {
   return sentence
@@ -157,6 +156,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
             <img
               src="/assets/settings.png"
               className="h-[20px] w-[20px] text-green "
+              alt="img"
             />{' '}
             <div>Generate New Meal Plan</div>
           </div>

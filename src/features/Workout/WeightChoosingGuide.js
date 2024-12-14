@@ -1,7 +1,7 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { HiX } from 'react-icons/hi';
+import React from 'react';
 import { CiDumbbell } from 'react-icons/ci';
+import { HiX } from 'react-icons/hi';
 
 const WeightChoosingGuide = ({ closeWeightGuide }) => {
   return (

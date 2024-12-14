@@ -1,13 +1,13 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import {
-  MorningCircleIcon,
-  AfternoonCircleIcon,
-  EveningCircleIcon,
-  NightCircleIcon,
-  AlwaysActiveIcon,
-} from '../index';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {
+  AfternoonCircleIcon,
+  AlwaysActiveIcon,
+  EveningCircleIcon,
+  MorningCircleIcon,
+  NightCircleIcon,
+} from '../index';
 import CircleTask from './CircleTask';
 
 function YourCircle({
@@ -16,7 +16,6 @@ function YourCircle({
   percentCompletion,
   date,
   setReloadCounter,
-  time,
   setIsCircleOpen,
 }) {
   const [tasksName, setTasksName] = useState('');

@@ -1,9 +1,9 @@
-import styled, { keyframes } from 'styled-components';
-import { RiRunFill } from 'react-icons/ri';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaArrowRight } from 'react-icons/fa6';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { RiRunFill } from 'react-icons/ri';
+import styled, { keyframes } from 'styled-components';
 
 const SlideDown = keyframes`
   from {

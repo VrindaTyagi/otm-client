@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  StatusTagText,
-  DiscountTag,
-  DiscountDescription,
-  NextSteps,
-  GradientText,
-} from './StyledComponents';
-import Movecoins from './Movecoins';
-import { motion, AnimatePresence } from 'framer-motion'; // Import AnimatePresence for exit animations
+import { AnimatePresence, motion } from 'framer-motion'; // Import AnimatePresence for exit animations
+import mixpanel from 'mixpanel-browser';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '../../components/Button';
 import { axiosClient } from './apiClient';
+import Movecoins from './Movecoins';
+import {
+  DiscountDescription,
+  DiscountTag,
+  GradientText,
+  NextSteps,
+  StatusTagText,
+} from './StyledComponents';
 import { formatDate } from './utils';
-import mixpanel from 'mixpanel-browser';
 
 function OfferTile({
   offerId,

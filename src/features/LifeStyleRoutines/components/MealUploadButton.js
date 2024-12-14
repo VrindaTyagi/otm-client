@@ -1,5 +1,4 @@
 import React from 'react';
-import MealIcon1 from './icons/MealIcon1';
 import MealImageicon from './icons/MealImageicon';
 
 const MealUploadButton = () => {

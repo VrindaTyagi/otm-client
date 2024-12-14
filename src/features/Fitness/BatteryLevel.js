@@ -4,12 +4,13 @@ const BatteryLevel = ({ homeStats }) => {
   return (
     <div className="flex flex-col items-center rounded-xl bg-black-opacity-45 px-4 py-2">
       <div className="flex">
-        <img loading="lazy" src="./assets/yellow-bg-power.svg" />
+        <img loading="lazy" src="./assets/yellow-bg-power.svg" alt="yellow" />
         <h4 className="text-sm text-yellow ">Level {homeStats?.level}</h4>
         <img
           loading="lazy"
           src="./assets/level-question.svg"
           className="ml-1"
+          alt="question"
         />
       </div>
       <div className="my-2 flex flex-col items-center">

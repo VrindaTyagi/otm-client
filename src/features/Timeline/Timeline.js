@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
-import PersonalTimeline from './PersonalTimeline';
-import CommunityTimeline from './CommunityTimeline';
-import { TimelineHeading } from './StyledComponents';
 import { useNavigate, useParams } from 'react-router-dom';
 import AnimatedPage from '../../components/AnimatedComponent';
+import CommunityTimeline from './CommunityTimeline';
+import PersonalTimeline from './PersonalTimeline';
+import { TimelineHeading } from './StyledComponents';
 
 const Timeline = () => {
   const [timeline, setTimeline] = useState(null);
@@ -17,7 +17,7 @@ const Timeline = () => {
 
   return (
     <AnimatedPage>
-      <div className="flex flex-col w-screen h-full px-4 py-8 hide-scrollbar">
+      <div className="hide-scrollbar flex h-full w-screen flex-col px-4 py-8">
         <div className="mb-4">
           <HiArrowNarrowLeft
             size={20}
@@ -26,7 +26,7 @@ const Timeline = () => {
             }}
           />
         </div>
-        <div className="flex flex-row items-center justify-between w-full"></div>
+        <div className="flex w-full flex-row items-center justify-between"></div>
         <h1 className="inline-block bg-gradient-to-r from-[#9BF2C0] to-[#91BDF6] bg-clip-text text-xl font-semibold text-transparent">
           {value === 'community' ? (
             <TimelineHeading>Community Timeline</TimelineHeading>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Loader from '../../components/Loader';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Error from '../../components/Error';
+import Loader from '../../components/Loader';
+import { useAuth } from '../../contexts/AuthContext';
 
 export function AdminDashboard() {
-  const { adminLogout, login } = useAuth();
+  const { adminLogout } = useAuth();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);

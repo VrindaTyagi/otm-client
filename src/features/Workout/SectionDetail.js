@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link, useParams } from 'react-router-dom';
-import DataInputComponent2 from './DataInputComponent2';
-import Movement from './Movement.js';
-import { HiX } from 'react-icons/hi';
-import { useSelector, useDispatch } from 'react-redux';
-import SkillProgression from './SkillProgression.js';
-import MovementDetail from './MovementDetail.js';
 import { Tooltip, Typography } from '@material-tailwind/react';
+import React, { useEffect, useState } from 'react';
+import { CiDumbbell } from 'react-icons/ci';
+import { HiX } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import AnimatedComponent from '../../components/AnimatedComponent.js';
 import AlertDialog from './AlertDialog.js';
+import DataInputComponent2 from './DataInputComponent2';
+import Movement from './Movement.js';
+import MovementDetail from './MovementDetail.js';
+import SkillProgression from './SkillProgression.js';
 import SwapMovementOptions from './SwapMovementOptions.js';
-import { setIndex } from './WorkoutSlice.js';
-import { CiDumbbell } from 'react-icons/ci';
 import WeightChoosingGuide from './WeightChoosingGuide';
+import { setIndex } from './WorkoutSlice.js';
 
 const SectionDetail = () => {
   const navigate = useNavigate();

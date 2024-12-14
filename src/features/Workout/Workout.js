@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Error, Loader } from '../../components';
-import { getWorkout, setStatus } from './WorkoutSlice';
-import MainPage from './MainPage';
 import { useParams } from 'react-router-dom';
+import { Error, Loader } from '../../components';
 import { getFlexWorkout } from './FlexSlice';
+import MainPage from './MainPage';
+import { getWorkout, setStatus } from './WorkoutSlice';
 
 const Workout = () => {
   const { status } = useSelector((store) => store.workoutReducer);

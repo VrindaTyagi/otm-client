@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { shallowEqual, useSelector } from 'react-redux';
 import IngredientOption from './Components/IngredientOption';
 import * as Selectors from './Redux/selectors';
-import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 
 import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 
 function CustomiseIngredients() {

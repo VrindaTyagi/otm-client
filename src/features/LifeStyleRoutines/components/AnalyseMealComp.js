@@ -1,24 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
-import SparkleIcon from './icons/SparkleIcon';
-import { axiosClient } from '../apiClient';
-import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import styled from 'styled-components';
-import { IoCamera } from 'react-icons/io5';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsImageFill } from 'react-icons/bs';
+import { IoCamera } from 'react-icons/io5';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
+import { Loader } from '../../../components';
+import { axiosClient } from '../apiClient';
 import {
-  fetchInitialStateSuccess,
   handleMealInfoChange,
   handleMealUrlChange,
 } from '../ReduxStore/actions';
 import { getFormattedDate } from '../utils';
-import MealPage from './MealPage';
-import { Loader } from '../../../components';
-import MealImageicon from './icons/MealImageicon';
 import MealCrossIcon from './icons/MealCrossIcon';
-import { useSearchParams } from 'react-router-dom';
+import MealImageicon from './icons/MealImageicon';
+import SparkleIcon from './icons/SparkleIcon';
+import MealPage from './MealPage';
 
 const correctFormatDate = (longDate) => {
   // Create a new Date object
@@ -44,14 +43,11 @@ const AnalyseMealComp = ({
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
   const [showMealPicPopUp, setshowMealPicPopUp] = useState(false);
   const profilePicRef = useRef(null);
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
   const [loading, setLoader] = useState(false);
-  const [apiResponse, setApiResponse] = useState(null);
   const [mealTaskIds, setmealTaskIds] = useState([
     {
       taskId: `breakfast`,

@@ -25,10 +25,10 @@ const StrategiesSlider = ({ heading, detail, index }) => {
   );
 };
 
-const Strategies = ({apiData}) => {
+const Strategies = ({ apiData }) => {
   return (
     <div>
-      <div className="sm:mt-10 mt-4 flex w-full flex-col items-start justify-center">
+      <div className="mt-4 flex w-full flex-col items-start justify-center sm:mt-10">
         <h1
           className="purple-gradient w-full px-6 text-left text-[22.33px] sm:text-center sm:text-3xl"
           style={{ lineHeight: '40px', marginBlock: '10px' }}

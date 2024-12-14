@@ -1,37 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Loader, Error, Counter } from '../../components';
-
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useUserContext } from '../../contexts/UserContext';
-import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
-
-import TotalWorkoutFitness from './TotalWorkoutFitness';
-import WeeklyWorkoutReport from './WeeklyWorkoutReport';
-import FitnessScore from './FitnessScore';
-import DuePaymentIndicator from './DuePaymentIndicator';
-import { TimelineHeading } from '../Timeline/StyledComponents';
-import MonthlyWrapped from '../Profile/MonthlyWrapped';
-import StepTracker from './StepTracker';
-import { AiOutlineRight } from 'react-icons/ai';
-import AdditionalActivity from './AdditionalActivity';
-import { TbSwimming } from 'react-icons/tb';
-import InstallApp from '../../components/InstallPWA';
+import React, { useEffect, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa6';
+import { TbSwimming } from 'react-icons/tb';
+import { Link, useNavigate } from 'react-router-dom';
+import { Error, Loader } from '../../components';
+import FeatureUpdatePopup from '../../components/FeatureUpdatePopup';
+import InstallApp from '../../components/InstallPWA';
+import LazyImage from '../../components/LazyLoadImage';
+import WeeklyCheckinTile from '../../components/WeeklyCheckinTile';
+import { useAuth } from '../../contexts/AuthContext';
+import { useUserContext } from '../../contexts/UserContext';
+import { capitalizeFirstLetter } from '../../utils';
+import { axiosClient } from '../Profile/apiProfileClient';
+import MonthlyWrapped from '../Profile/MonthlyWrapped';
+import AdditionalActivity from './AdditionalActivity';
+import DuePaymentIndicator from './DuePaymentIndicator';
+import StepTrackerTwo from './StepTrackerTwo';
 import {
   getCurrentHourInTimezone,
-  getCurrentWeekDates,
-  getCurrentWeekFullDate,
   getDeviceTimezone,
   getGreeting,
 } from './utils';
-import StepTrackerTwo from './StepTrackerTwo';
-import { RxCross1 } from 'react-icons/rx';
-import { FaArrowLeftLong } from 'react-icons/fa6';
-import LazyImage from '../../components/LazyLoadImage';
-import { axiosClient } from '../Profile/apiProfileClient';
-import { capitalizeFirstLetter } from '../../utils';
+import WeeklyWorkoutReport from './WeeklyWorkoutReport';
 import WorkoutLibrary from './WorkoutLibrary';
 
 function formatNumber(num) {
@@ -57,11 +47,58 @@ const FitnessPage = () => {
   const [greeting, setGreeting] = useState('');
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const firstName = fullName.split(' ')[0];
+  const [week, setWeek] = useState('');
   const userProfilePicture = JSON.parse(
     localStorage?.getItem('profilePicture'),
   );
   const caiptalInitial = capitalizeFirstLetter(fullName);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [loading, setLoading] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [weeklyResponse, setWeeklyResponse] = useState(undefined);
+
+  useEffect(() => {
+    async function getStatsData() {
+      try {
+        if (homeStats?.isWeeklyReviewSubmitted === true) {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/stats?memberCode=${code}`,
+          );
+          if (res.data) {
+            setWeek(res.data.data[0].week);
+          }
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        if (homeStats?.isWeeklyReviewSubmitted === true) {
+          setStatsLoading(false);
+        }
+      }
+    }
+    getStatsData();
+  }, [homeStats]);
+
+  useEffect(() => {
+    async function getWeeklyReviewData() {
+      try {
+        setLoading(true);
+        if (week) {
+          const res = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review?memberCode=${code}&week=${week}`,
+          );
+          if (res.data) {
+            setWeeklyResponse(res.data.data);
+          }
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getWeeklyReviewData();
+  }, [week]);
 
   async function getMemberData(code) {
     try {
@@ -80,6 +117,18 @@ const FitnessPage = () => {
       console.error('Error fetching profile:', error);
     }
   }
+
+  const getISTDay = () => {
+    const now = new Date();
+    const options = { timeZone: 'Asia/Kolkata', weekday: 'long' };
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(now); // Returns day name like 'Sunday', 'Monday', etc.
+  };
+
+  const currentDay = getISTDay();
+
+  // Check if today is Sunday, Monday, or Tuesday
+  const showComponent = ['Sunday', 'Monday', 'Tuesday'].includes(currentDay);
 
   useEffect(() => {
     if (!userProfilePicture && userProfilePicture !== '') {
@@ -120,6 +169,9 @@ const FitnessPage = () => {
             localStorage.setItem('isLegend', res.data.isLegend);
             setLoader(false);
             setError(null);
+            if (res?.data?.isWeeklyReviewSubmitted) {
+              setStatsLoading(true);
+            }
           }
         })
         .catch((err) => {
@@ -146,7 +198,7 @@ const FitnessPage = () => {
       {!loader && !error && (
         <FeatureUpdatePopup backendVersion={homeStats?.lastSeenUiVersion} />
       )}
-      {loader && <Loader />}
+      {(loading || loader || statsLoading) && <Loader />}
       {error && <Error>{error}</Error>}
       {showActivity === true && (
         <AdditionalActivity
@@ -162,6 +214,7 @@ const FitnessPage = () => {
         <div>
           <img
             loading="lazy"
+            alt="img"
             src="assets/Movement-Frame.png"
             className="absolute left-0 top-0 -z-10 h-full w-full saturate-150"
           />
@@ -205,6 +258,7 @@ const FitnessPage = () => {
                           <img
                             loading="lazy"
                             src={userProfilePicture}
+                            alt="img"
                             className="h-[53px] w-[53px] rounded-xl object-cover"
                           />
                         ) : (
@@ -277,6 +331,11 @@ const FitnessPage = () => {
                 lastEightWeeksWorkout={homeStats?.lastEightWeeksWorkout}
               />
             </section>
+            {showComponent && (
+              <WeeklyCheckinTile
+                isWeeklyReviewSubmitted={weeklyResponse?.report}
+              />
+            )}
 
             <section>
               {currentDate < 5 && (
@@ -341,6 +400,7 @@ const FitnessPage = () => {
                         <img
                           src="/assets/yellowTimer.svg"
                           className="mr-[2px]"
+                          alt="img"
                         />
                         {homeStats.hyperWorkoutParams.duration} mins
                       </h2>
@@ -352,6 +412,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellow-power.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.hyperWorkoutParams.calories} cal
@@ -400,6 +461,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellowTimer.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.flexWorkoutParams.duration} mins
@@ -412,6 +474,7 @@ const FitnessPage = () => {
                       >
                         <img
                           src="/assets/yellow-power.svg"
+                          alt="img"
                           className="mr-[2px]"
                         />
                         {homeStats.flexWorkoutParams.calories} cal
@@ -437,33 +500,13 @@ const FitnessPage = () => {
                 <img
                   loading="lazy"
                   src="/assets/fitness-add.svg"
+                  alt="img"
                   className="h-[30px] w-[30px]"
                 />
               </div>
             </div>
 
             <StepTrackerTwo date={new Date()} />
-
-            {isWeekend && (
-              <Link to="/weekly-checkin" className="">
-                <div className="flex-col rounded-lg bg-gradient-to-b from-gradientStart to-gradientEnd p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="purple-white-gradient inline-block text-2xl font-semibold tracking-wider">
-                      Weekly Check-In
-                    </span>
-                    <span className="font-semibold">
-                      <AiOutlineRight size={26} className="text-white " />
-                    </span>
-                  </div>
-                  <div className="flex justify-center">
-                    <p className="max-w-[100%] text-left text-[12px] font-semibold text-white">
-                      View your weekly stats and register your thoughts and
-                      rating
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )}
 
             {/* <section>
               <FitnessScore
