@@ -35,8 +35,6 @@ const WeeklyCheckIn = () => {
   const queryParams = new URLSearchParams(location.search);
   const formSubmit = queryParams.get('formSubmit');
 
-  // console.log('9999', response);
-
   const getUserData = useMemo(
     () => async () => {
       setQuestionnaireLoading(true);

@@ -41,7 +41,6 @@ const QuestionnaireScreenOutput = ({
       setResponse(weeklyResponse);
     }
   }, []);
-  console.log(response);
 
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
@@ -55,7 +54,6 @@ const QuestionnaireScreenOutput = ({
             formData,
           );
           if (res.data.data) {
-            console.log('55', res.data.data);
             setUploadedPic(res.data.data);
           }
         }
@@ -85,8 +83,6 @@ const QuestionnaireScreenOutput = ({
             ...filteredObject,
             { code: 'WKR13', value: uploadedPic },
           ];
-
-          console.log(updatedObject, uploadedPic, '223311');
           const transformedResponseData = (
             questionnaireScreen === 3 && uploadedPic.length > 0
               ? updatedObject
@@ -103,8 +99,6 @@ const QuestionnaireScreenOutput = ({
             // Return the object as is if description is removed or doesn't exist
             return item;
           });
-
-          console.log(transformedResponseData, '0000000000000');
 
           if (questionnaireScreen === 3) {
             await axios.put(
@@ -186,7 +180,7 @@ const QuestionnaireScreenOutput = ({
     if (file) {
       setProfilePicFile(file);
       const reader = new FileReader();
-      console.log(setFile);
+
       if (setFile === 1) {
         reader.onloadend = () => {
           setChosenPic((prevPics) => {
