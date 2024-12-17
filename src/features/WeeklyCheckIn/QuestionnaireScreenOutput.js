@@ -31,7 +31,7 @@ const QuestionnaireScreenOutput = ({
     useState(false);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [chosenPic, setChosenPic] = useState([]);
-  const [chosenPicBinary, setChosenPicBinary] = useState([]);
+  const [uploadedPic, setUploadedPic] = useState([]);
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [imgResponse, setImgResponse] = useState(null);
@@ -41,6 +41,7 @@ const QuestionnaireScreenOutput = ({
       setResponse(weeklyResponse);
     }
   }, []);
+  console.log(response);
 
   const uploadMemberPic = () => {
     async function uploadPicFunc() {
@@ -53,16 +54,24 @@ const QuestionnaireScreenOutput = ({
             `${process.env.REACT_APP_BASE_URL}/api/v1/weekly-review/progress-img?memberCode=${code}&week=${week}`,
             formData,
           );
-          if (res.data) {
-            console.log('updates');
+          if (res.data.data) {
+            console.log('55', res.data.data);
+            setUploadedPic(res.data.data);
           }
         }
+      } catch {
       } finally {
-        console.log('updates');
+        // fillQuestionnaire();
       }
     }
     uploadPicFunc();
   };
+
+  useEffect(() => {
+    if (chosenPic) {
+      uploadMemberPic();
+    }
+  }, [chosenPic]);
   const fillQuestionnaire = () => {
     setQuestionnaireFormLoading(true);
     async function getUserData() {
@@ -71,7 +80,18 @@ const QuestionnaireScreenOutput = ({
           const filteredObject = response.filter((item1) =>
             currentQuestion.some((item2) => item1.code === item2.code),
           );
-          const transformedResponseData = filteredObject.map((item) => {
+
+          const updatedObject = [
+            ...filteredObject,
+            { code: 'WKR13', value: uploadedPic },
+          ];
+
+          console.log(updatedObject, uploadedPic, '223311');
+          const transformedResponseData = (
+            questionnaireScreen === 3 && uploadedPic.length > 0
+              ? updatedObject
+              : filteredObject
+          ).map((item) => {
             // Remove description if it's an empty string
             if (item.description === '') {
               delete item.description;
@@ -83,6 +103,8 @@ const QuestionnaireScreenOutput = ({
             // Return the object as is if description is removed or doesn't exist
             return item;
           });
+
+          console.log(transformedResponseData, '0000000000000');
 
           if (questionnaireScreen === 3) {
             await axios.put(
@@ -98,6 +120,7 @@ const QuestionnaireScreenOutput = ({
                 completed: true,
               },
             );
+            return;
           }
           if (transformedResponseData.length > 0) {
             await axios.put(
@@ -118,7 +141,13 @@ const QuestionnaireScreenOutput = ({
             {
               memberCode: code,
               week: week,
-              response: [{ code: 'WKR12', value: [0] }],
+              response:
+                uploadedPic.length > 0
+                  ? [
+                      { code: 'WKR12', value: [0] },
+                      { code: 'WKR13', value: uploadedPic },
+                    ]
+                  : [{ code: 'WKR12', value: [0] }],
               completed: true,
             },
           );
@@ -140,7 +169,6 @@ const QuestionnaireScreenOutput = ({
     if (questionnaireScreen === 3) {
       setScreen('resultLoading');
       fillQuestionnaire();
-      uploadMemberPic();
     }
   };
 
