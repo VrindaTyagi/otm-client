@@ -25,7 +25,7 @@ const today = new Date().toLocaleDateString('en-us', {
 });
 
 const WorkoutSummary = () => {
-  const [inputIds, getStoredInputIds] = useLocalStorage('inputIds', []);
+  const [inputIds] = useLocalStorage('inputIds', []);
   const navigate = useNavigate();
   const [workoutSummary, setWorkoutSummary] = useState({});
   const [achievements, setAchievements] = useState([]);
@@ -168,9 +168,9 @@ const WorkoutSummary = () => {
         })
         .finally(() => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
-          const storedInputIds = getStoredInputIds();
-          if (storedInputIds !== null) {
-            storedInputIds.forEach((id) => {
+
+          if (inputIds && inputIds !== null) {
+            inputIds.forEach((id) => {
               window.localStorage.removeItem(id);
             });
 
@@ -243,9 +243,9 @@ const WorkoutSummary = () => {
         })
         .finally(() => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
-          const storedInputIds = getStoredInputIds();
-          if (storedInputIds !== null) {
-            storedInputIds.forEach((id) => {
+
+          if (inputIds && inputIds !== null) {
+            inputIds.forEach((id) => {
               window.localStorage.removeItem(id);
             });
 
