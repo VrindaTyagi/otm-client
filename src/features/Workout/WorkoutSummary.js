@@ -170,12 +170,20 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            inputIds.forEach((id) => {
-              window.localStorage.removeItem(id);
-            });
+            const keysArray = Object.keys(localStorage);
+            const filteredKeys = keysArray.filter(
+              (key) =>
+                key.includes('-rounds') ||
+                key.includes('-load') ||
+                key.includes('-load-unit') ||
+                key.includes('inputIds'),
+            );
 
-            // then finally delete the key 'inputIds' from local storage
-            window.localStorage.removeItem('inputIds');
+            if (filteredKeys) {
+              filteredKeys.forEach((id) => {
+                window.localStorage.removeItem(id);
+              });
+            }
           }
         });
     }
@@ -245,12 +253,20 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            inputIds.forEach((id) => {
-              window.localStorage.removeItem(id);
-            });
+            const keysArray = Object.keys(localStorage);
+            const filteredKeys = keysArray.filter(
+              (key) =>
+                key.includes('-rounds') ||
+                key.includes('-load') ||
+                key.includes('-load-unit') ||
+                key.includes('inputIds'),
+            );
 
-            // then finally delete the key 'inputIds' from local storage
-            window.localStorage.removeItem('inputIds');
+            if (filteredKeys) {
+              filteredKeys.forEach((id) => {
+                window.localStorage.removeItem(id);
+              });
+            }
           }
         });
     }

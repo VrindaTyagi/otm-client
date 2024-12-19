@@ -155,20 +155,6 @@ Here's a 20% off discount because I'd love for you to get healthy too!
 
   function handleLogout() {
     navigate('/login', { replace: true });
-    const keysArray = Object.keys(localStorage);
-    const filteredKeys = keysArray.filter(
-      (key) =>
-        key.includes('-rounds') ||
-        key.includes('-load') ||
-        key.includes('-load-unit'),
-    );
-
-    if (filteredKeys) {
-      filteredKeys.forEach((id) => {
-        window.localStorage.removeItem(id);
-      });
-    }
-
     logout();
   }
 
