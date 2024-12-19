@@ -17,6 +17,7 @@ import AnimatedComponent from '../../components/AnimatedComponent.js';
 import useLocalStorage from '../../hooks/useLocalStorage.js';
 import { axiosClient } from './apiClient';
 import { axiosflexClient } from './apiFlexClient.js';
+import { deleteLocalSotrageWorkoutIds } from './utils.js';
 import { setStatus } from './WorkoutSlice';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
@@ -170,20 +171,7 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            const keysArray = Object.keys(localStorage);
-            const filteredKeys = keysArray.filter(
-              (key) =>
-                key.includes('-rounds') ||
-                key.includes('-load') ||
-                key.includes('-load-unit') ||
-                key.includes('inputIds'),
-            );
-
-            if (filteredKeys) {
-              filteredKeys.forEach((id) => {
-                window.localStorage.removeItem(id);
-              });
-            }
+            deleteLocalSotrageWorkoutIds();
           }
         });
     }
@@ -253,20 +241,7 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            const keysArray = Object.keys(localStorage);
-            const filteredKeys = keysArray.filter(
-              (key) =>
-                key.includes('-rounds') ||
-                key.includes('-load') ||
-                key.includes('-load-unit') ||
-                key.includes('inputIds'),
-            );
-
-            if (filteredKeys) {
-              filteredKeys.forEach((id) => {
-                window.localStorage.removeItem(id);
-              });
-            }
+            deleteLocalSotrageWorkoutIds();
           }
         });
     }
