@@ -168,9 +168,9 @@ const WorkoutSummary = () => {
         })
         .finally(() => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
-          const storedInputIds = inputIds;
-          if (storedInputIds && storedInputIds !== null) {
-            storedInputIds.forEach((id) => {
+
+          if (inputIds && inputIds !== null) {
+            inputIds.forEach((id) => {
               window.localStorage.removeItem(id);
             });
 
@@ -243,10 +243,9 @@ const WorkoutSummary = () => {
         })
         .finally(() => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
-          const storedInputIds = inputIds;
 
-          if (storedInputIds && storedInputIds !== null) {
-            storedInputIds.forEach((id) => {
+          if (inputIds && inputIds !== null) {
+            inputIds.forEach((id) => {
               window.localStorage.removeItem(id);
             });
 
