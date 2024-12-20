@@ -17,6 +17,7 @@ import AnimatedComponent from '../../components/AnimatedComponent.js';
 import useLocalStorage from '../../hooks/useLocalStorage.js';
 import { axiosClient } from './apiClient';
 import { axiosflexClient } from './apiFlexClient.js';
+import { deleteLocalSotrageWorkoutIds } from './utils.js';
 import { setStatus } from './WorkoutSlice';
 const today = new Date().toLocaleDateString('en-us', {
   year: 'numeric',
@@ -170,12 +171,7 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            inputIds.forEach((id) => {
-              window.localStorage.removeItem(id);
-            });
-
-            // then finally delete the key 'inputIds' from local storage
-            window.localStorage.removeItem('inputIds');
+            deleteLocalSotrageWorkoutIds();
           }
         });
     }
@@ -245,12 +241,7 @@ const WorkoutSummary = () => {
           // iteratively delete all the keys from the array stored with the key 'inputIds' in local storage
 
           if (inputIds && inputIds !== null) {
-            inputIds.forEach((id) => {
-              window.localStorage.removeItem(id);
-            });
-
-            // then finally delete the key 'inputIds' from local storage
-            window.localStorage.removeItem('inputIds');
+            deleteLocalSotrageWorkoutIds();
           }
         });
     }
