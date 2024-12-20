@@ -91,18 +91,12 @@ export const deleteLocalSotrageWorkoutIds = () => {
   const keysArray = Object.keys(localStorage);
   const filteredKeys = keysArray.filter(
     (key) =>
-      key.includes('-rounds') ||
-      key.includes('-load') ||
-      key.includes('-load-unit') ||
-      key.includes('-comment') ||
-      key.includes('-time-min') ||
-      key.includes('-time-sec') ||
-      key.includes('-feedback') ||
-      key.includes('-duration') ||
-      key.includes('-mood') ||
-      key.includes('-rating') ||
-      key.includes('-performance') ||
-      key.includes('inputIds'),
+      !(
+        key.includes('isAdmin') ||
+        key.includes('isLegend') ||
+        key.includes('profilePicture') ||
+        key.includes('user')
+      ),
   );
 
   if (filteredKeys) {
