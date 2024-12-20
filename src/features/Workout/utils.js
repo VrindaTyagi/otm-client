@@ -94,6 +94,13 @@ export const deleteLocalSotrageWorkoutIds = () => {
       key.includes('-rounds') ||
       key.includes('-load') ||
       key.includes('-load-unit') ||
+      key.includes('-comment') ||
+      key.includes('-time-min') ||
+      key.includes('-time-sec') ||
+      key.includes('-feedback') ||
+      key.includes('-duration') ||
+      key.includes('-mood') ||
+      key.includes('-rating') ||
       key.includes('inputIds'),
   );
 
