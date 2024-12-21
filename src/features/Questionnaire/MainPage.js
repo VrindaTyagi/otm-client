@@ -481,15 +481,15 @@ function LandingPage() {
             )}
           </div>
         </div>
-        {screen >= 1 && (
+        {screen >= 1 && !showBMIScreen && (
           <Button
             style={{ fontWeight: 500 }}
             text={
               screen === maxScreenCount
                 ? 'Finish'
                 : currentQuestion[0]?.target === 'ASSESSMENT'
-                  ? 'Take Assessment'
-                  : 'Next'
+                ? 'Take Assessment'
+                : 'Next'
             }
             type="lifestyle"
             action={() => {
