@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import CircularSlider from '@fseehawer/react-circular-slider';
+import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { ReactComponent as DragIcon } from './circularKnob.svg';
 import { ReactComponent as SliderLabel } from './circularSliderLabel.svg';
-import styled from 'styled-components';
 
 const NumericalTime = styled.div`
   color: var(--green, #5ecc7b);

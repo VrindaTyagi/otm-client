@@ -18,15 +18,16 @@ import {
   ProgressBar,
   updateCurrentQuestion,
 } from '../LifestyleQuiz';
-import AssessmentScreen from './AssessmentScreen';
 import BMIScreen from './BMIScreen';
 import InputText from './Components/inputs/InputText';
 import Options from './Components/inputs/Options';
+import { DummyData } from './utils';
 
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
   const [response, setResponse] = useState({});
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [section, setSection] = useState(null);
   const [screen, setScreen] = useState(0);
   const maxScreenCount = getScreenCounts(questions);
   const generalScreen = getGeneralScreen(questions);
@@ -36,6 +37,35 @@ function LandingPage() {
   const [showAssessmentScreen, setShowAssessmentScreen] = useState(false);
   const [showBMIScreen, setShowBMIScreen] = useState(false);
   const navigate = useNavigate();
+  console.log(questions, currentQuestion);
+
+  const questionnaireData = [
+    //Data to show heading and Background Color on different pages of questionnaire form
+    {
+      // bg: 'bg-blue',
+      // text: 'text-blue',
+      section: 'generalInformation',
+      img: '/assets/weekly-checkin-intro-bg.svg',
+    },
+    {
+      // bg: 'bg-blue',
+      // text: 'text-blue',
+      section: 'fitness',
+      img: '/assets/weekly-checkin-intro-bg.svg',
+    },
+    {
+      // bg: 'bg-yellow',
+      // text: 'text-yellow',
+      heading: 'Mind & body check-in',
+      img: '/assets/yellow-background.svg',
+    },
+    {
+      // bg: 'bg-teal',
+      // text: 'text-teal',
+      heading: 'Measurements & photos',
+      img: '/assets/blue-background.svg',
+    },
+  ];
 
   const StarterText = styled.div`
     color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
@@ -54,8 +84,24 @@ function LandingPage() {
     background-clip: text;
     color: transparent;
   `;
+  console.log('beta', screen);
 
   // sending response to the backend
+
+  const handleNextClick = () => {
+    if (section === 'generalInformation' && screen === 1) {
+      setShowBMIScreen(true);
+      setSection('fitness');
+    }
+    if (section === 'fitness' && screen <= 4) {
+      setScreen(screen + 1);
+    }
+    if (section === 'fitness' && screen === 5) {
+      setSection('nutrition');
+      setScreen(1);
+    }
+  };
+
   function submitResponse() {
     // set the state to loading
     setPageLoading(true);
@@ -87,17 +133,18 @@ function LandingPage() {
       });
     !showAssessmentScreen &&
       !showBMIScreen &&
+      // .post('/', {
+      //   email: JSON.parse(localStorage.getItem('user'))['email'],
+      //   questionnaireName: 'signup',
+      //   response: responseBody,
+      // })
       axiosClient
-        .post('/', {
-          email: JSON.parse(localStorage.getItem('user'))['email'],
-          questionnaireName: 'signup',
-          response: responseBody,
-        })
+        .get('?name=signup')
         .then((res) => {
           console.log('POST Response : ', res);
 
           // open the BMI screen, Assessment screen, or the Fitness Score screen based on the next button clicked on relevant screen
-          if (screen === 1) {
+          if (section === 'generalInformation' && screen === 1) {
             setShowBMIScreen(true);
           } else if (screen === maxScreenCount - 1) {
             setShowAssessmentScreen(true);
@@ -126,12 +173,14 @@ function LandingPage() {
       .get('?name=signup')
       .then((res) => {
         // set the questions to the state
-        setQuestions(res.data.questions);
+        // setQuestions(res.data.questions);
 
         // Update the response state using a callback
+        setSection(DummyData[0].section);
+        setQuestions(DummyData);
         setResponse((prev) => {
           const newResponse = {};
-          res.data.questions.forEach((ques) => {
+          DummyData.forEach((ques) => {
             newResponse[ques.code] = [''];
           });
           return newResponse;
@@ -151,8 +200,9 @@ function LandingPage() {
 
   useEffect(() => {
     // it will update the current question as soon as the screen changes
-    questions && updateCurrentQuestion(questions, screen, setCurrentQuestion);
-  }, [screen, questions]);
+    questions &&
+      updateCurrentQuestion(questions, screen, setCurrentQuestion, section);
+  }, [screen, questions, section]);
 
   useEffect(() => {
     if (Object.keys(response)?.length > 0) {
@@ -164,13 +214,17 @@ function LandingPage() {
 
   return (
     <div
-      className={`flex min-h-screen flex-col justify-between ${
+      className={`flex min-h-screen flex-col justify-between  ${
         screen === 0 ? '' : 'px-6 py-8'
       }`}
       style={{
         fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
       }}
     >
+      <img
+        src="/assets/weekly-checkin-intro-bg.svg"
+        className="absolute left-0 top-0 -z-10 h-screen w-screen"
+      />
       {pageError && !pageLoading && <Error>Some Error Occured</Error>}
       {pageLoading && (
         <div className="fixed left-0 top-0 z-50 w-full bg-black">
@@ -204,7 +258,7 @@ function LandingPage() {
             setShowBMIScreen={setShowBMIScreen}
           />
         )}
-        {showAssessmentScreen && (
+        {/* {showAssessmentScreen && (
           <AssessmentScreen
             submitResponse={submitResponse}
             screen={screen}
@@ -214,7 +268,7 @@ function LandingPage() {
             decreaseScreenAndRank={decreaseScreenAndRank}
             setShowAssessmentScreen={setShowAssessmentScreen}
           />
-        )}
+        )} */}
         {screen >= 1 && !showBMIScreen && !showAssessmentScreen && (
           <div className="flex flex-col items-center justify-center gap-5">
             <div className="mx-auto my-4 flex w-full items-center justify-center">
@@ -236,7 +290,7 @@ function LandingPage() {
         )}
       </div>
       <div
-        className={`flex h-screen  flex-col items-start justify-between ${
+        className={`flex h-screen flex-col items-start justify-between  ${
           screen > 0 && 'flex-1'
         } `}
       >
@@ -247,7 +301,7 @@ function LandingPage() {
               General Information
             </h1>
           )}
-          {screen === fitnessScreen && (
+          {/* {screen === fitnessScreen && (
             <div>
               <h1 className="mt-3 text-[26px] text-[#7e87ef]">Fitness Test</h1>
               <p
@@ -257,7 +311,7 @@ function LandingPage() {
                 How many max reps of each movement can you perform in one minute
               </p>
             </div>
-          )}
+          )} */}
           <div className="h-full">
             {screen >= 1 &&
               currentQuestion &&
@@ -266,7 +320,7 @@ function LandingPage() {
               currentQuestion?.map((ques, idx) => {
                 return (
                   <>
-                    <div className="flex flex-col justify-center">
+                    <div className="flex flex-col justify-center ">
                       <div className="my-5 w-full">
                         {/* Question */}
                         {!['text', 'number'].includes(ques?.inputType) &&
@@ -321,7 +375,7 @@ function LandingPage() {
                   </>
                 );
               })}
-            {screen === fitnessScreen && (
+            {/* {screen === fitnessScreen && (
               <p
                 className="text-[18px] text-[#545454]"
                 style={{
@@ -333,7 +387,7 @@ function LandingPage() {
                 We'll use your results to calculate your fitness score on a
                 scale of 1-10.
               </p>
-            )}
+            )} */}
             {screen === 0 && (
               <div
                 className="h-full w-full "
@@ -500,7 +554,8 @@ function LandingPage() {
                 !isAnyEmptyResponse(currentQuestion, response)
               ) {
                 // API function call for submittin response on every next/submit button press
-                submitResponse();
+                // submitResponse();
+                handleNextClick();
               } else {
                 if (isAnyEmptyResponse(currentQuestion, response)) {
                   toast.warn('Please fill in the required fields!');
