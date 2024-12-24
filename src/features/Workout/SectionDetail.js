@@ -234,6 +234,7 @@ const SectionDetail = () => {
                         </div>
                         <h1 className="workout-gradient-text pb-2 text-3xl">
                           {name}
+                          sfsdf
                         </h1>
                       </div>
                       <Link
