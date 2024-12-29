@@ -99,23 +99,24 @@ const WeeklyCheckinSecondaryIntro = ({
                     />
                   </div>
                 )}
-                {statsData?.metconIntensity &&
-                  statsData?.metconIntensity > 0 && (
-                    <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
-                      <div className="flex   gap-2 text-[15px] font-semibold text-offwhite ">
-                        {' '}
-                        <img
-                          loading="lazy"
-                          src="/assets/line-graph-logo.svg"
-                          alt="line-graph"
-                        />
-                        Metcon Intensity
-                      </div>
-                      <div className="font-futura text-[32px]   leading-[40px] text-blue">
-                        {statsData?.metconIntensity}
-                      </div>
+                {statsData?.metconIntensity && statsData.metconIntensity > 0 ? (
+                  <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
+                    <div className="flex   gap-2 text-[15px] font-semibold text-offwhite ">
+                      {' '}
+                      <img
+                        loading="lazy"
+                        src="/assets/line-graph-logo.svg"
+                        alt="line-graph"
+                      />
+                      Metcon Intensity
                     </div>
-                  )}
+                    <div className="font-futura text-[32px]   leading-[40px] text-blue">
+                      {statsData?.metconIntensity}
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="flex w-full flex-col gap-2">
                 {

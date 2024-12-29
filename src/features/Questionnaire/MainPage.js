@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,7 +8,6 @@ import { Button, Error } from '../../components';
 import BackButton from '../../components/BackButton';
 import {
   axiosClient,
-  capitalizeFirstLetter,
   decreaseScreenAndRank,
   getFitnessScreen,
   getGeneralScreen,
@@ -15,13 +15,95 @@ import {
   increaseScreenAndRank,
   isAnyEmptyResponse,
   Loader,
-  ProgressBar,
   updateCurrentQuestion,
 } from '../LifestyleQuiz';
+import { getHighestScreenNumber } from '../LifestyleQuiz/utils/utils';
 import BMIScreen from './BMIScreen';
+import FitnessInput from './Components/inputs/FitnessInput';
 import InputText from './Components/inputs/InputText';
 import Options from './Components/inputs/Options';
+import IngredientScreen from './IngredientScreen';
+import MealScreen from './MealScreen';
+import PlansScreen from './PlansScreen';
+import QuestionniareProgress from './QuestionniareProgress';
 import { DummyData } from './utils';
+
+const StarterText = styled.div`
+  color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
+  /* H1 */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: ${(props) =>
+    props.fontSize !== undefined ? props.fontSize : '14px'};
+  font-style: normal;
+
+  line-height: 16px; /* 125% */
+`;
+
+const mealResponse = {
+  breakfast: {
+    heading: 'Breakfast',
+    img: '/assets/eggs.svg',
+  },
+  lunch: {
+    heading: 'Lunch',
+    img: '/assets/spaghetti.svg',
+  },
+  dinner: {
+    heading: 'Dinner',
+    img: '/assets/noodles.svg',
+  },
+  snacks: {
+    heading: 'Snacks',
+    img: '/assets/cookie.svg',
+  },
+};
+
+const GradientText = styled.div`
+  background: linear-gradient(to right, #d6b6f0, #848ce9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+`;
+
+const questionnaireData = [
+  //Data to show heading and Background Color on different pages of questionnaire form
+  {
+    bg: 'bg-blue',
+    border: 'border-blue',
+    text: 'text-blue',
+    heading: 'General Information',
+    section: 'generalInformation',
+    img: '/assets/weekly-checkin-intro-bg.svg',
+    icon: '/assets/fitnessIcon.svg',
+  },
+  {
+    bg: 'bg-blue',
+    text: 'text-blue',
+    border: 'border-blue',
+    section: 'fitness',
+    heading: 'Fitness',
+    img: '/assets/weekly-checkin-intro-bg.svg',
+    icon: '/assets/fitnessIcon.svg',
+  },
+  {
+    bg: 'bg-green',
+    text: 'text-green',
+    border: 'border-green',
+    section: 'nutrition',
+    heading: 'Nutrition',
+    img: '/assets/nutrition-bg.svg',
+    icon: '/assets/rice-bowl.svg',
+  },
+  {
+    bg: 'bg-yellow',
+    text: 'text-yellow',
+    border: 'border-yellow',
+    section: 'lifestyle',
+    heading: 'Lifestyle',
+    img: '/assets/yellow-background.svg',
+    icon: '/assets/calender-tick.svg',
+  },
+];
 
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
@@ -36,55 +118,34 @@ function LandingPage() {
   const [pageLoading, setPageLoading] = useState(false);
   const [showAssessmentScreen, setShowAssessmentScreen] = useState(false);
   const [showBMIScreen, setShowBMIScreen] = useState(false);
+  const [showPlansScreen, setShowPlansScreen] = useState(false);
+  const [selectedQuestionniareSection, setSelectedQuestionniareSection] =
+    useState(null);
+
+  const [highestScrenNumber, setHighestScrenNumber] = useState(null);
+  const [showMealScreen, setShowMealScreen] = useState(false);
+  const [showIngredientScreen, setShowIngredientScreen] = useState(false);
+
+  const [mealId, setMealId] = useState(null);
   const navigate = useNavigate();
-  console.log(questions, currentQuestion);
+  console.log(section, selectedQuestionniareSection);
 
-  const questionnaireData = [
-    //Data to show heading and Background Color on different pages of questionnaire form
-    {
-      // bg: 'bg-blue',
-      // text: 'text-blue',
-      section: 'generalInformation',
-      img: '/assets/weekly-checkin-intro-bg.svg',
-    },
-    {
-      // bg: 'bg-blue',
-      // text: 'text-blue',
-      section: 'fitness',
-      img: '/assets/weekly-checkin-intro-bg.svg',
-    },
-    {
-      // bg: 'bg-yellow',
-      // text: 'text-yellow',
-      heading: 'Mind & body check-in',
-      img: '/assets/yellow-background.svg',
-    },
-    {
-      // bg: 'bg-teal',
-      // text: 'text-teal',
-      heading: 'Measurements & photos',
-      img: '/assets/blue-background.svg',
-    },
-  ];
+  useEffect(() => {
+    if (section) {
+      const selectedSection = questionnaireData.find((item) =>
+        item.section.includes(section),
+      );
+      setSelectedQuestionniareSection(selectedSection);
+    }
+  }, [section]);
 
-  const StarterText = styled.div`
-    color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
-    /* H1 */
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: ${(props) =>
-      props.fontSize !== undefined ? props.fontSize : '14px'};
-    font-style: normal;
+  useEffect(() => {
+    if ((questions, section)) {
+      getHighestScreenNumber(questions, setHighestScrenNumber, section);
+    }
+  }, [questions, section]);
 
-    line-height: 16px; /* 125% */
-  `;
-
-  const GradientText = styled.div`
-    background: linear-gradient(to right, #d6b6f0, #848ce9);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  `;
-  console.log('beta', screen);
+  console.log('current', currentQuestion);
 
   // sending response to the backend
 
@@ -93,12 +154,20 @@ function LandingPage() {
       setShowBMIScreen(true);
       setSection('fitness');
     }
-    if (section === 'fitness' && screen <= 4) {
+    if (section === 'fitness' && screen < 4) {
       setScreen(screen + 1);
     }
-    if (section === 'fitness' && screen === 5) {
+    if (section === 'fitness' && screen === 4) {
       setSection('nutrition');
       setScreen(1);
+    }
+    if (section === 'nutrition' && screen < 4) {
+      setScreen(screen + 1);
+    }
+    if (section === 'nutrition' && screen === 4) {
+      setShowMealScreen(true);
+      // setSection('lifestyle');
+      // setScreen(1);
     }
   };
 
@@ -139,7 +208,7 @@ function LandingPage() {
       //   response: responseBody,
       // })
       axiosClient
-        .get('?name=signup')
+        .get()
         .then((res) => {
           console.log('POST Response : ', res);
 
@@ -170,7 +239,7 @@ function LandingPage() {
     setPageLoading(true);
     // fetch the signup questionnaire data
     axiosClient
-      .get('?name=signup')
+      .get()
       .then((res) => {
         // set the questions to the state
         // setQuestions(res.data.questions);
@@ -212,19 +281,32 @@ function LandingPage() {
     }
   }, [response]);
 
+  const handleIngredientScreen = (e) => {
+    console.log(e);
+    setMealId(e);
+    setShowIngredientScreen(true);
+  };
+
+  console.log('screen:', screen, section);
+  console.log('response:', response['onb15']);
+
   return (
     <div
-      className={`flex min-h-screen flex-col justify-between  ${
-        screen === 0 ? '' : 'px-6 py-8'
-      }`}
+      className={`flex min-h-screen flex-col justify-between bg-gray-opacity-44   ${
+        screen === 0 || showPlansScreen ? '' : 'px-3 py-8'
+      }  `}
       style={{
         fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
       }}
     >
-      <img
-        src="/assets/weekly-checkin-intro-bg.svg"
-        className="absolute left-0 top-0 -z-10 h-screen w-screen"
-      />
+      {selectedQuestionniareSection && (
+        <img
+          src={selectedQuestionniareSection.img}
+          className="absolute left-0 top-0 z-10 h-screen w-screen  brightness-75 saturate-100"
+          alt="background"
+        />
+      )}
+
       {pageError && !pageLoading && <Error>Some Error Occured</Error>}
       {pageLoading && (
         <div className="fixed left-0 top-0 z-50 w-full bg-black">
@@ -254,10 +336,17 @@ function LandingPage() {
             questions={questions}
             getScreenCounts={getScreenCounts}
             setScreen={setScreen}
-            decreaseScreenAndRank={decreaseScreenAndRank}
+            setSection={setSection}
             setShowBMIScreen={setShowBMIScreen}
+            setShowPlansScreen={setShowPlansScreen}
           />
         )}
+        {showPlansScreen && (
+          <div>
+            <PlansScreen setShowPlansScreen={setShowPlansScreen} />
+          </div>
+        )}
+
         {/* {showAssessmentScreen && (
           <AssessmentScreen
             submitResponse={submitResponse}
@@ -269,38 +358,67 @@ function LandingPage() {
             setShowAssessmentScreen={setShowAssessmentScreen}
           />
         )} */}
-        {screen >= 1 && !showBMIScreen && !showAssessmentScreen && (
-          <div className="flex flex-col items-center justify-center gap-5">
-            <div className="mx-auto my-4 flex w-full items-center justify-center">
-              {screen >= 1 && (
-                <BackButton
-                  size={30}
-                  action={() => decreaseScreenAndRank(screen, setScreen)}
-                  className="absolute left-[5%] w-fit cursor-pointer"
-                />
-              )}
+        {screen === 1 &&
+          section === 'generalInformation' &&
+          !showBMIScreen &&
+          !showPlansScreen &&
+          !showMealScreen &&
+          !showAssessmentScreen && (
+            <div className="relative z-20 flex flex-col items-center justify-center gap-5">
+              <div className="mx-auto my-4 flex w-full items-center justify-end">
+                {screen >= 1 && (
+                  <BackButton
+                    size={30}
+                    action={() => decreaseScreenAndRank(screen, setScreen)}
+                    className="absolute left-[5%] w-fit cursor-pointer"
+                  />
+                )}
 
-              <ProgressBar
-                className="w-[250px]"
-                currValue={screen}
-                totalValue={getScreenCounts(questions)}
-              />
+                <div className="mr-4 h-[6px] w-[80%] rounded-xl bg-blue" />
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
+      <div></div>
       <div
-        className={`flex h-screen flex-col items-start justify-between  ${
+        className={`relative z-20 flex h-screen flex-col items-start justify-between  ${
           screen > 0 && 'flex-1'
-        } `}
+        } ${showPlansScreen && 'hidden'} `}
       >
         <div className=" h-full w-full">
           {/* Section Name */}
-          {screen === generalScreen && (
-            <h1 className="mt-3 text-[26px] text-[#7e87ef]">
-              General Information
-            </h1>
+          {screen === 1 &&
+            section === 'generalInformation' &&
+            !showBMIScreen &&
+            !showPlansScreen && (
+              <h1 className="mt-3 text-[20px] text-customWhite">
+                General Information
+              </h1>
+            )}
+          {highestScrenNumber &&
+          section !== 'generalInformation' &&
+          !showBMIScreen &&
+          !showPlansScreen &&
+          section !== 'generalInformation' ? (
+            <QuestionniareProgress
+              currValue={screen}
+              totalValue={highestScrenNumber}
+              questionnaireData={selectedQuestionniareSection}
+            />
+          ) : (
+            <></>
           )}
+
+          {showMealScreen &&
+            response['onb15'] &&
+            response['onb15'].length > 0 && (
+              <MealScreen
+                handleIngredientScreen={handleIngredientScreen}
+                mealResponse={mealResponse}
+                response={response}
+              />
+            )}
+          {showIngredientScreen && <IngredientScreen />}
           {/* {screen === fitnessScreen && (
             <div>
               <h1 className="mt-3 text-[26px] text-[#7e87ef]">Fitness Test</h1>
@@ -315,15 +433,18 @@ function LandingPage() {
           <div className="h-full">
             {screen >= 1 &&
               currentQuestion &&
+              !(section === 'fitness' && screen === 4) &&
               !showBMIScreen &&
               !showAssessmentScreen &&
+              !showMealScreen &&
+              !showPlansScreen &&
               currentQuestion?.map((ques, idx) => {
                 return (
                   <>
-                    <div className="flex flex-col justify-center ">
-                      <div className="my-5 w-full">
+                    <div className="flex flex-col justify-center gap-2">
+                      <div>
                         {/* Question */}
-                        {!['text', 'number'].includes(ques?.inputType) &&
+                        {/* {!['text', 'number'].includes(ques?.inputType) &&
                           ques?.content !== 'Gender' &&
                           !showBMIScreen &&
                           !showAssessmentScreen && (
@@ -332,8 +453,8 @@ function LandingPage() {
                                 ques?.isRequired ? ' *' : ''
                               }`}
                             </h1>
-                          )}
-                        {!['text', 'number'].includes(ques?.inputType) &&
+                          )} */}
+                        {/* {!['text', 'number'].includes(ques?.inputType) &&
                           ques?.content === 'Gender' &&
                           !showBMIScreen &&
                           !showAssessmentScreen && (
@@ -342,7 +463,7 @@ function LandingPage() {
                                 ques?.isRequired ? ' *' : ''
                               }`}
                             </h1>
-                          )}
+                          )} */}
                       </div>
                       {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
                       ques?.inputType?.toUpperCase() === 'MULTICHOICE' ||
@@ -356,7 +477,9 @@ function LandingPage() {
                           response={
                             Object.keys(response)?.length > 0 && response
                           }
+                          heading={ques?.content}
                           setResponse={setResponse}
+                          questionnaireData={selectedQuestionniareSection}
                         />
                       ) : (
                         <InputText
@@ -367,14 +490,47 @@ function LandingPage() {
                           setResponse={setResponse}
                           key={ques?.code}
                           inputType={ques?.inputType}
-                          placeholder={ques?.content}
+                          heading={ques?.content}
                           isRequired={ques?.isRequired}
+                          screen={screen}
+                          section={section}
                         />
                       )}
                     </div>
                   </>
                 );
               })}
+
+            <div>
+              {screen >= 1 &&
+                currentQuestion &&
+                section === 'fitness' &&
+                screen === 4 &&
+                !showBMIScreen &&
+                !showAssessmentScreen &&
+                !showMealScreen &&
+                !showPlansScreen && (
+                  <div className="flex flex-col  rounded-xl bg-black-opacity-45 p-4">
+                    <div className="mb-[25px] font-sfpro text-[14px] text-offwhite">
+                      How many max reps of each movement can you perform in 1
+                      minute?
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      {currentQuestion?.map((ques, idx) => {
+                        return (
+                          <>
+                            <FitnessInput
+                              code={ques?.code}
+                              setResponse={setResponse}
+                              heading={ques?.content}
+                            />
+                          </>
+                        );
+                      })}{' '}
+                    </div>
+                  </div>
+                )}
+            </div>
             {/* {screen === fitnessScreen && (
               <p
                 className="text-[18px] text-[#545454]"
@@ -535,19 +691,13 @@ function LandingPage() {
             )}
           </div>
         </div>
-        {screen >= 1 && !showBMIScreen && (
-          <Button
+        {screen >= 1 && !showPlansScreen && !showBMIScreen && (
+          <button
             style={{ fontWeight: 500 }}
-            text={
-              screen === maxScreenCount
-                ? 'Finish'
-                : currentQuestion[0]?.target === 'ASSESSMENT'
-                ? 'Take Assessment'
-                : 'Next'
-            }
-            type="lifestyle"
-            action={() => {
+            className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+            onClick={() => {
               // checking for empty response
+              console.log(2);
               if (
                 currentQuestion &&
                 Object.keys(response)?.length > 0 &&
@@ -555,6 +705,8 @@ function LandingPage() {
               ) {
                 // API function call for submittin response on every next/submit button press
                 // submitResponse();
+
+                console.log(12);
                 handleNextClick();
               } else {
                 if (isAnyEmptyResponse(currentQuestion, response)) {
@@ -562,7 +714,14 @@ function LandingPage() {
                 }
               }
             }}
-          />
+          >
+            {screen === maxScreenCount
+              ? 'Finish'
+              : currentQuestion[0]?.target === 'ASSESSMENT'
+              ? 'Take Assessment'
+              : 'Next'}{' '}
+            <FaArrowRight />
+          </button>
         )}
       </div>
     </div>

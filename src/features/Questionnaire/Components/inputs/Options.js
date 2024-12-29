@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HOME, FULL, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
+import { FULL, HOME, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
 
 function Options({
   questionCode,
@@ -8,6 +8,8 @@ function Options({
   target,
   response,
   setResponse,
+  heading,
+  questionnaireData,
 }) {
   console.log('Question code : ', questionCode);
   const [isTextFieldActive, setTextFieldActive] = useState(false);
@@ -49,9 +51,9 @@ function Options({
     console.log('questioncode : ', questionCode);
     return (
       <div
-        className={`border-box flex w-full flex-row items-center justify-between rounded-[12px] bg-[#3d3d3d]/30 pl-3 pr-5 ${
+        className={`border-box flex w-full flex-col items-center justify-between rounded-[12px] bg-white-opacity-08 pl-3 pr-5 ${
           response[questionCode]?.find((elem) => elem === optionID)
-            ? 'border-1 border border-[#7e87ef]'
+            ? `border-1 border ${questionnaireData.border}`
             : ''
         }`}
         onClick={() => {
@@ -129,14 +131,16 @@ function Options({
         }}
       >
         <div
-          className={`flex w-full flex-col justify-center ${
-            questionCode === 'su1' ? 'items-center py-3' : 'items-start py-4'
+          className={`flex w-full flex-col  justify-center text-center ${
+            questionCode === 'onb1'
+              ? 'items-center py-3'
+              : 'items-start px-2 py-4'
           }`}
         >
           <p
-            className={`text-[17px]  ${
+            className={`text-center text-[14px]  ${
               response[questionCode]?.find((elem) => elem === optionID)
-                ? 'text-[#7e87ef]'
+                ? `${questionnaireData.text}`
                 : 'text-[#b1b1b1]'
             }`}
           >
@@ -145,7 +149,7 @@ function Options({
           <p
             className={`text-[13px]  ${
               response[questionCode]?.find((elem) => elem === optionID)
-                ? 'text-[#7e87ef]'
+                ? `${questionnaireData.text}`
                 : 'text-[#929292]'
             }`}
           >
@@ -160,62 +164,65 @@ function Options({
     );
   };
   return (
-    <div
-      className={`flex h-full w-full items-center justify-center gap-6 ${
-        questionCode === 'su1' ? 'flex-row' : 'flex-col'
-      }`}
-    >
-      {options &&
-        options?.map((option, idx) => {
-          return (
-            <div
-              className="w-full"
-              style={{ marginBlock: target === 'MED' ? '20px' : '' }}
-            >
-              <Option
-                MCQType={MCQType}
-                response={response}
-                setResponse={setResponse}
-                optionID={option?.id}
-                optionValue={option?.value}
-                optionDescription={option?.description}
-                questionCode={questionCode}
-                key={option?.id}
-              />
-            </div>
-          );
-        })}
-      {MCQType === 'singleChoiceAndOther' && (
-        <div className="flex w-full flex-col items-start justify-center">
-          <p className="text-[20px] text-[#7e87ef]">
-            {target === 'MED' ? 'If any, ' : 'Other '}
-          </p>
-          <input
-            type={'text'} //text
-            value={
-              questionCode &&
-              Object.keys(response)?.length > 0 &&
-              isTextFieldActive
-                ? response[questionCode][0]
-                : ''
-            }
-            style={{ borderColor: '#7e87ef' }}
-            className="textbox"
-            onChange={(e) => {
-              if (!isTextFieldActive) {
-                setTextFieldActive(true);
+    <div className="flex flex-col gap-[13px] rounded-xl bg-black-opacity-45 px-3 py-[15px]">
+      <div className="text-[14px] text-offwhite">{heading}</div>
+      <div
+        className={`flex h-full w-full  items-center justify-center gap-2 ${
+          questionCode !== 'onb1' ? 'flex-col' : 'flex-row'
+        } `}
+      >
+        {options &&
+          options?.map((option, idx) => {
+            return (
+              <div
+                className="w-full "
+                style={{ marginBlock: target === 'MED' ? '20px' : '' }}
+              >
+                <Option
+                  MCQType={MCQType}
+                  response={response}
+                  setResponse={setResponse}
+                  optionID={option?.id}
+                  optionValue={option?.value}
+                  optionDescription={option?.description}
+                  questionCode={questionCode}
+                  key={option?.id}
+                />
+              </div>
+            );
+          })}
+        {MCQType === 'singleChoiceAndOther' && (
+          <div className="flex w-full flex-col items-start justify-center">
+            <p className="text-[20px] text-[#7e87ef]">
+              {target === 'MED' ? 'If any, ' : 'Other '}
+            </p>
+            <input
+              type={'text'} //text
+              value={
+                questionCode &&
+                Object.keys(response)?.length > 0 &&
+                isTextFieldActive
+                  ? response[questionCode][0]
+                  : ''
               }
-              setResponse((prev) => {
-                return {
-                  ...prev,
-                  [questionCode]: [e.target.value],
-                };
-              });
-            }}
-            placeholder={'Please Specify'}
-          />
-        </div>
-      )}
+              style={{ borderColor: '#7e87ef' }}
+              className="textbox"
+              onChange={(e) => {
+                if (!isTextFieldActive) {
+                  setTextFieldActive(true);
+                }
+                setResponse((prev) => {
+                  return {
+                    ...prev,
+                    [questionCode]: [e.target.value],
+                  };
+                });
+              }}
+              placeholder={'Please Specify'}
+            />
+          </div>
+        )}
+      </div>{' '}
     </div>
   );
 }

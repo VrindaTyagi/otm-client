@@ -1,20 +1,20 @@
-const WeeklySchedule = ({ homeStats }) => {
+const WeeklySchedule = ({ stats }) => {
   return (
-    <div className="h-fit w-full rounded-xl bg-black-opacity-45 pb-4 pt-2">
-      <div className="mx-3  flex justify-between">
+    <div className="h-fit w-full  pb-4 ">
+      {/* <div className="mx-3  flex justify-between">
         <h4 className="text-sm text-offwhite">Your weekly schedule</h4>
-        {/* <img src="./assets/maximize-schedule.svg" /> */}
-      </div>
+        <img src="./assets/maximize-schedule.svg" />
+      </div> */}
       <div className="mt-5">
-        {homeStats &&
-          homeStats.stats.map((item, index) => (
+        {stats &&
+          stats.map((item, index) => (
             <>
               {item.name !== 'Rest' && (
                 <div
                   className="flex h-[25px] justify-between  px-2"
                   style={{
                     borderBottom:
-                      homeStats.stats.length - 1 !== index
+                      stats.length - 1 !== index
                         ? '0.5px solid rgba(255, 255, 255, 0.13)'
                         : 'none',
                   }}

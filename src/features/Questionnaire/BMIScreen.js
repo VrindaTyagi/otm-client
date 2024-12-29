@@ -1,17 +1,17 @@
 import React from 'react';
-import { Button } from '../../components';
+import { FaArrowRight } from 'react-icons/fa6';
 import BackButton from '../../components/BackButton';
-import { ProgressBar } from '../LifestyleQuiz';
 import ScoreIndicator from './Components/ScoreIndicator';
 function BMIScreen({
   screen,
   questions,
   response,
   getScreenCounts,
-  decreaseScreenAndRank,
+  setSection,
   setScreen,
   submitResponse,
   setShowBMIScreen,
+  setShowPlansScreen,
 }) {
   return (
     <div className="absolute left-0 top-0 z-50 flex min-h-screen w-full flex-col items-center justify-between  overflow-x-hidden px-6 py-9">
@@ -21,14 +21,9 @@ function BMIScreen({
             size={30}
             action={() => {
               setShowBMIScreen(false);
-              decreaseScreenAndRank(screen, setScreen);
+              setSection('generalInformation');
             }}
             className="absolute left-[5%] w-fit cursor-pointer"
-          />
-          <ProgressBar
-            className="w-[250px]"
-            currValue={screen}
-            totalValue={getScreenCounts(questions)}
           />
         </div>
       </div>
@@ -46,13 +41,15 @@ function BMIScreen({
           />
         </div>
       </div>
-      <Button
-        text={'Next'}
-        type="lifestyle"
-        action={() => {
+      <button
+        onClick={() => {
           setShowBMIScreen(false);
+          setShowPlansScreen(true);
         }}
-      />
+        className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black"
+      >
+        Next <FaArrowRight />{' '}
+      </button>
     </div>
   );
 }

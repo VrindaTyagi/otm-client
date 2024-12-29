@@ -103,6 +103,42 @@ export function updateCurrentQuestion(
   );
 }
 
+export function getHighestScreenNumber(
+  questions,
+  setHighestScrenNumber,
+  section,
+) {
+  const filteredQuestions =
+    questions && questions?.filter((ques) => ques?.section === section);
+
+  console.log('hoho', filteredQuestions, section);
+
+  const highestScreen = filteredQuestions.reduce(
+    (max, item) => Math.max(max, item.screen),
+    0,
+  );
+  setHighestScrenNumber(highestScreen);
+
+  // array of all the questions belonging to the same screen
+  // sorting the questions based on their ranks
+}
+
+export function updateCurrentWeeklyCheckinQuestion(
+  questions,
+  screen,
+  setCurrentQuestion,
+) {
+  console.log(questions, screen, setCurrentQuestion, '23423432');
+  const filteredQuestions =
+    questions && questions?.filter((ques) => Number(ques?.screen) === screen); // array of all the questions belonging to the same screen
+  // sorting the questions based on their ranks
+  setCurrentQuestion(
+    filteredQuestions?.sort((a, b) => {
+      return a?.rank - b?.rank;
+    }),
+  );
+}
+
 // function to check for empty response in the current screen
 export function isAnyEmptyResponse(currentQuestion, response) {
   let isEmpty = false;

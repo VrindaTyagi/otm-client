@@ -249,7 +249,7 @@ export const DummyData = [
   },
   {
     content: 'Select Breakfast Ingredients',
-    inputType: 'multichoice',
+    inputType: 'multiChoice',
     code: 'onb13',
     rank: 11,
     screen: 3,
@@ -294,7 +294,7 @@ export const DummyData = [
   },
   {
     content: 'Choose your raw veggies',
-    inputType: 'multichoice',
+    inputType: 'multiChoice',
     code: 'onb14',
     rank: 12,
     screen: 3,
@@ -339,10 +339,10 @@ export const DummyData = [
   },
   {
     content: 'Choose your meals',
-    inputType: 'multichoice',
+    inputType: 'multiChoice',
     code: 'onb15',
-    rank: 13,
-    screen: 3,
+    rank: 1,
+    screen: 4,
     target: 'meals',
     section: 'nutrition',
     sectionDescription: 'Set up your menu',
@@ -481,89 +481,89 @@ export const DummyData = [
     description:
       'How consistent have you been with your workout routine over the past 3 months?',
   },
-  {
-    content:
-      'Which of the following best describes your strength training ability?',
-    inputType: 'singleChoice',
-    code: 'onb20',
-    rank: 1,
-    screen: 4,
-    target: 'fit_test',
-    section: 'fitness',
-    sectionDescription: 'Strength and Endurance Level',
-    description:
-      'Which of the following best describes your strength training ability?',
-    options: [
-      {
-        id: 'NOVICE',
-        value: 'Novice',
-      },
-      {
-        id: 'INTERMEDIATE',
-        value: 'Intermediate',
-      },
-      {
-        id: 'ADVANCED',
-        value: 'Advanced',
-      },
-    ],
-  },
-  {
-    content:
-      'How long can you sustain moderate-intensity cardio activities (e.g., jogging, cycling) without excessive fatigue?',
-    inputType: 'singleChoice',
-    code: 'onb21',
-    rank: 2,
-    screen: 4,
-    target: 'fit_test',
-    section: 'fitness',
-    sectionDescription: 'Strength and Endurance Level',
-    description:
-      'How long can you sustain moderate-intensity cardio activities (e.g., jogging, cycling) without excessive fatigue?',
-    options: [
-      {
-        id: 'LT_10',
-        value: 'Less than 10 minutes',
-      },
-      {
-        id: '10_20',
-        value: '10-20 minutes',
-      },
-      {
-        id: '20_30',
-        value: '20-30 minutes',
-      },
-      {
-        id: 'GT_30',
-        value: 'More than 30 minutes',
-      },
-    ],
-  },
-  {
-    content: 'What equipment do you have access to for your workouts?',
-    inputType: 'multichoice',
-    code: 'onb22',
-    rank: 3,
-    screen: 4,
-    target: 'fit_test',
-    section: 'fitness',
-    sectionDescription: 'equipment',
-    description: 'What equipment do you have access to for your workouts?',
-    options: [
-      {
-        id: 'NONE',
-        value: 'None',
-      },
-      {
-        id: 'DUMBBELLS',
-        value: 'Dumbbells',
-      },
-      {
-        id: 'BARBELL',
-        value: 'Barbell',
-      },
-    ],
-  },
+  // {
+  //   content:
+  //     'Which of the following best describes your strength training ability?',
+  //   inputType: 'singleChoice',
+  //   code: 'onb20',
+  //   rank: 1,
+  //   screen: 4,
+  //   target: 'fit_test',
+  //   section: 'fitness',
+  //   sectionDescription: 'Strength and Endurance Level',
+  //   description:
+  //     'Which of the following best describes your strength training ability?',
+  //   options: [
+  //     {
+  //       id: 'NOVICE',
+  //       value: 'Novice',
+  //     },
+  //     {
+  //       id: 'INTERMEDIATE',
+  //       value: 'Intermediate',
+  //     },
+  //     {
+  //       id: 'ADVANCED',
+  //       value: 'Advanced',
+  //     },
+  //   ],
+  // },
+  // {
+  //   content:
+  //     'How long can you sustain moderate-intensity cardio activities (e.g., jogging, cycling) without excessive fatigue?',
+  //   inputType: 'singleChoice',
+  //   code: 'onb21',
+  //   rank: 2,
+  //   screen: 4,
+  //   target: 'fit_test',
+  //   section: 'fitness',
+  //   sectionDescription: 'Strength and Endurance Level',
+  //   description:
+  //     'How long can you sustain moderate-intensity cardio activities (e.g., jogging, cycling) without excessive fatigue?',
+  //   options: [
+  //     {
+  //       id: 'LT_10',
+  //       value: 'Less than 10 minutes',
+  //     },
+  //     {
+  //       id: '10_20',
+  //       value: '10-20 minutes',
+  //     },
+  //     {
+  //       id: '20_30',
+  //       value: '20-30 minutes',
+  //     },
+  //     {
+  //       id: 'GT_30',
+  //       value: 'More than 30 minutes',
+  //     },
+  //   ],
+  // },
+  // {
+  //   content: 'What equipment do you have access to for your workouts?',
+  //   inputType: 'multiChoice',
+  //   code: 'onb22',
+  //   rank: 3,
+  //   screen: 4,
+  //   target: 'fit_test',
+  //   section: 'fitness',
+  //   sectionDescription: 'equipment',
+  //   description: 'What equipment do you have access to for your workouts?',
+  //   options: [
+  //     {
+  //       id: 'NONE',
+  //       value: 'None',
+  //     },
+  //     {
+  //       id: 'DUMBBELLS',
+  //       value: 'Dumbbells',
+  //     },
+  //     {
+  //       id: 'BARBELL',
+  //       value: 'Barbell',
+  //     },
+  //   ],
+  // },
   {
     content: 'Push ups',
     inputType: 'number',
@@ -629,7 +629,7 @@ export const DummyData = [
     inputType: 'singleChoice',
     code: 'onb27',
     rank: 1,
-    screen: 5,
+    screen: 1,
     target: 'sunlight_viewing',
     section: 'lifestyle',
     description:
@@ -667,10 +667,10 @@ export const DummyData = [
   },
   {
     content: 'Which supplements are you comfortable taking?',
-    inputType: 'multichoice',
+    inputType: 'multiChoice',
     code: 'onb29',
     rank: 3,
-    screen: 5,
+    screen: 1,
     target: 'supplements',
     section: 'lifestyle',
     description: 'Which supplements are you comfortable taking?',
@@ -702,7 +702,7 @@ export const DummyData = [
     inputType: 'singleChoice',
     code: 'onb30',
     rank: 4,
-    screen: 5,
+    screen: 1,
     target: 'digestion_walks',
     section: 'lifestyle',
     description: 'How long do you want your post-meal digestion walks to be?',
@@ -730,7 +730,7 @@ export const DummyData = [
     inputType: 'singleChoice',
     code: 'onb31',
     rank: 5,
-    screen: 5,
+    screen: 1,
     target: 'sleep',
     section: 'lifestyle',
     description: 'Do you want help with improving your sleep?',
@@ -750,7 +750,7 @@ export const DummyData = [
     inputType: 'singleChoice',
     code: 'onb32',
     rank: 6,
-    screen: 5,
+    screen: 1,
     target: 'gut_alkalisation',
     section: 'lifestyle',
     description: 'Choose your preferred method of gut alkalisation',

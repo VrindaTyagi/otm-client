@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Loader } from '../../components';
 import { capitalizeFirstLetter } from '../../utils';
 import {
@@ -151,7 +150,7 @@ const NutritionPage = () => {
                 )}
               </div>
             </div>
-            {weeklyPlan === null ? (
+            {/* {weeklyPlan === null ? (
               <div className="mt-[24px] flex flex-col items-center gap-2">
                 <div
                   style={{
@@ -215,7 +214,9 @@ const NutritionPage = () => {
                   </div>
                 </Link>
               </div>
-            ) : (
+              
+            ) : ( */}
+            {weeklyPlan && (
               <>
                 <MealPlanPage
                   mealData={mealData}

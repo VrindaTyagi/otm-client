@@ -15,12 +15,15 @@ import { axiosClient } from '../Profile/apiProfileClient';
 import MonthlyWrapped from '../Profile/MonthlyWrapped';
 import AdditionalActivity from './AdditionalActivity';
 import DuePaymentIndicator from './DuePaymentIndicator';
+import ProgressBar from './ProgessBar';
 import StepTrackerTwo from './StepTrackerTwo';
 import {
+  dummyStats,
   getCurrentHourInTimezone,
   getDeviceTimezone,
   getGreeting,
 } from './utils';
+import WeeklySchedule from './WeeklySchedule';
 import WeeklyWorkoutReport from './WeeklyWorkoutReport';
 import WorkoutLibrary from './WorkoutLibrary';
 
@@ -331,159 +334,156 @@ const FitnessPage = () => {
                 lastEightWeeksWorkout={homeStats?.lastEightWeeksWorkout}
               />
             </section>
+
+            {currentDate < 5 && (
+              <section className="flex w-full flex-row items-center justify-center gap-3 ">
+                <MonthlyWrapped />
+              </section>
+            )}
+
+            <section>
+              <div className="rounded-xl bg-black-opacity-45 pl-[15px] pr-[12px] pt-2">
+                <h5 className="font-sfpro text-[14px] text-offwhite">
+                  Weekly Progress
+                </h5>
+                <ProgressBar progress={10} />
+                <div className="flex">
+                  <div className="flex w-[45%] flex-col justify-end pb-4">
+                    <div className="font-futura text-[51px] leading-[60px] text-blue">
+                      72%
+                    </div>
+                    <div className="text-[10px] text-white-opacity-50">
+                      of the week complete
+                    </div>
+                  </div>
+                  <WeeklySchedule stats={dummyStats} />
+                </div>
+              </div>
+            </section>
+
+            <div>
+              <div className=" text-[20px] leading-[32px] text-offwhite">
+                Browse workout library
+              </div>
+
+              <InstallApp />
+              <section className="relative  z-10 flex w-screen gap-2 overflow-x-scroll">
+                <div className="flex items-center">
+                  <Link
+                    to="/workout/today"
+                    className="relative flex h-[103px] w-[247px]  items-center justify-between overflow-hidden rounded-xl   py-2 pl-4 pr-7 "
+                  >
+                    <LazyImage
+                      hash={
+                        '|28NteQ-4TNH_M4TH?b^%#$*8xt7kqxa%LtRx]bb.89FRP.7Ndx[RjV@R5yXIBV@V[RjS4xus:n4RPt7tR%LIAM|R+ozxuxtofaKWBbcWBR+RkX8jFj[n$bbtRV@jFjZRkH?tRbcozjEsmo2jFRPV[WXaKaexuaxtQt7of'
+                      }
+                      altText={'Image not found'}
+                      src={'assets/movement-workout.png'}
+                      ImageWrapperClassName={
+                        'absolute left-0 top-0 -z-10   h-[272px] w-screen object-cover'
+                      }
+                    />
+                    <div className="flex h-full flex-col justify-center">
+                      <h2 className="text-xl font-medium ">Workout</h2>
+
+                      <div className="mt-2 flex gap-3">
+                        <h2
+                          style={{
+                            border: '0.5px solid rgba(221,249,136,0.4)',
+                          }}
+                          className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                        >
+                          <img
+                            src="/assets/yellowTimer.svg"
+                            className="mr-[2px]"
+                            alt="img"
+                          />
+                          {homeStats.hyperWorkoutParams.duration} mins
+                        </h2>
+                        <h2
+                          style={{
+                            border: '0.5px solid rgba(221,249,136,0.4)',
+                          }}
+                          className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                        >
+                          <img
+                            src="/assets/yellow-power.svg"
+                            alt="img"
+                            className="mr-[2px]"
+                          />
+                          {homeStats.hyperWorkoutParams.calories} cal
+                        </h2>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="mr-7 flex items-center">
+                  <Link
+                    to="/workout/flex"
+                    className="relative flex h-[103px] w-[247px] items-center justify-between overflow-hidden rounded-xl  bg-cover py-2 pl-4 pr-7 "
+                  >
+                    <LazyImage
+                      hash={
+                        '|ABDTh_3WBRPxus:Rkoeof-oR*t7ofWBofazjZfk~q%MbHRjbHt7WBWVkCx]ofRjofofV@ofayayjERjoffkWBofWBj[j@o#j[WBkCjsWBj[jZa|x[oKWVj@ofWBofayazRij[a|j[WBofWBj[a|ozWVayoLazWBj]j[WB'
+                      }
+                      altText={'Image not found'}
+                      src={'assets/movement-Flex.png'}
+                      ImageWrapperClassName={
+                        'absolute left-0 top-0 -z-10   h-[272px] w-screen object-cover'
+                      }
+                    />
+                    <div className="flex h-full flex-col justify-center">
+                      <div className="flex gap-3">
+                        <h2 className="text-xl font-medium ">Flex</h2>
+                      </div>
+
+                      <div className="mt-2 flex gap-3">
+                        <h2
+                          style={{
+                            border: '0.5px solid rgba(221,249,136,0.4)',
+                          }}
+                          className="flex  rounded-md border border-floYellow bg-dark-green-opacity-66 px-1   font-sfpro text-[12px] text-floYellow"
+                        >
+                          <img
+                            src="/assets/yellowTimer.svg"
+                            alt="img"
+                            className="mr-[2px]"
+                          />
+                          {homeStats.flexWorkoutParams.duration} mins
+                        </h2>
+                        <h2
+                          style={{
+                            border: '0.5px solid rgba(221,249,136,0.4)',
+                          }}
+                          className=" flex rounded-md border border-floYellow bg-dark-green-opacity-66 px-1  font-sfpro text-[12px] text-floYellow"
+                        >
+                          <img
+                            src="/assets/yellow-power.svg"
+                            alt="img"
+                            className="mr-[2px]"
+                          />
+                          {homeStats.flexWorkoutParams.calories} cal
+                        </h2>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </section>
+            </div>
+
+            <div
+              onClick={() => setShowLibrary(true)}
+              className=" flex h-[36px] w-full items-center  justify-center gap-2 rounded-lg bg-black-opacity-45 px-2 py-1 text-center font-sfpro font-normal text-blue underline-offset-0"
+            >
+              Explore All Workouts <FaArrowRight />
+            </div>
+
             {showComponent && (
               <WeeklyCheckinTile
                 isWeeklyReviewSubmitted={weeklyResponse?.report}
               />
             )}
-
-            <section>
-              {currentDate < 5 && (
-                <section className="flex w-full flex-row items-center justify-center gap-3 ">
-                  <MonthlyWrapped />
-                </section>
-              )}
-            </section>
-
-            <div className="flex items-center justify-between">
-              <div>Browse workout library</div>
-              <div
-                onClick={() => setShowLibrary(true)}
-                className="flex items-center gap-2 rounded-lg bg-blue px-2 py-1 text-black"
-              >
-                Explore <FaArrowRight />
-              </div>
-            </div>
-
-            {/* <div className="flex w-full gap-2 mt-2">
-              <div className="flex h-[76px] grow items-center justify-between rounded-lg bg-mediumGray p-1">
-                <span className="pl-4 text-sm w-9 text-floYellow">
-                  Log Activity
-                </span>
-                <div className="flex min-h-[68px] min-w-[68px] items-center justify-center rounded-lg bg-floYellow ">
-                  <img src="/assets/fitness-add.svg" />
-                </div>
-              </div>
-            </div> */}
-
-            {/* <h2 className="inline-block mt-2 text-2xl font-sfpro text-floYellow">
-              Shred
-            </h2> */}
-
-            <section>
-              <div className="flex items-center">
-                <InstallApp />
-                <Link
-                  to="/workout/today"
-                  className="relative flex h-[95px] w-full grow items-center justify-between overflow-hidden rounded-xl   py-2 pl-4 pr-7 "
-                >
-                  <LazyImage
-                    hash={
-                      '|28NteQ-4TNH_M4TH?b^%#$*8xt7kqxa%LtRx]bb.89FRP.7Ndx[RjV@R5yXIBV@V[RjS4xus:n4RPt7tR%LIAM|R+ozxuxtofaKWBbcWBR+RkX8jFj[n$bbtRV@jFjZRkH?tRbcozjEsmo2jFRPV[WXaKaexuaxtQt7of'
-                    }
-                    altText={'Image not found'}
-                    src={'assets/movement-workout.png'}
-                    ImageWrapperClassName={
-                      'absolute left-0 top-0 -z-10   h-[272px] w-screen object-cover'
-                    }
-                  />
-                  <div className="flex h-full flex-col justify-center">
-                    <h2 className="text-2xl font-medium ">Workout</h2>
-
-                    <div className="mt-2 flex gap-3">
-                      <h2
-                        style={{
-                          border: '0.5px solid rgba(221,249,136,0.4)',
-                        }}
-                        className="flex  rounded-md border border-floYellow bg-gray px-1   font-sfpro text-[12px] text-floYellow"
-                      >
-                        <img
-                          src="/assets/yellowTimer.svg"
-                          className="mr-[2px]"
-                          alt="img"
-                        />
-                        {homeStats.hyperWorkoutParams.duration} mins
-                      </h2>
-                      <h2
-                        style={{
-                          border: '0.5px solid rgba(221,249,136,0.4)',
-                        }}
-                        className=" flex rounded-md border border-floYellow bg-gray px-1  font-sfpro text-[12px] text-floYellow"
-                      >
-                        <img
-                          src="/assets/yellow-power.svg"
-                          alt="img"
-                          className="mr-[2px]"
-                        />
-                        {homeStats.hyperWorkoutParams.calories} cal
-                      </h2>
-                    </div>
-                  </div>
-                  {/* <img
-                    className="rounded-xl"
-                    style={{
-                      boxShadow:
-                        '0 4px 6px rgba(221, 249, 136, 0.4), 0 -4px 6px rgba(221, 249, 136, 0.4), 4px 0 6px rgba(221, 249, 136, 0.4), -4px 0 6px rgba(221, 249, 136, 0.4)',
-                    }}
-                    src="/assets/yellow-play.svg"
-                  /> */}
-                </Link>
-              </div>
-            </section>
-
-            <section>
-              <div className="flex items-center">
-                <Link
-                  to="/workout/flex"
-                  className="relative flex h-[95px] grow items-center justify-between overflow-hidden rounded-xl  bg-cover py-2 pl-4 pr-7 "
-                >
-                  <LazyImage
-                    hash={
-                      '|ABDTh_3WBRPxus:Rkoeof-oR*t7ofWBofazjZfk~q%MbHRjbHt7WBWVkCx]ofRjofofV@ofayayjERjoffkWBofWBj[j@o#j[WBkCjsWBj[jZa|x[oKWVj@ofWBofayazRij[a|j[WBofWBj[a|ozWVayoLazWBj]j[WB'
-                    }
-                    altText={'Image not found'}
-                    src={'assets/movement-Flex.png'}
-                    ImageWrapperClassName={
-                      'absolute left-0 top-0 -z-10   h-[272px] w-screen object-cover'
-                    }
-                  />
-                  <div className="flex h-full flex-col justify-center">
-                    <div className="flex gap-3">
-                      <h2 className="text-2xl font-medium ">Flex</h2>
-                    </div>
-
-                    <div className="mt-2 flex gap-3">
-                      <h2
-                        style={{
-                          border: '0.5px solid rgba(221,249,136,0.4)',
-                        }}
-                        className="flex  rounded-md border border-floYellow bg-gray px-1   font-sfpro text-[12px] text-floYellow"
-                      >
-                        <img
-                          src="/assets/yellowTimer.svg"
-                          alt="img"
-                          className="mr-[2px]"
-                        />
-                        {homeStats.flexWorkoutParams.duration} mins
-                      </h2>
-                      <h2
-                        style={{
-                          border: '0.5px solid rgba(221,249,136,0.4)',
-                        }}
-                        className=" flex rounded-md border border-floYellow bg-gray px-1  font-sfpro text-[12px] text-floYellow"
-                      >
-                        <img
-                          src="/assets/yellow-power.svg"
-                          alt="img"
-                          className="mr-[2px]"
-                        />
-                        {homeStats.flexWorkoutParams.calories} cal
-                      </h2>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            </section>
 
             <div
               onClick={() => setShowActivity(true)}
