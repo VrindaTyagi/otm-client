@@ -423,7 +423,6 @@ const QuestionnaireScreenOutput = ({
                       <input
                         ref={profilePicCameraRef}
                         type="file"
-                        capture="user"
                         accept="image/png, image/jpg, image/jpeg"
                         name="profile image camera"
                         className="relative z-20"
