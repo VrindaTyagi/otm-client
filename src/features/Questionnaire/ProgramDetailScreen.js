@@ -1,4 +1,5 @@
 import React from 'react';
+import { RxCross1 } from 'react-icons/rx';
 import styled from 'styled-components';
 
 const StarterText = styled.div`
@@ -35,13 +36,8 @@ const prgramDetails = [
         weeklyStructure: [
           {
             rounds: '3x',
-            duration: '30 Min',
+            duration: '30 min',
             description: 'strength training sessions',
-          },
-          {
-            rounds: '1x',
-            duration: '30 Min',
-            description: 'aerobic sessions',
           },
         ],
       },
@@ -51,28 +47,28 @@ const prgramDetails = [
         weeklyStructure: [
           {
             rounds: '3x',
-            duration: '30 Min',
+            duration: '45 min',
             description: 'strength training sessions',
           },
           {
             rounds: '1x',
-            duration: '30 Min',
+            duration: '45 min',
             description: 'aerobic sessions',
           },
         ],
       },
       {
-        id: 'advance',
-        heading: 'Advance',
+        id: 'advanced',
+        heading: 'Advanced',
         weeklyStructure: [
           {
-            rounds: '3x',
-            duration: '30 Min',
+            rounds: '4x',
+            duration: '60 min',
             description: 'strength training sessions',
           },
           {
-            rounds: '1x',
-            duration: '30 Min',
+            rounds: '2x',
+            duration: '60 min',
             description: 'aerobic sessions',
           },
         ],
@@ -147,18 +143,26 @@ const prgramDetails = [
   },
 ];
 
-const ProgramDetailScreen = ({ program, setWorkoutLevel, workoutLevel }) => {
+const ProgramDetailScreen = ({
+  program,
+  setWorkoutLevel,
+  workoutLevel,
+  setProgram,
+}) => {
   console.log(workoutLevel);
 
   return (
     <div className="relative z-20 h-screen overflow-y-scroll px-4 pb-[100px] pt-[80px]">
-      <h5 className="px-4 font-sfpro text-sm font-medium text-white-opacity-50">
+      <div className=" absolute right-4 top-[50px] flex h-[37px] w-[37px] items-center justify-center rounded-full bg-white-opacity-08 ">
+        <RxCross1 onClick={() => setProgram(null)} className="" />
+      </div>
+      <h5 className="px-4 text-center font-sfpro text-sm font-medium text-white-opacity-50">
         Program details
       </h5>
       {prgramDetails.map((item) => {
         if (item.id === program) {
           return (
-            <div className="flex flex-col gap-4">
+            <div className="mt-5 flex flex-col gap-4">
               {' '}
               <div className="relative rounded-xl bg-gradient-to-r from-lightPurple to-blue px-[18px]  pb-[24px] pt-[10px]">
                 <img
@@ -229,7 +233,7 @@ const ProgramDetailScreen = ({ program, setWorkoutLevel, workoutLevel }) => {
                                 className=" flex w-fit rounded-md border border-floYellow bg-dark-green-opacity-66  px-1 font-sfpro text-[12px] text-floYellow"
                               >
                                 {structure.rounds}
-                                <div className="flex w-[16px] items-center">
+                                <div className="mx-[2px] flex w-[16px] items-center">
                                   <img
                                     src="/assets/yellowTimer.svg"
                                     className="mx-[2px]"
@@ -239,7 +243,7 @@ const ProgramDetailScreen = ({ program, setWorkoutLevel, workoutLevel }) => {
 
                                 {structure.duration}
                               </div>
-                              <div className="text-offWhite-opacity-1 font-sfpro text-sm ">
+                              <div className="font-sfpro text-sm text-offWhite-opacity-1 ">
                                 {structure.description}
                               </div>
                             </div>

@@ -13,7 +13,6 @@ import {
   getGeneralScreen,
   getScreenCounts,
   increaseScreenAndRank,
-  isAnyEmptyResponse,
   Loader,
   updateCurrentQuestion,
 } from '../LifestyleQuiz';
@@ -22,11 +21,12 @@ import BMIScreen from './BMIScreen';
 import FitnessInput from './Components/inputs/FitnessInput';
 import InputText from './Components/inputs/InputText';
 import Options from './Components/inputs/Options';
+import FitnessScorePage from './FitnessScoreScreen';
 import IngredientScreen from './IngredientScreen';
 import MealScreen from './MealScreen';
 import PlansScreen from './PlansScreen';
 import QuestionniareProgress from './QuestionniareProgress';
-import { DummyData } from './utils';
+import { DummyData, mealResponse, questionnaireData } from './utils';
 
 const StarterText = styled.div`
   color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
@@ -39,71 +39,12 @@ const StarterText = styled.div`
   line-height: 16px; /* 125% */
 `;
 
-const mealResponse = {
-  breakfast: {
-    heading: 'Breakfast',
-    img: '/assets/eggs.svg',
-  },
-  lunch: {
-    heading: 'Lunch',
-    img: '/assets/spaghetti.svg',
-  },
-  dinner: {
-    heading: 'Dinner',
-    img: '/assets/noodles.svg',
-  },
-  snacks: {
-    heading: 'Snacks',
-    img: '/assets/cookie.svg',
-  },
-};
-
 const GradientText = styled.div`
   background: linear-gradient(to right, #d6b6f0, #848ce9);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 `;
-
-const questionnaireData = [
-  //Data to show heading and Background Color on different pages of questionnaire form
-  {
-    bg: 'bg-blue',
-    border: 'border-blue',
-    text: 'text-blue',
-    heading: 'General Information',
-    section: 'generalInformation',
-    img: '/assets/weekly-checkin-intro-bg.svg',
-    icon: '/assets/fitnessIcon.svg',
-  },
-  {
-    bg: 'bg-blue',
-    text: 'text-blue',
-    border: 'border-blue',
-    section: 'fitness',
-    heading: 'Fitness',
-    img: '/assets/weekly-checkin-intro-bg.svg',
-    icon: '/assets/fitnessIcon.svg',
-  },
-  {
-    bg: 'bg-green',
-    text: 'text-green',
-    border: 'border-green',
-    section: 'nutrition',
-    heading: 'Nutrition',
-    img: '/assets/nutrition-bg.svg',
-    icon: '/assets/rice-bowl.svg',
-  },
-  {
-    bg: 'bg-yellow',
-    text: 'text-yellow',
-    border: 'border-yellow',
-    section: 'lifestyle',
-    heading: 'Lifestyle',
-    img: '/assets/yellow-background.svg',
-    icon: '/assets/calender-tick.svg',
-  },
-];
 
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
@@ -125,6 +66,9 @@ function LandingPage() {
   const [highestScrenNumber, setHighestScrenNumber] = useState(null);
   const [showMealScreen, setShowMealScreen] = useState(false);
   const [showIngredientScreen, setShowIngredientScreen] = useState(false);
+  const [ingredient, setIngredient] = useState(false);
+  const [showFitnessInsightScreen, setShowFitnessInsightScreen] =
+    useState(false);
 
   const [mealId, setMealId] = useState(null);
   const navigate = useNavigate();
@@ -139,13 +83,13 @@ function LandingPage() {
     }
   }, [section]);
 
+  console.log(section);
+
   useEffect(() => {
     if ((questions, section)) {
       getHighestScreenNumber(questions, setHighestScrenNumber, section);
     }
   }, [questions, section]);
-
-  console.log('current', currentQuestion);
 
   // sending response to the backend
 
@@ -154,10 +98,12 @@ function LandingPage() {
       setShowBMIScreen(true);
       setSection('fitness');
     }
-    if (section === 'fitness' && screen < 4) {
+    if (section === 'fitness' && screen < 5) {
       setScreen(screen + 1);
     }
-    if (section === 'fitness' && screen === 4) {
+    if (section === 'fitness' && screen === 5) {
+      // setShowFitnessInsightScreen(true);
+      handleApi();
       setSection('nutrition');
       setScreen(1);
     }
@@ -165,9 +111,61 @@ function LandingPage() {
       setScreen(screen + 1);
     }
     if (section === 'nutrition' && screen === 4) {
-      setShowMealScreen(true);
+      console.log('77');
+      if (!showMealScreen) {
+        setShowMealScreen(true);
+      }
+      if (showMealScreen) {
+        setShowMealScreen(false);
+        setSection('lifestyle');
+        setScreen(1);
+      }
+    }
+    if (section === 'lifestyle' && screen < 2) {
+      setScreen(screen + 1);
+    }
+    if (section === 'lifestyle' && screen === 2) {
+    }
+  };
+
+  const handleApi = () => {
+    axiosClient
+      .put('/', {
+        section: 'fitness',
+        memberCode: 'PRAN',
+        response: response,
+      })
+      .then(() => setShowFitnessInsightScreen(true));
+  };
+  console.log(screen);
+  const handleBackClick = () => {
+    if (section === 'fitness' && screen > 1) {
+      setScreen(screen - 1);
+    }
+
+    if (section === 'nutrition' && screen > 1) {
+      if (showMealScreen) {
+        setShowMealScreen(false);
+      }
+      if (!showMealScreen) {
+        setScreen(screen - 1);
+      }
+    }
+    if (section === 'nutrition' && screen === 1) {
+      console.log('34');
+      setSection('fitness');
+      setScreen(4);
       // setSection('lifestyle');
       // setScreen(1);
+    }
+
+    if (section === 'lifestyle' && screen > 1) {
+      setScreen(screen - 1);
+    }
+    if (section === 'lifestyle' && screen === 1) {
+      setShowMealScreen(true);
+      setSection('nutrition');
+      setScreen(4);
     }
   };
 
@@ -245,13 +243,16 @@ function LandingPage() {
         // setQuestions(res.data.questions);
 
         // Update the response state using a callback
-        setSection(DummyData[0].section);
-        setQuestions(DummyData);
-        setResponse((prev) => {
-          const newResponse = {};
-          DummyData.forEach((ques) => {
-            newResponse[ques.code] = [''];
-          });
+        setSection(res.data.msg[0].section);
+        setQuestions(res.data.msg);
+        setResponse(() => {
+          // Create a new array with the desired structure
+          const newResponse = res.data.msg.map((ques) => ({
+            code: ques.code,
+            value: [''],
+          }));
+
+          // Return the new array to update the state
           return newResponse;
         });
       })
@@ -281,18 +282,29 @@ function LandingPage() {
     }
   }, [response]);
 
+  useEffect(() => {}, []);
+
   const handleIngredientScreen = (e) => {
     console.log(e);
     setMealId(e);
     setShowIngredientScreen(true);
+
+    const targetObject = DummyData.find((item) => item.code === 'onb15');
+    if (!targetObject) return null;
+
+    const targetOption = targetObject.options.find(
+      (option) => option.id === e.meal,
+    );
+    console.log(targetOption);
+    setIngredient(targetOption);
   };
 
-  console.log('screen:', screen, section);
-  console.log('response:', response['onb15']);
+  // console.log('screen:', screen, section);
+  // console.log('response:', response['onb15']);
 
   return (
     <div
-      className={`flex min-h-screen flex-col justify-between bg-gray-opacity-44   ${
+      className={`flex h-screen flex-col justify-between overflow-y-scroll bg-gray-opacity-44   ${
         screen === 0 || showPlansScreen ? '' : 'px-3 py-8'
       }  `}
       style={{
@@ -313,6 +325,16 @@ function LandingPage() {
           <Loader className={'h-screen w-full'} />
         </div>
       )}
+
+      {showFitnessInsightScreen && (
+        <div className="fixed left-0 top-0 z-[100] w-full ">
+          {' '}
+          <FitnessScorePage
+            setShowFitnessInsightScreen={setShowFitnessInsightScreen}
+          />{' '}
+        </div>
+      )}
+
       <div className="fixed top-0 ">
         <ToastContainer
           position="top-center"
@@ -385,7 +407,7 @@ function LandingPage() {
           screen > 0 && 'flex-1'
         } ${showPlansScreen && 'hidden'} `}
       >
-        <div className=" h-full w-full">
+        <div className=" h-fit w-full">
           {/* Section Name */}
           {screen === 1 &&
             section === 'generalInformation' &&
@@ -409,16 +431,22 @@ function LandingPage() {
             <></>
           )}
 
-          {showMealScreen &&
-            response['onb15'] &&
-            response['onb15'].length > 0 && (
-              <MealScreen
-                handleIngredientScreen={handleIngredientScreen}
-                mealResponse={mealResponse}
-                response={response}
-              />
-            )}
-          {showIngredientScreen && <IngredientScreen />}
+          {showMealScreen && (
+            <MealScreen
+              handleIngredientScreen={handleIngredientScreen}
+              mealResponse={mealResponse}
+              response={response}
+            />
+          )}
+          {showIngredientScreen && (
+            <IngredientScreen
+              response={response}
+              setResponse={setResponse}
+              ingredient={ingredient}
+              setShowIngredientScreen={setShowIngredientScreen}
+            />
+          )}
+
           {/* {screen === fitnessScreen && (
             <div>
               <h1 className="mt-3 text-[26px] text-[#7e87ef]">Fitness Test</h1>
@@ -430,10 +458,10 @@ function LandingPage() {
               </p>
             </div>
           )} */}
-          <div className="h-full">
+          <div className="h-fit pb-[100px]">
             {screen >= 1 &&
               currentQuestion &&
-              !(section === 'fitness' && screen === 4) &&
+              !(section === 'fitness' && screen === 5) &&
               !showBMIScreen &&
               !showAssessmentScreen &&
               !showMealScreen &&
@@ -467,6 +495,9 @@ function LandingPage() {
                       </div>
                       {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
                       ques?.inputType?.toUpperCase() === 'MULTICHOICE' ||
+                      ques?.inputType?.toUpperCase() === 'NESTEDMULTICHOICE' ||
+                      ques?.inputType?.toUpperCase() ===
+                        'MULTICHOICEANDOTHER' ||
                       ques?.inputType?.toUpperCase() ===
                         'SINGLECHOICEANDOTHER' ? (
                         <Options
@@ -496,6 +527,8 @@ function LandingPage() {
                           section={section}
                         />
                       )}
+                      {/* {ques?.inputType?.toUpperCase() ===
+                        'NESTEDMULTICHOICE' && <NestesMultiChoiceInput />} */}
                     </div>
                   </>
                 );
@@ -505,7 +538,7 @@ function LandingPage() {
               {screen >= 1 &&
                 currentQuestion &&
                 section === 'fitness' &&
-                screen === 4 &&
+                screen === 5 &&
                 !showBMIScreen &&
                 !showAssessmentScreen &&
                 !showMealScreen &&
@@ -520,7 +553,8 @@ function LandingPage() {
                         return (
                           <>
                             <FitnessInput
-                              code={ques?.code}
+                              response={response}
+                              questionCode={ques?.code}
                               setResponse={setResponse}
                               heading={ques?.content}
                             />
@@ -546,7 +580,7 @@ function LandingPage() {
             )} */}
             {screen === 0 && (
               <div
-                className="h-full w-full "
+                className="h-screen w-full "
                 style={{
                   backgroundImage: `url(${'/assets/bg_report.png'})`,
                   backgroundSize: 'cover',
@@ -692,36 +726,32 @@ function LandingPage() {
           </div>
         </div>
         {screen >= 1 && !showPlansScreen && !showBMIScreen && (
-          <button
-            style={{ fontWeight: 500 }}
-            className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
-            onClick={() => {
-              // checking for empty response
-              console.log(2);
-              if (
-                currentQuestion &&
-                Object.keys(response)?.length > 0 &&
-                !isAnyEmptyResponse(currentQuestion, response)
-              ) {
-                // API function call for submittin response on every next/submit button press
-                // submitResponse();
+          <div className="fixed bottom-6 left-0 flex w-full gap-[10px] px-4">
+            <button
+              onClick={() => handleBackClick()}
+              className="min-h-[54px] w-[114px]  grow  rounded-lg bg-graySecond text-center "
+            >
+              Back
+            </button>
+            <button
+              style={{ fontWeight: 500 }}
+              className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+              onClick={() => {
+                // checking for empty response
 
-                console.log(12);
-                handleNextClick();
-              } else {
-                if (isAnyEmptyResponse(currentQuestion, response)) {
-                  toast.warn('Please fill in the required fields!');
+                if (currentQuestion && Object.keys(response)?.length > 0) {
+                  handleNextClick();
                 }
-              }
-            }}
-          >
-            {screen === maxScreenCount
-              ? 'Finish'
-              : currentQuestion[0]?.target === 'ASSESSMENT'
-              ? 'Take Assessment'
-              : 'Next'}{' '}
-            <FaArrowRight />
-          </button>
+              }}
+            >
+              {screen === maxScreenCount
+                ? 'Finish'
+                : currentQuestion[0]?.target === 'ASSESSMENT'
+                ? 'Take Assessment'
+                : 'Next'}{' '}
+              <FaArrowRight />
+            </button>
+          </div>
         )}
       </div>
     </div>

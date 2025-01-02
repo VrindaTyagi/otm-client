@@ -38,6 +38,7 @@ module.exports = withMT({
         'white-opacity-26': 'rgba(255, 255, 255, 0.26)',
         'white-opacity-20': 'rgba(255, 255, 255, 0.20)',
         'white-opacity-08': 'rgba(221, 221, 221, 0.08)',
+        'white-opacity-1': 'rgba(255, 255, 255, 1)',
         'white-opacity-70': 'rgba(222, 222, 222, 0.7)',
         customWhite: 'rgba(199, 197, 197)',
         'black-opacity-45': 'rgba(0, 0, 0, 0.45)',

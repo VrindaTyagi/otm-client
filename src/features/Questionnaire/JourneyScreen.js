@@ -1,6 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+const preloadImages = (imageUrls) => {
+  return Promise.all(
+    imageUrls.map((url) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => resolve(url); // Resolve with the image URL when loaded
+        img.onerror = () => reject(url); // Reject if the image fails to load
+      });
+    }),
+  );
+};
 
 const JourneyScreen = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Preload all images
+    preloadImages([
+      '/assets/weekly-checkin-intro.svg',
+      '/assets/weekly-checkin-intro-bg.svg',
+    ])
+      .then(() => {
+        // All images are loaded
+        setIsLoaded(true);
+      })
+      .catch((failedUrl) => {
+        console.error(`Failed to load image: ${failedUrl}`);
+        setIsLoaded(true); // Optionally, allow the component to render even if some images fail
+      });
+  }, []);
+
+  if (!isLoaded) {
+    // Render a loader or skeleton while images are loading
+    return <div className="loader">Loading images...</div>;
+  }
+
   return (
     <div className="relative z-20 h-full w-screen bg-black">
       <img
@@ -13,6 +49,10 @@ const JourneyScreen = () => {
         class="absolute top-0 z-50 h-screen  w-full brightness-75 saturate-150 filter  "
         alt="background"
       />
+      <div className="absolute left-4 top-[80px] flex gap-3 text-[20px] text-offWhite-opacity-1">
+        <img src="/assets/otm-small-white-logo.svg" className="h-[30px]" />
+        Craft Your Journey
+      </div>
       <div className="relative z-[60] px-4">
         <div className="flex gap-2">
           <img src="/assets/muscle-star-color.svg" className="" />
@@ -25,7 +65,7 @@ const JourneyScreen = () => {
           <div className="text-[10px] text-white-opacity-50">
             Usually takes 5 mins
           </div>
-          <p className="text-offWhite-opacity-70 mt-[6px] font-sfpro text-[20px]">
+          <p className="mt-[6px] font-sfpro text-[20px] text-offWhite-opacity-70">
             Take a{' '}
             <span className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text text-transparent">
               {' '}

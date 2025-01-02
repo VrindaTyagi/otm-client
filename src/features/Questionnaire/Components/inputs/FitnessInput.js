@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FitnessInput = ({ code, setResponse, heading }) => {
+const FitnessInput = ({ response, setResponse, heading, questionCode }) => {
   return (
     <div className=" flex h-[46px] items-center justify-between rounded-xl bg-white-opacity-08 px-[24px]">
       <div className="font-sfpro text-[16px] text-white-opacity-50">
@@ -10,10 +10,18 @@ const FitnessInput = ({ code, setResponse, heading }) => {
         type="number"
         onChange={(e) => {
           setResponse((prev) => {
-            return {
-              ...prev,
-              [code]: [e.target.value],
-            };
+            const updatedResponse = response.map((item) =>
+              item.code === questionCode
+                ? { ...item, value: [e.target.value] } // Update the value if the code matches
+                : item,
+            );
+
+            // If the code doesn't exist, add a new entry
+            if (!updatedResponse.some((item) => item.code === questionCode)) {
+              updatedResponse.push({ questionCode, value: e.target.value });
+            }
+
+            return updatedResponse;
           });
         }}
         style={{

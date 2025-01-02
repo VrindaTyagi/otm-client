@@ -30,6 +30,8 @@ function InputText({
     visible: { opacity: 1, y: 0 },
   };
 
+  const responseValue = response?.find((item) => item.code === questionCode);
+
   return (
     <div
       className={`flex flex-col  rounded-xl bg-black-opacity-45  ${
@@ -62,11 +64,7 @@ function InputText({
             <div>
               <input
                 type={inputType} //text
-                value={
-                  questionCode &&
-                  Object.keys(response)?.length > 0 &&
-                  response[questionCode][0]
-                }
+                value={responseValue && responseValue.value[0]}
                 style={{ borderColor: '#7e87ef' }}
                 className="min-h-[52px] w-full rounded-xl bg-white-opacity-08 px-[18px] placeholder:text-[14px]"
                 onClickCapture={() => {
@@ -77,10 +75,22 @@ function InputText({
                 }}
                 onChange={(e) => {
                   setResponse((prev) => {
-                    return {
-                      ...prev,
-                      [questionCode]: [e.target.value],
-                    };
+                    const updatedResponse = response.map((item) =>
+                      item.code === questionCode
+                        ? { ...item, value: [encodeURIComponent] } // Update the value if the code matches
+                        : item,
+                    );
+
+                    // If the code doesn't exist, add a new entry
+                    if (
+                      !updatedResponse.some(
+                        (item) => item.code === questionCode,
+                      )
+                    ) {
+                      updatedResponse.push({ questionCode, value: e });
+                    }
+
+                    return updatedResponse;
                   });
                 }}
                 placeholder={'Answer here...'}
@@ -102,7 +112,11 @@ function InputText({
         {(questionCode === 'onb2' ||
           questionCode === 'onb3' ||
           questionCode === 'onb4') && (
-          <BMIQuestionInput code={questionCode} setResponse={setResponse} />
+          <BMIQuestionInput
+            code={questionCode}
+            setResponse={setResponse}
+            response={response}
+          />
         )}
 
         {inputType === 'range' && (

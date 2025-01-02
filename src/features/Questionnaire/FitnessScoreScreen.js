@@ -1,11 +1,8 @@
-import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Error } from '../../components';
 import { useTagAndColor } from '../../hooks/useTagAndColor';
 import { axiosClient } from '../LifestyleQuiz';
-import FitnessLoader from './FitnessLoader';
 
 const HorizontalBar = styled.div`
   --color: ${(props) => props.color};
@@ -26,7 +23,7 @@ const TagText = styled.p`
   text-transform: capitalize;
 `;
 
-function FitnessScorePage() {
+function FitnessScorePage({ setShowFitnessInsightScreen }) {
   const [name, setName] = useState(null);
   const [data, setData] = useState(null);
   const [pageLoading, setPageLoading] = useState(true);
@@ -93,32 +90,31 @@ function FitnessScorePage() {
   const ScoreIndicator = ({ score }) => {
     const [tag, color, position, colors, tags] = useTagAndColor(score, 40);
     return (
-      <div className="flex w-full flex-col items-center justify-start gap-2 rounded-t-[12px] bg-[#1c1c1e]">
-        <div className="w-full rounded-t-[12px] bg-[#7e87ef]">
-          <p
-            className="ml-3 text-[15px] text-[#1f1f1f]"
-            style={{ fontWeight: 600 }}
-          >
-            Your Fitness Insights
-          </p>
-        </div>
+      <div className="flex w-full flex-col  justify-start gap-2 rounded-t-[12px] bg-black-opacity-65 p-4">
+        <p
+          className=" font-sfpro text-[14px] text-white
+          "
+          style={{ fontWeight: 500 }}
+        >
+          Your Fitness Insights
+        </p>
+
         <div
           className="flex w-full flex-row items-center justify-between px-3"
           style={{ marginBlock: '8px' }}
         >
           <div className="flex flex-col items-start justify-center gap-1">
             <p
-              className="text-[9.3px] uppercase text-[#929292]"
+              className="text-[9.3px]  text-[#929292]"
               style={{ fontWeight: 500 }}
             >
-              Score
+              Fitness score
             </p>
             <div
-              className="text-[60px]"
+              className="font-futura text-[45px] "
               style={{
                 fontWeight: 400,
-                lineHeight: '54px',
-                fontFamily: 'Anton',
+
                 color: color,
               }}
             >
@@ -169,16 +165,16 @@ function FitnessScorePage() {
 
   return (
     <>
-      {pageLoading && <FitnessLoader />}
-      {pageError && !pageLoading && <Error>Some Error Occured</Error>}
-      {!pageLoading && !pageError && (
+      {
         <div
-          className="z-50 flex h-screen w-full flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat px-6 py-9"
+          className=" relative z-[140]  flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat "
           style={{
-            backgroundImage: `url('/assets/fitness_score_gradient.svg')`,
+            backgroundImage: `url(${'/assets/bg_report.png'})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         >
-          <div className="flex w-full flex-col items-start justify-start gap-4">
+          <div className="flex h-screen w-screen flex-col items-start justify-between overflow-y-scroll bg-black/70 px-4 pt-[70px]  backdrop-blur-[8.5px]">
             {/* <div className="flex flex-col items-center justify-center gap-5">
                             <div className="flex items-center justify-center w-full mx-auto my-4">
                                 <BackButton
@@ -193,7 +189,7 @@ function FitnessScorePage() {
             <div className="flex w-full flex-col items-start justify-start gap-9">
               {/* Name */}
               <div className="flex w-full flex-row items-center justify-start gap-3">
-                <motion.h1
+                {/* <motion.h1
                   className="text-[32px]"
                   animate={{
                     rotate: [0, 10, -10, 10, -10, 0],
@@ -206,21 +202,18 @@ function FitnessScorePage() {
                   }}
                 >
                   👋
-                </motion.h1>
-                <h1 className="text-[32px] text-[#848CE9]">Hi, {name}</h1>
+                </motion.h1> */}
+                <h1 className="text-[32px] text-offwhite">Hi, Pranav</h1>
               </div>
               {/* Fitness Score */}
-              <div className="flex w-full flex-col items-start justify-center gap-[3px]">
-                {data?.fitnessScore && (
-                  <ScoreIndicator score={data?.fitnessScore} />
-                )}
-                <div className="rounded-b-[12px] bg-[#1c1c1e] px-3 py-2">
+              <div className="flex w-full flex-col items-start justify-center ">
+                {<ScoreIndicator score={5} />}
+                <div className="rounded-b-[12px] bg-black-opacity-65 px-4 pb-4">
                   <p
-                    className="text-[16px] text-[#fff]"
-                    style={{ fontWeight: 400, lineHeight: '22px' }}
+                    className="text-[14px] text-[#fff]"
+                    style={{ fontWeight: 400 }}
                   >
-                    You are already better than {data?.fitnessPercentile}% of
-                    the OTM community
+                    You are already better than {22}% of the OTM community
                   </p>
                 </div>
               </div>
@@ -247,39 +240,36 @@ function FitnessScorePage() {
                   })}
                 </div>
               </div> */}
+              <p
+                className="text-[20px] text-white "
+                style={{
+                  fontWeight: 400,
+                  lineHeight: '30px',
+                }}
+              >
+                <span className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text text-transparent brightness-150">
+                  {' '}
+                  It’s a journey,
+                </span>{' '}
+                we emphasize on{' '}
+                <span className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text text-transparent brightness-150">
+                  {' '}
+                  longterm lifestyle changes
+                </span>{' '}
+                instead of quick fixes
+              </p>
             </div>
-          </div>
-          <div
-            className="mt-9 flex w-full flex-col items-end gap-2"
-            style={{ paddingBottom: isIPhone() ? '20px' : '20px' }}
-          >
-            <p
-              className="text-[16px] text-blue "
-              style={{
-                fontWeight: 500,
-                lineHeight: '22px',
-                textShadow: '0px 3px 3px rgba(0,0,0,0.15)',
-              }}
+
+            <button
+              onClick={() => setShowFitnessInsightScreen(false)}
+              className=" mb-5 h-[54px] w-full flex-col items-end rounded-lg bg-white text-black "
             >
-              It’s a journey, we emphasize on longterm lifestyle changes instead
-              of quick fixes
-            </p>
-            <motion.button
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-full"
-              onClick={() => {
-                navigate('/home');
-              }}
-            >
-              <Button text={'Go to my Dashboard'} type="lifestyle" />
-            </motion.button>
+              {' '}
+              My Dashboard{' '}
+            </button>
           </div>
         </div>
-      )}
+      }
     </>
   );
 }

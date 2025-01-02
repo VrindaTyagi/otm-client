@@ -13,6 +13,10 @@ function BMIScreen({
   setShowBMIScreen,
   setShowPlansScreen,
 }) {
+  const onb3Response = response.find((item) => item.code === 'onb3');
+  const onb4Response = response.find((item) => item.code === 'onb4');
+
+  console.log(onb3Response);
   return (
     <div className="absolute left-0 top-0 z-50 flex min-h-screen w-full flex-col items-center justify-between  overflow-x-hidden px-6 py-9">
       <div className="flex flex-col items-center justify-center gap-5">
@@ -36,8 +40,8 @@ function BMIScreen({
             Your personal health indicator
           </p>
           <ScoreIndicator
-            height={Number(response['onb4'][0])}
-            weight={Number(response['onb3'][0])}
+            height={Number(onb3Response.value[0])}
+            weight={Number(onb4Response.value[0])}
           />
         </div>
       </div>
@@ -46,7 +50,7 @@ function BMIScreen({
           setShowBMIScreen(false);
           setShowPlansScreen(true);
         }}
-        className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black"
+        className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
       >
         Next <FaArrowRight />{' '}
       </button>

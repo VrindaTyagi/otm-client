@@ -2,19 +2,26 @@ import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 
 const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
+  const selectedResponse = response.find(
+    (item) => item.code === 'onb15',
+  )?.value;
+
   return (
     <div className="relative z-[20]  flex flex-col gap-2">
-      {response['onb15'].map((item) => (
+      {selectedResponse.map((item) => (
         <div
           onClick={() => handleIngredientScreen(item)}
           className="flex items-center justify-between rounded-xl bg-black-opacity-45 pb-3 pl-4 pt-[22px] "
         >
           <div>
             <div className="flex gap-2">
-              <img src={item !== '' && mealResponse[item].img} alt="food" />
+              <img
+                src={item !== '' && mealResponse[item.meal]?.img}
+                alt="food"
+              />
               <div className="font-sfpro text-[20px] text-offwhite">
                 {' '}
-                {item !== '' && mealResponse[item].heading}
+                {item !== '' && mealResponse[item.meal]?.heading}
               </div>
             </div>
 

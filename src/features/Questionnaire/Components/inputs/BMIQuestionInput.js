@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const BMIQuestionInput = ({ code, setResponse }) => {
+const BMIQuestionInput = ({ code, setResponse, response }) => {
   // Base array of numbers 1-100
   const baseArray = [
     ...Array(
@@ -37,10 +37,19 @@ const BMIQuestionInput = ({ code, setResponse }) => {
     const calculatedNumber = baseArray[middleIndex];
     setCurrentNumber(calculatedNumber || 1);
     setResponse((prev) => {
-      return {
-        ...prev,
-        [code]: [calculatedNumber || 1],
-      };
+      // Check if the code already exists in the array
+      const updatedResponse = response.map((item) =>
+        item.code === code
+          ? { ...item, value: [calculatedNumber || 1] } // Update the value if the code matches
+          : item,
+      );
+
+      // If the code doesn't exist, add a new entry
+      if (!updatedResponse.some((item) => item.code === code)) {
+        updatedResponse.push({ code, value: [calculatedNumber || 1] });
+      }
+
+      return updatedResponse;
     });
 
     // Handle infinite scrolling logic
@@ -61,9 +70,9 @@ const BMIQuestionInput = ({ code, setResponse }) => {
   return (
     <div className="relative w-full">
       {/* Display the current number */}
-      <div className="mb-2 flex items-end justify-center gap-1  font-futura text-[38px] text-lg  font-medium text-blue">
-        <span className="font-futura">{currentNumber} </span>
-        <span className="font-futura text-[20px]">
+      <div className="mb-3 flex items-end justify-center gap-1  font-futura  text-lg  font-medium text-blue">
+        <span className="font-futura  text-[40px]">{currentNumber} </span>
+        <span className="h-min font-futura text-[20px] leading-[20px]">
           {' '}
           {code === 'onb2' && 'yrs'}
           {code === 'onb3' && 'kgs'}
@@ -72,18 +81,14 @@ const BMIQuestionInput = ({ code, setResponse }) => {
       </div>
       <div
         ref={containerRef}
-        className="scrollbar-hide flex items-end space-x-1 overflow-x-auto"
+        className="scrollbar-hide flex items-end space-x-1 overflow-x-scroll"
         onScroll={handleScroll}
-        style={{
-          scrollSnapType: 'x mandatory',
-          overflowX: 'auto',
-        }}
       >
         {initialItems.map((number, index) => (
           <div
             key={index}
             className={`flex w-2 flex-none items-center justify-center border-l border-offwhite ${
-              number % 7 === 0 ? 'bg-blue-500 h-7' : 'bg-gray-300 h-3'
+              number % 7 === 0 ? 'bg-blue-500 h-5' : 'bg-gray-300 h-3'
             }`}
             style={{
               scrollSnapAlign: 'center',

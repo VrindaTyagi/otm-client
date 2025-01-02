@@ -36,7 +36,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
   return (
     <div className="relative left-0 top-0  h-screen w-screen    ">
       {program === null && !journeyScreen && (
-        <div className="relative z-20 px-3 pt-[40px]">
+        <div className="relative z-20 px-3 pt-[60px]">
           <div className="flex justify-between">
             <div className="font-sfpro text-[32px] text-offwhite">
               Hello, {firstName}
@@ -84,7 +84,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
               </div>
 
               <div className="mt-[9px] w-full font-sfpro text-sm font-medium text-white-opacity-50">
-                the ultimate fat cut program
+                The ultimate fat cut program
               </div>
 
               <div className="mt-[15px] flex flex-col gap-3">
@@ -135,6 +135,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
           program={program}
           setWorkoutLevel={setWorkoutLevel}
           workoutLevel={workoutLevel}
+          setProgram={setProgram}
         />
       )}
       {journeyScreen && <JourneyScreen />}
