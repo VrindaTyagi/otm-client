@@ -82,7 +82,6 @@ function MainPage() {
         });
       })
       .catch((err) => {
-        console.log(err);
         setError(true);
       })
       .finally(() => {
@@ -341,7 +340,7 @@ function MainPage() {
       )}
       {error && (
         <Error className={'fixed left-0 top-0 z-[200] w-screen bg-black'}>
-          Something went wrong. Please try again later.
+          User wrapped not found
         </Error>
       )}
       {!loading && !error && (
