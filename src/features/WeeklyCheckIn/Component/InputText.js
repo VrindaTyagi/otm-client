@@ -29,7 +29,7 @@ function InputText({ questionCode, response, setResponse }) {
                       ?.description) ||
                   ''
             }
-            className="flex h-min w-full items-start rounded-xl bg-white-opacity-08 p-3 text-start font-light placeholder:absolute placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
+            className="flex h-min w-full items-start rounded-xl bg-white-opacity-08 p-3 text-start font-light  placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
             onChange={(e) => {
               const descriptionValue = e.target.value;
 
@@ -101,7 +101,7 @@ function InputText({ questionCode, response, setResponse }) {
               ''
             }
             style={{ borderColor: '#7e87ef' }}
-            className=" flex h-[67px] w-full items-start  rounded-xl bg-white-opacity-08 p-3 text-start font-light placeholder:absolute placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
+            className=" flex h-[67px] w-full items-start  rounded-xl bg-white-opacity-08 p-3 text-start font-light  placeholder:top-3 placeholder:mb-3 placeholder:text-[14px]"
             onChange={(e) => {
               const descriptionValue = e.target.value;
               setResponse((prev) => {

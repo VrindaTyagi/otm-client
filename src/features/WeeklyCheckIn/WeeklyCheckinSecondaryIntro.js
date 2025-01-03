@@ -100,22 +100,24 @@ const WeeklyCheckinSecondaryIntro = ({
                   </div>
                 )}
                 {statsData?.metconIntensity &&
-                  statsData?.metconIntensity > 0 && (
-                    <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
-                      <div className="flex   gap-2 text-[15px] font-semibold text-offwhite ">
-                        {' '}
-                        <img
-                          loading="lazy"
-                          src="/assets/line-graph-logo.svg"
-                          alt="line-graph"
-                        />
-                        Metcon Intensity
-                      </div>
-                      <div className="font-futura text-[32px]   leading-[40px] text-blue">
-                        {statsData?.metconIntensity}
-                      </div>
+                statsData?.metconIntensity > 0 ? (
+                  <div className=" rounded-lg bg-black-opacity-40 px-[16px] py-[9px]">
+                    <div className="flex   gap-2 text-[15px] font-semibold text-offwhite ">
+                      {' '}
+                      <img
+                        loading="lazy"
+                        src="/assets/line-graph-logo.svg"
+                        alt="line-graph"
+                      />
+                      Metcon Intensity
                     </div>
-                  )}
+                    <div className="font-futura text-[32px]   leading-[40px] text-blue">
+                      {statsData?.metconIntensity}
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="flex w-full flex-col gap-2">
                 {
@@ -146,8 +148,8 @@ const WeeklyCheckinSecondaryIntro = ({
                               : 'bg-red-opacity-12 text-red'
                           } `}
                         >
-                          {statsData?.totalWeightLiftedThisWeek -
-                            statsData?.totalWeightLiftedLastWeek >
+                          {statsData?.totalWeightLiftedThisWeek.toFixed(2) -
+                            statsData?.totalWeightLiftedLastWeek.toFixed(2) >
                           0 ? (
                             <img
                               src="/assets/upArrow.svg"
@@ -161,13 +163,15 @@ const WeeklyCheckinSecondaryIntro = ({
                               alt="shoe"
                             />
                           )}
-                          {statsData?.totalWeightLiftedThisWeek -
-                            statsData?.totalWeightLiftedLastWeek}{' '}
+                          {statsData?.totalWeightLiftedThisWeek.toFixed(2) -
+                            statsData?.totalWeightLiftedLastWeek.toFixed(
+                              2,
+                            )}{' '}
                           {statsData?.totalWeightLiftedUnit}
                         </div>
                         <p className="font-sfpro text-[10px] text-white-opacity-50">
-                          {statsData?.totalWeightLiftedThisWeek -
-                            statsData?.totalWeightLiftedLastWeek >
+                          {statsData?.totalWeightLiftedThisWeek.toFixed(2) -
+                            statsData?.totalWeightLiftedLastWeek.toFixed(2) >
                           0
                             ? 'more'
                             : 'less'}{' '}

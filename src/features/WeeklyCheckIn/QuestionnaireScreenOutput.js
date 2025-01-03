@@ -373,7 +373,6 @@ const QuestionnaireScreenOutput = ({
                       <input
                         ref={profilePicRef}
                         type="file"
-                        capture="user"
                         accept="image/png, image/jpg, image/jpeg"
                         name="profile image camera"
                         className="relative z-20"
@@ -395,7 +394,6 @@ const QuestionnaireScreenOutput = ({
                     <input
                       ref={profilePicCameraRef}
                       type="file"
-                      capture="user"
                       accept="image/png, image/jpg, image/jpeg"
                       name="profile image camera"
                       hidden
@@ -423,7 +421,6 @@ const QuestionnaireScreenOutput = ({
                       <input
                         ref={profilePicCameraRef}
                         type="file"
-                        capture="user"
                         accept="image/png, image/jpg, image/jpeg"
                         name="profile image camera"
                         className="relative z-20"

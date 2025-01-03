@@ -503,8 +503,12 @@ const WeeklyCheckinResult = ({ setScreen, week, weeklyReport }) => {
                     (Number(weeklyReport?.last4WeekConsistency[0]?.count)
                       ? Number(weeklyReport?.last4WeekConsistency[0]?.count)
                       : 0)}{' '}
-                  workouts away from unlocking a perfect week badge. Let's do
-                  better next week!
+                  workout
+                  {Number(weeklyReport?.targetConsistency) -
+                    Number(weeklyReport?.last4WeekConsistency[0]?.count) >
+                    1 && 's'}{' '}
+                  away from unlocking a perfect week badge. Let's do better next
+                  week!
                 </p>
               </div>
             )}
