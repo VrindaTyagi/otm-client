@@ -6,6 +6,8 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
     (item) => item.code === 'onb15',
   )?.value;
 
+  console.log(response, selectedResponse);
+
   return (
     <div className="relative z-[20]  flex flex-col gap-2">
       {selectedResponse.map((item) => (
@@ -32,7 +34,7 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
                 }}
                 className="rounded-md px-1 font-sfpro text-[12px] text-green"
               >
-                9.30 am
+                {item?.time?.length > 0 ? item.time : '9.30 AM'}
               </div>
               <div
                 style={{
@@ -40,18 +42,16 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
                 }}
                 className="rounded-md px-1 font-sfpro text-[12px] text-green"
               >
-                Small Plate
+                {item?.plateSize === 'small_plate'
+                  ? 'Small Plate'
+                  : 'Large Plate'}
               </div>
               <div className="flex h-min items-center gap-1">
-                <div className="w-[30px] rounded-[4px] bg-red text-center font-sfpro text-[14px] leading-4 text-black">
-                  25
-                </div>
-                <div className="w-[30px] rounded-[4px] bg-blue text-center font-sfpro text-[14px] leading-4 text-black">
-                  25
-                </div>
-                <div className="w-[60px] rounded-[4px] bg-green text-center font-sfpro text-[14px] leading-4 text-black">
-                  50
-                </div>
+                {Object.values(item?.mealProportion).map((portion) => (
+                  <div className="w-[30px] rounded-[4px] bg-red text-center font-sfpro text-[14px] leading-4 text-black">
+                    {portion.replace('%', '')}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -27,7 +27,6 @@ const QuestionnaireProgress = ({
   // Calculate progressLength only when currValue, totalValue, or totalLength changes
   useEffect(() => {
     if (totalLength > 0) {
-      console.log('0000000000000000000000000000000', totalLength);
       setProgressLength((currValue / totalValue) * totalLength);
     }
   }, [currValue, totalValue, totalLength]);

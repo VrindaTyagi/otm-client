@@ -40,8 +40,8 @@ function BMIScreen({
             Your personal health indicator
           </p>
           <ScoreIndicator
-            height={Number(onb3Response.value[0])}
-            weight={Number(onb4Response.value[0])}
+            height={Number(onb4Response.value[0])}
+            weight={Number(onb3Response.value[0])}
           />
         </div>
       </div>

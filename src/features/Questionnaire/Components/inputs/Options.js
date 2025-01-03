@@ -49,6 +49,14 @@ function Options({
     setResponse,
   }) => {
     const handleResponseUpdate = (updatedValue) => {
+      if (questionCode === 'onb11' && updatedValue[0] === 'no_thanks') {
+        setResponse((prev) => {
+          return prev.map((item) =>
+            item.code === 'onb12' ? { ...item, value: [''] } : item,
+          );
+        });
+      }
+
       setResponse((prev) => {
         const existingQuestionResponse = prev.find(
           (item) => item.code === questionCode,
@@ -149,12 +157,14 @@ function Options({
             meal: optionID,
             time: '',
             plateSize: 'small_plate',
-            mealProportion: {
-              protien: '25%',
-              carbs: '25%',
-              rawVeggies: '50%',
-            },
-            ingredients: selectedNestedChoice.ingredients,
+            mealProportion: {},
+
+            // {
+            //   protien: '25%',
+            //   carbs: '25%',
+            //   rawVeggies: '50%',
+            // },
+            ingredients: [],
           };
 
           if (existingQuestionResponse.value[0] !== '') {
@@ -220,14 +230,14 @@ function Options({
         onClick={() => handleClick()}
       >
         <div
-          className={`flex w-full flex-col justify-center text-center ${
+          className={`flex w-full flex-col justify-center  ${
             questionCode === 'onb1'
               ? 'items-center py-3'
               : 'items-start px-2 py-4'
           }`}
         >
           <p
-            className={`text-center text-[14px]  ${
+            className={` text-[14px]  ${
               responseValue?.value.includes(optionID)
                 ? `${questionnaireData.text}`
                 : 'text-[#b1b1b1]'
@@ -250,9 +260,10 @@ function Options({
     );
   };
 
-  const dummy = response?.find((item) => item.code === questionCode);
+  const responseValue = response?.find((item) => item.code === questionCode)
+    .value[0];
 
-  console.log('334444343434343434343445534534534', dummy);
+  console.log('334444343434343434343445534534534', options);
 
   return (
     <div>
@@ -291,15 +302,13 @@ function Options({
           <input
             type={'text'} //text
             value={
-              questionCode && isTextFieldActive
-                ? response?.find((item) => item.code === questionCode)?.value[0]
-                : ''
+              questionCode &&
+              options.some((item) => responseValue.includes(item.id))
+                ? ''
+                : response?.find((item) => item.code === questionCode)?.value[0]
             }
             className="min-h-[52px] w-full rounded-xl bg-white-opacity-08 px-[18px] placeholder:text-[14px]"
             onChange={(e) => {
-              if (!isTextFieldActive) {
-                setTextFieldActive(true);
-              }
               setResponse((prev) => {
                 const data = prev.map((item) =>
                   item.code === questionCode
@@ -320,13 +329,12 @@ function Options({
           <p className="text-[14px] text-offwhite">Others (please Specify)</p>
           <input
             type={'text'} //text
-            // value={
-            //   questionCode &&
-            //   Object.keys(response)?.length > 0 &&
-            //   isTextFieldActive
-            //     ? response[questionCode][0]
-            //     : ''
-            // }
+            value={
+              questionCode &&
+              options.some((item) => responseValue.includes(item.id))
+                ? ''
+                : response?.find((item) => item.code === questionCode)?.value[0]
+            }
             className="min-h-[52px] w-full rounded-xl bg-white-opacity-08 px-[18px] placeholder:text-[14px]"
             onChange={(e) => {
               if (!isTextFieldActive) {
@@ -345,8 +353,14 @@ function Options({
                   );
                 });
 
+                const data = options.filter((item) =>
+                  currentSelection.includes(item.id),
+                );
+
+                const selectedData = data.map((item) => item.id);
+
                 // Create a new array by adding the new value to the filtered array
-                const newField = [...filteredField, e.target.value];
+                const newField = [e.target.value, ...selectedData];
 
                 console.log(
                   'New Field:',
@@ -355,6 +369,8 @@ function Options({
                   filteredField,
                   'Value:',
                   e.target.value,
+                  'data:',
+                  selectedData,
                 );
 
                 // Update the response state with the new array

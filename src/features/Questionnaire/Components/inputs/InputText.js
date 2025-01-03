@@ -31,25 +31,26 @@ function InputText({
   };
 
   const responseValue = response?.find((item) => item.code === questionCode);
+  const weightGoalValue = response?.find((item) => item.code === 'onb11');
 
   return (
     <div
-      className={`flex flex-col  rounded-xl bg-black-opacity-45  ${
+      className={` flex flex-col  rounded-xl bg-black-opacity-45  ${
         questionCode !== 'onb2' &&
         questionCode !== 'onb3' &&
         questionCode !== 'onb4'
           ? 'gap-[13px] px-3 py-[15px]'
           : 'pt-[15px]'
-      } `}
+      } ${
+        questionCode !== 'onb2' &&
+        weightGoalValue.value[0] !== 'lets_do_it' &&
+        'hidden'
+      }`}
     >
       {section !== 'fitness' && screen !== 4 && (
         <div
           className={`text-[14px] text-offwhite   ${
-            questionCode !== 'onb2' &&
-            questionCode !== 'onb3' &&
-            questionCode !== 'onb4'
-              ? ''
-              : 'px-3 '
+            questionCode !== 'onb3' && questionCode !== 'onb4' ? '' : 'px-3 '
           }    `}
         >
           {heading}
@@ -77,7 +78,7 @@ function InputText({
                   setResponse((prev) => {
                     const updatedResponse = response.map((item) =>
                       item.code === questionCode
-                        ? { ...item, value: [encodeURIComponent] } // Update the value if the code matches
+                        ? { ...item, value: [e.target.value] } // Update the value if the code matches
                         : item,
                     );
 
@@ -87,7 +88,10 @@ function InputText({
                         (item) => item.code === questionCode,
                       )
                     ) {
-                      updatedResponse.push({ questionCode, value: e });
+                      updatedResponse.push({
+                        questionCode,
+                        value: e.target.value,
+                      });
                     }
 
                     return updatedResponse;
