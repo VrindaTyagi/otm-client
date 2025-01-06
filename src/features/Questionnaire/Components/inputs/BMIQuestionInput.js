@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 const BMIQuestionInput = ({ code, setResponse, response }) => {
   // Base array of numbers 1-100
 
-  console.log('34343');
-
   const baseArray = [
     ...Array(
       (code === 'onb2' && 100) ||
@@ -72,7 +70,6 @@ const BMIQuestionInput = ({ code, setResponse, response }) => {
 
   return (
     <div className="relative w-full">
-      sd
       {/* Display the current number */}
       <div className="mb-3 flex items-end justify-center gap-1  font-futura  text-lg  font-medium text-blue">
         <span className="font-futura  text-[40px]">{currentNumber} </span>

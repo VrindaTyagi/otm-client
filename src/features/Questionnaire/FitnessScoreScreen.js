@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTagAndColor } from '../../hooks/useTagAndColor';
-import { axiosClient } from '../LifestyleQuiz';
+import FitnessLoader from './FitnessLoader';
 
 const HorizontalBar = styled.div`
   --color: ${(props) => props.color};
@@ -23,10 +23,13 @@ const TagText = styled.p`
   text-transform: capitalize;
 `;
 
-function FitnessScorePage({ setShowFitnessInsightScreen }) {
+function FitnessScorePage({
+  setShowFitnessInsightScreen,
+  fitnessScorePageLoading,
+}) {
   const [name, setName] = useState(null);
   const [data, setData] = useState(null);
-  const [pageLoading, setPageLoading] = useState(true);
+
   const [pageError, setPageError] = useState(false);
   const navigate = useNavigate();
 
@@ -37,24 +40,24 @@ function FitnessScorePage({ setShowFitnessInsightScreen }) {
     return userAgent.includes('iPhone');
   };
 
-  function getFitnessScore(email) {
-    setPageLoading(true);
-    axiosClient
-      .get(`/signup/snapshot?email=${email}`)
-      .then((res) => {
-        console.log(res);
-        setData(res?.data);
-      })
-      .catch((err) => {
-        setPageError(true);
-        console.log(err);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setPageLoading(false);
-        }, 1000);
-      });
-  }
+  // function getFitnessScore(email) {
+  //   setPageLoading(true);
+  //   axiosClient
+  //     .get(`/signup/snapshot?email=${email}`)
+  //     .then((res) => {
+  //       console.log(res);
+  //       setData(res?.data);
+  //     })
+  //     .catch((err) => {
+  //       setPageError(true);
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setTimeout(() => {
+  //         setPageLoading(false);
+  //       }, 1000);
+  //     });
+  // }
 
   useEffect(() => {
     try {
@@ -62,10 +65,8 @@ function FitnessScorePage({ setShowFitnessInsightScreen }) {
       const email = user['email'];
       const name = user['name'];
       setName(name);
-      getFitnessScore(email);
-    } catch (err) {
-      console.log('error in the useEffect block : ', err);
-    }
+      // getFitnessScore(email);
+    } catch (err) {}
   }, []);
 
   // Indicator component
@@ -165,7 +166,12 @@ function FitnessScorePage({ setShowFitnessInsightScreen }) {
 
   return (
     <>
-      {
+      {fitnessScorePageLoading && (
+        <div className=" relative z-[140]  flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat ">
+          <FitnessLoader />
+        </div>
+      )}
+      {!fitnessScorePageLoading && (
         <div
           className=" relative z-[140]  flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat "
           style={{
@@ -203,7 +209,7 @@ function FitnessScorePage({ setShowFitnessInsightScreen }) {
                 >
                   👋
                 </motion.h1> */}
-                <h1 className="text-[32px] text-offwhite">Hi, Pranav</h1>
+                <h1 className="text-[32px] text-offwhite">Hi, {name}</h1>
               </div>
               {/* Fitness Score */}
               <div className="flex w-full flex-col items-start justify-center ">
@@ -265,11 +271,11 @@ function FitnessScorePage({ setShowFitnessInsightScreen }) {
               className=" mb-5 h-[54px] w-full flex-col items-end rounded-lg bg-white text-black "
             >
               {' '}
-              My Dashboard{' '}
+              Next
             </button>
           </div>
         </div>
-      }
+      )}
     </>
   );
 }

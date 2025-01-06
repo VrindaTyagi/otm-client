@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { mealproportion } from '../../utils';
 import { FULL, HOME, LIA, MOA, NOEQ, SED, SHRED, SIZE, SUA, VEA } from '../svg';
 
 function Options({
@@ -11,7 +12,6 @@ function Options({
   heading,
   questionnaireData,
 }) {
-  console.log('Question code : ', questionCode);
   const [isTextFieldActive, setTextFieldActive] = useState(false);
   const RenderSVG = (name, isSelected) => {
     switch (name) {
@@ -123,8 +123,6 @@ function Options({
               (item) => item.code === questionCode && item.value[0] !== '',
             );
 
-            console.log(existingQuestionResponse);
-
             if (existingQuestionResponse) {
               // If response for this question already exists, update its value
               return prev.map((item) =>
@@ -147,6 +145,10 @@ function Options({
           (item) => item.id === optionID,
         );
 
+        const selectedMealProportion = mealproportion.find(
+          (item) => item.id === selectedNestedChoice.id,
+        ).portion[0].mealProportion;
+
         setResponse((prev) => {
           const existingQuestionResponse = prev.find(
             (item) => item.code === questionCode,
@@ -155,15 +157,9 @@ function Options({
           // Construct the new response for the selected option
           const newNestedChoice = {
             meal: optionID,
-            time: '',
+            time: '9:00 AM',
             plateSize: 'small_plate',
-            mealProportion: {},
-
-            // {
-            //   protien: '25%',
-            //   carbs: '25%',
-            //   rawVeggies: '50%',
-            // },
+            mealProportion: selectedMealProportion,
             ingredients: [],
           };
 
@@ -172,7 +168,6 @@ function Options({
             const isDuplicate = existingQuestionResponse.value.some(
               (item) => item.meal === optionID, // Check for duplication based on meal (optionID)
             );
-            console.log(isDuplicate);
 
             if (isDuplicate) {
               // If the choice is already selected, remove it from the response
@@ -263,8 +258,6 @@ function Options({
   const responseValue = response?.find((item) => item.code === questionCode)
     .value[0];
 
-  console.log('334444343434343434343445534534534', options);
-
   return (
     <div>
       <div className="flex flex-col gap-[13px] rounded-xl bg-black-opacity-45 px-3 py-[15px]">
@@ -347,7 +340,6 @@ function Options({
 
               if (currentSelection.length > 0 && currentSelection[0] !== '') {
                 const filteredField = currentSelection.filter((item) => {
-                  console.log('Filtering:', item);
                   return (
                     item === 'NONE' || item === 'GYM' || item === 'DUMBBELLS'
                   );
@@ -362,17 +354,6 @@ function Options({
                 // Create a new array by adding the new value to the filtered array
                 const newField = [e.target.value, ...selectedData];
 
-                console.log(
-                  'New Field:',
-                  newField,
-                  'Filtered Field:',
-                  filteredField,
-                  'Value:',
-                  e.target.value,
-                  'data:',
-                  selectedData,
-                );
-
                 // Update the response state with the new array
                 setResponse((prev) =>
                   prev.map(
@@ -384,13 +365,33 @@ function Options({
                 );
               } else {
                 // If currentSelection is empty, directly add the value
-                setResponse((prev) =>
-                  prev.map((item) =>
-                    item.code === questionCode
-                      ? { ...item, value: [e.target.value] } // Initialize the array with the new value
-                      : item,
-                  ),
-                );
+                if (currentSelection.length > 0 && currentSelection[0] === '') {
+                  const data = options.filter((item) =>
+                    currentSelection.includes(item.id),
+                  );
+
+                  const selectedData = data.map((item) => item.id);
+
+                  // Create a new array by adding the new value to the filtered array
+                  const newField = [e.target.value, ...selectedData];
+
+                  setResponse((prev) =>
+                    prev.map(
+                      (item) =>
+                        item.code === questionCode
+                          ? { ...item, value: newField } // Update the value for the matching questionCode
+                          : item, // Keep other items unchanged
+                    ),
+                  );
+                } else {
+                  setResponse((prev) =>
+                    prev.map((item) =>
+                      item.code === questionCode
+                        ? { ...item, value: [e.target.value] } // Initialize the array with the new value
+                        : item,
+                    ),
+                  );
+                }
               }
 
               console.log(

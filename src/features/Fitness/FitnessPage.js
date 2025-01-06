@@ -326,6 +326,11 @@ const FitnessPage = () => {
                 <DuePaymentIndicator />
               </section>
             )}
+            {showComponent && (
+              <WeeklyCheckinTile
+                isWeeklyReviewSubmitted={weeklyResponse?.report}
+              />
+            )}
 
             <section>
               <WeeklyWorkoutReport
@@ -478,12 +483,6 @@ const FitnessPage = () => {
             >
               Explore All Workouts <FaArrowRight />
             </div>
-
-            {showComponent && (
-              <WeeklyCheckinTile
-                isWeeklyReviewSubmitted={weeklyResponse?.report}
-              />
-            )}
 
             <div
               onClick={() => setShowActivity(true)}

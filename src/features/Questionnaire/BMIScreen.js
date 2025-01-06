@@ -16,7 +16,6 @@ function BMIScreen({
   const onb3Response = response.find((item) => item.code === 'onb3');
   const onb4Response = response.find((item) => item.code === 'onb4');
 
-  console.log(onb3Response);
   return (
     <div className="absolute left-0 top-0 z-50 flex min-h-screen w-full flex-col items-center justify-between  overflow-x-hidden px-6 py-9">
       <div className="flex flex-col items-center justify-center gap-5">

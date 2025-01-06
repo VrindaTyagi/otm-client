@@ -43,6 +43,8 @@ function InputText({
           : 'pt-[15px]'
       } ${
         questionCode !== 'onb2' &&
+        questionCode !== 'onb3' &&
+        questionCode !== 'onb4' &&
         weightGoalValue.value[0] !== 'lets_do_it' &&
         'hidden'
       }`}
@@ -50,7 +52,11 @@ function InputText({
       {section !== 'fitness' && screen !== 4 && (
         <div
           className={`text-[14px] text-offwhite   ${
-            questionCode !== 'onb3' && questionCode !== 'onb4' ? '' : 'px-3 '
+            questionCode !== 'onb3' &&
+            questionCode !== 'onb2' &&
+            questionCode !== 'onb4'
+              ? ''
+              : 'px-3 '
           }    `}
         >
           {heading}

@@ -72,6 +72,106 @@ export const mealResponse = {
   },
 };
 
+export const mealproportion = [
+  {
+    id: 'gut_opening',
+    portion: [
+      {
+        img: '/assets/food-gutopening.svg',
+        mealProportion: {
+          fruit: '50%',
+          seeds: '50%',
+        },
+      },
+    ],
+  },
+  {
+    id: 'brunch',
+    portion: [
+      {
+        img: '/assets/food-breakfast.svg',
+        mealProportion: {
+          protein: '50%',
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+    ],
+  },
+  {
+    id: 'breakfast',
+    portion: [
+      {
+        img: '/assets/food-breakfast.svg',
+        mealProportion: {
+          protein: '50%',
+
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+    ],
+  },
+  {
+    id: 'lunch',
+    portion: [
+      {
+        img: '/assets/food-lunch.svg',
+        mealProportion: {
+          protein: '25%',
+          carbs: '25%',
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+      {
+        img: '/assets/food-dinner.svg',
+        mealProportion: {
+          protein: '25%',
+          fats: '25%',
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+    ],
+  },
+  {
+    id: 'evening_snacks',
+    portion: [
+      {
+        img: '/assets/food-gutopening.svg',
+        mealProportion: {
+          fruit: '50%',
+          seeds: '50%',
+        },
+      },
+    ],
+  },
+  {
+    id: 'dinner',
+    portion: [
+      {
+        img: '/assets/food-lunch.svg',
+        mealProportion: {
+          protein: '25%',
+          carbs: '25%',
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+      {
+        img: '/assets/food-dinner.svg',
+        mealProportion: {
+          protein: '25%',
+          fats: '25%',
+          rawVeggies: '25%',
+          cookedVeggies: '25%',
+        },
+      },
+    ],
+  },
+];
+
 export const questionnaireData = [
   //Data to show heading and Background Color on different pages of questionnaire form
   {

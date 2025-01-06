@@ -7,6 +7,7 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
   )?.value;
 
   console.log(response, selectedResponse);
+  const color = ['#FA5757', '#7E87EF', '#5ECC7B', '#DDF988'];
 
   return (
     <div className="relative z-[20]  flex flex-col gap-2">
@@ -20,6 +21,7 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
               <img
                 src={item !== '' && mealResponse[item.meal]?.img}
                 alt="food"
+                className=" "
               />
               <div className="font-sfpro text-[20px] text-offwhite">
                 {' '}
@@ -47,8 +49,10 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
                   : 'Large Plate'}
               </div>
               <div className="flex h-min items-center gap-1">
-                {Object.values(item?.mealProportion).map((portion) => (
-                  <div className="w-[30px] rounded-[4px] bg-red text-center font-sfpro text-[14px] leading-4 text-black">
+                {Object.values(item?.mealProportion).map((portion, index) => (
+                  <div
+                    className={`w-[30px] rounded-[4px] text-center font-sfpro text-[14px] leading-4 text-black ${`bg-[${color[index]}]`}`}
+                  >
                     {portion.replace('%', '')}
                   </div>
                 ))}

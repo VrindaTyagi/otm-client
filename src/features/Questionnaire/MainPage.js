@@ -69,10 +69,10 @@ function LandingPage() {
   const [ingredient, setIngredient] = useState(false);
   const [showFitnessInsightScreen, setShowFitnessInsightScreen] =
     useState(false);
+  const [fitnessScorePageLoading, setFitnessScorePageLoading] = useState(true);
 
   const [mealId, setMealId] = useState(null);
   const navigate = useNavigate();
-  console.log(section, selectedQuestionniareSection);
 
   useEffect(() => {
     if (section) {
@@ -82,8 +82,6 @@ function LandingPage() {
       setSelectedQuestionniareSection(selectedSection);
     }
   }, [section]);
-
-  console.log(section);
 
   useEffect(() => {
     if ((questions, section)) {
@@ -129,13 +127,16 @@ function LandingPage() {
   };
 
   const handleApi = () => {
+    setShowFitnessInsightScreen(true);
     axiosClient
       .put('/', {
         section: 'fitness',
         memberCode: 'PRAN',
         response: response,
       })
-      .then(() => setShowFitnessInsightScreen(true));
+      .then(() => {
+        setFitnessScorePageLoading(false);
+      });
   };
   console.log(screen);
   const handleBackClick = () => {
@@ -331,6 +332,7 @@ function LandingPage() {
           {' '}
           <FitnessScorePage
             setShowFitnessInsightScreen={setShowFitnessInsightScreen}
+            fitnessScorePageLoading={fitnessScorePageLoading}
           />{' '}
         </div>
       )}
@@ -421,6 +423,7 @@ function LandingPage() {
           section !== 'generalInformation' &&
           !showBMIScreen &&
           !showPlansScreen &&
+          !showIngredientScreen &&
           section !== 'generalInformation' ? (
             <QuestionniareProgress
               currValue={screen}
@@ -431,7 +434,7 @@ function LandingPage() {
             <></>
           )}
 
-          {showMealScreen && (
+          {!showIngredientScreen && showMealScreen && (
             <MealScreen
               handleIngredientScreen={handleIngredientScreen}
               mealResponse={mealResponse}
@@ -466,6 +469,7 @@ function LandingPage() {
               !showAssessmentScreen &&
               !showMealScreen &&
               !showPlansScreen &&
+              !showIngredientScreen &&
               currentQuestion?.map((ques, idx) => {
                 return (
                   <>
@@ -725,34 +729,42 @@ function LandingPage() {
             )}
           </div>
         </div>
-        {screen >= 1 && !showPlansScreen && !showBMIScreen && (
-          <div className="fixed bottom-6 left-0 flex w-full gap-[10px] px-4">
-            <button
-              onClick={() => handleBackClick()}
-              className="min-h-[54px] w-[114px]  grow  rounded-lg bg-graySecond text-center "
-            >
-              Back
-            </button>
-            <button
-              style={{ fontWeight: 500 }}
-              className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
-              onClick={() => {
-                // checking for empty response
+        {screen >= 1 &&
+          !showPlansScreen &&
+          !showBMIScreen &&
+          !showIngredientScreen && (
+            <div className="fixed bottom-6 left-0 flex w-full gap-[10px] px-4">
+              {((screen > 1 && section === 'fitness') ||
+                (screen > 1 && section === 'nutrition') ||
+                (screen > 1 && section === 'lifestyle')) && (
+                <button
+                  onClick={() => handleBackClick()}
+                  className="min-h-[54px] w-[114px]  grow  rounded-lg bg-graySecond text-center "
+                >
+                  Back
+                </button>
+              )}
 
-                if (currentQuestion && Object.keys(response)?.length > 0) {
-                  handleNextClick();
-                }
-              }}
-            >
-              {screen === maxScreenCount
-                ? 'Finish'
-                : currentQuestion[0]?.target === 'ASSESSMENT'
-                ? 'Take Assessment'
-                : 'Next'}{' '}
-              <FaArrowRight />
-            </button>
-          </div>
-        )}
+              <button
+                style={{ fontWeight: 500 }}
+                className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+                onClick={() => {
+                  // checking for empty response
+
+                  if (currentQuestion && Object.keys(response)?.length > 0) {
+                    handleNextClick();
+                  }
+                }}
+              >
+                {screen === maxScreenCount
+                  ? 'Finish'
+                  : currentQuestion[0]?.target === 'ASSESSMENT'
+                  ? 'Take Assessment'
+                  : 'Next'}{' '}
+                <FaArrowRight />
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );
