@@ -1,19 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const preloadImages = (imageUrls) => {
-  return Promise.all(
-    imageUrls.map((url) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => resolve(url); // Resolve with the image URL when loaded
-        img.onerror = () => reject(url); // Reject if the image fails to load
-      });
-    }),
-  );
-};
-
-const JourneyScreen = () => {
+const JourneyScreen = ({ id }) => {
   const [showComponent, setShowComponent] = useState(false);
 
   useEffect(() => {
@@ -41,11 +28,18 @@ const JourneyScreen = () => {
         Craft Your Journey
       </div>
       {showComponent && (
-        <div className="animate-fadeIn  relative z-[60]  px-4  transition-opacity duration-1000">
-          <div className="flex gap-2 ">
-            <img src="/assets/muscle-star-color.svg" className="" />
-            <div className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text font-futura text-2xl text-transparent">
-              ULTIMATE SHRED
+        <div className="relative  z-[60] animate-fadeIn  px-4  transition-opacity duration-1000">
+          <div className={`flex ${id !== 'evolve' && 'gap-2'} `}>
+            <img
+              src={
+                id === 'evolve'
+                  ? 'assets/v-sign-light.svg'
+                  : 'assets/muscle-star-color.svg'
+              }
+              className={` ${id === 'evolve' && 'h-[30px] w-[30px]'}  `}
+            />
+            <div className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text font-futura text-2xl uppercase text-transparent">
+              {id === 'evolve' ? 'evolve' : 'Ultimate Shred'}
             </div>
           </div>
 

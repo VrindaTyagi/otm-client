@@ -4,6 +4,7 @@ import { LocalizationProvider, StaticTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
+import { FaArrowRight } from 'react-icons/fa6';
 import { RxCross1 } from 'react-icons/rx';
 import { mealproportion, mealResponse } from './utils';
 
@@ -66,10 +67,7 @@ const IngredientScreen = ({
     return currentTime;
   };
 
-  console.log('xxx', ingredient, ingredientType);
-
   const handleTime = (e) => {
-    console.log('yyy', e);
     const date = new Date(e);
 
     setSelectedTime(e);
@@ -77,7 +75,6 @@ const IngredientScreen = ({
     const hours = date.getHours() % 12 || 12; // Get hours in 12-hour format
     const minutes = String(date.getMinutes()).padStart(2, '0'); // Fixed minutes as 00
     const amPm = date.getHours() < 12 ? 'AM' : 'PM';
-    console.log(minutes, date);
     const formattedTime = `${hours}:${minutes} ${amPm}`;
 
     setResponse((prevResponse) =>
@@ -114,50 +111,55 @@ const IngredientScreen = ({
       (item) => item === ingredient,
     );
 
-    console.log('exist', existingType, existingIngredient);
-
-    setIngredientType((prevData) => {
-      // Check if the type already exists in the state
-      const existingType = prevData.find(
-        (item) => item.type === showIngredient,
-      );
-
-      if (existingType) {
-        // If the type exists, update the options array
-        return prevData.map((item) =>
-          item.type === showIngredient
-            ? {
-                ...item,
-                options: item.options.includes(ingredient)
-                  ? item.options // Do nothing if the option already exists
-                  : [...item.options, ingredient], // Add the new option
-              }
-            : item,
+    console.log(existingIngredient, existingType, ingredient);
+    if (existingIngredient) {
+      setIngredientType((prevData) => {
+        // Check if the type already exists in the state
+        const existingType = prevData.find(
+          (item) => item.type === showIngredient,
         );
-      } else {
-        // If the type doesn't exist, add a new entry
-        return [...prevData, { type: showIngredient, options: [ingredient] }];
-      }
-    });
 
-    console.log(showIngredient, ingredient, existingType, ingredientType);
+        if (existingType) {
+          console.log(existingType);
+          // If the type exists, update the options array by removing the ingredient
+          return prevData.map((item) =>
+            item.type === showIngredient
+              ? {
+                  ...item,
+                  options: item.options.filter(
+                    (option) => option !== ingredient, // Remove the ingredient if it exists
+                  ),
+                }
+              : item,
+          );
+        }
+      });
+    } else {
+      setIngredientType((prevData) => {
+        // Check if the type already exists in the state
+        const existingType = prevData.find(
+          (item) => item.type === showIngredient,
+        );
 
-    // setResponse((prevResponse) =>
-    //   prevResponse.map((item) => {
-    //     if (item.code === 'onb15') {
-    //       return {
-    //         ...item,
-    //         value: item.value.map((mealObj) => {
-    //           // {mealObj.meal === ingredient.id
-    //           //   ? { ...mealObj, plateSize: newPlateSize }
-    //           //   : mealObj}
-    //           //   return null
-    //         }),
-    //       };
-    //     }
-    //     return item;
-    //   }),
-    // );
+        if (existingType) {
+          console.log(existingType);
+          // If the type exists, update the options array
+          return prevData.map((item) =>
+            item.type === showIngredient
+              ? {
+                  ...item,
+                  options: item.options.includes(ingredient)
+                    ? item.options // Do nothing if the option already exists
+                    : [...item.options, ingredient], // Add the new option
+                }
+              : item,
+          );
+        } else {
+          // If the type doesn't exist, add a new entry
+          return [...prevData, { type: showIngredient, options: [ingredient] }];
+        }
+      });
+    }
   };
 
   const updatePlateSize = (newPlateSize) => {
@@ -201,10 +203,10 @@ const IngredientScreen = ({
     .value.find((item) => item.meal === ingredient.id);
 
   const foodImg = mealResponse[ingredient.id].img;
-  console.log('4454545454', foodImg, ingredient, response, IngredientResponse);
+
   return (
-    <div className="fixed bottom-0 left-0 z-20 h-[100%] w-screen overflow-y-scroll bg-black-opacity-71 px-4 py-5">
-      <div className="mt-[50px] flex w-full justify-between">
+    <div className="fixed bottom-0 left-0 z-20 h-[100%] w-screen overflow-y-scroll bg-black-opacity-71 px-4 py-5 pb-[110px]">
+      <div className="mt-[30px] flex w-full justify-between">
         <div className="flex w-full items-center gap-2">
           <img src={foodImg} alt="food" /> {ingredient.value}
         </div>
@@ -216,10 +218,10 @@ const IngredientScreen = ({
           />
         </div>
       </div>
-      <div className="mt-[41px] flex flex-col gap-5">
+      <div className="mt-[41px] flex flex-col gap-5 ">
         <div className="rounded-lg bg-white-opacity-08 px-4 py-[15px]">
           <div className="mb-[14px] font-sfpro text-[14px] text-offwhite">
-            what time do you want to set for this meal?
+            {ingredient.modifications[0].content}
           </div>
           <ThemeProvider theme={darkTheme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -257,7 +259,7 @@ const IngredientScreen = ({
         </div>
         <div className="rounded-lg bg-white-opacity-08 px-4 py-[15px]">
           <div className="font-sfpro text-[14px] text-offwhite">
-            Set a plate size for lunch
+            {ingredient.modifications[2].content}
             <div className="mt-[17px] flex w-full gap-2">
               <div
                 onClick={() => updatePlateSize('small_plate')}
@@ -270,7 +272,7 @@ const IngredientScreen = ({
                 <div>Small Plate</div>
                 <div className="flex justify-end">
                   <div
-                    className={`flex h-[36px]  w-[36px] items-center justify-center rounded-full border-2 ${
+                    className={`flex h-[36px]  w-[36px] items-center justify-center rounded-full border-4 ${
                       IngredientResponse.plateSize === 'small_plate'
                         ? 'border-green'
                         : 'border-white'
@@ -297,7 +299,7 @@ const IngredientScreen = ({
                 <div>Large Plate</div>
                 <div className="flex justify-end">
                   <div
-                    className={`flex h-[50px]  w-[50px] items-center justify-center rounded-full border-2  ${
+                    className={`flex h-[50px]  w-[50px] items-center justify-center rounded-full border-4  ${
                       IngredientResponse.plateSize === 'large_plate'
                         ? 'border-green'
                         : 'border-white'
@@ -318,14 +320,15 @@ const IngredientScreen = ({
         </div>
 
         <div className="rounded-lg bg-white-opacity-08 px-4 py-[15px]">
-          <div className="font-sfpro text-[14px] text-offwhite">
-            Choose your preferred meal proportion
-          </div>
-          <div className="mt-[31px]">
-            {mealproportion.map((item) => {
-              if (item.id === ingredient.id) {
-                return (
-                  <div className="flex flex-col gap-2">
+          {mealproportion.map((item) => {
+            if (item.id === ingredient.id) {
+              return (
+                <div>
+                  <div className="font-sfpro text-[14px] text-offwhite">
+                    {item.portion.length === 1 ? 'Recommended' : 'Choose your'}{' '}
+                    meal proportion
+                  </div>
+                  <div className="mt-[31px] flex flex-col gap-2">
                     {item.portion.map((data, i, proportion) => (
                       <div
                         className={`rounded-xl bg-black-opacity-45 ${
@@ -337,24 +340,26 @@ const IngredientScreen = ({
                         onClick={() =>
                           handleMealProportion(data.mealProportion)
                         }
-                        key={data.mealProportion}
+                        key={i}
                       >
                         <img className="pt-3" src={data.img} alt="food" />
                       </div>
                     ))}
                   </div>
-                );
-              } else return null;
-            })}
-          </div>
+                </div>
+              );
+            } else return null;
+          })}
         </div>
       </div>
 
       <div className="mt-[24px] pb-[37px]">
-        <div className="font-sfpro text-[14px] ">Customize you ingredients</div>
+        <div className="font-sfpro text-[14px] ">
+          {ingredient.modifications[3].content}
+        </div>
 
         <div className=" font-sfpro text-sm text-white-opacity-23">
-          uncheck ingregients you don't want in your meal plan
+          {ingredient.modifications[3].description}
         </div>
       </div>
       <div className="flex flex-col gap-2">
@@ -373,12 +378,6 @@ const IngredientScreen = ({
                       {(() => {
                         const matchedData = ingredientType?.find(
                           (data) => data?.type === item?.type,
-                        );
-                        console.log(
-                          'Matched Data:',
-                          matchedData,
-                          ingredientType,
-                          item,
                         );
 
                         return `${
@@ -425,6 +424,16 @@ const IngredientScreen = ({
               </div>
             </div>
           ))}
+      </div>
+      <div className="fixed bottom-6 left-0 z-[150] w-full px-4">
+        <button
+          style={{ fontWeight: 500 }}
+          className=" flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+          onClick={() => setShowIngredientScreen(false)}
+        >
+          Done
+          <FaArrowRight />
+        </button>
       </div>
     </div>
   );

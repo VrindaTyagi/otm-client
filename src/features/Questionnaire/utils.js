@@ -1,4 +1,54 @@
-export const handleNextClick = ({
+import styled from 'styled-components';
+
+export const StarterText = styled.div`
+  color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
+  /* H1 */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: ${(props) =>
+    props.fontSize !== undefined ? props.fontSize : '14px'};
+  font-style: normal;
+
+  line-height: 16px; /* 125% */
+`;
+
+export const handleBackFunc = ({
+  section,
+  setScreen,
+  screen,
+  showMealScreen,
+  setShowMealScreen,
+  setSection,
+}) => {
+  if (section === 'fitness' && screen > 1) {
+    setScreen(screen - 1);
+  }
+
+  if (section === 'nutrition' && screen > 1) {
+    if (showMealScreen) {
+      setShowMealScreen(false);
+    }
+    if (!showMealScreen) {
+      setScreen(screen - 1);
+    }
+  }
+  if (section === 'nutrition' && screen === 1) {
+    setSection('fitness');
+    setScreen(4);
+    // setSection('lifestyle');
+    // setScreen(1);
+  }
+
+  if (section === 'lifestyle' && screen > 1) {
+    setScreen(screen - 1);
+  }
+  if (section === 'lifestyle' && screen === 1) {
+    setShowMealScreen(true);
+    setSection('nutrition');
+    setScreen(4);
+  }
+};
+
+export const handleNextFunc = ({
   section,
   screen,
   setShowBMIScreen,
@@ -6,44 +56,50 @@ export const handleNextClick = ({
   setSection,
   showMealScreen,
   setShowMealScreen,
+  handleApi,
+  setLoading,
 }) => {
   if (section === 'generalInformation' && screen === 1) {
     setShowBMIScreen(true);
     setSection('fitness');
+    handleApi('generalInformation');
   }
   if (section === 'fitness' && screen < 5) {
+    handleApi('fitness');
     setScreen(screen + 1);
   }
   if (section === 'fitness' && screen === 5) {
+    // setShowFitnessInsightScreen(true);
+    handleApi('fitness');
     setSection('nutrition');
     setScreen(1);
   }
   if (section === 'nutrition' && screen < 4) {
     setScreen(screen + 1);
+    handleApi('nutrition');
   }
   if (section === 'nutrition' && screen === 4) {
-    console.log('77');
     if (!showMealScreen) {
       setShowMealScreen(true);
     }
     if (showMealScreen) {
       setShowMealScreen(false);
+      handleApi('nutrition');
       setSection('lifestyle');
       setScreen(1);
     }
-
-    // setSection('lifestyle');
-    // setScreen(1);
   }
   if (section === 'lifestyle' && screen < 2) {
+    handleApi('lifestyle');
     setScreen(screen + 1);
   }
   if (section === 'lifestyle' && screen === 2) {
-    // setShowMealScreen(true);
-    // // setSection('lifestyle');
-    // // setScreen(1);
+    handleApi('lifestyle');
+    setLoading(true);
   }
 };
+
+export const proportionColor = ['#FA5757', '#7E87EF', '#5ECC7B', '#DDF988'];
 
 export const mealResponse = {
   gut_opening: {

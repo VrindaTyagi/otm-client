@@ -111,8 +111,6 @@ export function getHighestScreenNumber(
   const filteredQuestions =
     questions && questions?.filter((ques) => ques?.section === section);
 
-  console.log('hoho', filteredQuestions, section);
-
   const highestScreen = filteredQuestions.reduce(
     (max, item) => Math.max(max, item.screen),
     0,
@@ -128,7 +126,6 @@ export function updateCurrentWeeklyCheckinQuestion(
   screen,
   setCurrentQuestion,
 ) {
-  console.log(questions, screen, setCurrentQuestion, '23423432');
   const filteredQuestions =
     questions && questions?.filter((ques) => Number(ques?.screen) === screen); // array of all the questions belonging to the same screen
   // sorting the questions based on their ranks

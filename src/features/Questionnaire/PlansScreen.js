@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { capitalizeFirstLetter } from '../../utils';
 import JourneyScreen from './JourneyScreen';
@@ -12,18 +13,35 @@ const PlansScreen = ({ setShowPlansScreen }) => {
   const fullName = JSON.parse(localStorage.getItem('user'))['name'];
   const [workoutLevel, setWorkoutLevel] = useState('beginner');
   const [program, setProgram] = useState(null);
+  const [programHeading, setProgramHeading] = useState(null);
   const [journeyScreen, setJourneyScreen] = useState(false);
   const firstName = fullName.split(' ')[0];
   const userProfilePicture = JSON.parse(
     localStorage?.getItem('profilePicture'),
   );
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
+  const [programDetail, setProgramDetail] = useState('');
   const caiptalInitial = capitalizeFirstLetter(fullName);
 
-  console.log(journeyScreen);
+  const handleProgram = () => {
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/v1/workout/weekly-plan`, {
+        memberCode: code,
+        plan: programDetail,
+      })
+      .then((res) => {
+        console.log(res.data.msg.response);
+      })
+      .catch((err) => {})
+      .finally(() => {
+        // delay is introduced to increase the time for loading screen (UX improvement)
+      });
+  };
 
   const handleClick = () => {
     if (!journeyScreen) {
       setJourneyScreen(true);
+      handleProgram();
     }
 
     if (journeyScreen) {
@@ -89,7 +107,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
 
               <div className="mt-[15px] flex flex-col gap-3">
                 {ultimateShredSection.map((item) => (
-                  <div className="flex items-center gap-3">
+                  <div key={item.heading} className="flex items-center gap-3">
                     <div className="w-[53px] text-sm text-offwhite">
                       {item.heading}
                     </div>
@@ -98,6 +116,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
                         .fill(0)
                         .map((level, index) => (
                           <div
+                            key={index}
                             className={`if   h-[7px] w-[54px] rounded-3xl ${
                               index < item.givenLevel
                                 ? 'bg-green'
@@ -136,20 +155,26 @@ const PlansScreen = ({ setShowPlansScreen }) => {
           setWorkoutLevel={setWorkoutLevel}
           workoutLevel={workoutLevel}
           setProgram={setProgram}
+          setProgramDetail={setProgramDetail}
+          programDetail={programDetail}
         />
       )}
-      {journeyScreen && <JourneyScreen />}
+      {journeyScreen && <JourneyScreen id={program} />}
       {(journeyScreen || program) && (
         <div className="absolute bottom-0 left-0 z-30 mb-5 w-full px-3">
           <button
-            onClick={() => handleClick(true)}
+            onClick={() => handleClick()}
             className={`  h-[54px] w-full rounded-lg text-center  capitalize text-black ${
               !journeyScreen
                 ? '  bg-gradient-to-r from-lightPurple to-blue px-[18px] '
                 : 'bg-white'
             }`}
           >
-            {!journeyScreen ? `Start ${program} Plan` : 'Get Started'}
+            {!journeyScreen
+              ? `Start ${
+                  program === 'ultimateStrength' ? 'Ultimate Shred' : 'Evolve'
+                } Plan`
+              : 'Get Started'}
           </button>
         </div>
       )}

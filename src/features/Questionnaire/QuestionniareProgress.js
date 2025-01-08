@@ -39,7 +39,7 @@ const QuestionnaireProgress = ({
         Step {currValue} of {totalValue}
       </div>
       <div className="flex w-full items-center gap-5">
-        <div className="flex  w-[140px] grow items-center">
+        <div className="flex  w-[140px] grow items-center gap-1">
           <img src={questionnaireData.icon} alt="Fitness Icon" />
           <div>{questionnaireData.heading}</div>
         </div>

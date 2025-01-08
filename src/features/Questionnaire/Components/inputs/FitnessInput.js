@@ -1,6 +1,7 @@
 import React from 'react';
 
 const FitnessInput = ({ response, setResponse, heading, questionCode }) => {
+  const responseValue = response?.find((item) => item.code === questionCode);
   return (
     <div className=" flex h-[46px] items-center justify-between rounded-xl bg-white-opacity-08 px-[24px]">
       <div className="font-sfpro text-[16px] text-white-opacity-50">
@@ -8,6 +9,7 @@ const FitnessInput = ({ response, setResponse, heading, questionCode }) => {
       </div>
       <input
         type="number"
+        value={responseValue && responseValue.value[0]}
         onChange={(e) => {
           setResponse((prev) => {
             const updatedResponse = response.map((item) =>

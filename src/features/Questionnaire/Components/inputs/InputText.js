@@ -126,6 +126,7 @@ function InputText({
             code={questionCode}
             setResponse={setResponse}
             response={response}
+            responseValue={responseValue}
           />
         )}
 

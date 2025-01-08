@@ -1,18 +1,17 @@
 import React from 'react';
 import { MdKeyboardArrowRight } from 'react-icons/md';
+import { proportionColor } from './utils';
 
 const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
   const selectedResponse = response.find(
     (item) => item.code === 'onb15',
   )?.value;
 
-  console.log(response, selectedResponse);
-  const color = ['#FA5757', '#7E87EF', '#5ECC7B', '#DDF988'];
-
   return (
     <div className="relative z-[20]  flex flex-col gap-2">
-      {selectedResponse.map((item) => (
+      {selectedResponse.map((item, idx) => (
         <div
+          key={idx}
           onClick={() => handleIngredientScreen(item)}
           className="flex items-center justify-between rounded-xl bg-black-opacity-45 pb-3 pl-4 pt-[22px] "
         >
@@ -51,7 +50,8 @@ const MealScreen = ({ response, handleIngredientScreen, mealResponse }) => {
               <div className="flex h-min items-center gap-1">
                 {Object.values(item?.mealProportion).map((portion, index) => (
                   <div
-                    className={`w-[30px] rounded-[4px] text-center font-sfpro text-[14px] leading-4 text-black ${`bg-[${color[index]}]`}`}
+                    key={index}
+                    className={`w-[30px] rounded-[4px] text-center font-sfpro text-[14px] leading-4 text-black ${`bg-[${proportionColor[index]}]`}`}
                   >
                     {portion.replace('%', '')}
                   </div>

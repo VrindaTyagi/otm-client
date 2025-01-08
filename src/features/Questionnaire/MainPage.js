@@ -3,14 +3,14 @@ import { FaArrowRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import axios from 'axios';
 import styled from 'styled-components';
 import { Button, Error } from '../../components';
 import BackButton from '../../components/BackButton';
 import {
   axiosClient,
   decreaseScreenAndRank,
-  getFitnessScreen,
-  getGeneralScreen,
   getScreenCounts,
   increaseScreenAndRank,
   Loader,
@@ -23,21 +23,18 @@ import InputText from './Components/inputs/InputText';
 import Options from './Components/inputs/Options';
 import FitnessScorePage from './FitnessScoreScreen';
 import IngredientScreen from './IngredientScreen';
+import IntrodunctionScreen from './IntrodunctionScreen';
+import LoadingScreen from './LoadingScreen';
 import MealScreen from './MealScreen';
 import PlansScreen from './PlansScreen';
 import QuestionniareProgress from './QuestionniareProgress';
-import { DummyData, mealResponse, questionnaireData } from './utils';
-
-const StarterText = styled.div`
-  color: var(--New-White, rgba(222.37, 222.37, 222.37, 0.5));
-  /* H1 */
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: ${(props) =>
-    props.fontSize !== undefined ? props.fontSize : '14px'};
-  font-style: normal;
-
-  line-height: 16px; /* 125% */
-`;
+import {
+  DummyData,
+  handleBackFunc,
+  handleNextFunc,
+  mealResponse,
+  questionnaireData,
+} from './utils';
 
 const GradientText = styled.div`
   background: linear-gradient(to right, #d6b6f0, #848ce9);
@@ -49,12 +46,12 @@ const GradientText = styled.div`
 function LandingPage() {
   const [questions, setQuestions] = useState(null);
   const [response, setResponse] = useState({});
+  const [value, setValue] = useState({});
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [section, setSection] = useState(null);
   const [screen, setScreen] = useState(0);
   const maxScreenCount = getScreenCounts(questions);
-  const generalScreen = getGeneralScreen(questions);
-  const fitnessScreen = getFitnessScreen(questions);
+
   const [pageError, setPageError] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
   const [showAssessmentScreen, setShowAssessmentScreen] = useState(false);
@@ -62,15 +59,16 @@ function LandingPage() {
   const [showPlansScreen, setShowPlansScreen] = useState(false);
   const [selectedQuestionniareSection, setSelectedQuestionniareSection] =
     useState(null);
-
+  const [fitnessScoreData, setFitnessScoreData] = useState(null);
   const [highestScrenNumber, setHighestScrenNumber] = useState(null);
   const [showMealScreen, setShowMealScreen] = useState(false);
   const [showIngredientScreen, setShowIngredientScreen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [ingredient, setIngredient] = useState(false);
   const [showFitnessInsightScreen, setShowFitnessInsightScreen] =
     useState(false);
   const [fitnessScorePageLoading, setFitnessScorePageLoading] = useState(true);
-
+  const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [mealId, setMealId] = useState(null);
   const navigate = useNavigate();
 
@@ -92,90 +90,61 @@ function LandingPage() {
   // sending response to the backend
 
   const handleNextClick = () => {
-    if (section === 'generalInformation' && screen === 1) {
-      setShowBMIScreen(true);
-      setSection('fitness');
-    }
-    if (section === 'fitness' && screen < 5) {
-      setScreen(screen + 1);
-    }
+    handleNextFunc({
+      handleApi,
+      screen,
+      section,
+      setScreen,
+      setSection,
+      setShowBMIScreen,
+      setShowMealScreen,
+      showMealScreen,
+      setLoading,
+    });
+  };
+
+  const handleApi = (section) => {
+    const data = currentQuestion
+      .filter((item) => item.section === section)
+      .map((item) => item.code);
+
+    const filteredResponse = response.filter((item) =>
+      data.includes(item.code),
+    );
     if (section === 'fitness' && screen === 5) {
-      // setShowFitnessInsightScreen(true);
-      handleApi();
-      setSection('nutrition');
-      setScreen(1);
+      setShowFitnessInsightScreen(true);
     }
-    if (section === 'nutrition' && screen < 4) {
-      setScreen(screen + 1);
-    }
-    if (section === 'nutrition' && screen === 4) {
-      console.log('77');
-      if (!showMealScreen) {
-        setShowMealScreen(true);
-      }
-      if (showMealScreen) {
-        setShowMealScreen(false);
-        setSection('lifestyle');
-        setScreen(1);
-      }
-    }
-    if (section === 'lifestyle' && screen < 2) {
-      setScreen(screen + 1);
-    }
-    if (section === 'lifestyle' && screen === 2) {
-    }
-  };
 
-  const handleApi = () => {
-    setShowFitnessInsightScreen(true);
-    axiosClient
-      .put('/', {
-        section: 'fitness',
-        memberCode: 'PRAN',
-        response: response,
-      })
-      .then(() => {
+    const apiPayload = {
+      section: section,
+      memberCode: code,
+      response: filteredResponse,
+      ...(section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
+    };
+
+    axiosClient.put('/', apiPayload).then((res) => {
+      if (section === 'fitness' && screen === 5) {
+        setFitnessScoreData(res.data.data);
         setFitnessScorePageLoading(false);
-      });
+      }
+    });
   };
-  console.log(screen);
+
   const handleBackClick = () => {
-    if (section === 'fitness' && screen > 1) {
-      setScreen(screen - 1);
-    }
-
-    if (section === 'nutrition' && screen > 1) {
-      if (showMealScreen) {
-        setShowMealScreen(false);
-      }
-      if (!showMealScreen) {
-        setScreen(screen - 1);
-      }
-    }
-    if (section === 'nutrition' && screen === 1) {
-      console.log('34');
-      setSection('fitness');
-      setScreen(4);
-      // setSection('lifestyle');
-      // setScreen(1);
-    }
-
-    if (section === 'lifestyle' && screen > 1) {
-      setScreen(screen - 1);
-    }
-    if (section === 'lifestyle' && screen === 1) {
-      setShowMealScreen(true);
-      setSection('nutrition');
-      setScreen(4);
-    }
+    handleBackFunc({
+      screen,
+      section,
+      setScreen,
+      setSection,
+      setShowMealScreen,
+      showMealScreen,
+    });
   };
 
   function submitResponse() {
     // set the state to loading
     setPageLoading(true);
 
-    // close the BMI screen, and the assessment screen if opened
-    // redirect the user to the home page if the finish button is clicked on the FitnessScore screen
     if (showBMIScreen) {
       setTimeout(() => {
         setPageLoading(false);
@@ -235,39 +204,48 @@ function LandingPage() {
   }
 
   useEffect(() => {
-    setPageLoading(true);
-    // fetch the signup questionnaire data
-    axiosClient
-      .get()
-      .then((res) => {
-        // set the questions to the state
-        // setQuestions(res.data.questions);
+    const fetchData = async () => {
+      setPageLoading(true);
 
-        // Update the response state using a callback
-        setSection(res.data.msg[0].section);
-        setQuestions(res.data.msg);
-        setResponse(() => {
-          // Create a new array with the desired structure
-          const newResponse = res.data.msg.map((ques) => ({
-            code: ques.code,
-            value: [''],
-          }));
+      try {
+        // First API call: Fetch the signup questionnaire data
+        const questionnaireRes = await axiosClient.get();
 
-          // Return the new array to update the state
-          return newResponse;
+        // Update the state based on the first API response
+        setSection(questionnaireRes.data.msg[0].section);
+        setQuestions(questionnaireRes.data.msg);
+        const initialResponse = questionnaireRes.data.msg.map((item) => ({
+          code: item.code,
+          value: [''],
+        }));
+        setResponse(initialResponse);
+
+        // Second API call: Fetch the onboarding response
+        const responseRes = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/v1/onboarding/response?memberCode=${code}`,
+        );
+
+        // Map the response data and update the state
+        const resultArray = initialResponse.map((item) => {
+          const updatedValue = responseRes.data.msg.response.find(
+            (updatedItem) => updatedItem.code === item.code,
+          );
+          return updatedValue ? { ...item, value: updatedValue.value } : item;
         });
-      })
-      .catch((err) => {
+        setResponse(resultArray);
+      } catch (err) {
         console.log(err);
         setPageError(true);
-      })
-      .finally(() => {
-        // delay is introduced to increase the time for loading screen (UX improvement)
+      } finally {
+        // Delay to show the loading screen for UX improvement
         setTimeout(() => {
           setPageLoading(false);
         }, 1000);
-      });
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [code]);
 
   useEffect(() => {
     // it will update the current question as soon as the screen changes
@@ -286,7 +264,6 @@ function LandingPage() {
   useEffect(() => {}, []);
 
   const handleIngredientScreen = (e) => {
-    console.log(e);
     setMealId(e);
     setShowIngredientScreen(true);
 
@@ -296,12 +273,9 @@ function LandingPage() {
     const targetOption = targetObject.options.find(
       (option) => option.id === e.meal,
     );
-    console.log(targetOption);
+
     setIngredient(targetOption);
   };
-
-  // console.log('screen:', screen, section);
-  // console.log('response:', response['onb15']);
 
   return (
     <div
@@ -331,6 +305,7 @@ function LandingPage() {
         <div className="fixed left-0 top-0 z-[100] w-full ">
           {' '}
           <FitnessScorePage
+            fitnessScoreData={fitnessScoreData}
             setShowFitnessInsightScreen={setShowFitnessInsightScreen}
             fitnessScorePageLoading={fitnessScorePageLoading}
           />{' '}
@@ -365,26 +340,17 @@ function LandingPage() {
             setShowPlansScreen={setShowPlansScreen}
           />
         )}
+        {loading && <LoadingScreen />}
         {showPlansScreen && (
           <div>
             <PlansScreen setShowPlansScreen={setShowPlansScreen} />
           </div>
         )}
 
-        {/* {showAssessmentScreen && (
-          <AssessmentScreen
-            submitResponse={submitResponse}
-            screen={screen}
-            questions={questions}
-            getScreenCounts={getScreenCounts}
-            setScreen={setScreen}
-            decreaseScreenAndRank={decreaseScreenAndRank}
-            setShowAssessmentScreen={setShowAssessmentScreen}
-          />
-        )} */}
         {screen === 1 &&
           section === 'generalInformation' &&
           !showBMIScreen &&
+          !loading &&
           !showPlansScreen &&
           !showMealScreen &&
           !showAssessmentScreen && (
@@ -413,6 +379,7 @@ function LandingPage() {
           {/* Section Name */}
           {screen === 1 &&
             section === 'generalInformation' &&
+            !loading &&
             !showBMIScreen &&
             !showPlansScreen && (
               <h1 className="mt-3 text-[20px] text-customWhite">
@@ -461,9 +428,14 @@ function LandingPage() {
               </p>
             </div>
           )} */}
-          <div className="h-fit pb-[100px]">
+          <div
+            className={`flex h-fit flex-col gap-2 ${
+              screen > 0 && 'pb-[100px]'
+            }`}
+          >
             {screen >= 1 &&
               currentQuestion &&
+              !loading &&
               !(section === 'fitness' && screen === 5) &&
               !showBMIScreen &&
               !showAssessmentScreen &&
@@ -472,31 +444,8 @@ function LandingPage() {
               !showIngredientScreen &&
               currentQuestion?.map((ques, idx) => {
                 return (
-                  <>
+                  <span key={ques.code}>
                     <div className="flex flex-col justify-center gap-2">
-                      <div>
-                        {/* Question */}
-                        {/* {!['text', 'number'].includes(ques?.inputType) &&
-                          ques?.content !== 'Gender' &&
-                          !showBMIScreen &&
-                          !showAssessmentScreen && (
-                            <h1 className="mb-[10px] mt-[20px] text-[22px] text-[#7e87ef]">
-                              {`${capitalizeFirstLetter(ques?.content)}${
-                                ques?.isRequired ? ' *' : ''
-                              }`}
-                            </h1>
-                          )} */}
-                        {/* {!['text', 'number'].includes(ques?.inputType) &&
-                          ques?.content === 'Gender' &&
-                          !showBMIScreen &&
-                          !showAssessmentScreen && (
-                            <h1 className="textbox-text mb-[10px] mt-[20px] text-[22px] uppercase">
-                              {`${capitalizeFirstLetter(ques?.content)}${
-                                ques?.isRequired ? ' *' : ''
-                              }`}
-                            </h1>
-                          )} */}
-                      </div>
                       {ques?.inputType?.toUpperCase() === 'SINGLECHOICE' ||
                       ques?.inputType?.toUpperCase() === 'MULTICHOICE' ||
                       ques?.inputType?.toUpperCase() === 'NESTEDMULTICHOICE' ||
@@ -534,7 +483,7 @@ function LandingPage() {
                       {/* {ques?.inputType?.toUpperCase() ===
                         'NESTEDMULTICHOICE' && <NestesMultiChoiceInput />} */}
                     </div>
-                  </>
+                  </span>
                 );
               })}
 
@@ -545,6 +494,7 @@ function LandingPage() {
                 screen === 5 &&
                 !showBMIScreen &&
                 !showAssessmentScreen &&
+                !loading &&
                 !showMealScreen &&
                 !showPlansScreen && (
                   <div className="flex flex-col  rounded-xl bg-black-opacity-45 p-4">
@@ -555,183 +505,76 @@ function LandingPage() {
                     <div className="flex flex-col gap-2">
                       {currentQuestion?.map((ques, idx) => {
                         return (
-                          <>
+                          <span key={ques.code}>
                             <FitnessInput
                               response={response}
                               questionCode={ques?.code}
                               setResponse={setResponse}
                               heading={ques?.content}
                             />
-                          </>
+                          </span>
                         );
                       })}{' '}
                     </div>
                   </div>
                 )}
             </div>
-            {/* {screen === fitnessScreen && (
-              <p
-                className="text-[18px] text-[#545454]"
-                style={{
-                  fontWeight: 400,
-                  lineHeight: '25px',
-                  marginBlock: '20px',
-                }}
-              >
-                We'll use your results to calculate your fitness score on a
-                scale of 1-10.
-              </p>
-            )} */}
-            {screen === 0 && (
-              <div
-                className="h-screen w-full "
-                style={{
-                  backgroundImage: `url(${'/assets/bg_report.png'})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                <div className="flex h-full w-full flex-col items-start justify-between overflow-y-scroll bg-black/70  backdrop-blur-[8.5px]">
-                  <div
-                    className={`${
-                      screen === 0 ? 'mt-[4rem]' : 'mt-[2rem]'
-                    } flex w-full flex-col items-center justify-center`}
-                  >
-                    <img
-                      src={'/assets/otm_white.svg'}
-                      alt="otm logo"
-                      className=""
+          </div>
+          {screen === 0 && (
+            <div
+              className="h-screen w-full  "
+              style={{
+                backgroundImage: `url(${'/assets/bg_report.png'})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div className="flex h-full w-full flex-col items-start justify-between overflow-y-scroll bg-black/70  backdrop-blur-[8.5px]">
+                <div
+                  className={`${
+                    screen === 0 ? 'mt-[4rem]' : 'mt-[2rem]'
+                  } flex w-full flex-col items-center justify-center`}
+                >
+                  <img
+                    src={'/assets/otm_white.svg'}
+                    alt="otm logo"
+                    className=""
+                  />
+
+                  <img
+                    src={'/assets/text_cut.svg'}
+                    className="mt-[44px]"
+                    alt="img"
+                  />
+
+                  <GradientText className="mt-2 flex w-min flex-wrap text-center text-4xl">
+                    Sustainable Solution
+                  </GradientText>
+                </div>
+
+                <div className=" mt-4 w-full gap-9 rounded-t-3xl bg-[rgba(0,0,0,0.7)] px-4 pb-[65px]  pt-[32px]">
+                  {screen === 0 && <IntrodunctionScreen />}
+
+                  <div className="mt-[36px] flex w-full flex-col justify-center gap-1">
+                    <Button
+                      style={{ fontWeight: 500, height: '50px' }}
+                      text="Let's Gooo!!!"
+                      type="lifestyle"
+                      action={() => {
+                        // increase the screen value
+                        setScreen((prev) => prev + 1);
+                      }}
                     />
-
-                    <img
-                      src={'/assets/text_cut.svg'}
-                      className="mt-[44px]"
-                      alt="img"
-                    />
-
-                    <GradientText className="mt-2 flex w-min flex-wrap text-center text-4xl">
-                      Sustainable Solution
-                    </GradientText>
-                  </div>
-
-                  <div className=" mt-4 w-full gap-9 rounded-t-3xl bg-[rgba(0,0,0,0.7)] px-4 pb-[65px]  pt-[32px]">
-                    {screen === 0 && (
-                      <div>
-                        <div className="w-full">
-                          <div className="w-full px-[20px] pb-[20px] text-center text-offwhite">
-                            You Get
-                          </div>
-
-                          <div className="flex flex-col items-center px-5">
-                            <div className="flex w-[280px] ">
-                              <img
-                                src={'./assets/GreenTick.svg'}
-                                alt="correct"
-                                className="mr-6 "
-                              />
-                              <StarterText
-                                className=" py-[10px]"
-                                fontSize="14px"
-                              >
-                                <span className="text-offwhite">
-                                  Rishi Solanki
-                                </span>{' '}
-                                to guide you every step of the way
-                              </StarterText>
-                            </div>
-
-                            {/* <div className="flex w-[280px] ">
-                              <img
-                                src={'./assets/GreenTick.svg'}
-                                alt="correct"
-                                className="mr-6"
-                              />
-                              <StarterText
-                                className=" py-[10px]"
-                                fontSize="14px"
-                              >
-                                Your{' '}
-                                <span className="text-offwhite">
-                                  weekly workout schedule
-                                </span>{' '}
-                                to meet your goals
-                              </StarterText>
-                            </div> */}
-
-                            <div className="flex w-[280px] ">
-                              <img
-                                src={'./assets/GreenTick.svg'}
-                                alt="correct"
-                                className="mr-6"
-                              />
-                              <StarterText
-                                className=" py-[10px]"
-                                fontSize="14px"
-                              >
-                                <span className="text-offwhite">
-                                  Elite workout programs
-                                </span>{' '}
-                                designed for maximum results
-                              </StarterText>
-                            </div>
-                            <div className="flex w-[280px] ">
-                              <img
-                                src={'./assets/GreenTick.svg'}
-                                alt="correct"
-                                className="mr-6"
-                              />
-                              <StarterText
-                                className=" py-[10px]"
-                                fontSize="14px"
-                              >
-                                <span className="text-offwhite">
-                                  A personalised lifestyle design that works
-                                </span>{' '}
-                              </StarterText>
-                            </div>
-
-                            <div className="flex w-[280px] ">
-                              <img
-                                src={'./assets/GreenTick.svg'}
-                                alt="correct"
-                                className="mr-6"
-                              />
-                              <StarterText
-                                className=" py-[10px]"
-                                fontSize="14px"
-                              >
-                                <span className="text-offwhite">
-                                  An accountability coach
-                                </span>{' '}
-                                to fool proof your success
-                              </StarterText>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="mt-[36px] flex w-full flex-col justify-center gap-1">
-                      <Button
-                        style={{ fontWeight: 500, height: '50px' }}
-                        text="Let's Gooo!!!"
-                        type="lifestyle"
-                        action={() => {
-                          // increase the screen value
-                          setScreen((prev) => prev + 1);
-                        }}
-                      />
-                      {/* <p className='text-[10px] text-center' style={{ color: 'rgba(255,255,255,0.30)', fontWeight: '400' }}>Usually takes ~3mins</p> */}
-                    </div>
                   </div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         {screen >= 1 &&
           !showPlansScreen &&
           !showBMIScreen &&
+          !loading &&
           !showIngredientScreen && (
             <div className="fixed bottom-6 left-0 flex w-full gap-[10px] px-4">
               {((screen > 1 && section === 'fitness') ||
@@ -752,7 +595,23 @@ function LandingPage() {
                   // checking for empty response
 
                   if (currentQuestion && Object.keys(response)?.length > 0) {
-                    handleNextClick();
+                    if (
+                      section === 'nutrition' &&
+                      screen === 4 &&
+                      currentQuestion.length === 1
+                    ) {
+                      const answer = response.find(
+                        (item) => item.code === 'onb15',
+                      );
+
+                      if (answer.value.length === 0 || answer.value[0] === '') {
+                        toast.warn('Please fill in the required fields!');
+                      } else {
+                        handleNextClick();
+                      }
+                    } else {
+                      handleNextClick();
+                    }
                   }
                 }}
               >

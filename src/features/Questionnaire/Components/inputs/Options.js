@@ -13,6 +13,7 @@ function Options({
   questionnaireData,
 }) {
   const [isTextFieldActive, setTextFieldActive] = useState(false);
+
   const RenderSVG = (name, isSelected) => {
     switch (name) {
       case 'FULL':
@@ -83,12 +84,30 @@ function Options({
           response.find((item) => item.code === questionCode)?.value || [];
 
         if (currentSelection.includes(optionID)) {
-          // If option is already selected, do nothing (avoid removal)
-          return;
+          setResponse((prev) => {
+            const filterData = currentSelection.filter(
+              (item) => item !== optionID,
+            );
+
+            return prev.map((item) =>
+              item.code === questionCode
+                ? { ...item, value: filterData }
+                : item,
+            );
+          });
         } else {
           // If option is not selected, add it
-          const updatedValue = [...currentSelection, optionID];
-          handleResponseUpdate(updatedValue);
+          if (
+            (currentSelection.length === 1 && currentSelection[0] === '') ||
+            currentSelection.length === 0
+          ) {
+            const updatedValue = [optionID];
+            handleResponseUpdate(updatedValue);
+          }
+          if (currentSelection.length > 0 && currentSelection[0] !== '') {
+            const updatedValue = [...currentSelection, optionID];
+            handleResponseUpdate(updatedValue);
+          }
         }
       } else if (MCQType === 'singleChoice') {
         // Handle singleChoice case
@@ -160,7 +179,7 @@ function Options({
             time: '9:00 AM',
             plateSize: 'small_plate',
             mealProportion: selectedMealProportion,
-            ingredients: [],
+            ingredients: selectedNestedChoice.modifications[3].ingredients,
           };
 
           if (existingQuestionResponse.value[0] !== '') {
@@ -254,7 +273,7 @@ function Options({
       </div>
     );
   };
-
+  console.log(response, questionCode);
   const responseValue = response?.find((item) => item.code === questionCode)
     .value[0];
 
@@ -271,6 +290,7 @@ function Options({
             options?.map((option, idx) => {
               return (
                 <div
+                  key={option.id}
                   className="w-full "
                   style={{ marginBlock: target === 'MED' ? '20px' : '' }}
                 >
@@ -324,6 +344,8 @@ function Options({
             type={'text'} //text
             value={
               questionCode &&
+              options &&
+              responseValue &&
               options.some((item) => responseValue.includes(item.id))
                 ? ''
                 : response?.find((item) => item.code === questionCode)?.value[0]
@@ -338,7 +360,7 @@ function Options({
                 response.find((item) => item.code === questionCode)?.value ||
                 [];
 
-              if (currentSelection.length > 0 && currentSelection[0] !== '') {
+              if (currentSelection.length > 0 && e.target.value !== '') {
                 const filteredField = currentSelection.filter((item) => {
                   return (
                     item === 'NONE' || item === 'GYM' || item === 'DUMBBELLS'
@@ -365,7 +387,7 @@ function Options({
                 );
               } else {
                 // If currentSelection is empty, directly add the value
-                if (currentSelection.length > 0 && currentSelection[0] === '') {
+                if (currentSelection.length === 1 && e.target.value === '') {
                   const data = options.filter((item) =>
                     currentSelection.includes(item.id),
                   );
@@ -373,7 +395,7 @@ function Options({
                   const selectedData = data.map((item) => item.id);
 
                   // Create a new array by adding the new value to the filtered array
-                  const newField = [e.target.value, ...selectedData];
+                  const newField = [e.target.value];
 
                   setResponse((prev) =>
                     prev.map(
@@ -383,25 +405,25 @@ function Options({
                           : item, // Keep other items unchanged
                     ),
                   );
-                } else {
+                }
+                if (currentSelection.length > 1 && e.target.value === '') {
+                  const data = options.filter((item) =>
+                    currentSelection.includes(item.id),
+                  );
+
+                  const selectedData = data.map((item) => item.id);
+
+                  // Create a new array by adding the new value to the filtered array
+                  const newField = [...selectedData];
                   setResponse((prev) =>
                     prev.map((item) =>
                       item.code === questionCode
-                        ? { ...item, value: [e.target.value] } // Initialize the array with the new value
+                        ? { ...item, value: newField } // Initialize the array with the new value
                         : item,
                     ),
                   );
                 }
               }
-
-              console.log(
-                'Current Selection:',
-                currentSelection,
-                'Options:',
-                options,
-                'Value:',
-                e.target.value,
-              );
             }}
             placeholder={'Please Specify'}
           />

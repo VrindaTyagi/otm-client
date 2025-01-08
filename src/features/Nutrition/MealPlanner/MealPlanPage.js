@@ -149,7 +149,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
     <>
       {dateWiseWeeklyPlan && (
         <div className="relative z-10 my-4 flex h-full w-full flex-col items-start justify-start ">
-          <div
+          {/* <div
             onClick={() => navigateQuestionnaire()}
             className="flex items-center gap-2 rounded-md bg-black-opacity-45 px-3 py-1 text-green"
           >
@@ -159,7 +159,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
               alt="img"
             />{' '}
             <div>Generate New Meal Plan</div>
-          </div>
+          </div> */}
           <div className="mt-2 flex w-full flex-row items-center justify-between ">
             {weeklyPlan &&
               weeklyPlan.map((item) => {

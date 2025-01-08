@@ -119,7 +119,7 @@ const NutritionPage = () => {
               filter: 'brightness(0.5)',
             }}
           />
-          <div className="relative z-20 flex w-screen  flex-col  bg-transparent px-4 pb-[78px] ">
+          <div className="relative z-20 flex w-screen  flex-col   px-4 pb-[78px] ">
             <div className="mt-[77px] flex justify-between">
               <div>
                 <h3 className="font-sfpro text-[14px] text-offwhite">

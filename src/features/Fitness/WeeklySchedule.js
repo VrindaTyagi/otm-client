@@ -23,7 +23,7 @@ const WeeklySchedule = ({ stats }) => {
                     <h5 className="text-sm text-blue">{item.total}</h5>{' '}
                     <h5 className="text-[10px] text-offwhite">{item.name}</h5>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     {item.total === item.completed && (
                       <div className="h-[15px] rounded-[3px] bg-green-opacity-12 px-1 text-[10px] text-green">
                         completed
@@ -44,7 +44,7 @@ const WeeklySchedule = ({ stats }) => {
                         not started
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               )}
             </>

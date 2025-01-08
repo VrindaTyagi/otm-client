@@ -26,6 +26,7 @@ const TagText = styled.p`
 function FitnessScorePage({
   setShowFitnessInsightScreen,
   fitnessScorePageLoading,
+  fitnessScoreData,
 }) {
   const [name, setName] = useState(null);
   const [data, setData] = useState(null);
@@ -213,14 +214,21 @@ function FitnessScorePage({
               </div>
               {/* Fitness Score */}
               <div className="flex w-full flex-col items-start justify-center ">
-                {<ScoreIndicator score={5} />}
+                {fitnessScoreData && (
+                  <ScoreIndicator
+                    score={fitnessScoreData.fitnessScore.newScore}
+                  />
+                )}
                 <div className="rounded-b-[12px] bg-black-opacity-65 px-4 pb-4">
-                  <p
-                    className="text-[14px] text-[#fff]"
-                    style={{ fontWeight: 400 }}
-                  >
-                    You are already better than {22}% of the OTM community
-                  </p>
+                  {fitnessScoreData && (
+                    <p
+                      className="text-[14px] text-[#fff]"
+                      style={{ fontWeight: 400 }}
+                    >
+                      You are already better than{' '}
+                      {fitnessScoreData.fitnessPercetile}% of the OTM community
+                    </p>
+                  )}
                 </div>
               </div>
               {/* Personalised Workout */}
