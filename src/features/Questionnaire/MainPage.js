@@ -6,14 +6,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios';
 import styled from 'styled-components';
-import { Button, Error } from '../../components';
+import { Button } from '../../components';
 import BackButton from '../../components/BackButton';
 import {
   axiosClient,
   decreaseScreenAndRank,
   getScreenCounts,
   increaseScreenAndRank,
-  Loader,
   updateCurrentQuestion,
 } from '../LifestyleQuiz';
 import { getHighestScreenNumber } from '../LifestyleQuiz/utils/utils';
@@ -103,7 +102,7 @@ function LandingPage() {
     });
   };
 
-  const handleApi = (section) => {
+  const handleApi = (section, completed) => {
     const data = currentQuestion
       .filter((item) => item.section === section)
       .map((item) => item.code);
@@ -116,12 +115,12 @@ function LandingPage() {
     }
 
     const apiPayload = {
-      section: section,
+      ...(completed && { section: section }),
+
       memberCode: code,
       response: filteredResponse,
-      ...(section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
+      ...(completed && section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
     };
-
     axiosClient.put('/', apiPayload).then((res) => {
       if (section === 'fitness' && screen === 5) {
         setFitnessScoreData(res.data.data);
@@ -294,12 +293,12 @@ function LandingPage() {
         />
       )}
 
-      {pageError && !pageLoading && <Error>Some Error Occured</Error>}
+      {/* {pageError && !pageLoading && <Error>Some Error Occured</Error>}
       {pageLoading && (
         <div className="fixed left-0 top-0 z-50 w-full bg-black">
           <Loader className={'h-screen w-full'} />
         </div>
-      )}
+      )} */}
 
       {showFitnessInsightScreen && (
         <div className="fixed left-0 top-0 z-[100] w-full ">
