@@ -27,6 +27,7 @@ function MainPage() {
   const [weightInfoData, setWeightInfoData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   function closePage() {
     navigate('/');
@@ -38,7 +39,9 @@ function MainPage() {
       .get(`?user=${userCode}&month=${currentMonthNumber}&year=${currentYear}`)
       .then((res) => {
         mixpanel.track('Monthly wrapped opened');
-
+        if (Object.keys(res?.data?.data?.wrapped).length === 0) {
+          setErrorMsg('Your wrapped data was not found');
+        }
         const {
           rank,
           totalWorkout,
@@ -341,7 +344,9 @@ function MainPage() {
       )}
       {error && (
         <Error className={'fixed left-0 top-0 z-[200] w-screen bg-black'}>
-          Something went wrong. Please try again later.
+          {errorMsg
+            ? errorMsg
+            : 'Something went wrong. Please try again later.'}
         </Error>
       )}
       {!loading && !error && (
