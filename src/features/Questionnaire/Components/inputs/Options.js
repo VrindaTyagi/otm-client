@@ -231,7 +231,7 @@ function Options({
 
     return (
       <div
-        className={`border-box flex w-full flex-col items-center justify-between rounded-[12px] bg-white-opacity-08 pl-3 pr-5 ${
+        className={`border-box flex w-full  items-center justify-between rounded-[12px] bg-white-opacity-08 pl-3 pr-5 ${
           responseValue?.value.includes(optionID)
             ? `border-1 border ${questionnaireData.border}`
             : ''

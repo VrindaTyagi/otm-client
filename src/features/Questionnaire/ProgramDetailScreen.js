@@ -141,8 +141,8 @@ const prgramDetails = [
         ],
       },
       {
-        id: 'advance',
-        heading: 'Advance',
+        id: 'advanced',
+        heading: 'Advanced',
         weeklyStructure: [
           {
             id: 'workout',
@@ -183,7 +183,6 @@ const ProgramDetailScreen = ({
 
     setProgramDetail(newState);
   }, [workoutLevel]);
-  console.log(programDetail);
 
   useEffect(() => {
     // axios
@@ -299,7 +298,7 @@ const ProgramDetailScreen = ({
                                 </div>
                               )}
 
-                              <div className="font-sfpro text-sm text-offWhite-opacity-70 ">
+                              <div className="text-offWhite-opacity-70 font-sfpro text-sm ">
                                 {structure.description}
                               </div>
                             </div>

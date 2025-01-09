@@ -7,9 +7,9 @@ const WeeklySchedule = ({ stats }) => {
       </div> */}
       <div className="mt-5">
         {stats &&
-          stats.map((item, index) => (
+          Object.entries(stats).map(([key, value], index) => (
             <>
-              {item.name !== 'Rest' && (
+              {key !== 'description' && key !== 'level' && (
                 <div
                   className="flex h-[25px] justify-between  px-2"
                   style={{
@@ -20,8 +20,8 @@ const WeeklySchedule = ({ stats }) => {
                   }}
                 >
                   <div className="flex items-center gap-1">
-                    <h5 className="text-sm text-blue">{item.total}</h5>{' '}
-                    <h5 className="text-[10px] text-offwhite">{item.name}</h5>
+                    <h5 className="text-sm text-blue">{value}</h5>{' '}
+                    <h5 className="text-[10px] text-offwhite">{key}</h5>
                   </div>
                   {/* <div className="flex items-center">
                     {item.total === item.completed && (

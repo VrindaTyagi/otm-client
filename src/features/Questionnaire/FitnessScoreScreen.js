@@ -215,9 +215,7 @@ function FitnessScorePage({
               {/* Fitness Score */}
               <div className="flex w-full flex-col items-start justify-center ">
                 {fitnessScoreData && (
-                  <ScoreIndicator
-                    score={fitnessScoreData.fitnessScore.newScore}
-                  />
+                  <ScoreIndicator score={fitnessScoreData?.fitnessScore} />
                 )}
                 <div className="rounded-b-[12px] bg-black-opacity-65 px-4 pb-4">
                   {fitnessScoreData && (
@@ -226,7 +224,7 @@ function FitnessScorePage({
                       style={{ fontWeight: 400 }}
                     >
                       You are already better than{' '}
-                      {fitnessScoreData.fitnessPercetile}% of the OTM community
+                      {fitnessScoreData?.fitnessPercetile}% of the OTM community
                     </p>
                   )}
                 </div>

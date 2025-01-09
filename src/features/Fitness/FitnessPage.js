@@ -18,7 +18,6 @@ import AdditionalActivity from './AdditionalActivity';
 import DuePaymentIndicator from './DuePaymentIndicator';
 import StepTrackerTwo from './StepTrackerTwo';
 import {
-  dummyStats,
   getCurrentHourInTimezone,
   getDeviceTimezone,
   getGreeting,
@@ -350,15 +349,15 @@ const FitnessPage = () => {
                   <MonthlyWrapped />
                 </section>
               )}
-
-              <section>
-                <div className="rounded-xl bg-black-opacity-45 pl-[15px] pr-[12px] pt-2">
-                  <h5 className="font-sfpro text-[14px] text-offwhite">
-                    Weekly Plan
-                  </h5>
-                  {/* <ProgressBar progress={10} /> */}
-                  <div className="flex">
-                    {/* <div className="flex w-[45%] flex-col justify-end pb-4">
+              {homeStats.workoutPlan && (
+                <section>
+                  <div className="rounded-xl bg-black-opacity-45 pl-[15px] pr-[12px] pt-2">
+                    <h5 className="font-sfpro text-[14px] text-offwhite">
+                      Weekly Plan
+                    </h5>
+                    {/* <ProgressBar progress={10} /> */}
+                    <div className="flex">
+                      {/* <div className="flex w-[45%] flex-col justify-end pb-4">
                       <div className="font-futura text-[51px] leading-[60px] text-blue">
                         72%
                       </div>
@@ -366,10 +365,11 @@ const FitnessPage = () => {
                         of the week complete
                       </div>
                     </div> */}
-                    <WeeklySchedule stats={dummyStats} />
+                      <WeeklySchedule stats={homeStats.workoutPlan} />
+                    </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              )}
 
               <div>
                 <div className=" text-[20px] leading-[32px] text-offwhite">

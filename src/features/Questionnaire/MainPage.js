@@ -64,6 +64,7 @@ function LandingPage() {
   const [showIngredientScreen, setShowIngredientScreen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [ingredient, setIngredient] = useState(false);
+  const [errorScreen, setErrorScreen] = useState(false);
   const [showFitnessInsightScreen, setShowFitnessInsightScreen] =
     useState(false);
   const [fitnessScorePageLoading, setFitnessScorePageLoading] = useState(true);
@@ -121,12 +122,18 @@ function LandingPage() {
       response: filteredResponse,
       ...(completed && section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
     };
-    axiosClient.put('/', apiPayload).then((res) => {
-      if (section === 'fitness' && screen === 5) {
-        setFitnessScoreData(res.data.data);
-        setFitnessScorePageLoading(false);
-      }
-    });
+    axiosClient
+      .put('/', apiPayload)
+      .then((res) => {
+        if (section === 'fitness' && screen === 5) {
+          setFitnessScoreData(res.data.data);
+          setFitnessScorePageLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Submission Failed! Please Try Again.');
+      });
   };
 
   const handleBackClick = () => {
@@ -169,11 +176,6 @@ function LandingPage() {
       });
     !showAssessmentScreen &&
       !showBMIScreen &&
-      // .post('/', {
-      //   email: JSON.parse(localStorage.getItem('user'))['email'],
-      //   questionnaireName: 'signup',
-      //   response: responseBody,
-      // })
       axiosClient
         .get()
         .then((res) => {
@@ -276,6 +278,23 @@ function LandingPage() {
     setIngredient(targetOption);
   };
 
+  if (errorScreen) {
+    return (
+      <div
+        className={`flex h-screen w-screen flex-col items-center justify-evenly `}
+      >
+        <div className="text-center text-xl">Some Error Occured</div>
+
+        <div
+          onClick={() => navigate('/questionnaire')}
+          className="text-lg text-green underline"
+        >
+          Try again
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={`flex h-screen flex-col justify-between overflow-y-scroll bg-gray-opacity-44   ${
@@ -292,13 +311,6 @@ function LandingPage() {
           alt="background"
         />
       )}
-
-      {/* {pageError && !pageLoading && <Error>Some Error Occured</Error>}
-      {pageLoading && (
-        <div className="fixed left-0 top-0 z-50 w-full bg-black">
-          <Loader className={'h-screen w-full'} />
-        </div>
-      )} */}
 
       {showFitnessInsightScreen && (
         <div className="fixed left-0 top-0 z-[100] w-full ">
@@ -589,7 +601,7 @@ function LandingPage() {
 
               <button
                 style={{ fontWeight: 500 }}
-                className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+                className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black"
                 onClick={() => {
                   // checking for empty response
 
