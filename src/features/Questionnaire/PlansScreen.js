@@ -102,7 +102,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
               </div>
 
               <div className="mt-[9px] w-full font-sfpro text-sm font-medium text-white-opacity-50">
-                The ultimate fat cut program
+                The ultimate fat cutting solution
               </div>
 
               <div className="mt-[15px] flex flex-col gap-3">
@@ -141,7 +141,7 @@ const PlansScreen = ({ setShowPlansScreen }) => {
               <div>
                 <img src="/assets/evolve-white.svg" className="" />
                 <div className="mt-[8px] w-full font-sfpro text-sm font-medium text-white-opacity-50">
-                  Strength-focused for muscle growth
+                  Build strong foundations for a lifetime of health
                 </div>
               </div>
             </div>

@@ -145,7 +145,7 @@ export const mealproportion = [
     id: 'brunch',
     portion: [
       {
-        img: '/assets/food-breakfast.svg',
+        img: '/assets/food-brunch.svg',
         mealProportion: {
           protein: '50%',
           rawVeggies: '25%',

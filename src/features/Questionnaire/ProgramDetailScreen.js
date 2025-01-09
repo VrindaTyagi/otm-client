@@ -20,14 +20,14 @@ const prgramDetails = [
     heading: 'Ultimate Shred',
     img: '/assets/muscle-transparent.svg',
     headingImg: '/assets/muscle-star-black.svg',
-    description: 'Strength-focused for muscle growth',
+    description: 'The ultimate fat-cutting solution',
     workouts: [
       {
         rounds: '3-4',
         roundsDescription: 'x Strength Training',
       },
       {
-        rounds: '0-1',
+        rounds: '0-2',
         roundsDescription: 'x Aerobic Session',
       },
     ],
@@ -41,7 +41,7 @@ const prgramDetails = [
             heading: 'Workout',
             noOfTypes: '3',
             duration: '30 min',
-            description: 'strength training sessions',
+            description: 'strength training session',
           },
         ],
       },
@@ -61,7 +61,7 @@ const prgramDetails = [
             heading: 'Aerobic',
             noOfTypes: '1',
             duration: '45 min',
-            description: 'aerobic sessions',
+            description: 'aerobic session',
           },
         ],
       },
@@ -74,33 +74,42 @@ const prgramDetails = [
             heading: 'Workout',
             noOfTypes: '4',
             duration: '60 min',
-            description: 'strength training sessions',
+            description: 'strength training session',
           },
           {
             id: 'aerobic',
             heading: 'Aerobic',
             noOfTypes: '2',
             duration: '60 min',
-            description: 'aerobic sessions',
+            description: 'aerobic session',
           },
         ],
       },
     ],
+    about: {
+      heading: 'About',
+      description:
+        'Designed to maximise fat loss and achieve a lean, shredded physique, this program combines high-intensity workouts and precise routines to bring out your best. Its the go-to choice for anyone serious about redefining their body composition.',
+    },
   },
   {
     id: 'evolve',
     heading: 'evolve',
     headingImg: '/assets/v-sign-black.svg',
     img: '/assets/v-sign-light.svg',
-    description: 'Strength-focused for muscle growth',
+    description: 'Build strong foundations for a lifetime of health',
     workouts: [
+      // {
+      //   rounds: '0-3',
+      //   roundsDescription: 'x Strength Training',
+      // },
       {
-        rounds: '3-4',
-        roundsDescription: 'x Strength Training',
+        rounds: '0-3',
+        roundsDescription: 'x Flex Session',
       },
       {
-        rounds: '0-1',
-        roundsDescription: 'x Aerobic Session',
+        rounds: '0-3',
+        roundsDescription: 'x Walk',
       },
     ],
     levels: [
@@ -111,7 +120,8 @@ const prgramDetails = [
           {
             id: 'description',
             heading: 'Description',
-            description: 'Lifestyle design + nutrition',
+            description:
+              'Focus on lifestyle design and nutrition guidelines to build consistency and develop healthy habits. With focus on dynamic and static stretches to enhance flexibility and movement as you begin incorporating exercise into your lifestyle.',
           },
         ],
       },
@@ -122,14 +132,15 @@ const prgramDetails = [
           {
             id: 'description',
             heading: 'Description',
-            description: 'Lifestyle Design + Nutrition',
+            description:
+              'Focus on lifestyle design and nutrition guidelines to build consistency and develop healthy habits',
           },
           {
             id: 'walk',
             heading: 'Walk',
             noOfTypes: '3',
             duration: '30 min',
-            description: 'strength training sessions',
+            description: 'walk',
           },
           {
             id: 'flex',
@@ -149,11 +160,16 @@ const prgramDetails = [
             heading: 'Workout',
             noOfTypes: '3',
             duration: '30 min',
-            description: 'strength training sessions',
+            description: 'strength training session',
           },
         ],
       },
     ],
+    about: {
+      heading: 'About',
+      description:
+        'Evolve is a comprehensive program designed to create a sustainable lifestyle by combining functional fitness, injury prevention, personalized nutrition, and mindset coaching. With expert guidance and a supportive community, it empowers you to cultivate a healthier, more fulfilling life—inside and out.',
+    },
   },
 ];
 
@@ -267,12 +283,12 @@ const ProgramDetailScreen = ({
                   </div>
                 ))}
               </div>
-              <div className="rounded-xl bg-black-opacity-45 px-4 py-[10px]">
+              <div className="rounded-xl bg-black-opacity-45 px-4 pb-[16px] pt-[10px]">
                 <div className=" font-sfpro text-sm text-white">
                   Weekly Structure
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-2">
                   {item.levels.map((level, index) => {
                     if (level.id === workoutLevel) {
                       return (
@@ -307,6 +323,16 @@ const ProgramDetailScreen = ({
                       );
                     } else return null;
                   })}
+                </div>
+              </div>
+              <div className="rounded-xl bg-black-opacity-45 px-4 pb-[10px]">
+                <div className="mt-4">
+                  <div className=" font-sfpro text-sm">
+                    {item.about.heading}
+                  </div>
+                  <div className="text-offWhite-opacity-70 mt-1 font-sfpro text-sm">
+                    {item.about.description}
+                  </div>
                 </div>
               </div>
               <div>

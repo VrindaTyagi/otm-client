@@ -10,6 +10,7 @@ import * as Selectors from './Redux/selectors';
 
 function capitalizeWords(sentence) {
   return sentence
+    .replace(/_/g, ' ')
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
@@ -227,7 +228,7 @@ function MealPlanPage({ mealData, setSelectedDate, selectedDate }) {
             </div>
           )}
           <div
-            className={`my-[20px] flex h-[38px] w-full items-center justify-between gap-2 overflow-x-scroll rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
+            className={`my-[20px] flex h-[38px] w-full items-center  gap-2 overflow-x-scroll rounded-[7px] bg-[rgba(0,0,0,0.45)] p-[2px]`}
           >
             {mealSelected &&
               dateWiseWeeklyPlan &&

@@ -1,4 +1,12 @@
 const WeeklySchedule = ({ stats }) => {
+  const values = {
+    workout: 'workouts',
+    walk: 'walks',
+    stretch: 'stretches',
+    flex: 'flex',
+    aerobic: 'aerobic',
+  };
+
   return (
     <div className="h-fit w-full  pb-4 ">
       {/* <div className="mx-3  flex justify-between">
@@ -21,7 +29,7 @@ const WeeklySchedule = ({ stats }) => {
                 >
                   <div className="flex items-center gap-1">
                     <h5 className="text-sm text-blue">{value}</h5>{' '}
-                    <h5 className="text-[10px] text-offwhite">{key}</h5>
+                    <h5 className="text-[10px] text-offwhite">{values[key]}</h5>
                   </div>
                   {/* <div className="flex items-center">
                     {item.total === item.completed && (
