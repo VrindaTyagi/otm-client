@@ -13,7 +13,8 @@ const QuestionnaireTile = () => {
       >
         <div
           style={{
-            background: `var(--Gradient-purple, linear-gradient(95deg, #FFD700 10%, #b59a00 40% ,#FFD700 70% , #b59a00 100% ))`,
+            background:
+              'var(--Gradient-purple, linear-gradient(95deg, #D6B6F0 2.94%, #848CE9 74.36%))',
           }}
           className="relative min-h-[98px] flex-col rounded-xl px-4 py-[9px]"
         >
@@ -25,10 +26,12 @@ const QuestionnaireTile = () => {
                   className="mr-[2px]"
                   alt="calender"
                 />
-                <span className="pl-1 text-[15px] text-black">Onboarding</span>
+                <span className="pl-1 text-[15px] text-black">
+                  Complete Onboarding
+                </span>
               </div>
-              <div className=" font-sfpro text-[14px] leading-5 text-black">
-                Fill your form for onboarding
+              <div className=" w-[60%] font-sfpro text-[14px] leading-5 text-black">
+                Complete your onboarding now to update your program
               </div>
             </div>
 
