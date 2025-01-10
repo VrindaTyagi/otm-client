@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const JourneyScreen = ({ id }) => {
   const [showComponent, setShowComponent] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowComponent(true);
-    }, 1000); // Delay of 3 seconds
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="relative z-20 h-screen w-screen overflow-y-scroll bg-black">
       <img
         src="/assets/weekly-checkin-intro.svg"
         className=" w-full object-cover"
+        onLoad={() => setShowComponent(true)}
         alt="intro_image"
       />
       <img
@@ -23,12 +16,12 @@ const JourneyScreen = ({ id }) => {
         class="absolute top-0 z-50 h-screen  w-full brightness-75 saturate-150 filter  "
         alt="background"
       />
-      <div className="absolute left-4 top-[80px] flex gap-3 text-[20px] text-offWhite-opacity-1">
+      <div className="text-offWhite-opacity-1 absolute left-4 top-[80px] flex gap-3 text-[20px]">
         <img src="/assets/otm-small-white-logo.svg" className="h-[30px]" />
         Craft Your Journey
       </div>
       {showComponent && (
-        <div className="relative  z-[60] animate-fadeIn  px-4  transition-opacity duration-1000">
+        <div className="animate-fadeIn  relative z-[60]  px-4  transition-opacity duration-1000">
           <div className={`flex ${id !== 'evolve' && 'gap-2'} `}>
             <img
               src={
@@ -47,7 +40,7 @@ const JourneyScreen = ({ id }) => {
             <div className="text-[10px] text-white-opacity-50">
               Usually takes 5 mins
             </div>
-            <p className="mt-[6px] font-sfpro text-[20px] text-offWhite-opacity-70">
+            <p className="text-offWhite-opacity-70 mt-[6px] font-sfpro text-[20px]">
               Take a{' '}
               <span className="bg-gradient-to-r from-lightPurple to-blue bg-clip-text text-transparent">
                 {' '}

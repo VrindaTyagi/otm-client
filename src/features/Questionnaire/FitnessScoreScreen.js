@@ -123,7 +123,7 @@ function FitnessScorePage({
               {score}
             </div>
           </div>
-          <div className="flex w-fit flex-col items-start justify-center gap-4">
+          <div className="flex w-full flex-col items-start justify-center gap-4">
             <div className="flex flex-col items-start justify-center gap-1">
               <p
                 className="text-[9.3px] uppercase text-[#929292]"
@@ -217,7 +217,7 @@ function FitnessScorePage({
                 {fitnessScoreData && (
                   <ScoreIndicator score={fitnessScoreData?.fitnessScore} />
                 )}
-                <div className="rounded-b-[12px] bg-black-opacity-65 px-4 pb-4">
+                <div className="w-full rounded-b-[12px] bg-black-opacity-65 px-4 pb-4">
                   {fitnessScoreData && (
                     <p
                       className="text-[14px] text-[#fff]"
@@ -274,7 +274,7 @@ function FitnessScorePage({
 
             <button
               onClick={() => setShowFitnessInsightScreen(false)}
-              className=" mb-5 h-[54px] w-full flex-col items-end rounded-lg bg-white text-black "
+              className="relative z-10 mb-5 flex h-[54px] w-full items-center justify-center rounded-lg bg-white text-center text-black "
             >
               {' '}
               Next
