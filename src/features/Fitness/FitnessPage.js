@@ -344,6 +344,8 @@ const FitnessPage = () => {
                 />
               </section>
 
+              <StepTrackerTwo date={new Date()} />
+
               {currentDate < 5 && (
                 <section className="flex w-full flex-row items-center justify-center gap-3 ">
                   <MonthlyWrapped />
@@ -536,8 +538,6 @@ const FitnessPage = () => {
                   />
                 </div>
               </div>
-
-              <StepTrackerTwo date={new Date()} />
 
               {/* <section>
               <FitnessScore

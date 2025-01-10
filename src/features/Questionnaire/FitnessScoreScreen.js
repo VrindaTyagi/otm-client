@@ -123,7 +123,7 @@ function FitnessScorePage({
               {score}
             </div>
           </div>
-          <div className="flex w-full flex-col items-start justify-center gap-4">
+          <div className="flex w-fit flex-col items-start justify-center gap-4">
             <div className="flex flex-col items-start justify-center gap-1">
               <p
                 className="text-[9.3px] uppercase text-[#929292]"

@@ -56,27 +56,23 @@ export const handleNextFunc = ({
   setSection,
   showMealScreen,
   setShowMealScreen,
-  handleApi,
   setLoading,
 }) => {
   if (section === 'generalInformation' && screen === 1) {
     setShowBMIScreen(true);
     setSection('fitness');
-    handleApi('generalInformation', 'completed');
   }
   if (section === 'fitness' && screen < 5) {
-    handleApi('fitness');
     setScreen(screen + 1);
   }
   if (section === 'fitness' && screen === 5) {
     // setShowFitnessInsightScreen(true);
-    handleApi('fitness', 'completed');
+
     setSection('nutrition');
     setScreen(1);
   }
   if (section === 'nutrition' && screen < 4) {
     setScreen(screen + 1);
-    handleApi('nutrition');
   }
   if (section === 'nutrition' && screen === 4) {
     if (!showMealScreen) {
@@ -84,17 +80,15 @@ export const handleNextFunc = ({
     }
     if (showMealScreen) {
       setShowMealScreen(false);
-      handleApi('nutrition', 'completed');
+
       setSection('lifestyle');
       setScreen(1);
     }
   }
   if (section === 'lifestyle' && screen < 2) {
-    handleApi('lifestyle');
     setScreen(screen + 1);
   }
   if (section === 'lifestyle' && screen === 2) {
-    handleApi('lifestyle', 'completed');
     setLoading(true);
   }
 };

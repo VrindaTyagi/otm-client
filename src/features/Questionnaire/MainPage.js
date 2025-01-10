@@ -70,6 +70,7 @@ function LandingPage() {
   const [fitnessScorePageLoading, setFitnessScorePageLoading] = useState(true);
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [mealId, setMealId] = useState(null);
+  const [buttonDisable, setButtonDisable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,20 +91,6 @@ function LandingPage() {
   // sending response to the backend
 
   const handleNextClick = () => {
-    handleNextFunc({
-      handleApi,
-      screen,
-      section,
-      setScreen,
-      setSection,
-      setShowBMIScreen,
-      setShowMealScreen,
-      showMealScreen,
-      setLoading,
-    });
-  };
-
-  const handleApi = (section, completed) => {
     const data = currentQuestion
       .filter((item) => item.section === section)
       .map((item) => item.code);
@@ -116,24 +103,49 @@ function LandingPage() {
     }
 
     const apiPayload = {
-      ...(completed && { section: section }),
+      ...(((screen === 2 && section === 'lifestyle') ||
+        (screen === 4 && section === 'nutrition' && showMealScreen === true) ||
+        (screen === 5 && section === 'fitness') ||
+        (screen === 1 && section === 'generalInformation')) && {
+        section: section,
+      }),
 
       memberCode: code,
       response: filteredResponse,
-      ...(completed && section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
+      ...(screen === 2 && section === 'lifestyle' && { completed: true }), // Add `completed: true` if section is 'lifestyle'
     };
-    axiosClient
-      .put('/', apiPayload)
-      .then((res) => {
-        if (section === 'fitness' && screen === 5) {
-          setFitnessScoreData(res.data.data);
-          setFitnessScorePageLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Submission Failed! Please Try Again.');
-      });
+    setButtonDisable(true);
+    if (screen === 4 && section === 'nutrition' && showMealScreen === false) {
+      setShowMealScreen(true);
+      setButtonDisable(false);
+    } else {
+      axiosClient
+        .put('/', apiPayload)
+        .then((res) => {
+          if (section === 'fitness' && screen === 5) {
+            setFitnessScoreData(res.data.data);
+            setFitnessScorePageLoading(false);
+          }
+
+          handleNextFunc({
+            screen,
+            section,
+            setScreen,
+            setSection,
+            setShowBMIScreen,
+            setShowMealScreen,
+            showMealScreen,
+            setLoading,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error('Submission Failed! Please Try Again.');
+        })
+        .finally(() => {
+          setButtonDisable(false);
+        });
+    }
   };
 
   const handleBackClick = () => {
@@ -601,7 +613,8 @@ function LandingPage() {
 
               <button
                 style={{ fontWeight: 500 }}
-                className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black"
+                disabled={buttonDisable}
+                className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black disabled:bg-gray disabled:text-offwhite"
                 onClick={() => {
                   // checking for empty response
 
