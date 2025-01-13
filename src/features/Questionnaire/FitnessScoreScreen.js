@@ -174,14 +174,14 @@ function FitnessScorePage({
       )}
       {!fitnessScorePageLoading && (
         <div
-          className=" relative z-[140]  flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat "
+          className="relative z-[140] flex  h-screen w-screen flex-col justify-between overflow-y-scroll bg-black bg-auto bg-fixed bg-center bg-no-repeat "
           style={{
             backgroundImage: `url(${'/assets/bg_report.png'})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
-          <div className="flex h-screen w-screen flex-col items-start justify-between overflow-y-scroll bg-black/70 px-4 pt-[70px]  backdrop-blur-[8.5px]">
+          <div className="flex h-screen w-screen flex-col items-start justify-between overflow-y-scroll bg-black/70 px-4 pb-[50px] pt-[70px]  backdrop-blur-[8.5px]">
             {/* <div className="flex flex-col items-center justify-center gap-5">
                             <div className="flex items-center justify-center w-full mx-auto my-4">
                                 <BackButton
@@ -271,10 +271,11 @@ function FitnessScorePage({
                 instead of quick fixes
               </p>
             </div>
-
+          </div>
+          <div className="fixed bottom-6 left-0 flex w-full gap-[10px] px-4">
             <button
               onClick={() => setShowFitnessInsightScreen(false)}
-              className="relative z-10 mb-5 flex h-[54px] w-full items-center justify-center rounded-lg bg-white text-center text-black "
+              className="    flex h-[54px] w-full items-center justify-center rounded-lg bg-white text-center text-black "
             >
               {' '}
               Next

@@ -6,13 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios';
 import styled from 'styled-components';
-import { Button } from '../../components';
+import { Button, Loader } from '../../components';
 import BackButton from '../../components/BackButton';
 import {
   axiosClient,
   decreaseScreenAndRank,
   getScreenCounts,
-  increaseScreenAndRank,
   updateCurrentQuestion,
 } from '../LifestyleQuiz';
 import { getHighestScreenNumber } from '../LifestyleQuiz/utils/utils';
@@ -71,6 +70,7 @@ function LandingPage() {
   const code = JSON.parse(localStorage.getItem('user'))['code'];
   const [mealId, setMealId] = useState(null);
   const [buttonDisable, setButtonDisable] = useState(false);
+  const [introButtonDisable, setIntroButtonDisable] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -159,67 +159,67 @@ function LandingPage() {
     });
   };
 
-  function submitResponse() {
-    // set the state to loading
-    setPageLoading(true);
+  // function submitResponse() {
+  //   // set the state to loading
+  //   setPageLoading(true);
 
-    if (showBMIScreen) {
-      setTimeout(() => {
-        setPageLoading(false);
-        setShowBMIScreen(false);
-      }, 700);
-    }
-    if (showAssessmentScreen) {
-      setTimeout(() => {
-        setPageLoading(false);
-        setShowAssessmentScreen(false);
-      }, 700);
-    }
+  //   if (showBMIScreen) {
+  //     setTimeout(() => {
+  //       setPageLoading(false);
+  //       setShowBMIScreen(false);
+  //     }, 700);
+  //   }
+  //   if (showAssessmentScreen) {
+  //     setTimeout(() => {
+  //       setPageLoading(false);
+  //       setShowAssessmentScreen(false);
+  //     }, 700);
+  //   }
 
-    // preparing a response for the current screen questions
-    const responseBody = [];
-    currentQuestion &&
-      response &&
-      currentQuestion.map((ques, idx) => {
-        responseBody.push({
-          code: ques?.code,
-          answer: response[ques?.code],
-        });
-      });
-    !showAssessmentScreen &&
-      !showBMIScreen &&
-      axiosClient
-        .get()
-        .then((res) => {
-          console.log('POST Response : ', res);
+  //   // preparing a response for the current screen questions
+  //   const responseBody = [];
+  //   currentQuestion &&
+  //     response &&
+  //     currentQuestion.map((ques, idx) => {
+  //       responseBody.push({
+  //         code: ques?.code,
+  //         answer: response[ques?.code],
+  //       });
+  //     });
+  //   !showAssessmentScreen &&
+  //     !showBMIScreen &&
+  //     axiosClient
+  //       .get()
+  //       .then((res) => {
+  //         console.log('POST Response : ', res);
 
-          // open the BMI screen, Assessment screen, or the Fitness Score screen based on the next button clicked on relevant screen
-          if (section === 'generalInformation' && screen === 1) {
-            setShowBMIScreen(true);
-          } else if (screen === maxScreenCount - 1) {
-            setShowAssessmentScreen(true);
-          } else if (screen === maxScreenCount) {
-            // redirect to the fitness score page
-            navigate('/questionnaire/fitness-score');
-          }
+  //         // open the BMI screen, Assessment screen, or the Fitness Score screen based on the next button clicked on relevant screen
+  //         if (section === 'generalInformation' && screen === 1) {
+  //           setShowBMIScreen(true);
+  //         } else if (screen === maxScreenCount - 1) {
+  //           setShowAssessmentScreen(true);
+  //         } else if (screen === maxScreenCount) {
+  //           // redirect to the fitness score page
+  //           navigate('/questionnaire/fitness-score');
+  //         }
 
-          // after successful submission, let the user proceed to the next question
-          // possible error - network breakdown
-          increaseScreenAndRank(screen, maxScreenCount, setScreen);
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error('Submission Failed! Please Try Again.');
-        })
-        .finally(() => {
-          setPageLoading(false);
-        });
-  }
+  //         // after successful submission, let the user proceed to the next question
+  //         // possible error - network breakdown
+  //         increaseScreenAndRank(screen, maxScreenCount, setScreen);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         toast.error('Submission Failed! Please Try Again.');
+  //       })
+  //       .finally(() => {
+  //         setPageLoading(false);
+  //       });
+  // }
 
   useEffect(() => {
     const fetchData = async () => {
       setPageLoading(true);
-
+      setIntroButtonDisable(true);
       try {
         // First API call: Fetch the signup questionnaire data
         const questionnaireRes = await axiosClient.get();
@@ -248,6 +248,7 @@ function LandingPage() {
         setResponse(resultArray);
       } catch (err) {
         console.log(err);
+        setErrorScreen(true);
         setPageError(true);
       } finally {
         // Delay to show the loading screen for UX improvement
@@ -307,6 +308,14 @@ function LandingPage() {
     );
   }
 
+  if (pageLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div
       className={`flex h-screen flex-col justify-between overflow-y-scroll bg-gray-opacity-44   ${
@@ -353,7 +362,6 @@ function LandingPage() {
         {showBMIScreen && (
           <BMIScreen
             response={response}
-            submitResponse={submitResponse}
             screen={screen}
             questions={questions}
             getScreenCounts={getScreenCounts}
@@ -581,6 +589,7 @@ function LandingPage() {
                   <div className="mt-[36px] flex w-full flex-col justify-center gap-1">
                     <Button
                       style={{ fontWeight: 500, height: '50px' }}
+                      disabled={pageLoading}
                       text="Let's Gooo!!!"
                       type="lifestyle"
                       action={() => {

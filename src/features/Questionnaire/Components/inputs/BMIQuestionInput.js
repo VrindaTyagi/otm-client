@@ -13,10 +13,9 @@ const BMIQuestionInput = ({ code, setResponse, response, responseValue }) => {
 
   // Duplicate the array to ensure smooth scrolling
   const initialItems = [...baseArray, ...baseArray, ...baseArray];
-
-  const [currentNumber, setCurrentNumber] = useState(5);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [currentNumber, setCurrentNumber] = useState(1);
   const containerRef = useRef(null);
-  const hasMounted = useRef(false);
 
   // useEffect(() => {
   //   if (responseValue && responseValue.value[0] > 1) {
@@ -31,7 +30,6 @@ const BMIQuestionInput = ({ code, setResponse, response, responseValue }) => {
       const middlePosition = baseArray.length * 6; // Item width = 6px (w-2 * 3)
       containerRef.current.scrollLeft = middlePosition;
     }
-    hasMounted.current = true;
   }, []);
 
   const handleScroll = () => {
@@ -47,27 +45,32 @@ const BMIQuestionInput = ({ code, setResponse, response, responseValue }) => {
     const calculatedNumber = baseArray[middleIndex];
     console.log(calculatedNumber);
     console.log(11122222, responseValue.value[0]);
+
     setCurrentNumber(
       responseValue.value[0] ? responseValue.value[0] : calculatedNumber || 1,
     );
-    setResponse((prev) => {
-      // Check if the code already exists in the array
-      const updatedResponse = response.map((item) =>
-        item.code === code
-          ? { ...item, value: [calculatedNumber] } // Update the value if the code matches
-          : item,
-      );
+    if (!hasScrolled) {
+      setHasScrolled(true);
+    }
 
-      // If the code doesn't exist, add a new entry
-      if (!updatedResponse.some((item) => item.code === code)) {
-        console.log('00', updatedResponse);
-        updatedResponse.push({ code, value: [calculatedNumber] });
-      }
-      console.log(response);
-      console.log(updatedResponse);
+    // Only call setResponse if the user has scrolled
+    if (hasScrolled) {
+      setResponse((prev) => {
+        // Check if the code already exists in the array
+        const updatedResponse = prev.map((item) =>
+          item.code === code
+            ? { ...item, value: [calculatedNumber] } // Update the value if the code matches
+            : item,
+        );
 
-      return updatedResponse;
-    });
+        // If the code doesn't exist, add a new entry
+        if (!updatedResponse.some((item) => item.code === code)) {
+          updatedResponse.push({ code, value: [calculatedNumber] });
+        }
+
+        return updatedResponse;
+      });
+    }
 
     // Handle infinite scrolling logic
     const scrollWidth = container.scrollWidth;

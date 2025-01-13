@@ -3,13 +3,10 @@ import { FaArrowRight } from 'react-icons/fa6';
 import BackButton from '../../components/BackButton';
 import ScoreIndicator from './Components/ScoreIndicator';
 function BMIScreen({
-  screen,
-  questions,
   response,
-  getScreenCounts,
+
   setSection,
-  setScreen,
-  submitResponse,
+
   setShowBMIScreen,
   setShowPlansScreen,
 }) {
@@ -49,7 +46,7 @@ function BMIScreen({
           setShowBMIScreen(false);
           setShowPlansScreen(true);
         }}
-        className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black"
+        className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black"
       >
         Next <FaArrowRight />{' '}
       </button>
