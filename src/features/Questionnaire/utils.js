@@ -127,7 +127,7 @@ export const mealproportion = [
     id: 'gut_opening',
     portion: [
       {
-        img: '/assets/food-gutopening.svg',
+        img: '/assets/food-gutopening.png',
         mealProportion: {
           fruit: '50%',
           seeds: '50%',
@@ -139,7 +139,7 @@ export const mealproportion = [
     id: 'brunch',
     portion: [
       {
-        img: '/assets/food-brunch.svg',
+        img: '/assets/food-brunch.png',
         mealProportion: {
           protein: '50%',
           rawVeggies: '25%',
@@ -152,7 +152,7 @@ export const mealproportion = [
     id: 'breakfast',
     portion: [
       {
-        img: '/assets/food-breakfast.svg',
+        img: '/assets/food-breakfast.png',
         mealProportion: {
           protein: '50%',
 
@@ -166,7 +166,7 @@ export const mealproportion = [
     id: 'lunch',
     portion: [
       {
-        img: '/assets/food-lunch.svg',
+        img: '/assets/food-lunch.png',
         mealProportion: {
           protein: '25%',
           carbs: '25%',
@@ -175,7 +175,7 @@ export const mealproportion = [
         },
       },
       {
-        img: '/assets/food-dinner.svg',
+        img: '/assets/food-dinner.png',
         mealProportion: {
           protein: '25%',
           fats: '25%',
@@ -189,7 +189,7 @@ export const mealproportion = [
     id: 'evening_snacks',
     portion: [
       {
-        img: '/assets/food-gutopening.svg',
+        img: '/assets/food-gutopening.png',
         mealProportion: {
           fruit: '50%',
           seeds: '50%',
@@ -201,7 +201,7 @@ export const mealproportion = [
     id: 'dinner',
     portion: [
       {
-        img: '/assets/food-lunch.svg',
+        img: '/assets/food-lunch.png',
         mealProportion: {
           protein: '25%',
           carbs: '25%',
@@ -210,7 +210,7 @@ export const mealproportion = [
         },
       },
       {
-        img: '/assets/food-dinner.svg',
+        img: '/assets/food-dinner.png',
         mealProportion: {
           protein: '25%',
           fats: '25%',
