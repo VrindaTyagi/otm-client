@@ -238,14 +238,16 @@ function LandingPage() {
           `${process.env.REACT_APP_BASE_URL}/api/v1/onboarding/response?memberCode=${code}`,
         );
 
-        // Map the response data and update the state
-        const resultArray = initialResponse.map((item) => {
-          const updatedValue = responseRes.data.msg.response.find(
-            (updatedItem) => updatedItem.code === item.code,
-          );
-          return updatedValue ? { ...item, value: updatedValue.value } : item;
-        });
-        setResponse(resultArray);
+        if (responseRes.data.msg.length > 0) {
+          // Map the response data and update the state
+          const resultArray = initialResponse.map((item) => {
+            const updatedValue = responseRes.data.msg.response.find(
+              (updatedItem) => updatedItem.code === item.code,
+            );
+            return updatedValue ? { ...item, value: updatedValue.value } : item;
+          });
+          setResponse(resultArray);
+        }
       } catch (err) {
         console.log(err);
         setErrorScreen(true);
@@ -623,7 +625,7 @@ function LandingPage() {
               <button
                 style={{ fontWeight: 500 }}
                 disabled={buttonDisable}
-                className="bg-customWhiteSecond flex min-h-[54px] w-full items-center justify-center rounded-xl text-center text-black disabled:bg-gray disabled:text-offwhite"
+                className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black disabled:bg-gray disabled:text-offwhite"
                 onClick={() => {
                   // checking for empty response
 

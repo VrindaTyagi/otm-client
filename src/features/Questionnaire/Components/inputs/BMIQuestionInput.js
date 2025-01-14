@@ -17,13 +17,6 @@ const BMIQuestionInput = ({ code, setResponse, response, responseValue }) => {
   const [currentNumber, setCurrentNumber] = useState(1);
   const containerRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (responseValue && responseValue.value[0] > 1) {
-  //     setCurrentNumber(responseValue.value[0]);
-  //   }
-  // }, []);
-
-  console.log(currentNumber);
   useEffect(() => {
     // Center the scroll on the middle array when the component loads
     if (containerRef.current) {
@@ -43,8 +36,6 @@ const BMIQuestionInput = ({ code, setResponse, response, responseValue }) => {
     // Calculate the current number based on the scroll position
     const middleIndex = Math.floor(scrollLeft / itemWidth) % totalItems;
     const calculatedNumber = baseArray[middleIndex];
-    console.log(calculatedNumber);
-    console.log(11122222, responseValue.value[0]);
 
     setCurrentNumber(
       responseValue.value[0] ? responseValue.value[0] : calculatedNumber || 1,

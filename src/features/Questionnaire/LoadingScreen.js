@@ -14,7 +14,7 @@ const LoadingScreen = () => {
   ];
 
   const LoadingText = [
-    `Delay caffeine intake by<span class='text-blue'> by 90 minutes after waking</span> to avoid energy crashes through the day`,
+    `Delay caffeine intake<span class='text-blue'> by 90 minutes after waking</span> to avoid energy crashes through the day`,
   ];
 
   useEffect(() => {
