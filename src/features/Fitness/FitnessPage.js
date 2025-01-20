@@ -375,11 +375,11 @@ const FitnessPage = () => {
 
               <div>
                 <div className=" text-[20px] leading-[32px] text-offwhite">
-                  Explore your workout library
+                  Workout Library
                 </div>
 
                 <InstallApp />
-                <section className="relative -left-4  z-10 flex w-screen gap-2 overflow-x-scroll px-4">
+                <section className="relative -left-4 z-10 mt-1 flex w-screen gap-2 overflow-x-scroll px-4">
                   <div className="flex items-center">
                     <Link
                       to="/workout/today"
@@ -396,9 +396,11 @@ const FitnessPage = () => {
                         }
                       />
                       <div className="flex h-full flex-col justify-center">
-                        <h2 className="text-xl font-medium ">Workout</h2>
+                        <h2 className="font-sfpro text-xl leading-8 text-offwhite">
+                          Workout
+                        </h2>
 
-                        <div className="mt-2 flex gap-3">
+                        <div className=" flex gap-3">
                           <h2
                             style={{
                               border: '0.5px solid rgba(221,249,136,0.4)',
@@ -447,10 +449,12 @@ const FitnessPage = () => {
                       />
                       <div className="flex h-full flex-col justify-center">
                         <div className="flex gap-3">
-                          <h2 className="text-xl font-medium ">Flex</h2>
+                          <h2 className="font-sfpro text-xl leading-8 text-offwhite">
+                            Flex
+                          </h2>
                         </div>
 
-                        <div className="mt-2 flex gap-3">
+                        <div className=" flex gap-3">
                           <h2
                             style={{
                               border: '0.5px solid rgba(221,249,136,0.4)',
@@ -489,7 +493,9 @@ const FitnessPage = () => {
                     >
                       <div className="flex h-full flex-col justify-center">
                         <div className="flex gap-3">
-                          <h2 className="text-xl font-medium ">Aerobic</h2>
+                          <h2 className="font-sfpro text-xl leading-8 text-offwhite ">
+                            Aerobic
+                          </h2>
                         </div>
                       </div>
                     </Link>
@@ -501,7 +507,7 @@ const FitnessPage = () => {
                     >
                       <div className="flex h-full flex-col justify-center">
                         <div className="flex gap-3">
-                          <h2 className="text-xl font-medium ">
+                          <h2 className="font-sfpro text-xl leading-8 text-offwhite">
                             Dynamic Stretch
                           </h2>
                         </div>
