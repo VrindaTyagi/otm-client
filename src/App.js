@@ -47,7 +47,6 @@ function App() {
   const { checkAdminAuth, getUserFromStorage } = useAuth();
 
   function RouteMiddleware({ children }) {
-    console.log('RouteMiddleware called');
     const user = getUserFromStorage();
     console.log(user);
     if (user && user.email && user.code) {
