@@ -29,7 +29,7 @@ function FitnessScorePage({
   fitnessScoreData,
 }) {
   const [name, setName] = useState(null);
-  const [data, setData] = useState(null);
+  const [timer, setTimer] = useState(true);
 
   const [pageError, setPageError] = useState(false);
   const navigate = useNavigate();
@@ -40,6 +40,18 @@ function FitnessScorePage({
     console.log('user agent : ', userAgent.includes('iPhone'));
     return userAgent.includes('iPhone');
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user')) || {};
+    setName(user.name);
+
+    // Simulate loading timer (e.g., 2 seconds)
+    const time = setTimeout(() => {
+      setTimer(false);
+    }, 5000);
+
+    return () => clearTimeout(time); // Cleanup the timer on component unmount
+  }, []);
 
   // function getFitnessScore(email) {
   //   setPageLoading(true);
@@ -167,12 +179,13 @@ function FitnessScorePage({
 
   return (
     <>
-      {fitnessScorePageLoading && (
-        <div className=" relative z-[140]  flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat ">
+      {timer && fitnessScorePageLoading && (
+        <div className="relative z-[140] flex h-screen w-screen flex-col justify-between bg-black bg-auto bg-fixed bg-center bg-no-repeat">
           <FitnessLoader />
         </div>
       )}
-      {!fitnessScorePageLoading && (
+
+      {!timer && !fitnessScorePageLoading && (
         <div
           className="relative z-[140] flex  h-screen w-screen flex-col justify-between overflow-y-scroll bg-black bg-auto bg-fixed bg-center bg-no-repeat "
           style={{

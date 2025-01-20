@@ -246,6 +246,9 @@ const IngredientScreen = ({
                     '& .MuiClock-root': {
                       backgroundColor: 'background.paper', // Optional styling for clock
                     },
+                    '& .MuiDialogActions-root': {
+                      display: 'none',
+                    },
                     '& .MuiClockNumber-root': {
                       color: 'text.primary', // Optional styling for clock numbers
                     },

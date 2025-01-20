@@ -56,7 +56,7 @@ const WeeklyCheckinTile = ({ isWeeklyReviewSubmitted }) => {
                   alt="calender"
                 />
                 <span className="pl-1 text-[15px] text-black">
-                  weekly checkin
+                  Weekly Checkin
                 </span>
               </div>
               <div className=" font-sfpro text-[14px] leading-5 text-black">

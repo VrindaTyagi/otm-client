@@ -250,7 +250,7 @@ const ProgramDetailScreen = ({
                 <div className="mt-[6px] flex w-fit gap-1 rounded-[4px] bg-black-opacity-45 px-1">
                   <img src="/assets/calender-white.svg" />
                   <div className=" font-sfpro text-sm font-light text-white">
-                    week includes
+                    Week Includes
                   </div>
                 </div>
 
@@ -314,7 +314,7 @@ const ProgramDetailScreen = ({
                                 </div>
                               )}
 
-                              <div className="text-offWhite-opacity-70 font-sfpro text-sm ">
+                              <div className="font-sfpro text-sm text-offWhite-opacity-70 ">
                                 {structure.description}
                               </div>
                             </div>
@@ -330,7 +330,7 @@ const ProgramDetailScreen = ({
                   <div className=" font-sfpro text-sm">
                     {item.about.heading}
                   </div>
-                  <div className="text-offWhite-opacity-70 mt-1 font-sfpro text-sm">
+                  <div className="mt-1 font-sfpro text-sm text-offWhite-opacity-70">
                     {item.about.description}
                   </div>
                 </div>

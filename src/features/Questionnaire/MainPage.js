@@ -592,7 +592,7 @@ function LandingPage() {
                     <Button
                       style={{ fontWeight: 500, height: '50px' }}
                       disabled={pageLoading}
-                      text="Let's Gooo!!!"
+                      text="LET'S GO!"
                       type="lifestyle"
                       action={() => {
                         // increase the screen value
@@ -625,7 +625,7 @@ function LandingPage() {
               <button
                 style={{ fontWeight: 500 }}
                 disabled={buttonDisable}
-                className="flex min-h-[54px] w-full items-center justify-center rounded-xl bg-customWhiteSecond text-center text-black disabled:bg-gray disabled:text-offwhite"
+                className="flex min-h-[54px] w-full items-center justify-center gap-1 rounded-xl bg-customWhiteSecond text-center text-black disabled:bg-gray disabled:text-offwhite"
                 onClick={() => {
                   // checking for empty response
 
