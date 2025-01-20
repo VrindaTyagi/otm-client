@@ -49,7 +49,8 @@ function App() {
   function RouteMiddleware({ children }) {
     console.log('RouteMiddleware called');
     const user = getUserFromStorage();
-    if (user && user.email) {
+    console.log(user);
+    if (user && user.email && user.code) {
       mixpanel.identify(user.code);
       mixpanel.people.set({
         $name: user.name,
